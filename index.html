@@ -113,7 +113,8 @@
     background: var(--deep); color: var(--white); text-align: center; align-items: center;
     position: sticky; top: 0; z-index: 0;
   }
-  .cover-content { transition: none; will-change: transform, opacity; }
+  .cover-content { transition: none; will-change: transform, opacity; position: relative; z-index: 1; }
+  .slide-cover .lang-toggle { z-index: 2; }
   .slide-cover + .slide, .slide-cover ~ section { position: relative; z-index: 1; }
   .slide-deep { background: var(--deep); color: var(--white); }
   .slide-violet { background: var(--violet); color: var(--white); }
@@ -130,6 +131,29 @@
   .slide-charcoal .detail-label { color: var(--tgray); }
   .slide-charcoal .detail-desc { color: var(--dgray); }
 
+  /* ===== COVER DOT PATTERN ===== */
+  .cover-dots-base {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.10) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cover-dots-glow {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(180,120,255,0.55) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    -webkit-mask-image: radial-gradient(220px circle at var(--cover-mx, 50%) var(--cover-my, 50%), black 0%, transparent 100%);
+    mask-image: radial-gradient(220px circle at var(--cover-mx, 50%) var(--cover-my, 50%), black 0%, transparent 100%);
+    transition: opacity 0.35s ease;
+  }
+  .slide-cover:hover .cover-dots-glow { opacity: 1; }
+  .slide-cover { overflow: hidden; }
   /* ===== COVER ===== */
   .cover-co {
     display: flex; flex-direction: column; align-items: center; gap: 2.5rem;
@@ -282,6 +306,7 @@
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; z-index: 1;
     opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
   }
   .luma-checkout--button {
     display: inline-block !important;
@@ -315,7 +340,10 @@
 
   /* ===== TIMELINE ===== */
   .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-  @media (max-width: 768px) { .timeline { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 768px) {
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .timeline .day-card:first-child { grid-column: 1 / -1; }
+  }
   .day-card {
     background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
     padding: 1.5rem; position: relative;
@@ -328,22 +356,22 @@
   .day-card.highlight { border-color: var(--ultra); background: rgba(137,0,225,0.08); }
   .day-date {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase;
+    font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
     color: rgba(255,255,255,0.35); margin-bottom: 0.8rem;
   }
   .day-card.highlight .day-date { color: var(--ultra); }
-  .day-title { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; line-height: 1.3; }
-  .day-desc { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
+  .day-title { font-size: 1.1rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; line-height: 1.3; }
+  .day-desc { font-size: 0.78rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
   .day-badge {
     position: absolute; top: 1.5rem; right: 1.5rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.4rem; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.2rem 0.5rem; background: var(--ultra); color: var(--white); border-radius: 2px;
+    font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; background: var(--ultra); color: var(--white); border-radius: 2px;
   }
   .day-link {
     display: inline-block; margin-top: 0.6rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.45rem; letter-spacing: 0.06em;
+    font-size: 0.52rem; letter-spacing: 0.06em;
     color: var(--ultra); text-decoration: none;
     border-bottom: 1px solid rgba(137,0,225,0.3);
     padding-bottom: 1px; transition: border-color 0.2s;
@@ -356,6 +384,100 @@
     padding: 0.15rem 0.4rem; border: 1px solid rgba(255,255,255,0.15);
     color: rgba(255,255,255,0.4); border-radius: 2px;
   }
+
+  /* ===== CARD DETAIL ELEMENTS ===== */
+  .card-section-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 0.8rem 0 0.6rem;
+  }
+  /* Panel list — Card 1 */
+  .card-panel-list { display: flex; flex-direction: column; gap: 0.22rem; }
+  .card-panel-item {
+    display: flex; align-items: baseline; gap: 0.45rem;
+    font-size: 0.72rem; color: rgba(255,255,255,0.45); line-height: 1.4;
+  }
+  .card-panel-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.46rem;
+    color: var(--ultra); letter-spacing: 0.06em; flex-shrink: 0;
+  }
+  /* Info list — Card 2 */
+  .card-info-list { display: flex; flex-direction: column; gap: 0.32rem; }
+  .card-info-item { display: flex; gap: 0.55rem; align-items: baseline; }
+  .card-info-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.44rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.22); flex-shrink: 0;
+  }
+  .card-info-value { font-size: 0.70rem; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .card-past-btn {
+    display: inline-block; margin-top: 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.48rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 2px;
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .card-past-btn:hover { border-color: rgba(255,255,255,0.55); color: var(--white); }
+  /* Visit list + Fasano — Card 3 */
+  .card-visit-list { display: flex; flex-direction: column; gap: 0.3rem; }
+  .card-visit-item {
+    display: flex; align-items: baseline; gap: 0.45rem;
+    font-size: 0.70rem; color: rgba(255,255,255,0.38); line-height: 1.4;
+  }
+  .card-visit-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(255,255,255,0.18); flex-shrink: 0; margin-bottom: -1px;
+  }
+  .card-fasano-block {
+    margin-top: 1rem; padding-top: 0.8rem;
+    border-top: 1px solid rgba(137,0,225,0.3);
+  }
+  .card-fasano-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.46rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ultra); margin-bottom: 0.3rem;
+  }
+  .card-fasano-name {
+    font-size: 0.95rem; font-weight: 600; color: var(--white);
+    margin-bottom: 0.25rem; line-height: 1.2;
+  }
+  .card-fasano-desc {
+    font-size: 0.70rem; color: rgba(255,255,255,0.4); line-height: 1.55;
+  }
+
+  /* ===== SCROLL HINT (Nov 18 card) ===== */
+  .card-scroll-hint {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0.8rem 1.5rem 1.4rem;
+    opacity: 1;
+    pointer-events: none;
+  }
+  .card-scroll-hint-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.28); margin-bottom: 0.5rem;
+    animation: hintPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.28; }
+    50%       { opacity: 0.7;  }
+  }
+  .card-scroll-hint-bar {
+    width: 100%; height: 3px;
+    background: rgba(255,255,255,0.1);
+    position: relative; overflow: hidden;
+    border-radius: 2px;
+  }
+  .card-scroll-hint-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 0%; background: var(--ultra);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(137,0,225,0.8), 0 0 2px rgba(137,0,225,1);
+  }
+  /* hide hint inside the zoomed overlay clone */
+  .zoom-overlay-card .card-scroll-hint { display: none; }
 
   /* ===== ZOOM OVERLAY: fixed card that expands from grid position to fullscreen ===== */
   .zoom-overlay {
@@ -678,34 +800,207 @@
   .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right { display: none !important; }
   .map-overlay { display: none; }
   .map-venue-cards {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1rem;
-    z-index: 3;
+    position: relative;
+    width: 290px;
+    height: 17rem;
+    flex-shrink: 0;
     pointer-events: none;
+    margin-top: 1rem; /* default: Day 1 alignment */
+    transition: margin-top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .map-venue-card {
-    background: rgba(255,255,255,0.88);
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.72);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(255,255,255,0.45);
     border-radius: 12px;
     padding: 0;
     overflow: hidden;
-    min-width: 280px;
-    max-width: 340px;
     color: var(--black);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(0);
+    transition: opacity 0.5s ease;
   }
+  /* Info panel wrapper — base styles must come BEFORE responsive overrides */
+  .map-info-panel {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    /* Fixed height = sidebar height (1rem top padding + 22rem labels + 1rem bottom padding)
+       This keeps translateY(-50%) stable regardless of the cards container height */
+    height: 24rem;
+    overflow: visible;
+  }
+  .map-sidebar {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.85rem;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1rem 1.2rem 1rem 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+  /* Day-header removed from cards (was redundant with sidebar labels) */
+  .map-venue-day-header { display: none; }
+  /* Two-up layout: Day 3 shows site visits + cocktail stacked vertically.
+     All cards stay position:absolute — JS sets card-fasano top dynamically.
+     The container expands via JS min-height so translateY(-50%) stays stable. */
+  .map-venue-cards.two-up {
+    width: 290px;
+    height: auto;
+  }
+  /* Only shrink the Fasano card's image in two-up mode */
+  .map-venue-cards.two-up #card-fasano .map-venue-img {
+    height: 80px;
+  }
+  .map-venue-cards.two-up #card-fasano .map-venue-info {
+    padding: 0.6rem 1rem 0.7rem;
+  }
+  /* Site visits card: text-only list style */
+  .map-venue-visits-list {
+    padding: 0.85rem 1.1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .map-venue-visits-item {
+    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.4;
+    padding-left: 0.75rem;
+    position: relative;
+  }
+  .map-venue-visits-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--violet);
+    font-size: 0.6rem;
+  }
+  /* Hotels panel card */
+  .map-hotel-panel {
+    padding: 0.85rem 1.1rem 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .map-hotel-panel-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .map-hotel-panel-prompt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  .map-hotel-panel-hint {
+    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
+    font-size: 0.6rem;
+    color: rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  .map-hotel-panel-dots {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-top: 0.4rem;
+  }
+  .map-hotel-panel-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--violet);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.35;
+  }
+  .map-hotel-panel-selected {
+    display: none;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .map-hotel-panel-selected.active { display: flex; }
+  .map-hotel-panel-name {
+    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--black);
+    line-height: 1.25;
+  }
+  .map-hotel-panel-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .map-hotel-panel-stars { color: #F0C040; font-size: 0.6rem; letter-spacing: 1px; }
+  .map-hotel-panel-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    color: rgba(0,0,0,0.35);
+  }
+  .map-hotel-panel-addr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    color: rgba(0,0,0,0.4);
+    letter-spacing: 0.03em;
+  }
+  .map-hotel-panel-desc {
+    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: rgba(0,0,0,0.65);
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .map-hotel-panel-book {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--violet);
+    border: 1px solid rgba(87,6,140,0.3);
+    border-radius: 4px;
+    padding: 3px 12px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    pointer-events: auto;
+  }
+  .map-hotel-panel-book:hover { background: var(--violet); color: #fff; }
   .map-venue-card.visible {
     opacity: 1;
-    transform: translateY(0);
+    z-index: 2;
   }
   .map-venue-img {
     width: 100%;
@@ -740,21 +1035,7 @@
   }
   /* Map phase titles (Day One, Day Two, etc.) */
   .map-phase-title {
-    position: absolute;
-    top: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    font-family: 'NYU Perstare', 'Frank Ruhl Libre', Georgia, serif;
-    font-weight: 700;
-    font-size: 2.2rem;
-    color: var(--black);
-    letter-spacing: -0.01em;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    text-align: center;
-    white-space: nowrap;
+    display: none !important;
   }
   .map-phase-title.visible { opacity: 1; }
   .map-phase-title .map-phase-sub {
@@ -992,41 +1273,100 @@
   @media (max-width: 768px) {
     .map-overlay { padding: 3rem 1.5rem; }
     .map-overlay h2 { font-size: 2rem; }
-    .map-venue-cards {
+    /* On mobile, two-up inherits column layout and goes full width */
+    .map-venue-cards.two-up { width: 100%; }
+    .map-info-panel {
       left: 1rem;
       right: 1rem;
+      top: auto;
       bottom: 1rem;
       transform: none;
-      display: block;
-      width: auto;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+    .map-sidebar { display: none; }
+    .map-venue-cards {
+      position: relative;
+      width: 100%;
+      height: 15rem;
     }
     .map-venue-card {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      min-width: 0;
-      max-width: none;
-      width: 100%;
+      left: 0; right: 0; top: 0;
+      min-width: 0; max-width: none; width: 100%;
       font-size: 0.85rem;
     }
-    .map-venue-img { height: 180px; }
+    .map-venue-img { height: 140px; }
     .map-venue-info { padding: 0.6rem 0.9rem 0.7rem; }
   }
   @media (max-width: 480px) {
     .map-overlay { padding: 2rem 0.75rem; }
     .map-overlay h2 { font-size: 1.6rem; }
-    .map-venue-cards {
-      left: 0.75rem;
-      right: 0.75rem;
-      bottom: 0.75rem;
-    }
-    .map-venue-img { height: 160px; }
+    .map-info-panel { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; }
+    .map-venue-img { height: 120px; }
     .map-venue-info { padding: 0.6rem 0.8rem 0.7rem; }
     .map-venue-name { font-size: 0.85rem; }
     .map-venue-addr { font-size: 0.55rem; }
   }
 
+  /* ===== MAP SIDEBAR TRACK + LABELS ===== */
+  .map-sb-track {
+    width: 2px;
+    height: 22rem;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .map-sb-track-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.1);
+    border-radius: 1px;
+  }
+  .map-sb-track-fill {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0%;
+    background: var(--violet);
+    border-radius: 1px;
+  }
+  .map-sb-tick {
+    position: absolute;
+    left: -3px;
+    width: 8px;
+    height: 1px;
+    background: rgba(0,0,0,0.12);
+  }
+  .map-sb-labels {
+    display: flex;
+    flex-direction: column;
+    height: 22rem;
+  }
+  .map-sb-label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 0.1rem;
+    gap: 0.14rem;
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+  }
+  .map-sb-label.active { opacity: 1; }
+  .map-sb-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.46rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--violet);
+  }
+  .map-sb-title {
+    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--black);
+    line-height: 1.25;
+    white-space: nowrap;
+  }
   @media print {
     .slide { page-break-after: always; page-break-inside: avoid; }
     .lang-toggle { display: none; }
@@ -1055,8 +1395,9 @@
     h2 { font-size: 1.6rem; }
     p { font-size: 0.82rem; }
 
-    /* Timeline: 2 columns on phones */
+    /* Timeline: 2 columns on phones, Day 1 spans full row */
     .timeline { grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
+    .timeline .day-card:first-child { grid-column: 1 / -1; }
     .day-card { padding: 0.8rem; }
     .day-title { font-size: 0.72rem; margin-bottom: 0.3rem; }
     .day-desc { font-size: 0.58rem; line-height: 1.4; }
@@ -1304,7 +1645,9 @@
 <body>
 
 <!-- ===== 01 COVER ===== -->
-<section class="slide slide-cover">
+<section class="slide slide-cover" id="slide-cover">
+  <div class="cover-dots-base"></div>
+  <div class="cover-dots-glow" id="cover-dots-glow"></div>
   <div class="lang-toggle">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('pt')">PT</button>
@@ -2091,27 +2434,87 @@
       <p data-lang="pt">O Fórum ancora uma semana concentrada de programação imobiliária em Nova York. Parceiros ganham visibilidade ao longo de todo o programa — não apenas em um evento.</p>
     </div>
     <div class="timeline" id="nyweek-timeline">
+      <!-- Card 1: BR/US Real Estate Forum -->
       <div class="day-card highlight" data-day="1" id="nov18-card">
         <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
         <div class="day-date">Nov 18 · <span data-lang="en">Wednesday</span><span data-lang="pt">Quarta</span></div>
-        <div class="day-title">BR/USA Real Estate Forum</div>
+        <div class="day-title">BR/US Real Estate Forum</div>
         <div class="day-desc" data-lang="en">Full-day program at NYU Schack. Panels, keynotes, networking.</div>
         <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack. Painéis, keynotes, networking.</div>
-        <div><a class="day-link" href="https://luma.com/event/evt-cZKc1exaulCHny5" target="_blank"><span data-lang="en">Request invitation →</span><span data-lang="pt">Solicitar convite →</span></a></div>
+        <hr class="card-section-divider">
+        <div class="card-panel-list">
+          <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">Affordable Housing</span><span data-lang="pt">Habitação Acessível</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">02 —</span><span data-lang="en">Public–Private Development</span><span data-lang="pt">Desenvolvimento Público–Privado</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Multifamily Development</span><span data-lang="pt">Desenvolvimento Multifamily</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">04 —</span><span data-lang="en">Data, Transparency & Benchmarking</span><span data-lang="pt">Dados, Transparência & Benchmarking</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">Capital Markets & REITs</span><span data-lang="pt">Mercado de Capitais & FIIs</span></div>
+        </div>
+        <a class="card-past-btn"
+           href="https://luma.com/event/evt-cZKc1exaulCHny5"
+           data-luma-action="checkout"
+           data-luma-event-id="evt-cZKc1exaulCHny5">
+          <span data-lang="en">Request invitation →</span>
+          <span data-lang="pt">Solicitar convite →</span>
+        </a>
+        <div class="card-scroll-hint" id="card-scroll-hint">
+          <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
+          <div class="card-scroll-hint-label" data-lang="pt">Role para ver o programa</div>
+          <div class="card-scroll-hint-bar"><div class="card-scroll-hint-fill" id="hint-fill"></div></div>
+        </div>
       </div>
+
+      <!-- Card 2: NYU Capital Markets Conference -->
       <div class="day-card" data-day="2">
         <div class="day-badge" style="background:rgba(255,255,255,0.12);"><span data-lang="en">Separate Event</span><span data-lang="pt">Evento Separado</span></div>
         <div class="day-date">Nov 19 · <span data-lang="en">Thursday</span><span data-lang="pt">Quinta</span></div>
         <div class="day-title">NYU Capital Markets Conference</div>
-        <div class="day-desc" data-lang="en">NYU Schack's annual capital markets conference. Separate paid event — BR/USA Forum attendees receive a discount.</div>
-        <div class="day-desc" data-lang="pt">Conferência anual de capital markets do NYU Schack. Evento pago à parte — participantes do BR/USA Forum têm desconto.</div>
-        <div><a class="day-link" href="https://www.sps.nyu.edu/about/academic-divisions-and-departments/schack-institute-of-real-estate.html" target="_blank"><span data-lang="en">Learn more →</span><span data-lang="pt">Saiba mais →</span></a></div>
+        <div class="day-desc" data-lang="en">NYU Schack's flagship annual conference on real estate capital markets — one of the most attended industry events in the US.</div>
+        <div class="day-desc" data-lang="pt">A principal conferência anual do NYU Schack sobre mercado de capitais imobiliários — um dos eventos mais concorridos do setor nos EUA.</div>
+        <hr class="card-section-divider">
+        <div class="card-info-list">
+          <div class="card-info-item">
+            <span class="card-info-label" data-lang="en">Edition</span><span class="card-info-label" data-lang="pt">Edição</span>
+            <span class="card-info-value">59th Annual Conference on Capital Markets in Real Estate</span>
+          </div>
+          <div class="card-info-item">
+            <span class="card-info-label" data-lang="en">Format</span><span class="card-info-label" data-lang="pt">Formato</span>
+            <span class="card-info-value" data-lang="en">Full-day · panels, keynotes, networking</span>
+            <span class="card-info-value" data-lang="pt">Dia inteiro · painéis, keynotes, networking</span>
+          </div>
+          <div class="card-info-item">
+            <span class="card-info-label" data-lang="en">Access</span><span class="card-info-label" data-lang="pt">Acesso</span>
+            <span class="card-info-value" data-lang="en">Paid · Forum attendees receive a discount</span>
+            <span class="card-info-value" data-lang="pt">Pago · participantes do Forum recebem desconto</span>
+          </div>
+          <div class="card-info-item">
+            <span class="card-info-label">Venue</span>
+            <span class="card-info-value">NYU Schack Institute of Real Estate, NYC</span>
+          </div>
+        </div>
+        <a class="card-past-btn" href="https://www.sps.nyu.edu/about/academic-divisions-and-departments/schack-institute-of-real-estate/capital-markets-in-real-estate.html" target="_blank">
+          <span data-lang="en">See past edition →</span>
+          <span data-lang="pt">Ver edição anterior →</span>
+        </a>
       </div>
+
+      <!-- Card 3: Site Visits + Fasano -->
       <div class="day-card" data-day="3">
         <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
-        <div class="day-title">Site Visits + Fasano Cocktail</div>
-        <div class="day-desc" data-lang="en">Curated visits to marquee developments and institutional assets in the NYC metro area. Closing cocktail at Fasano New York.</div>
-        <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos e ativos institucionais de destaque na região metropolitana de NYC. Cocktail de encerramento no Fasano New York.</div>
+        <div class="day-title"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
+        <div class="day-desc" data-lang="en">Curated visits to marquee developments and institutional assets across NYC.</div>
+        <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos e ativos institucionais de destaque em NYC.</div>
+        <hr class="card-section-divider">
+        <div class="card-visit-list">
+          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Affordable housing development</span><span data-lang="pt">A definir — Empreendimento habitacional</span></div>
+          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Mixed-use / institutional asset</span><span data-lang="pt">A definir — Ativo de uso misto / institucional</span></div>
+          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Public–private development site</span><span data-lang="pt">A definir — Projeto público–privado</span></div>
+        </div>
+        <div class="card-fasano-block">
+          <div class="card-fasano-eyebrow"><span data-lang="en">Closing Cocktail</span><span data-lang="pt">Cocktail de Encerramento</span></div>
+          <div class="card-fasano-name">Fasano New York — Baretto</div>
+          <div class="card-fasano-desc" data-lang="en">Private closing cocktail at Fasano New York's Baretto room. An intimate setting for senior leaders from both markets — by invitation only.</div>
+          <div class="card-fasano-desc" data-lang="pt">Cocktail privado de encerramento no Baretto do Fasano New York. Ambiente íntimo para líderes sênior dos dois mercados — a convite.</div>
+        </div>
       </div>
     </div>
     <!-- Zoom overlay: expands Nov 18 card with schedule inside -->
@@ -2350,34 +2753,103 @@
       <a class="hotel-info-book" id="hotel-info-book" href="#" target="_blank" rel="noopener" data-lang="en">Book Now</a>
       <a class="hotel-info-book" id="hotel-info-book-pt" href="#" target="_blank" rel="noopener" data-lang="pt">Reservar</a>
     </div>
-    <div class="map-venue-cards">
-      <div class="map-venue-card" id="card-union">
-        <img class="map-venue-img" src="img/nyu_sps.webp" alt="NYU School of Professional Studies">
-        <div class="map-venue-info">
-          <div class="map-venue-tag" data-lang="en">Wed · Nov 18</div>
-          <div class="map-venue-tag" data-lang="pt">Qua · 18 Nov</div>
-          <div class="map-venue-name">NYU School of Professional Studies</div>
-          <div class="map-venue-addr" data-lang="en">BR/USA Real Estate Forum · 7 East 12th Street</div>
-          <div class="map-venue-addr" data-lang="pt">BR/USA Real Estate Forum · 7 East 12th Street</div>
+    <!-- Map Info Panel: sidebar progress + active venue card side by side -->
+    <div class="map-info-panel" id="map-info-panel">
+      <div class="map-sidebar" id="map-sidebar">
+        <div class="map-sb-track">
+          <div class="map-sb-track-bg"></div>
+          <div class="map-sb-track-fill" id="map-sb-fill"></div>
+          <div class="map-sb-tick" style="top:25%"></div>
+          <div class="map-sb-tick" style="top:50%"></div>
+          <div class="map-sb-tick" style="top:75%"></div>
+        </div>
+        <div class="map-sb-labels">
+          <div class="map-sb-label" id="msb-label-1">
+            <div class="map-sb-eyebrow"><span data-lang="en">Day 1</span><span data-lang="pt">Dia 1</span></div>
+            <div class="map-sb-title"><span data-lang="en">Nov 18</span><span data-lang="pt">18 Nov</span></div>
+          </div>
+          <div class="map-sb-label" id="msb-label-2">
+            <div class="map-sb-eyebrow"><span data-lang="en">Day 2</span><span data-lang="pt">Dia 2</span></div>
+            <div class="map-sb-title"><span data-lang="en">Nov 19</span><span data-lang="pt">19 Nov</span></div>
+          </div>
+          <div class="map-sb-label" id="msb-label-3">
+            <div class="map-sb-eyebrow"><span data-lang="en">Day 3</span><span data-lang="pt">Dia 3</span></div>
+            <div class="map-sb-title"><span data-lang="en">Nov 20</span><span data-lang="pt">20 Nov</span></div>
+          </div>
+          <div class="map-sb-label" id="msb-label-4">
+            <div class="map-sb-eyebrow"><span data-lang="en">Hotels</span><span data-lang="pt">Hotéis</span></div>
+            <div class="map-sb-title"><span data-lang="en">Where to Stay</span><span data-lang="pt">Onde Ficar</span></div>
+          </div>
         </div>
       </div>
-      <div class="map-venue-card" id="card-kimmel">
-        <img class="map-venue-img" src="img/kimmel_auditorium.jpg" alt="NYU Kimmel Center">
-        <div class="map-venue-info">
-          <div class="map-venue-tag" data-lang="en">Thu · Nov 19</div>
-          <div class="map-venue-tag" data-lang="pt">Qui · 19 Nov</div>
-          <div class="map-venue-name">NYU Kimmel Center</div>
-          <div class="map-venue-addr">NYU Capital Markets Conference</div>
+      <div class="map-venue-cards" id="map-venue-cards">
+        <!-- Day 1: Forum -->
+        <div class="map-venue-card" id="card-union">
+          <img class="map-venue-img" src="img/nyu_sps.webp" alt="NYU School of Professional Studies" style="object-fit:cover;object-position:center;">
+          <div class="map-venue-info">
+            <div class="map-venue-tag">BR/US Real Estate Forum</div>
+            <div class="map-venue-name">NYU School of Professional Studies</div>
+            <div class="map-venue-addr">7 East 12th Street, New York</div>
+          </div>
         </div>
-      </div>
-      <div class="map-venue-card" id="card-fasano">
-        <img class="map-venue-img" src="img/fasano_baretto.jpg" alt="Fasano New York Baretto">
-        <div class="map-venue-info">
-          <div class="map-venue-tag" data-lang="en">Fri · Nov 20</div>
-          <div class="map-venue-tag" data-lang="pt">Sex · 20 Nov</div>
-          <div class="map-venue-name">Fasano New York</div>
-          <div class="map-venue-addr" data-lang="en">Closing Cocktail</div>
-          <div class="map-venue-addr" data-lang="pt">Cocktail de Encerramento</div>
+        <!-- Day 2: Capital Markets Conference -->
+        <div class="map-venue-card" id="card-kimmel">
+          <img class="map-venue-img" src="img/kimmel_auditorium.jpg" alt="NYU Kimmel Center" style="object-fit:cover;object-position:center;">
+          <div class="map-venue-info">
+            <div class="map-venue-tag">NYU Capital Markets Conference</div>
+            <div class="map-venue-name">NYU Kimmel Center</div>
+            <div class="map-venue-addr">60 Washington Square South</div>
+          </div>
+        </div>
+        <!-- Day 3a: Site Visits (shown alongside card-fasano via two-up) -->
+        <div class="map-venue-card" id="card-visits">
+          <div class="map-venue-info">
+            <div class="map-venue-tag"><span data-lang="en">Day Three · Nov 20</span><span data-lang="pt">Dia Três · 20 Nov</span></div>
+            <div class="map-venue-name"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
+            <div class="map-venue-addr"><span data-lang="en">Around New York</span><span data-lang="pt">Pela cidade de Nova York</span></div>
+          </div>
+          <div class="map-venue-visits-list">
+            <div class="map-venue-visits-item"><span data-lang="en">Affordable housing development</span><span data-lang="pt">Desenvolvimento habitacional</span></div>
+            <div class="map-venue-visits-item"><span data-lang="en">Mixed-use / institutional asset</span><span data-lang="pt">Ativo misto / institucional</span></div>
+            <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
+          </div>
+        </div>
+        <!-- Day 3b: Closing Cocktail at Fasano -->
+        <div class="map-venue-card" id="card-fasano">
+          <img class="map-venue-img" src="img/fasano_baretto.jpg" alt="Fasano New York Baretto" style="object-fit:cover;object-position:center;">
+          <div class="map-venue-info">
+            <div class="map-venue-tag"><span data-lang="en">Closing Cocktail</span><span data-lang="pt">Cocktail de Encerramento</span></div>
+            <div class="map-venue-name">Fasano New York — Baretto</div>
+            <div class="map-venue-addr">60 E 49th Street, New York</div>
+          </div>
+        </div>
+        <!-- Hotels: Where to Stay panel -->
+        <div class="map-venue-card" id="card-hotels">
+          <div class="map-hotel-panel">
+            <div class="map-venue-tag" style="margin-bottom:0.5rem;"><span data-lang="en">Where to Stay</span><span data-lang="pt">Onde Ficar</span></div>
+            <div class="map-hotel-panel-empty" id="hotel-panel-empty">
+              <div class="map-hotel-panel-dots">
+                <div class="map-hotel-panel-dot">1</div>
+                <div class="map-hotel-panel-dot">2</div>
+                <div class="map-hotel-panel-dot">3</div>
+                <div class="map-hotel-panel-dot">4</div>
+              </div>
+              <div class="map-hotel-panel-prompt"><span data-lang="en">Select a hotel</span><span data-lang="pt">Selecione um hotel</span></div>
+              <div class="map-hotel-panel-hint"><span data-lang="en">Click a marker on the map</span><span data-lang="pt">Clique em um marcador no mapa</span></div>
+            </div>
+            <div class="map-hotel-panel-selected" id="hotel-panel-selected">
+              <div class="map-hotel-panel-name" id="hotel-panel-name"></div>
+              <div class="map-hotel-panel-meta">
+                <span class="map-hotel-panel-stars" id="hotel-panel-stars"></span>
+                <span class="map-hotel-panel-price" id="hotel-panel-price"></span>
+              </div>
+              <div class="map-hotel-panel-addr" id="hotel-panel-addr"></div>
+              <div class="map-hotel-panel-desc" id="hotel-panel-desc"></div>
+              <a class="map-hotel-panel-book" id="hotel-panel-book" href="#" target="_blank" rel="noopener">
+                <span data-lang="en">Book Now</span><span data-lang="pt">Reservar</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2970,6 +3442,16 @@ function setLang(lang) {
       }
     });
 
+    // ── Scroll hint: fills 0→100% (p=0.22→0.30), then fades out (p=0.30→0.38) ──
+    var hintEl  = document.getElementById('card-scroll-hint');
+    var hintFill = document.getElementById('hint-fill');
+    if(hintEl && hintFill){
+      var hintP = Math.max(0, Math.min(1, (p - 0.22) / (0.30 - 0.22)));
+      hintFill.style.width = (hintP * 100).toFixed(1) + '%';
+      var hintOpacity = p < 0.30 ? 1 : Math.max(0, 1 - smoothstep(0.30, 0.38, p));
+      hintEl.style.opacity = hintOpacity.toFixed(3);
+    }
+
     // ── Phase 3 (30–45%): Text + cards 2,3,4 fade out; card 1 zooms ──
     const fadeOutP = smoothstep(0.30, 0.35, p);
 
@@ -3023,6 +3505,26 @@ function setLang(lang) {
       overlayCard.style.padding = cardPad + 'rem';
       overlayCard.style.opacity = '1';
 
+      // Fade out card detail elements (desc, panels, button) as zoom progresses
+      // They disappear quickly (0.30→0.42) then collapse to reclaim space for the schedule
+      const detailFade = Math.max(0, 1 - smoothstep(0.30, 0.42, p));
+      const detailGone = p > 0.43;
+      const detailEls = zoomHeader.querySelectorAll('.day-desc, .card-panel-list, .card-section-divider, .card-past-btn');
+      detailEls.forEach(function(el){
+        el.style.opacity = detailFade.toFixed(3);
+        if(detailGone){
+          el.style.maxHeight = '0';
+          el.style.overflow  = 'hidden';
+          el.style.margin    = '0';
+          el.style.padding   = '0';
+        } else {
+          el.style.maxHeight = '';
+          el.style.overflow  = '';
+          el.style.margin    = '';
+          el.style.padding   = '';
+        }
+      });
+
       // Badge transitions from source card margins to match card padding (same as text)
       const badge = overlayCard.querySelector('.day-badge');
       if(badge){
@@ -3037,9 +3539,9 @@ function setLang(lang) {
       // Hide original card to avoid doubling
       sourceCard.style.visibility = 'hidden';
 
-      // ── Phase 4 (48–85%): Schedule items appear one by one inside the card ──
-      const itemStart = 0.48;
-      const itemEnd = 0.75;
+      // ── Phase 4 (43–64.5%): Schedule items appear one by one inside the card ──
+      const itemStart = 0.43;
+      const itemEnd = 0.645;
       const perItem = (itemEnd - itemStart) / totalItems;
 
       schedItems.forEach(function(item, i){
@@ -3088,7 +3590,10 @@ function setLang(lang) {
       // Fade in Register CTA — delayed, starts after card is halfway up
       var regEl = document.getElementById('nyweek-register');
       var regFade = smoothstep(exitStart + (exitEnd - exitStart) * 0.4, exitEnd, p);
-      if(regEl) regEl.style.opacity = regFade.toFixed(3);
+      if(regEl){
+        regEl.style.opacity = regFade.toFixed(3);
+        regEl.style.pointerEvents = regFade > 0.5 ? 'auto' : 'none';
+      }
 
     } else {
       overlay.style.display = 'none';
@@ -3103,7 +3608,7 @@ function setLang(lang) {
       if(fixedVenue) fixedVenue.style.opacity = '0';
       // Hide register CTA
       var regEl = document.getElementById('nyweek-register');
-      if(regEl) regEl.style.opacity = '0';
+      if(regEl){ regEl.style.opacity = '0'; regEl.style.pointerEvents = 'none'; }
     }
   }
 
@@ -3166,7 +3671,7 @@ function setLang(lang) {
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
   var WAGNER = [-73.9933, 40.7339];  // NYU School of Professional Studies, 7 E 12th St
   var KIMMEL = [-73.9987, 40.7291];
-  var FASANO = [-73.9735, 40.7557];
+  var FASANO = [-73.9752, 40.7566]; // 60 E 49th St, Midtown East
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
 
   // === Camera keyframes — each is a scroll phase ===
@@ -3284,7 +3789,7 @@ function setLang(lang) {
       [-73.9933,40.7339],[-73.994500,40.732200],[-73.995691,40.730703],[-73.996885,40.730543],[-73.997168,40.730633],[-73.997397,40.730539],[-73.997658,40.730583],[-73.998021,40.730356],[-73.997979,40.730304],[-73.998933,40.729214]
     ];
     var ROUTE_2 = [
-      [-73.998933,40.729214],[-73.996936,40.731477],[-73.989146,40.742163],[-73.988513,40.742771],[-73.986639,40.742715],[-73.979213,40.752909],[-73.978725,40.753381],[-73.977803,40.753088],[-73.976467,40.754893],[-73.975981,40.754687],[-73.97503,40.755914],[-73.97366,40.755484]
+      [-73.998933,40.729214],[-73.996936,40.731477],[-73.989146,40.742163],[-73.988513,40.742771],[-73.986639,40.742715],[-73.979213,40.752909],[-73.978725,40.753381],[-73.977803,40.753088],[-73.976467,40.754893],[-73.975981,40.754687],[-73.97503,40.755914],[-73.97366,40.755484],[-73.9752,40.7566]
     ];
 
     map.addSource('route-1', {
@@ -3437,10 +3942,33 @@ function setLang(lang) {
     var cards = {
       'card-union':  document.getElementById('card-union'),
       'card-kimmel': document.getElementById('card-kimmel'),
-      'card-fasano': document.getElementById('card-fasano')
+      'card-fasano': document.getElementById('card-fasano'),
+      'card-visits': document.getElementById('card-visits'),
+      'card-hotels': document.getElementById('card-hotels')
     };
-    function showCard(id){ var el = cards[id]; if(el && !el.classList.contains('visible')) el.classList.add('visible'); }
-    function hideCard(id){ var el = cards[id]; if(el && el.classList.contains('visible')) el.classList.remove('visible'); }
+    var _cardAnims = {};
+    function showCard(id){
+      var el = cards[id]; if(!el) return;
+      if(!el.classList.contains('visible')){
+        if(_cardAnims[id]){ _cardAnims[id].cancel(); delete _cardAnims[id]; }
+        el.style.transform = '';
+        el.classList.add('visible');
+        var a = el.animate(
+          [{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'translateY(0)'}],
+          {duration:500, easing:'ease', fill:'none'}
+        );
+        _cardAnims[id] = a;
+        a.onfinish = function(){ delete _cardAnims[id]; };
+      }
+    }
+    function hideCard(id){
+      var el = cards[id]; if(!el || !el.classList.contains('visible')) return;
+      if(_cardAnims[id]){ _cardAnims[id].cancel(); delete _cardAnims[id]; }
+      el.style.transform = 'translateY(0)';
+      el.classList.remove('visible');
+      var _el = el;
+      setTimeout(function(){ if(!_el.classList.contains('visible')) _el.style.transform = ''; }, 520);
+    }
 
     // — POI (Points of Interest) — grey dots with click-to-open cards
     var POI_DATA = [
@@ -3554,15 +4082,26 @@ function setLang(lang) {
 
       el.addEventListener('click', function(e){
         e.stopPropagation();
+        var isPt = document.body.classList.contains('pt');
+        // Update floating card (kept for fallback)
         hotelInfoName.textContent = h.name;
         hotelInfoStars.textContent = h.stars;
         hotelInfoPrice.textContent = h.price;
         hotelInfoAddr.textContent = h.addr;
-        var isPt = document.body.className === 'pt';
         hotelInfoDesc.textContent = isPt ? h.descPt : h.descEn;
         hotelInfoBook.href = h.url;
         hotelInfoBookPt.href = h.url;
-        hotelInfoCard.classList.add('visible');
+        // Update sidebar panel card
+        if(hotelPanelName){
+          hotelPanelName.textContent = h.name;
+          hotelPanelStars.textContent = h.stars;
+          hotelPanelPrice.textContent = h.price;
+          hotelPanelAddr.textContent = h.addr;
+          hotelPanelDesc.textContent = isPt ? h.descPt : h.descEn;
+          hotelPanelBook.href = h.url;
+          hotelPanelEmpty.style.display = 'none';
+          hotelPanelSelected.classList.add('active');
+        }
         showWalkRadius(h.num);
       });
     });
@@ -3675,6 +4214,11 @@ function setLang(lang) {
         if(hotelInfoCard.classList.contains('visible')){
           hotelInfoCard.classList.remove('visible');
         }
+        // Reset hotel panel to "Select a hotel" state
+        if(hotelPanelEmpty && hotelPanelSelected){
+          hotelPanelEmpty.style.display = '';
+          hotelPanelSelected.classList.remove('active');
+        }
       }
     }
 
@@ -3689,6 +4233,32 @@ function setLang(lang) {
     function showTitle(id){ var el = phaseTitles[id]; if(el && !el.classList.contains('visible')) el.classList.add('visible'); }
     function hideTitle(id){ var el = phaseTitles[id]; if(el && el.classList.contains('visible')) el.classList.remove('visible'); }
     function hideAllTitles(){ for(var k in phaseTitles) hideTitle(k); }
+
+    // — Sidebar progress —
+    var sbFill   = document.getElementById('map-sb-fill');
+    var sbLabels = [
+      document.getElementById('msb-label-1'),
+      document.getElementById('msb-label-2'),
+      document.getElementById('msb-label-3'),
+      document.getElementById('msb-label-4')
+    ];
+    var sbVenueCards = [
+      document.getElementById('card-union'),
+      document.getElementById('card-kimmel'),
+      document.getElementById('card-fasano'),
+      document.getElementById('card-hotels')
+    ];
+    var mapVenueCardsEl = document.getElementById('map-venue-cards');
+    var cardVisits  = document.getElementById('card-visits');
+    var cardHotels  = document.getElementById('card-hotels');
+    var hotelPanelEmpty    = document.getElementById('hotel-panel-empty');
+    var hotelPanelSelected = document.getElementById('hotel-panel-selected');
+    var hotelPanelName  = document.getElementById('hotel-panel-name');
+    var hotelPanelStars = document.getElementById('hotel-panel-stars');
+    var hotelPanelPrice = document.getElementById('hotel-panel-price');
+    var hotelPanelAddr  = document.getElementById('hotel-panel-addr');
+    var hotelPanelDesc  = document.getElementById('hotel-panel-desc');
+    var hotelPanelBook  = document.getElementById('hotel-panel-book');
 
     // — Scroll-driven animation —
     var section = document.getElementById('slide-map');
@@ -3733,21 +4303,68 @@ function setLang(lang) {
         // Markers: appear on first zoom-in, never hidden again
         if(currentMarker) revealMarker(currentMarker);
 
-        // Cards: show only for active venue
+        // Cards: show only for active venue; Day 3 = two-up (visits + fasano); hotel phase = hotels card
+        var inHotelPhase      = t >= 0.88;
+        var inHotelCardsPhase = t >= 0.91;  // hotels card appears slightly later — gap for Day 3 fade-out
+        var inExplorePhase = t >= 0.66 && t < 0.74;
+        var isDay3     = (t >= 0.66 && t < 0.88);  // entire Day 3 range = when POI dots appear
+        var isDay3Late = (t >= 0.77 && t < 0.88);  // second half: add Fasano card below visits
+
+        // Two-up: both Day 3 cards visible. Cards stay position:absolute — JS stacks them.
+        // card-visits renders at top:0; card-fasano top = visits height + 8px gap.
+        if(mapVenueCardsEl){
+          if(isDay3Late){
+            mapVenueCardsEl.classList.add('two-up');
+            var visitsEl  = cards['card-visits'];
+            var fasanoEl  = cards['card-fasano'];
+            if(visitsEl && fasanoEl){
+              var visitsH   = visitsEl.offsetHeight;
+              var fasanoH   = fasanoEl.offsetHeight;
+              var gap       = 8; // px between the two stacked cards
+              fasanoEl.style.top = (visitsH + gap) + 'px';
+              // expand container so translateY(-50%) on panel stays stable
+              mapVenueCardsEl.style.height = (visitsH + gap + fasanoH) + 'px';
+            }
+          } else {
+            if(mapVenueCardsEl.classList.contains('two-up')){
+              // Leaving two-up: delay style.top reset until fade-out completes
+              var _fasEl = cards['card-fasano'];
+              if(_fasEl){
+                setTimeout(function(){ _fasEl.style.top = ''; }, 520);
+              }
+              mapVenueCardsEl.classList.remove('two-up');
+              mapVenueCardsEl.style.height = '';
+            }
+          }
+        }
+
+        // Base venue cards: hide all, then selectively show
         ['card-union','card-kimmel','card-fasano'].forEach(function(key){
-          if(key === currentCard) showCard(key);
-          else hideCard(key);
+          // card-fasano shown only in second half of Day 3
+          if(key === 'card-fasano'){
+            if(isDay3Late && !inHotelPhase) showCard(key);
+            else hideCard(key);
+          } else {
+            if(key === currentCard && !inHotelPhase && !isDay3) showCard(key);
+            else hideCard(key);
+          }
         });
+        // card-visits: visible for the entire Day 3 (both halves)
+        if(isDay3 && !inHotelPhase && cardVisits) showCard('card-visits');
+        else if(cardVisits) hideCard('card-visits');
+        // Hotels phase: show hotels card after Day 3 has had time to fade out
+        if(inHotelCardsPhase && cardHotels) showCard('card-hotels');
+        else if(cardHotels) hideCard('card-hotels');
 
         // Phase titles: show alongside their cards, explore/hotels titles for later phases
         hideAllTitles();
-        if(currentCard === 'card-union')  showTitle('title-day1');
-        else if(currentCard === 'card-kimmel') showTitle('title-day2');
-        else if(currentCard === 'card-fasano') showTitle('title-day3');
-        var inHotelPhase = t >= 0.88;
-        var inExplorePhase = t >= 0.66 && t < 0.74;
+        if(!inHotelPhase){
+          if(currentCard === 'card-union')  showTitle('title-day1');
+          else if(currentCard === 'card-kimmel') showTitle('title-day2');
+          else if(currentCard === 'card-fasano') showTitle('title-day3');
+        }
         if(inExplorePhase) showTitle('title-explore');
-        if(inHotelPhase) showTitle('title-hotels');
+        if(inHotelCardsPhase) showTitle('title-hotels');
 
         // Route 1 (NYU SPS→Kimmel): progressively draws during 0.30→0.38, fully visible after, hidden before
         if(t >= 0.38){
@@ -3789,6 +4406,28 @@ function setLang(lang) {
         // Show hotel markers during hotel phase
         updateHotels(inHotelPhase);
 
+        // — Sidebar progress bar —
+        if(sbFill){
+          var sbFillPct;
+          if(t <= 0.30)      sbFillPct = (t / 0.30) * 25;
+          else if(t <= 0.66) sbFillPct = 25 + ((t - 0.30) / 0.36) * 25;
+          else if(t <= 0.88) sbFillPct = 50 + ((t - 0.66) / 0.22) * 25;
+          else               sbFillPct = 75 + ((t - 0.88) / 0.12) * 25;
+          sbFill.style.height = Math.min(100, sbFillPct).toFixed(1) + '%';
+        }
+        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : (t < 0.88) ? 2 : 3;
+        sbLabels.forEach(function(l, i){
+          if(!l) return;
+          if(i === sbActiveIdx) l.classList.add('active');
+          else l.classList.remove('active');
+        });
+        // Align cards top with the active day label in the sidebar
+        // Sidebar top padding = 1rem; each of 4 label slots = 5.5rem (22rem / 4)
+        var cardOffsets = ['1rem', '6.5rem', '12rem', '17.5rem'];
+        if(mapVenueCardsEl){
+          mapVenueCardsEl.style.marginTop = cardOffsets[sbActiveIdx];
+        }
+
         // Close POI popup when scrolling back before POI phase
         if((t < 0.66 || t >= 0.74) && poiPopup.classList.contains('visible')){
           poiPopup.classList.remove('visible');
@@ -3826,6 +4465,22 @@ function setLang(lang) {
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update, { passive: true });
   update();
+})();
+</script>
+
+<script>
+/* Cover dot highlight — tracks mouse position within the cover section */
+(function(){
+  var cover = document.getElementById('slide-cover');
+  var glow  = document.getElementById('cover-dots-glow');
+  if(!cover || !glow) return;
+  cover.addEventListener('mousemove', function(e){
+    var rect = cover.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    glow.style.setProperty('--cover-mx', x + 'px');
+    glow.style.setProperty('--cover-my', y + 'px');
+  });
 })();
 </script>
 
