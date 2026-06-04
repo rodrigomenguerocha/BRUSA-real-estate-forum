@@ -1642,6 +1642,68 @@
   .speakers-track-wrap::-webkit-scrollbar { display: none; }
   .speakers-track-wrap { -ms-overflow-style: none; }
 
+  /* ===== MOBILE LEGIBILITY PASS =====
+     Additive, cascade-last overrides. Raises sub-readable mono labels and times to
+     a ~10-15px floor, lifts a few faint colors, and enlarges key tap targets on
+     phones/tablets — without changing the desktop layout. Uses the existing
+     480 / 768 / 899 breakpoints (no new breakpoints introduced). */
+  @media (max-width: 480px) {
+    /* Body copy: phone was smaller (0.82) than desktop base (0.88) — fix that */
+    p { font-size: 0.9rem; line-height: 1.65; }
+
+    /* Language toggle — readable label + larger tap target */
+    .lang-btn { font-size: 0.62rem; padding: 0.6rem 1rem; }
+
+    /* NY Week day cards (timeline + zoomed Nov 18 card) */
+    .day-title { font-size: 0.86rem; }
+    .day-desc  { font-size: 0.72rem; line-height: 1.5; }
+    .day-date  { font-size: 0.6rem; }
+    .day-tag   { font-size: 0.56rem; }
+    .day-link  { font-size: 0.62rem; padding-bottom: 2px; }
+
+    /* Card detail elements (panel list / info / fasano / scroll hint) */
+    .card-panel-item        { font-size: 0.8rem; }
+    .card-panel-num         { font-size: 0.58rem; }
+    .card-info-label        { font-size: 0.58rem; color: rgba(255,255,255,0.42); }
+    .card-info-value        { font-size: 0.78rem; }
+    .card-visit-item        { font-size: 0.78rem; }
+    .card-fasano-eyebrow    { font-size: 0.6rem; }
+    .card-fasano-desc       { font-size: 0.78rem; }
+    .card-scroll-hint-label { font-size: 0.6rem; }
+
+    /* Agenda (zoom schedule): widen the time column for the larger time text */
+    .schedule-item        { grid-template-columns: 82px 1fr; }
+    .schedule-time        { font-size: 0.66rem; }
+    .schedule-label       { font-size: 0.95rem; line-height: 1.3; }
+    .schedule-sublabel    { font-size: 0.62rem; }
+    .schedule-venue-label { font-size: 0.58rem; color: rgba(255,255,255,0.4); }
+    .schedule-tag         { font-size: 0.58rem; }
+
+    /* Pricing tiers */
+    .tier-cell   { font-size: 0.76rem; }
+    .tier-label  { font-size: 0.62rem; }
+    .tier-header { font-size: 0.6rem; }
+
+    /* Speakers carousel */
+    .speaker-cargo { font-size: 0.66rem; }
+    .speaker-panel { font-size: 0.6rem; }
+    .speaker-badge { font-size: 0.56rem; }
+
+    /* Map labels */
+    .map-venue-addr { font-size: 0.62rem; }
+    .map-phase-title .map-phase-sub { font-size: 0.56rem; }
+  }
+  /* Agenda speakers — matches the schedule's own 899px reflow point */
+  @media (max-width: 899px) {
+    .schedule-speaker { font-size: 0.66rem; }
+    .schedule-speaker .speaker-role { font-size: 0.6rem; color: rgba(255,255,255,0.42); }
+  }
+  /* CTAs — readable labels + larger tap targets on phones/tablets */
+  @media (max-width: 768px) {
+    .sticky-cta { font-size: 0.6rem !important; padding: 0.8rem 1.4rem !important; letter-spacing: 0.1em !important; }
+    .cover-cta-button { font-size: 0.6rem !important; padding: 0.95rem 2.4rem !important; }
+    .card-past-btn { font-size: 0.62rem; padding: 0.7rem 1.2rem; }
+  }
 </style>
 </head>
 <body>
