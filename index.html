@@ -872,6 +872,9 @@
   .map-venue-cards.two-up #card-fasano .map-venue-info {
     padding: 0.6rem 1rem 0.7rem;
   }
+  /* Fasano dinner removed for now: hide the map venue card. Camera/marker/route
+     left untouched per request — revisit the map choreography separately. */
+  #card-fasano { display: none !important; }
   /* Site visits card: text-only list style */
   .map-venue-visits-list {
     padding: 0.85rem 1.1rem 1rem;
@@ -2603,12 +2606,6 @@
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Mixed-use / institutional asset</span><span data-lang="pt">A definir — Ativo de uso misto / institucional</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Public–private development site</span><span data-lang="pt">A definir — Projeto público–privado</span></div>
         </div>
-        <div class="card-fasano-block">
-          <div class="card-fasano-eyebrow"><span data-lang="en">Closing Cocktail</span><span data-lang="pt">Cocktail de Encerramento</span></div>
-          <div class="card-fasano-name">Fasano New York — Baretto</div>
-          <div class="card-fasano-desc" data-lang="en">Private closing cocktail. By invitation only.</div>
-          <div class="card-fasano-desc" data-lang="pt">Cocktail privado de encerramento. Somente a convite.</div>
-        </div>
       </div>
     </div>
     <!-- Zoom overlay: expands Nov 18 card with schedule inside -->
@@ -2779,19 +2776,6 @@
               <div class="schedule-label" data-lang="en">Closing Remarks</div>
               <div class="schedule-label" data-lang="pt">Encerramento</div>
             </div>
-            <div class="schedule-menu" data-lang="en">+ transfer to Fasano New York</div><div class="schedule-menu" data-lang="pt">+ traslado ao Fasano New York</div>
-          </div>
-        </div>
-        <div class="schedule-divider"></div>
-        <div class="schedule-list">
-          <div class="schedule-item" data-sched="15" style="border-bottom:none;">
-            <div class="schedule-tag tag-break"><span data-lang="en">Evening</span><span data-lang="pt">Noite</span></div>
-            <div class="schedule-time">18:00 – 20:00</div>
-            <div>
-              <div class="schedule-label" data-lang="en">Closing Cocktail</div>
-              <div class="schedule-label" data-lang="pt">Cocktail de Encerramento</div>
-            </div>
-            <div class="schedule-menu">Fasano New York — Baretto</div>
           </div>
         </div>
         </div><!-- /zoom-schedule-scroll -->
@@ -2803,8 +2787,8 @@
       <div class="sn" data-lang="pt">Inscreva-se</div>
       <h2 data-lang="en" style="margin-bottom:0.5rem;">Secure your seat.</h2>
       <h2 data-lang="pt" style="margin-bottom:0.5rem;">Garanta sua vaga.</h2>
-      <p data-lang="en" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">November 18–20, 2026 · NYU Schack Institute of Real Estate + Fasano New York · Invite-only · 80 seats.</p>
-      <p data-lang="pt" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">18–20 de novembro de 2026 · NYU Schack Institute of Real Estate + Fasano New York · Somente por convite · 80 vagas.</p>
+      <p data-lang="en" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">November 18–20, 2026 · NYU Schack Institute of Real Estate · Invite-only · 80 seats.</p>
+      <p data-lang="pt" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">18–20 de novembro de 2026 · NYU Schack Institute of Real Estate · Somente por convite · 80 vagas.</p>
       <a
         href="https://luma.com/event/evt-cZKc1exaulCHny5"
         class="luma-checkout--button"
@@ -4159,8 +4143,8 @@ function setLang(lang) {
     // — Hotel markers (numbered) —
     var HOTEL_DATA = [
       { num: 1, name: 'Fasano Fifth Avenue', stars: '★★★★★', price: '$$$$', addr: '815 Fifth Ave, Upper East Side',
-        descEn: 'The hotel of the event\'s cocktail. Exclusive boutique with membership, facing Central Park. The only Brazilian hotel brand in New York.',
-        descPt: 'O hotel do cocktail do evento. Boutique exclusivo com membership, frente ao Central Park. A unica marca hoteleira brasileira em Nova York.',
+        descEn: 'Exclusive boutique with membership, facing Central Park. The only Brazilian hotel brand in New York.',
+        descPt: 'Boutique exclusivo com membership, frente ao Central Park. A unica marca hoteleira brasileira em Nova York.',
         coords: [-73.9710, 40.7664], url: 'https://fasano.com.br/hoteis/fasano-new-york/' },
       { num: 2, name: 'Baccarat Hotel New York', stars: '★★★★★', price: '$$$$', addr: '28 W 53rd St, Midtown',
         descEn: 'Ultra-luxury with Parisian finish and Baccarat crystals. Across from MoMA, 4 minutes on foot from Fasano.',
