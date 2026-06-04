@@ -1704,6 +1704,30 @@
     .cover-cta-button { font-size: 0.6rem !important; padding: 0.95rem 2.4rem !important; }
     .card-past-btn { font-size: 0.62rem; padding: 0.7rem 1.2rem; }
   }
+
+  /* ===== MOBILE — NY WEEK CARDS: stack one-up + trim secondary detail =====
+     Phones/tablets show the three day cards in a single column (full width) and
+     drop the heavier in-card detail. Kept: date, title, description, and the
+     6-panel program on the Forum card. Hidden on mobile: the scroll-to-reveal
+     hint (Forum), the edition/format/access rows (NYU conf), and the visit list
+     (kept the Fasano closing-cocktail block). Desktop layout unchanged. */
+  @media (max-width: 768px) {
+    /* ID selector (specificity beats the .timeline 2-col rules regardless of order) */
+    #nyweek-timeline { grid-template-columns: 1fr; gap: 1rem; }
+    #nyweek-timeline .day-card:first-child { grid-column: auto; }
+    .day-card { padding: 1.3rem 1.2rem; }
+    .day-title { font-size: 1.05rem; }
+    .day-desc  { font-size: 0.82rem; line-height: 1.55; }
+    .day-date  { font-size: 0.62rem; }
+    .card-panel-item { font-size: 0.85rem; }
+    .card-panel-num  { font-size: 0.62rem; }
+
+    .day-card[data-day="1"] .card-scroll-hint { display: none; }
+    .day-card[data-day="2"] .card-section-divider,
+    .day-card[data-day="2"] .card-info-list   { display: none; }
+    .day-card[data-day="3"] .card-section-divider,
+    .day-card[data-day="3"] .card-visit-list  { display: none; }
+  }
 </style>
 </head>
 <body>
