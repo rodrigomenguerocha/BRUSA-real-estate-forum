@@ -300,7 +300,7 @@
   /* ===== NY WEEK SCROLL SECTION ===== */
   .slide-nyweek {
     position: relative; background: var(--deep); color: var(--white);
-    height: 620vh; min-height: auto; padding: 0; display: block;
+    height: 800vh; min-height: auto; padding: 0; display: block;
   }
   .nyweek-text { transition: opacity 0.3s ease; }
   .nyweek-register {
@@ -1411,7 +1411,7 @@
     .day-link { font-size: 0.38rem; }
 
     /* NY Week section */
-    .slide-nyweek { height: 650vh; }
+    .slide-nyweek { height: 950vh; }
     .slide-nyweek .nyweek-sticky { padding: 2rem 0.75rem; }
     .nyweek-text h2 { font-size: 1.4rem; }
     .nyweek-text p { font-size: 0.72rem; margin-bottom: 0; }
@@ -3682,12 +3682,15 @@ function setLang(lang) {
       if(fixedDiv) fixedDiv.style.opacity = schedVisible ? '1' : '0';
       if(fixedVenue) fixedVenue.style.opacity = schedVisible ? '1' : '0';
 
-      // Smooth scroll inside the schedule area — delayed so first items stay visible
+      // Auto-scroll the agenda inside the zoomed card. Linear (1:1 feel) over a wide
+      // window that ends just before the exit phase (0.78), so a small page scroll
+      // nudges the agenda gently instead of whipping through it.
       const scrollableContent = schedScroll.scrollHeight - schedScroll.clientHeight;
-      const scrollDelayStart = itemStart + (itemEnd - itemStart) * 0.3;
-      if(scrollableContent > 0 && p >= scrollDelayStart){
-        const schedProgress = smoothstep(scrollDelayStart, itemEnd, p);
-        schedScroll.scrollTop = schedProgress * scrollableContent;
+      const schedScrollStart = 0.50;
+      const schedScrollEnd = 0.77;
+      if(scrollableContent > 0 && p >= schedScrollStart){
+        const sp = Math.max(0, Math.min(1, (p - schedScrollStart) / (schedScrollEnd - schedScrollStart)));
+        schedScroll.scrollTop = sp * scrollableContent;
       } else {
         schedScroll.scrollTop = 0;
       }
