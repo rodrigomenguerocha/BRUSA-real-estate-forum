@@ -1713,14 +1713,19 @@
      (kept the Fasano closing-cocktail block). Desktop layout unchanged. */
   @media (max-width: 768px) {
     /* ID selector (specificity beats the .timeline 2-col rules regardless of order) */
-    #nyweek-timeline { grid-template-columns: 1fr; gap: 1rem; }
+    #nyweek-timeline { grid-template-columns: 1fr; gap: 0.7rem; }
     #nyweek-timeline .day-card:first-child { grid-column: auto; }
-    .day-card { padding: 1.3rem 1.2rem; }
-    .day-title { font-size: 1.05rem; }
-    .day-desc  { font-size: 0.82rem; line-height: 1.55; }
-    .day-date  { font-size: 0.62rem; }
-    .card-panel-item { font-size: 0.85rem; }
+    .day-card { padding: 1rem 1.1rem; }
+    .day-title { font-size: 1.02rem; margin-bottom: 0.3rem; }
+    .day-desc  { font-size: 0.8rem; line-height: 1.4; }
+    .day-date  { font-size: 0.62rem; margin-bottom: 0.45rem; }
+    .card-section-divider { margin: 0.55rem 0 0.5rem; }
+    .card-panel-list { gap: 0.16rem; }
+    .card-panel-item { font-size: 0.82rem; line-height: 1.3; }
     .card-panel-num  { font-size: 0.62rem; }
+    .card-past-btn { margin-top: 0.7rem; }
+    .card-fasano-block { margin-top: 0.6rem; padding-top: 0.6rem; }
+    .card-fasano-name { font-size: 0.95rem; margin-bottom: 0.15rem; }
 
     .day-card[data-day="1"] .card-scroll-hint { display: none; }
     .day-card[data-day="2"] .card-section-divider,
@@ -2527,8 +2532,8 @@
         <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
         <div class="day-date">Nov 18 · <span data-lang="en">Wednesday</span><span data-lang="pt">Quarta</span></div>
         <div class="day-title">BR/US Real Estate Forum</div>
-        <div class="day-desc" data-lang="en">Full-day program at NYU Schack. Panels, keynotes, networking.</div>
-        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack. Painéis, keynotes, networking.</div>
+        <div class="day-desc" data-lang="en">Full-day program at NYU Schack.</div>
+        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack.</div>
         <hr class="card-section-divider">
         <div class="card-panel-list">
           <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">The Urban Condition</span><span data-lang="pt">A Condição Urbana</span></div>
@@ -2557,8 +2562,8 @@
         <div class="day-badge" style="background:rgba(255,255,255,0.12);"><span data-lang="en">Separate Event</span><span data-lang="pt">Evento Separado</span></div>
         <div class="day-date">Nov 19 · <span data-lang="en">Thursday</span><span data-lang="pt">Quinta</span></div>
         <div class="day-title">NYU Capital Markets Conference</div>
-        <div class="day-desc" data-lang="en">NYU Schack's flagship annual conference on real estate capital markets — one of the most attended industry events in the US.</div>
-        <div class="day-desc" data-lang="pt">A principal conferência anual do NYU Schack sobre mercado de capitais imobiliários — um dos eventos mais concorridos do setor nos EUA.</div>
+        <div class="day-desc" data-lang="en">NYU Schack's annual capital markets conference.</div>
+        <div class="day-desc" data-lang="pt">A conferência anual de mercado de capitais do NYU Schack.</div>
         <hr class="card-section-divider">
         <div class="card-info-list">
           <div class="card-info-item">
@@ -2590,8 +2595,8 @@
       <div class="day-card" data-day="3">
         <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
         <div class="day-title"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
-        <div class="day-desc" data-lang="en">Curated visits to marquee developments and institutional assets across NYC.</div>
-        <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos e ativos institucionais de destaque em NYC.</div>
+        <div class="day-desc" data-lang="en">Curated visits to marquee NYC developments.</div>
+        <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos de destaque em NYC.</div>
         <hr class="card-section-divider">
         <div class="card-visit-list">
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Affordable housing development</span><span data-lang="pt">A definir — Empreendimento habitacional</span></div>
@@ -2601,8 +2606,8 @@
         <div class="card-fasano-block">
           <div class="card-fasano-eyebrow"><span data-lang="en">Closing Cocktail</span><span data-lang="pt">Cocktail de Encerramento</span></div>
           <div class="card-fasano-name">Fasano New York — Baretto</div>
-          <div class="card-fasano-desc" data-lang="en">Private closing cocktail at Fasano New York's Baretto room. An intimate setting for senior leaders from both markets — by invitation only.</div>
-          <div class="card-fasano-desc" data-lang="pt">Cocktail privado de encerramento no Baretto do Fasano New York. Ambiente íntimo para líderes sênior dos dois mercados — a convite.</div>
+          <div class="card-fasano-desc" data-lang="en">Private closing cocktail. By invitation only.</div>
+          <div class="card-fasano-desc" data-lang="pt">Cocktail privado de encerramento. Somente a convite.</div>
         </div>
       </div>
     </div>
