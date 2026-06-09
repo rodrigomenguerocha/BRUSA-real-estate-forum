@@ -155,14 +155,27 @@
   .slide-cover:hover .cover-dots-glow { opacity: 1; }
   .slide-cover { overflow: hidden; }
   /* ===== COVER ===== */
-  .cover-co {
-    display: flex; flex-direction: column; align-items: center; gap: 2.5rem;
-    margin-bottom: 5rem; opacity: 0.4;
+  /* Partner wall — co-organizers + partner tiers; two groups per row, kept subordinate to the title */
+  .cover-partners {
+    display: grid; grid-template-columns: auto auto;
+    justify-content: center; justify-items: center; align-items: start;
+    column-gap: 3.5rem; row-gap: 2.4rem;
+    margin: 0 auto 4.5rem;
   }
-  .cover-co-logos { display: flex; align-items: center; gap: 1.5rem; }
-  .cover-co-logo-link { display:inline-flex; align-items:center; height:1.4rem; opacity:0.6; transition:opacity 0.2s ease; text-decoration:none; cursor:pointer; }
-  .cover-co-logo-link:hover { opacity:1; }
-  .cover-co .rope { width: 1px; height: 18px; background: rgba(255,255,255,0.3); }
+  .partner-group { display: flex; flex-direction: column; align-items: center; gap: 1.05rem; }
+  .partner-logos { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1.4rem; min-height: 41px; }
+  .cover-co-logo-link { display:inline-flex; align-items:center; height:1.4rem; opacity:0.5; transition:opacity 0.2s ease; text-decoration:none; cursor:pointer; }
+  .cover-co-logo-link:hover { opacity:0.95; }
+  .partner-logos .rope { width: 1px; height: 18px; background: rgba(255,255,255,0.28); }
+  .cover-mp { display: inline-flex; align-items: center; text-decoration: none; opacity: 0.55; transition: opacity 0.2s ease; }
+  .cover-mp:hover { opacity: 0.95; }
+  .cover-mp-logo { height: 40px; width: auto; display: block; }
+  .partner-slot {
+    width: 108px; height: 34px; box-sizing: border-box; display: inline-block;
+    border: 1px dashed rgba(255,255,255,0.5); border-radius: 4px;
+  }
+  /* Lead Partner is a premier tier — slot matches the co-organizers' logo height */
+  .partner-group--lead .partner-slot { width: 150px; height: 41px; }
   .cover-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.45rem; letter-spacing: 0.15em; text-transform: uppercase;
@@ -1391,10 +1404,14 @@
     .cover-desc { font-size: 0.75rem; letter-spacing: 0.18em; }
     .cover-subtitle { font-size: 0.7rem; }
     .cover-meta { font-size: 0.75rem; }
-    .cover-co { margin-bottom: 3rem; gap: 1.5rem; }
-    .cover-co-logos { flex-wrap: wrap; justify-content: center; gap: 1rem; }
-    .cover-co-logos .rope { display: none; }
-    .cover-co-logos svg { max-height: 28px; width: auto; }
+    .cover-partners { grid-template-columns: 1fr; row-gap: 1.9rem; max-width: 340px; margin-bottom: 3rem; }
+    .partner-group { gap: 0.8rem; }
+    .partner-logos { gap: 0.9rem; }
+    .partner-logos .rope { display: none; }
+    .partner-logos svg { max-height: 28px; width: auto; }
+    .partner-slot { width: 84px; height: 30px; }
+    .partner-group--lead .partner-slot { width: 132px; height: 28px; }
+    .cover-mp-logo { height: 34px; }
 
     /* Typography */
     h2 { font-size: 1.6rem; }
@@ -1751,9 +1768,10 @@
     <button class="lang-btn" onclick="setLang('pt')">PT</button>
   </div>
   <div class="cover-content" id="cover-content">
-  <div class="cover-co">
-    <span class="cover-label">Co-organized by</span>
-    <div class="cover-co-logos">
+  <div class="cover-partners">
+    <div class="partner-group partner-group--coorg">
+      <span class="cover-label">Co-organizers</span>
+      <div class="partner-logos">
     <a href="https://responsivecities.com" target="_blank" rel="noopener noreferrer" class="cover-co-logo-link"><svg width="95" height="41" viewBox="0 0 444 191" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M309.771 123.891H320.587V131.67H309.771V123.891Z" fill="#FFFFFF"/>
 <path d="M309.773 175.64V136.489H320.589V175.64H309.773Z" fill="#FFFFFF"/>
@@ -1789,6 +1807,29 @@
 </svg></a>
     <span class="rope"></span>
     <a href="https://www.sps.nyu.edu/schack" target="_blank" rel="noopener noreferrer" class="cover-co-logo-link"><svg xmlns="http://www.w3.org/2000/svg" width="157" height="41" viewBox="0 0 210 56"> <defs/> <!-- NYU SPS Logo (vector paths from original EPS) --> <g transform="translate(16.760000000000005, -806.0)"> <path d="M 124.21875 831.398438 L 126.855469 828.234375 C 128.6875 829.742188 130.601562 830.699219 132.921875 830.699219 C 134.746094 830.699219 135.851562 829.972656 135.851562 828.785156 L 135.851562 828.726562 C 135.851562 827.59375 135.152344 827.015625 131.761719 826.148438 C 127.671875 825.101562 125.027344 823.96875 125.027344 819.9375 L 125.027344 819.878906 C 125.027344 816.195312 127.988281 813.761719 132.136719 813.761719 C 135.097656 813.761719 137.617188 814.6875 139.679688 816.34375 L 137.355469 819.707031 C 135.558594 818.460938 133.789062 817.707031 132.078125 817.707031 C 130.367188 817.707031 129.46875 818.488281 129.46875 819.472656 L 129.46875 819.53125 C 129.46875 820.867188 130.339844 821.300781 133.847656 822.203125 C 137.96875 823.273438 140.285156 824.753906 140.285156 828.292969 L 140.285156 828.347656 C 140.285156 832.382812 137.214844 834.644531 132.832031 834.644531 C 129.757812 834.644531 126.652344 833.574219 124.21875 831.398438 " fill="#FFFFFF" stroke="none"/> <path d="M 151.015625 824.289062 C 153.25 824.289062 154.554688 822.957031 154.554688 821.214844 L 154.554688 821.15625 C 154.554688 819.15625 153.160156 818.082031 150.929688 818.082031 L 147.476562 818.082031 L 147.476562 824.289062 Z M 143.011719 814.050781 L 151.308594 814.050781 C 156.148438 814.050781 159.078125 816.921875 159.078125 821.070312 L 159.078125 821.128906 C 159.078125 825.828125 155.425781 828.265625 150.871094 828.265625 L 147.476562 828.265625 L 147.476562 834.355469 L 143.011719 834.355469 L 143.011719 814.050781 " fill="#FFFFFF" stroke="none"/> <path d="M 160.410156 831.398438 L 163.050781 828.234375 C 164.878906 829.742188 166.789062 830.699219 169.109375 830.699219 C 170.9375 830.699219 172.039062 829.972656 172.039062 828.785156 L 172.039062 828.726562 C 172.039062 827.59375 171.347656 827.015625 167.949219 826.148438 C 163.859375 825.101562 161.222656 823.96875 161.222656 819.9375 L 161.222656 819.878906 C 161.222656 816.195312 164.179688 813.761719 168.328125 813.761719 C 171.285156 813.761719 173.8125 814.6875 175.871094 816.34375 L 173.550781 819.707031 C 171.753906 818.460938 169.980469 817.707031 168.269531 817.707031 C 166.558594 817.707031 165.660156 818.488281 165.660156 819.472656 L 165.660156 819.53125 C 165.660156 820.867188 166.527344 821.300781 170.039062 822.203125 C 174.15625 823.273438 176.480469 824.753906 176.480469 828.292969 L 176.480469 828.347656 C 176.480469 832.382812 173.402344 834.644531 169.023438 834.644531 C 165.949219 834.644531 162.847656 833.574219 160.410156 831.398438 " fill="#FFFFFF" stroke="none"/> <path d="M 115.820312 841.996094 L 115.035156 841.996094 L 115.035156 806 L 115.820312 806 L 115.820312 841.996094 " fill="#FFFFFF" stroke="none"/> <path d="M 45.332031 813.914062 L 49.476562 813.914062 L 59.058594 826.507812 L 59.058594 813.914062 L 63.5 813.914062 L 63.5 834.363281 L 59.671875 834.363281 L 49.769531 821.363281 L 49.769531 834.363281 L 45.332031 834.363281 L 45.332031 813.914062 " fill="#FFFFFF" stroke="none"/> <path d="M 73.601562 826.300781 L 65.746094 813.914062 L 71.003906 813.914062 L 75.882812 822.125 L 80.847656 813.914062 L 85.960938 813.914062 L 78.101562 826.214844 L 78.101562 834.363281 L 73.601562 834.363281 L 73.601562 826.300781 " fill="#FFFFFF" stroke="none"/> <path d="M 87.886719 825.597656 L 87.886719 813.914062 L 92.382812 813.914062 L 92.382812 825.480469 C 92.382812 828.8125 94.046875 830.535156 96.792969 830.535156 C 99.539062 830.535156 101.203125 828.871094 101.203125 825.628906 L 101.203125 813.914062 L 105.699219 813.914062 L 105.699219 825.453125 C 105.699219 831.644531 102.226562 834.679688 96.734375 834.679688 C 91.242188 834.679688 87.886719 831.617188 87.886719 825.597656 " fill="#FFFFFF" stroke="none"/> <path d="M 15.859375 824.777344 C 12.171875 822.574219 12.539062 819.433594 14.070312 817.121094 C 14.101562 817.074219 14.113281 816.992188 14.101562 816.898438 C 14.039062 816.347656 13.441406 814.960938 13.191406 814.582031 C 13.125 814.484375 13.070312 814.492188 13.066406 814.558594 C 13.042969 815.1875 12.328125 816.765625 11.234375 818.578125 C 10.070312 820.511719 10.066406 824.703125 15.847656 824.863281 C 15.902344 824.863281 15.914062 824.808594 15.859375 824.777344 Z M 16.847656 824.613281 C 14.644531 819.902344 19.054688 816.859375 19.773438 816.199219 C 19.875 816.105469 19.847656 816.019531 19.851562 815.914062 C 19.851562 814.433594 19.003906 812.03125 18.722656 811.6875 C 18.683594 811.636719 18.652344 811.65625 18.636719 811.710938 C 18.257812 813.175781 16.25 815.355469 15.847656 815.832031 C 12.441406 819.878906 13.21875 822.347656 16.777344 824.671875 C 16.820312 824.699219 16.875 824.667969 16.847656 824.613281 Z M 17.566406 824.414062 C 18.609375 819.417969 22.675781 819.292969 23.039062 818.347656 C 23.609375 816.867188 22.570312 814.242188 22.304688 813.929688 C 22.28125 813.898438 22.242188 813.917969 22.230469 813.949219 C 21.675781 815.160156 20.78125 816.3125 20.128906 816.839844 C 19.210938 817.585938 15.675781 820.203125 17.480469 824.417969 C 17.503906 824.46875 17.554688 824.457031 17.566406 824.414062 Z M 18.292969 824.847656 C 24.878906 825.089844 25.34375 819.085938 25.371094 816.839844 C 25.371094 816.707031 25.308594 816.695312 25.277344 816.789062 C 25.082031 817.257812 24.222656 818.929688 21.847656 819.949219 C 19.726562 820.859375 18.453125 822.921875 18.230469 824.777344 C 18.21875 824.824219 18.261719 824.847656 18.292969 824.847656 Z M 19.789062 827.097656 L 19.789062 825.585938 L 14.59375 825.585938 L 14.59375 827.097656 Z M 16.753906 837.792969 C 16.792969 838.042969 17.339844 838.167969 17.464844 837.792969 L 18.722656 827.820312 L 15.664062 827.820312 Z M 35.992188 842 L 0 842 L 0 806.003906 L 35.992188 806.003906 L 35.992188 842 " fill="#FFFFFF" stroke="none"/> </g> <!-- Schack Institute of Real Estate (outlined text, Outfit Bold) --> <g id="schack-text"> <path d="M280 -11Q193 -11 130.5 17.5Q68 46 16 104L118 205Q152 166 193.5 144.5Q235 123 290 123Q340 123 367.5 141.0Q395 159 395 191Q395 220 377.0 238.0Q359 256 329.5 269.0Q300 282 264.5 294.0Q229 306 194.0 321.5Q159 337 129.5 360.5Q100 384 82.0 419.5Q64 455 64 509Q64 574 95.5 621.0Q127 668 183.0 692.5Q239 717 312 717Q386 717 447.5 691.0Q509 665 549 620L447 519Q415 552 382.5 568.0Q350 584 309 584Q268 584 244.0 568.5Q220 553 220 524Q220 497 238.0 480.5Q256 464 285.5 452.0Q315 440 350.5 428.0Q386 416 421.0 400.0Q456 384 485.5 359.5Q515 335 533.0 297.5Q551 260 551 205Q551 104 479.0 46.5Q407 -11 280 -11Z" transform="translate(16.76,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M403 -11Q324 -11 256.5 16.5Q189 44 138.5 94.0Q88 144 60.0 210.5Q32 277 32 354Q32 431 60.0 497.5Q88 564 138.0 613.0Q188 662 255.5 689.5Q323 717 402 717Q486 717 551.5 690.0Q617 663 666 616L561 510Q533 540 493.5 557.0Q454 574 402 574Q356 574 317.5 558.5Q279 543 251.5 514.0Q224 485 208.5 444.0Q193 403 193 354Q193 304 208.5 263.0Q224 222 251.5 193.0Q279 164 317.5 148.0Q356 132 402 132Q456 132 496.0 149.0Q536 166 565 196L671 90Q620 43 554.5 16.0Q489 -11 403 -11Z" transform="translate(21.724,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM505 0V706H663V0ZM162 295V431H557V295Z" transform="translate(27.536,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M15 0 295 706H437L714 0H548L336 586H393L178 0ZM174 128V256H559V128Z" transform="translate(33.676,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M403 -11Q324 -11 256.5 16.5Q189 44 138.5 94.0Q88 144 60.0 210.5Q32 277 32 354Q32 431 60.0 497.5Q88 564 138.0 613.0Q188 662 255.5 689.5Q323 717 402 717Q486 717 551.5 690.0Q617 663 666 616L561 510Q533 540 493.5 557.0Q454 574 402 574Q356 574 317.5 558.5Q279 543 251.5 514.0Q224 485 208.5 444.0Q193 403 193 354Q193 304 208.5 263.0Q224 222 251.5 193.0Q279 164 317.5 148.0Q356 132 402 132Q456 132 496.0 149.0Q536 166 565 196L671 90Q620 43 554.5 16.0Q489 -11 403 -11Z" transform="translate(39.808,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M495 0 209 368 486 706H680L368 339V403L690 0ZM68 0V706H225V0Z" transform="translate(45.62,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0Z" transform="translate(53.379999999999995,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H178L225 565V0ZM555 0 139 533 178 706 594 173ZM555 0 513 141V706H670V0Z" transform="translate(56.023999999999994,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M280 -11Q193 -11 130.5 17.5Q68 46 16 104L118 205Q152 166 193.5 144.5Q235 123 290 123Q340 123 367.5 141.0Q395 159 395 191Q395 220 377.0 238.0Q359 256 329.5 269.0Q300 282 264.5 294.0Q229 306 194.0 321.5Q159 337 129.5 360.5Q100 384 82.0 419.5Q64 455 64 509Q64 574 95.5 621.0Q127 668 183.0 692.5Q239 717 312 717Q386 717 447.5 691.0Q509 665 549 620L447 519Q415 552 382.5 568.0Q350 584 309 584Q268 584 244.0 568.5Q220 553 220 524Q220 497 238.0 480.5Q256 464 285.5 452.0Q315 440 350.5 428.0Q386 416 421.0 400.0Q456 384 485.5 359.5Q515 335 533.0 297.5Q551 260 551 205Q551 104 479.0 46.5Q407 -11 280 -11Z" transform="translate(62.227999999999994,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M241 0V696H398V0ZM20 569V706H619V569Z" transform="translate(67.192,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0Z" transform="translate(72.604,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M241 0V696H398V0ZM20 569V706H619V569Z" transform="translate(75.248,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M352 -11Q265 -11 198.5 26.0Q132 63 94.5 128.5Q57 194 57 278V706H215V269Q215 227 233.0 196.0Q251 165 282.5 148.5Q314 132 352 132Q392 132 422.0 148.5Q452 165 469.5 195.5Q487 226 487 268V706H645V277Q645 193 608.0 128.0Q571 63 505.0 26.0Q439 -11 352 -11Z" transform="translate(80.66000000000001,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M241 0V696H398V0ZM20 569V706H619V569Z" transform="translate(86.57600000000001,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM188 0V136H575V0ZM188 295V426H540V295ZM188 571V706H570V571Z" transform="translate(91.98800000000001,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M405 -12Q325 -12 257.5 16.0Q190 44 139.0 94.0Q88 144 60.0 210.5Q32 277 32 354Q32 432 60.0 498.0Q88 564 138.0 613.5Q188 663 255.5 690.5Q323 718 403 718Q482 718 549.5 690.5Q617 663 667.5 613.5Q718 564 746.0 497.5Q774 431 774 353Q774 276 746.0 209.5Q718 143 668.0 93.5Q618 44 550.5 16.0Q483 -12 405 -12ZM403 131Q466 131 513.5 159.0Q561 187 587.0 237.5Q613 288 613 354Q613 404 598.0 444.5Q583 485 555.0 514.5Q527 544 488.5 559.5Q450 575 403 575Q340 575 292.5 547.5Q245 520 219.0 470.5Q193 421 193 354Q193 304 208.0 263.0Q223 222 250.5 192.5Q278 163 317.0 147.0Q356 131 403 131Z" transform="translate(99.028,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM188 277V412H541V277ZM188 571V706H557V571Z" transform="translate(105.77600000000001,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M188 291V407H337Q384 407 409.5 431.0Q435 455 435 496Q435 534 410.0 559.0Q385 584 338 584H188V706H356Q426 706 479.0 679.5Q532 653 562.0 606.0Q592 559 592 498Q592 436 562.0 389.5Q532 343 478.0 317.0Q424 291 351 291ZM68 0V706H225V0ZM452 0 232 304 376 343 638 0Z" transform="translate(112.616,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM188 0V136H575V0ZM188 295V426H540V295ZM188 571V706H570V571Z" transform="translate(118.132,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M15 0 295 706H437L714 0H548L336 586H393L178 0ZM174 128V256H559V128Z" transform="translate(123.352,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM189 0V138H538V0Z" transform="translate(129.484,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM188 0V136H575V0ZM188 295V426H540V295ZM188 571V706H570V571Z" transform="translate(136.092,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M280 -11Q193 -11 130.5 17.5Q68 46 16 104L118 205Q152 166 193.5 144.5Q235 123 290 123Q340 123 367.5 141.0Q395 159 395 191Q395 220 377.0 238.0Q359 256 329.5 269.0Q300 282 264.5 294.0Q229 306 194.0 321.5Q159 337 129.5 360.5Q100 384 82.0 419.5Q64 455 64 509Q64 574 95.5 621.0Q127 668 183.0 692.5Q239 717 312 717Q386 717 447.5 691.0Q509 665 549 620L447 519Q415 552 382.5 568.0Q350 584 309 584Q268 584 244.0 568.5Q220 553 220 524Q220 497 238.0 480.5Q256 464 285.5 452.0Q315 440 350.5 428.0Q386 416 421.0 400.0Q456 384 485.5 359.5Q515 335 533.0 297.5Q551 260 551 205Q551 104 479.0 46.5Q407 -11 280 -11Z" transform="translate(141.312,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M241 0V696H398V0ZM20 569V706H619V569Z" transform="translate(146.276,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M15 0 295 706H437L714 0H548L336 586H393L178 0ZM174 128V256H559V128Z" transform="translate(151.68800000000002,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M241 0V696H398V0ZM20 569V706H619V569Z" transform="translate(157.82000000000002,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> <path d="M68 0V706H225V0ZM188 0V136H575V0ZM188 295V426H540V295ZM188 571V706H570V571Z" transform="translate(163.23200000000003,51.0) scale(0.008,-0.008)" fill="#FFFFFF"/> </g> </svg></a>
+      </div>
+    </div>
+    <div class="partner-group partner-group--lead">
+      <span class="cover-label">Lead Partner</span>
+      <div class="partner-logos">
+        <span class="partner-slot" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="partner-group partner-group--supporting">
+      <span class="cover-label">Supporting Partners</span>
+      <div class="partner-logos">
+        <span class="partner-slot" aria-hidden="true"></span>
+        <span class="partner-slot" aria-hidden="true"></span>
+        <span class="partner-slot" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="partner-group partner-group--media">
+      <span class="cover-label">Media Partner</span>
+      <div class="partner-logos">
+        <a href="https://metroquadrado.com" target="_blank" rel="noopener noreferrer" class="cover-mp" aria-label="Metro Quadrado — O Brazil Journal do mercado imobiliário">
+          <img class="cover-mp-logo" src="img/logos/metro-quadrado.png" alt="Metro Quadrado — O Brazil Journal do mercado imobiliário" loading="lazy">
+        </a>
+      </div>
     </div>
   </div>
   <div class="cover-wm"><span class="cc">BR</span><span class="s">/</span><span class="cc">USA</span></div>
@@ -1888,6 +1929,36 @@
     <div class="speakers-track">
         <div class="speaker-card">
           <div class="speaker-corners">
+            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
+            <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
+          </div>
+          <div class="speaker-photo">
+            <span class="speaker-initials">EG</span>
+            <img src="img/speakers/edward-glaeser.jpg" alt="Edward Glaeser" loading="lazy" onerror="this.remove();">
+          </div>
+          <div class="speaker-name">Edward Glaeser</div>
+          <div class="speaker-company"><span data-lang="en">Harvard</span><span data-lang="pt">Harvard</span></div>
+          <div class="speaker-cargo"><span data-lang="en">Professor of Economics</span><span data-lang="pt">Professor de Economia</span></div>
+          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/harvard.png" alt="Harvard" loading="lazy" onerror="this.style.visibility='hidden';"></div>
+          <div class="speaker-panel"><span data-lang="en">Author · Triumph of the City</span><span data-lang="pt">Autor · Triumph of the City</span></div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-corners">
+            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
+            <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
+          </div>
+          <div class="speaker-photo">
+            <span class="speaker-initials">AB</span>
+            <img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();">
+          </div>
+          <div class="speaker-name">Alain Bertaud</div>
+          <div class="speaker-company"><span data-lang="en">Mercatus Center</span><span data-lang="pt">Mercatus Center</span></div>
+          <div class="speaker-cargo"><span data-lang="en">Distinguished Visiting Fellow, George Mason University</span><span data-lang="pt">Distinguished Visiting Fellow, George Mason University</span></div>
+          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/mercatus.png" alt="Mercatus Center" loading="lazy" onerror="this.style.visibility='hidden';"></div>
+          <div class="speaker-panel"><span data-lang="en">Author · Order Without Design</span><span data-lang="pt">Autor · Order Without Design</span></div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-corners">
             <span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span>
             <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
           </div>
@@ -1915,36 +1986,6 @@
           <div class="speaker-cargo"><span data-lang="en">Real Estate</span><span data-lang="pt">Real Estate</span></div>
           <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/jhsf.png" alt="JHSF" loading="lazy" onerror="this.style.visibility='hidden';"></div>
           <div class="speaker-panel"><span data-lang="en">Keynote · Founding Partner</span><span data-lang="pt">Keynote · Founding Partner</span></div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-corners">
-            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
-            <img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24">
-          </div>
-          <div class="speaker-photo">
-            <span class="speaker-initials">GB</span>
-            <img src="img/speakers/guilherme-bonini.jpg" alt="Guilherme Bonini" loading="lazy" onerror="this.remove();">
-          </div>
-          <div class="speaker-name">Guilherme Bonini</div>
-          <div class="speaker-company"><span data-lang="en">Longitude Incorporadora</span><span data-lang="pt">Longitude Incorporadora</span></div>
-          <div class="speaker-cargo"><span data-lang="en">Founder & CEO</span><span data-lang="pt">Fundador & CEO</span></div>
-          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/longitude.png" alt="Longitude Incorporadora" loading="lazy" onerror="this.style.visibility='hidden';"></div>
-          <div class="speaker-panel"><span data-lang="en">Panel 1 — Affordable Housing</span><span data-lang="pt">Painel 1 — Habitação Acessível</span></div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-corners">
-            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
-            <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
-          </div>
-          <div class="speaker-photo">
-            <span class="speaker-initials">LG</span>
-            <img src="img/speakers/lisa-gomez.jpg" alt="Lisa Gomez" loading="lazy" onerror="this.remove();">
-          </div>
-          <div class="speaker-name">Lisa Gomez</div>
-          <div class="speaker-company"><span data-lang="en">L+M Development Partners</span><span data-lang="pt">L+M Development Partners</span></div>
-          <div class="speaker-cargo"><span data-lang="en">CEO</span><span data-lang="pt">CEO</span></div>
-          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/l-and-m.png" alt="L+M Development Partners" loading="lazy" onerror="this.style.visibility='hidden';"></div>
-          <div class="speaker-panel"><span data-lang="en">Panel 1 — Affordable Housing</span><span data-lang="pt">Painel 1 — Habitação Acessível</span></div>
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
@@ -2218,6 +2259,36 @@
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
+            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
+            <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
+          </div>
+          <div class="speaker-photo">
+            <span class="speaker-initials">EG</span>
+            <img src="img/speakers/edward-glaeser.jpg" alt="Edward Glaeser" loading="lazy" onerror="this.remove();">
+          </div>
+          <div class="speaker-name">Edward Glaeser</div>
+          <div class="speaker-company"><span data-lang="en">Harvard</span><span data-lang="pt">Harvard</span></div>
+          <div class="speaker-cargo"><span data-lang="en">Professor of Economics</span><span data-lang="pt">Professor de Economia</span></div>
+          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/harvard.png" alt="Harvard" loading="lazy" onerror="this.style.visibility='hidden';"></div>
+          <div class="speaker-panel"><span data-lang="en">Author · Triumph of the City</span><span data-lang="pt">Autor · Triumph of the City</span></div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-corners">
+            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
+            <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
+          </div>
+          <div class="speaker-photo">
+            <span class="speaker-initials">AB</span>
+            <img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();">
+          </div>
+          <div class="speaker-name">Alain Bertaud</div>
+          <div class="speaker-company"><span data-lang="en">Mercatus Center</span><span data-lang="pt">Mercatus Center</span></div>
+          <div class="speaker-cargo"><span data-lang="en">Distinguished Visiting Fellow, George Mason University</span><span data-lang="pt">Distinguished Visiting Fellow, George Mason University</span></div>
+          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/mercatus.png" alt="Mercatus Center" loading="lazy" onerror="this.style.visibility='hidden';"></div>
+          <div class="speaker-panel"><span data-lang="en">Author · Order Without Design</span><span data-lang="pt">Autor · Order Without Design</span></div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-corners">
             <span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span>
             <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
           </div>
@@ -2245,36 +2316,6 @@
           <div class="speaker-cargo"><span data-lang="en">Real Estate</span><span data-lang="pt">Real Estate</span></div>
           <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/jhsf.png" alt="JHSF" loading="lazy" onerror="this.style.visibility='hidden';"></div>
           <div class="speaker-panel"><span data-lang="en">Keynote · Founding Partner</span><span data-lang="pt">Keynote · Founding Partner</span></div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-corners">
-            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
-            <img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24">
-          </div>
-          <div class="speaker-photo">
-            <span class="speaker-initials">GB</span>
-            <img src="img/speakers/guilherme-bonini.jpg" alt="Guilherme Bonini" loading="lazy" onerror="this.remove();">
-          </div>
-          <div class="speaker-name">Guilherme Bonini</div>
-          <div class="speaker-company"><span data-lang="en">Longitude Incorporadora</span><span data-lang="pt">Longitude Incorporadora</span></div>
-          <div class="speaker-cargo"><span data-lang="en">Founder & CEO</span><span data-lang="pt">Fundador & CEO</span></div>
-          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/longitude.png" alt="Longitude Incorporadora" loading="lazy" onerror="this.style.visibility='hidden';"></div>
-          <div class="speaker-panel"><span data-lang="en">Panel 1 — Affordable Housing</span><span data-lang="pt">Painel 1 — Habitação Acessível</span></div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-corners">
-            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
-            <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
-          </div>
-          <div class="speaker-photo">
-            <span class="speaker-initials">LG</span>
-            <img src="img/speakers/lisa-gomez.jpg" alt="Lisa Gomez" loading="lazy" onerror="this.remove();">
-          </div>
-          <div class="speaker-name">Lisa Gomez</div>
-          <div class="speaker-company"><span data-lang="en">L+M Development Partners</span><span data-lang="pt">L+M Development Partners</span></div>
-          <div class="speaker-cargo"><span data-lang="en">CEO</span><span data-lang="pt">CEO</span></div>
-          <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/l-and-m.png" alt="L+M Development Partners" loading="lazy" onerror="this.style.visibility='hidden';"></div>
-          <div class="speaker-panel"><span data-lang="en">Panel 1 — Affordable Housing</span><span data-lang="pt">Painel 1 — Habitação Acessível</span></div>
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
