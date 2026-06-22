@@ -95,6 +95,12 @@
     .savebar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:1rem;justify-content:flex-end;
       padding:0.7rem 1.2rem;background:rgba(22,22,22,0.95);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
     .err-msg{color:var(--err);font-family:'JetBrains Mono',monospace;font-size:0.72rem;margin-top:0.7rem;min-height:1em}
+    .panel-tabs{display:flex;gap:0;margin-bottom:1.4rem;border-bottom:2px solid var(--line);overflow-x:auto}
+    .ptab{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;
+      padding:0.55rem 1.1rem;border:none;background:transparent;color:var(--tgray);cursor:pointer;white-space:nowrap;
+      border-bottom:2px solid transparent;margin-bottom:-2px;transition:.12s}
+    .ptab:hover{color:var(--white)}
+    .ptab.active{color:var(--white);border-bottom-color:var(--ultra)}
   </style>
 </head>
 <body>
@@ -161,6 +167,7 @@ function setPath(obj, path, val){
 let data = { version:1, panels:[], speakers:[] };
 let dirty = false;
 let speakerFilter = '';
+let activePanelIdx = 0;
 
 function markDirty(){ dirty=true; $('#save').disabled=false; setStatus('alterações não salvas','dirty'); }
 function setStatus(txt, cls=''){ const s=$('#status'); s.textContent=txt; s.className='status '+cls; }
@@ -195,6 +202,7 @@ async function loadData(){
     data = await api('/api/data');
     data.panels = data.panels||[]; data.speakers = data.speakers||[];
     dirty=false; $('#save').disabled=true;
+    migratePanelSpeakers();
     renderPanels(); renderSpeakers();
     setStatus(data.updatedAt ? 'salvo '+fmtTime(data.updatedAt) : 'pronto','ok');
   }catch(err){ setStatus('erro ao carregar','err'); alert('Não consegui carregar os dados: '+err.message); }
@@ -230,8 +238,12 @@ function onFieldInput(e){
   const val = t.type==='checkbox' ? t.checked : t.value;
   setPath(data, p, val);
   markDirty();
-  if (t.dataset.live==='ttl'){ // keep card title in sync
+  if (t.dataset.live==='ttl'){
     const card=t.closest('.card'); if(card){ const ttl=card.querySelector('.ttl'); if(ttl) ttl.textContent=val||'(sem nome)'; }
+  }
+  if (t.dataset.live==='ptab'){
+    const activeTab=document.querySelector('.ptab.active');
+    if(activeTab){ const pn=data.panels[activePanelIdx]; activeTab.textContent=(pn&&pn.tag&&(pn.tag.pt||pn.tag.en))||`Painel ${activePanelIdx+1}`; }
   }
 }
 document.addEventListener('input', onFieldInput);
@@ -248,40 +260,62 @@ function biField(label, base){
 /* ================= PANELS ================= */
 function renderPanels(){
   const root=$('#view-panels');
-  root.innerHTML = `<div class="section-head"><h2>Painéis</h2><span class="count">${data.panels.length} painéis</span></div>`;
+  root.innerHTML='';
+  if(!data.panels.length) return;
+
+  // ---- tab bar ----
+  const tabBar=el(`<div class="panel-tabs"></div>`);
   data.panels.forEach((p,pi)=>{
-    const card=el(`<div class="card" data-pi="${pi}">
-      <div class="card-top">
-        <span class="tag">${esc((p.tag&&p.tag.pt)||'Painel')}</span>
-        <span class="ttl">${esc((p.title&&p.title.pt)|| '(sem título)')}</span>
-        <span class="mono" style="color:var(--dgray);font-size:0.62rem">${esc(p.time||'')}</span>
-      </div></div>`);
-    const body=el(`<div></div>`);
-    body.innerHTML =
-      `<div class="row c2">
-         <div class="field"><label class="fl">Etiqueta (tag)</label><div class="bi">
-            <input type="text" data-bind="panels.${pi}.tag.en" value="${esc(getPath(data,'panels.'+pi+'.tag.en'))}" placeholder="EN">
-            <input type="text" data-bind="panels.${pi}.tag.pt" value="${esc(getPath(data,'panels.'+pi+'.tag.pt'))}" placeholder="PT"></div></div>
-         <div class="field"><label class="fl">Horário</label>
-            <input type="text" data-bind="panels.${pi}.time" value="${esc(p.time||'')}" placeholder="9:15 – 10:05"></div>
-       </div>`
-      + biFieldTitled('Título do painel', 'panels.'+pi+'.title', 'ttl')
-      + biTextarea('Descrição', 'panels.'+pi+'.desc');
-    // speakers of the panel
-    const spkWrap=el(`<div class="field"><label class="fl">Speakers do painel</label><div class="spk-rows"></div>
-      <div style="margin-top:0.6rem"><button class="btn sm" data-action="panel-add-spk" data-pi="${pi}">+ adicionar speaker</button></div></div>`);
-    const rowsBox=spkWrap.querySelector('.spk-rows');
-    (p.speakers||[]).forEach((s,si)=> rowsBox.appendChild(panelSpeakerRow(pi,si,s)));
-    body.appendChild(spkWrap);
-    card.appendChild(body);
-    root.appendChild(card);
+    const lbl=(p.tag&&(p.tag.pt||p.tag.en))||`Painel ${pi+1}`;
+    const btn=el(`<button class="ptab ${pi===activePanelIdx?'active':''}" data-pti="${pi}">${esc(lbl)}</button>`);
+    btn.addEventListener('click',()=>{ activePanelIdx=pi; renderPanels(); });
+    tabBar.appendChild(btn);
   });
+  root.appendChild(tabBar);
+
+  const p=data.panels[activePanelIdx];
+  const pi=activePanelIdx;
+
+  // ---- panel fields ----
+  const body=el(`<div></div>`);
+  body.innerHTML=
+    `<div class="row c2">
+       <div class="field"><label class="fl">Etiqueta (tag)</label><div class="bi">
+          <input type="text" data-bind="panels.${pi}.tag.en" value="${esc(getPath(data,'panels.'+pi+'.tag.en'))}" placeholder="EN" data-live="ptab">
+          <input type="text" data-bind="panels.${pi}.tag.pt" value="${esc(getPath(data,'panels.'+pi+'.tag.pt'))}" placeholder="PT" data-live="ptab"></div></div>
+       <div class="field"><label class="fl">Horário</label>
+          <input type="text" data-bind="panels.${pi}.time" value="${esc(p.time||'')}" placeholder="9:15 – 10:05"></div>
+     </div>`
+    +biField('Título do painel','panels.'+pi+'.title')
+    +biTextarea('Descrição','panels.'+pi+'.desc');
+
+  // ---- speakers ----
+  const activeSpeakers=data.speakers.filter(s=>s.active!==false);
+  const spkOpts=activeSpeakers.map(sp=>`<option value="${esc(sp.id)}">${esc((sp.name&&sp.name.en)||sp.id)} — ${esc((sp.company&&sp.company.en)||'')}</option>`).join('');
+  const spkWrap=el(`<div class="field">
+    <label class="fl">Speakers do painel</label>
+    <div class="spk-rows" id="pspk-rows-${pi}"></div>
+    <div style="margin-top:0.7rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+      <select id="panel-spk-pick" style="flex:1;min-width:180px;max-width:320px">
+        <option value="">— escolher speaker —</option>${spkOpts}
+      </select>
+      <button class="btn sm" data-action="panel-add-spk" data-pi="${pi}">+ adicionar</button>
+    </div>
+  </div>`);
+  const rowsBox=spkWrap.querySelector(`#pspk-rows-${pi}`);
+  (p.speakers||[]).forEach((s,si)=>rowsBox.appendChild(panelSpeakerRow(pi,si,s)));
+  body.appendChild(spkWrap);
+  root.appendChild(body);
 }
-function biFieldTitled(label, base, live){
+
+function biField(label, base){
   return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
     <input type="text" placeholder="EN" data-bind="${base}.en" value="${esc(getPath(data,base+'.en'))}">
-    <input type="text" placeholder="PT" ${live?`data-live="${live}"`:''} data-bind="${base}.pt" value="${esc(getPath(data,base+'.pt'))}">
+    <input type="text" placeholder="PT" data-bind="${base}.pt" value="${esc(getPath(data,base+'.pt'))}">
   </div></div>`;
+}
+function biFieldTitled(label, base){
+  return biField(label, base);
 }
 function biTextarea(label, base){
   return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
@@ -289,32 +323,30 @@ function biTextarea(label, base){
     <textarea placeholder="PT" data-bind="${base}.pt">${esc(getPath(data,base+'.pt'))}</textarea>
   </div></div>`;
 }
+
 function panelSpeakerRow(pi,si,s){
   const base=`panels.${pi}.speakers.${si}`;
-  const opts = data.speakers.map(sp=>`<option value="${esc(sp.id)}">${esc((sp.name&&sp.name.en)|| sp.id)} — ${esc((sp.company&&sp.company.en)||'')}</option>`).join('');
+  // resolve speaker: by speakerId (new format) or by photo URL (legacy migration)
+  let sp=null;
+  if(s.speakerId) sp=data.speakers.find(x=>x.id===s.speakerId);
+  if(!sp && s.photo){ sp=data.speakers.find(x=>x.photo===s.photo); if(sp) s.speakerId=sp.id; }
+  const name=sp?((sp.name&&sp.name.en)||sp.id):((s.name&&s.name.en)||'(sem nome)');
+  const sub=sp?((sp.company&&sp.company.en)||(sp.cargo&&sp.cargo.en)||''):((s.role&&s.role.en)||'');
+  const photo=sp?(sp.photo||''):(s.photo||'');
+  const initials=sp?(sp.initials||''):'';
   const row=el(`<div class="spk-row" data-pi="${pi}" data-si="${si}">
     <div class="hdr">
-      <div class="avatar">${s.photo?`<img src="${esc(s.photo)}" onerror="this.remove()">`:'•'}</div>
-      <span class="nm mono">#${si+1}</span>
-      <label class="chk"><input type="checkbox" data-bind="${base}.tbd" ${s.tbd?'checked':''}> A confirmar (TBD)</label>
+      <div class="avatar">${photo?`<img src="${esc(photo)}" onerror="this.remove()">`:(initials?esc(initials):'•')}</div>
+      <div style="flex:1;min-width:0;overflow:hidden">
+        <div style="font-size:0.88rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(name)}</div>
+        <div style="font-size:0.68rem;color:var(--tgray);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(sub)}</div>
+      </div>
+      ${!sp?`<span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--warn);flex-shrink:0">⚠ não vinculado</span>`:''}
+      <label class="chk"><input type="checkbox" data-bind="${base}.tbd" ${s.tbd?'checked':''}> TBD</label>
       <div class="toolbar">
         <button class="btn sm" data-action="pspk-up" data-pi="${pi}" data-si="${si}">↑</button>
         <button class="btn sm" data-action="pspk-down" data-pi="${pi}" data-si="${si}">↓</button>
         <button class="btn sm danger" data-action="pspk-del" data-pi="${pi}" data-si="${si}">remover</button>
-      </div>
-    </div>
-    <div class="field" style="margin-bottom:0.6rem">
-      <label class="fl">Preencher a partir de um speaker do carrossel</label>
-      <select data-action="pspk-pick" data-pi="${pi}" data-si="${si}"><option value="">— escolher —</option>${opts}</select>
-    </div>
-    ${biFieldTitled('Nome', base+'.name')}
-    ${biFieldTitled('Cargo / papel (role)', base+'.role')}
-    <div class="field"><label class="fl">Foto (URL) — ou faça upload</label>
-      <div class="upl">
-        <span class="thumb" style="${s.photo?`background-image:url('${esc(s.photo)}')`:''}"></span>
-        <input type="text" data-bind="${base}.photo" value="${esc(s.photo||'')}" placeholder="img/speakers/...jpg ou URL">
-        <button class="btn sm" data-action="upload" data-target="${base}.photo">upload</button>
-        <input type="file" accept="image/*" data-file="${base}.photo">
       </div>
     </div>
   </div>`);
@@ -409,23 +441,17 @@ document.addEventListener('click', async (e)=>{
   if(a==='spk-down'){ if(si<data.speakers.length-1){ swap(data.speakers,si,si+1); markDirty(); renderSpeakers(); } return; }
 
   // panel speaker ops
-  if(a==='panel-add-spk'){ data.panels[pi].speakers=data.panels[pi].speakers||[]; data.panels[pi].speakers.push(newPanelSpeaker()); markDirty(); renderPanels(); return; }
+  if(a==='panel-add-spk'){
+    const sel=$('#panel-spk-pick'); const speakerId=sel?sel.value:'';
+    data.panels[pi].speakers=data.panels[pi].speakers||[];
+    data.panels[pi].speakers.push({speakerId:speakerId||null,tbd:!speakerId});
+    markDirty(); renderPanels(); return;
+  }
   if(a==='pspk-del'){ data.panels[pi].speakers.splice(si,1); markDirty(); renderPanels(); return; }
   if(a==='pspk-up'){ if(si>0){ swap(data.panels[pi].speakers,si,si-1); markDirty(); renderPanels(); } return; }
   if(a==='pspk-down'){ const arr=data.panels[pi].speakers; if(si<arr.length-1){ swap(arr,si,si+1); markDirty(); renderPanels(); } return; }
 });
 
-// "pick from speaker" select autofills a panel-speaker row
-document.addEventListener('change', (e)=>{
-  const sel=e.target.closest('[data-action="pspk-pick"]'); if(!sel) return;
-  const pi=Number(sel.dataset.pi), si=Number(sel.dataset.si), id=sel.value; if(!id) return;
-  const sp=data.speakers.find(x=>x.id===id); if(!sp) return;
-  const row=data.panels[pi].speakers[si];
-  row.name={en:(sp.name&&sp.name.en)||'',pt:(sp.name&&sp.name.pt)||''};
-  row.role={en:(sp.company&&sp.company.en)||'',pt:(sp.company&&sp.company.pt)||''};
-  row.photo=sp.photo||''; row.tbd=false;
-  markDirty(); renderPanels();
-});
 
 // file uploads
 document.addEventListener('change', async (e)=>{
@@ -449,6 +475,18 @@ function uid(){ return 'spk-'+Math.random().toString(36).slice(2,8); }
 function newSpeaker(){ return { id:uid(), active:true, badge:'tbd', flag:'us', initials:'', photo:'', logo:'',
   name:{en:'',pt:''}, company:{en:'',pt:''}, cargo:{en:'',pt:''}, panelLabel:{en:'',pt:''} }; }
 function newPanelSpeaker(){ return { photo:'', name:{en:'',pt:''}, role:{en:'',pt:''}, tbd:true }; }
+
+/* Auto-migrate legacy panel speakers (old format had name/role/photo inline).
+   Match by photo URL to find the speaker ID. Runs once after loadData(). */
+function migratePanelSpeakers(){
+  const byPhoto={};
+  data.speakers.forEach(s=>{ if(s.photo) byPhoto[s.photo]=s.id; });
+  data.panels.forEach(panel=>{
+    (panel.speakers||[]).forEach(s=>{
+      if(!s.speakerId && s.photo && byPhoto[s.photo]) s.speakerId=byPhoto[s.photo];
+    });
+  });
+}
 
 boot();
 </script>

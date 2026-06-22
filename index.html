@@ -4845,18 +4845,22 @@ function setLang(lang) {
     track.innerHTML=html+html; // duplicate so the translateX(-50%) loop is seamless
   }
 
-  function scheduleRow(s){
+  function scheduleRow(s, speakersById){
     s=s||{};
-    var tbd=s.tbd && !((s.name||{}).en);
-    var name=tbd?{en:'(TBD)',pt:'(a confirmar)'}:(s.name||{en:'',pt:''});
-    var avatar=s.photo
-      ?'<div class="schedule-speaker-avatar"><img src="'+esc(s.photo)+'" alt="'+esc(name.en||'')+'" loading="lazy" onerror="this.remove();"></div>'
+    var sp=(s.speakerId && speakersById && speakersById[s.speakerId])||null;
+    var name=sp?(sp.name||{en:'',pt:''}):(s.tbd&&!((s.name||{}).en)?{en:'(TBD)',pt:'(a confirmar)'}:(s.name||{en:'',pt:''}));
+    var photo=sp?(sp.photo||''):(s.photo||'');
+    var roleObj=sp?(sp.cargo||sp.company||{}):(s.role||{});
+    var avatar=photo
+      ?'<div class="schedule-speaker-avatar"><img src="'+esc(photo)+'" alt="'+esc(name.en||'')+'" loading="lazy" onerror="this.remove();"></div>'
       :'<div class="schedule-speaker-avatar"></div>';
-    var role=(s.role&&((s.role.en||'')||(s.role.pt||'')))?pairSpan('speaker-role',s.role):'';
+    var role=(roleObj&&((roleObj.en||'')||(roleObj.pt||'')))?pairSpan('speaker-role',roleObj):'';
     return '<div class="schedule-speaker">'+avatar+pairSpan('speaker-name',name)+role+'</div>';
   }
 
-  function hydrateSchedule(panels){
+  function hydrateSchedule(panels, speakers){
+    var speakersById={};
+    (speakers||[]).forEach(function(s){ if(s.id) speakersById[s.id]=s; });
     panels.forEach(function(p){
       var item=document.querySelector('.schedule-item[data-sched="'+p.slot+'"]');
       if(!item) return;
@@ -4880,7 +4884,7 @@ function setLang(lang) {
       }
       var wrap=item.querySelector('.schedule-speakers');
       if(!wrap){ wrap=document.createElement('div'); wrap.className='schedule-speakers'; item.appendChild(wrap); }
-      wrap.innerHTML=(p.speakers||[]).map(scheduleRow).join('');
+      wrap.innerHTML=(p.speakers||[]).map(function(s){ return scheduleRow(s, speakersById); }).join('');
     });
   }
 
@@ -4889,7 +4893,7 @@ function setLang(lang) {
     .then(function(d){
       if(!d) return;
       try{ if(Array.isArray(d.speakers)) hydrateCarousel(d.speakers); }catch(e){ console.error('carousel hydrate',e); }
-      try{ if(Array.isArray(d.panels)) hydrateSchedule(d.panels); }catch(e){ console.error('schedule hydrate',e); }
+      try{ if(Array.isArray(d.panels)) hydrateSchedule(d.panels, d.speakers||[]); }catch(e){ console.error('schedule hydrate',e); }
     })
     .catch(function(){ /* offline / static preview: keep seed markup */ });
 })();
