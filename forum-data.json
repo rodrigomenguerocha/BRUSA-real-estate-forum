@@ -1,0 +1,1486 @@
+{
+  "version": 1,
+  "updatedAt": null,
+  "panels": [
+    {
+      "id": "panel-3",
+      "slot": 3,
+      "tag": {
+        "en": "Panel 1",
+        "pt": "Painel 1"
+      },
+      "time": "9:15 – 10:05",
+      "title": {
+        "en": "The Urban Condition: Cities, Land Markets & Legibility",
+        "pt": "A Condição Urbana: Cidades, Mercados de Terra e Legibilidade"
+      },
+      "desc": {
+        "en": "Cities take shape from land markets, regulation, and prices long before any master plan. A dialogue on how those forces produce urban form, and why a legible land market is the precondition for everything else.",
+        "pt": "As cidades se formam a partir de mercados de terra, regulação e preços muito antes de qualquer plano diretor. Um diálogo sobre como essas forças produzem a forma urbana, e por que um mercado de terras legível é a precondição para todo o resto."
+      },
+      "speakers": [
+        {
+          "photo": "img/speakers/alain-bertaud.jpg",
+          "name": {
+            "en": "Alain Bertaud",
+            "pt": "Alain Bertaud"
+          },
+          "role": {
+            "en": "NYU Marron Institute — Senior Research Scholar",
+            "pt": "NYU Marron Institute — Senior Research Scholar"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "img/speakers/edward-glaeser.jpg",
+          "name": {
+            "en": "Edward Glaeser",
+            "pt": "Edward Glaeser"
+          },
+          "role": {
+            "en": "Harvard University — Glimp Professor of Economics",
+            "pt": "Harvard University — Glimp Professor of Economics"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Moderator",
+            "pt": "Moderador"
+          },
+          "tbd": true
+        }
+      ]
+    },
+    {
+      "id": "panel-5",
+      "slot": 5,
+      "tag": {
+        "en": "Panel 2",
+        "pt": "Painel 2"
+      },
+      "time": "10:25 – 11:15",
+      "title": {
+        "en": "Data, Transparency & Risk Assessment",
+        "pt": "Dados, Transparência e Avaliação de Risco"
+      },
+      "desc": {
+        "en": "Capital underwrites what it can measure. Brazil still lacks a standardized data layer for real estate — no local CoStar or MSCI — so cross-border risk stays hard to price. What would make the market measurable?",
+        "pt": "O capital avalia o que consegue medir. O Brasil ainda não tem uma camada de dados padronizada para o mercado imobiliário — sem um CoStar ou MSCI local — então o risco cross-border continua difícil de precificar. O que tornaria o mercado mensurável?"
+      },
+      "speakers": [
+        {
+          "photo": "img/speakers/joao-vianna.jpg",
+          "name": {
+            "en": "João Vianna",
+            "pt": "João Vianna"
+          },
+          "role": {
+            "en": "Loft / Invisto",
+            "pt": "Loft / Invisto"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "img/speakers/flavia-tissot.jpg",
+          "name": {
+            "en": "Flávia Tissot",
+            "pt": "Flávia Tissot"
+          },
+          "role": {
+            "en": "OSPA Capital",
+            "pt": "OSPA Capital"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "img/speakers/costar-group.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "CoStar Group",
+            "pt": "CoStar Group"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "",
+            "pt": ""
+          },
+          "tbd": true
+        }
+      ]
+    },
+    {
+      "id": "panel-7",
+      "slot": 7,
+      "tag": {
+        "en": "Panel 3",
+        "pt": "Painel 3"
+      },
+      "time": "11:25 – 12:15",
+      "title": {
+        "en": "Public–Private Development: Models, Risk & Governance",
+        "pt": "Desenvolvimento Público–Privado: Modelos, Risco e Governança"
+      },
+      "desc": {
+        "en": "Public–private development moves the largest projects and the hardest to govern. How São Paulo and New York split risk between state and market, and which governance signals institutional capital actually trusts.",
+        "pt": "O desenvolvimento público–privado move os maiores projetos e os mais difíceis de governar. Como São Paulo e Nova York dividem o risco entre Estado e mercado, e em quais sinais de governança o capital institucional realmente confia."
+      },
+      "speakers": [
+        {
+          "photo": "img/speakers/nyc-edc.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "NYC Economic Development Corporation",
+            "pt": "NYC Economic Development Corporation"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/sp-urbanismo.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "SP Urbanismo",
+            "pt": "SP Urbanismo"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/related-group.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Related Group",
+            "pt": "Related Group"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/big.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Bjarke Ingels Group (BIG)",
+            "pt": "Bjarke Ingels Group (BIG)"
+          },
+          "tbd": true
+        }
+      ]
+    },
+    {
+      "id": "panel-9",
+      "slot": 9,
+      "tag": {
+        "en": "Panel 4",
+        "pt": "Painel 4"
+      },
+      "time": "13:30 – 14:20",
+      "title": {
+        "en": "Residential Product: Patrimonial, Multifamily & Architecture",
+        "pt": "Produto Residencial: Patrimonial, Multifamily e Arquitetura"
+      },
+      "desc": {
+        "en": "Brazil builds homes to sell and to hold. The US builds them to rent and to operate at institutional scale. Architecture and quality decide whether either kind lasts. This panel looks at what the patrimonial and multifamily models can take from each other.",
+        "pt": "O Brasil constrói para vender e guardar. Os EUA constroem para alugar e operar em escala institucional. Arquitetura e qualidade definem se um e outro duram. O painel olha o que os modelos patrimonialista e multifamily têm a aprender entre si."
+      },
+      "speakers": [
+        {
+          "photo": "img/speakers/jhsf.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "JHSF",
+            "pt": "JHSF"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/roman-vinoly.jpg",
+          "name": {
+            "en": "Roman Viñoly",
+            "pt": "Roman Viñoly"
+          },
+          "role": {
+            "en": "Viñoly Architects",
+            "pt": "Viñoly Architects"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "img/speakers/anthony-russo.jpg",
+          "name": {
+            "en": "Anthony Russo",
+            "pt": "Anthony Russo"
+          },
+          "role": {
+            "en": "CSFG",
+            "pt": "CSFG"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "img/speakers/cristiano-viola.jpg",
+          "name": {
+            "en": "Cristiano Viola",
+            "pt": "Cristiano Viola"
+          },
+          "role": {
+            "en": "Greystar Brazil — Multifamily",
+            "pt": "Greystar Brazil — Multifamily"
+          },
+          "tbd": false
+        }
+      ]
+    },
+    {
+      "id": "panel-11",
+      "slot": 11,
+      "tag": {
+        "en": "Panel 5",
+        "pt": "Painel 5"
+      },
+      "time": "14:35 – 15:25",
+      "title": {
+        "en": "Development at Scale: The Sponsor–Developer Model",
+        "pt": "Desenvolvimento em Escala: O Modelo Sponsor–Developer"
+      },
+      "desc": {
+        "en": "Every large project has a structure behind it: a sponsor, a developer, and the capital that backs them. The US has turned this into a discipline; Brazil is still assembling it. How the sponsor–developer model actually works, and what Brazil can take from it.",
+        "pt": "Todo grande projeto tem uma estrutura por trás: um sponsor, um developer e o capital que os sustenta. Os EUA transformaram isso em disciplina; o Brasil ainda está montando a sua. Como o modelo sponsor–developer funciona de fato, e o que o Brasil pode aprender com ele."
+      },
+      "speakers": [
+        {
+          "photo": "",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Developer · US",
+            "pt": "Developer · EUA"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/douglas-strabelli.jpg",
+          "name": {
+            "en": "Douglas Strabelli",
+            "pt": "Douglas Strabelli"
+          },
+          "role": {
+            "en": "Sagewood Corporation · Developer (Brazil)",
+            "pt": "Sagewood Corporation · Developer (Brasil)"
+          },
+          "tbd": false
+        },
+        {
+          "photo": "",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Sponsor / Capital Partner",
+            "pt": "Sponsor / Parceiro de Capital"
+          },
+          "tbd": true
+        }
+      ]
+    },
+    {
+      "id": "panel-13",
+      "slot": 13,
+      "tag": {
+        "en": "Panel 6",
+        "pt": "Painel 6"
+      },
+      "time": "15:35 – 16:25",
+      "title": {
+        "en": "Capital Stack: US vs. Brazil — What Is Changing",
+        "pt": "Capital Stack: EUA vs. Brasil — O que está Mudando"
+      },
+      "desc": {
+        "en": "The capital stacks behind a US deal and a Brazilian one still look very different in cost, in tenor, and in who sits at each layer. A direct comparison of how both are built today, and what is starting to shift as global allocators look south.",
+        "pt": "O capital stack por trás de um deal americano e de um brasileiro ainda é muito diferente em custo, em prazo e em quem ocupa cada camada. Uma comparação direta de como os dois se montam hoje, e o que começa a mudar à medida que alocadores globais olham para o Sul."
+      },
+      "speakers": [
+        {
+          "photo": "img/speakers/btg-pactual.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "BTG Pactual",
+            "pt": "BTG Pactual"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/galapagos-capital.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Galapagos Capital",
+            "pt": "Galapagos Capital"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/blackstone.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Blackstone",
+            "pt": "Blackstone"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/cbre.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "CBRE · Moderator",
+            "pt": "CBRE · Moderador"
+          },
+          "tbd": true
+        }
+      ]
+    }
+  ],
+  "speakers": [
+    {
+      "id": "edward-glaeser",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "EG",
+      "photo": "img/speakers/edward-glaeser.jpg",
+      "name": {
+        "en": "Edward Glaeser",
+        "pt": "Edward Glaeser"
+      },
+      "company": {
+        "en": "Harvard",
+        "pt": "Harvard"
+      },
+      "cargo": {
+        "en": "Professor of Economics",
+        "pt": "Professor de Economia"
+      },
+      "logo": "img/logos/harvard.png",
+      "panelLabel": {
+        "en": "Panel 1 — The Urban Condition",
+        "pt": "Painel 1 — A Condição Urbana"
+      }
+    },
+    {
+      "id": "alain-bertaud",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "AB",
+      "photo": "img/speakers/alain-bertaud.jpg",
+      "name": {
+        "en": "Alain Bertaud",
+        "pt": "Alain Bertaud"
+      },
+      "company": {
+        "en": "Mercatus Center",
+        "pt": "Mercatus Center"
+      },
+      "cargo": {
+        "en": "Distinguished Visiting Fellow, George Mason University",
+        "pt": "Distinguished Visiting Fellow, George Mason University"
+      },
+      "logo": "img/logos/mercatus.png",
+      "panelLabel": {
+        "en": "Panel 1 — The Urban Condition",
+        "pt": "Painel 1 — A Condição Urbana"
+      }
+    },
+    {
+      "id": "marc-norman",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "us",
+      "initials": "MN",
+      "photo": "img/speakers/marc-norman.jpg",
+      "name": {
+        "en": "Marc Norman",
+        "pt": "Marc Norman"
+      },
+      "company": {
+        "en": "NYU Schack",
+        "pt": "NYU Schack"
+      },
+      "cargo": {
+        "en": "Dean",
+        "pt": "Dean"
+      },
+      "logo": "img/logos/nyu-schack.png",
+      "panelLabel": {
+        "en": "Opening Remarks",
+        "pt": "Abertura"
+      }
+    },
+    {
+      "id": "jhsf",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "JH",
+      "photo": "img/speakers/jhsf.jpg",
+      "name": {
+        "en": "JHSF",
+        "pt": "JHSF"
+      },
+      "company": {
+        "en": "JHSF",
+        "pt": "JHSF"
+      },
+      "cargo": {
+        "en": "Real Estate",
+        "pt": "Real Estate"
+      },
+      "logo": "img/logos/jhsf.png",
+      "panelLabel": {
+        "en": "Panel 4 — Architecture & Patrimonial",
+        "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      }
+    },
+    {
+      "id": "renato-ochman",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "br",
+      "initials": "RO",
+      "photo": "img/speakers/renato-ochman.jpg",
+      "name": {
+        "en": "Renato Ochman",
+        "pt": "Renato Ochman"
+      },
+      "company": {
+        "en": "Ochman Advogados",
+        "pt": "Ochman Advogados"
+      },
+      "cargo": {
+        "en": "Partner / NYU Board",
+        "pt": "Sócio / Board NYU"
+      },
+      "logo": "img/logos/ochman.png",
+      "panelLabel": {
+        "en": "Advisor / Moderator",
+        "pt": "Conselheiro / Moderador"
+      }
+    },
+    {
+      "id": "rodrigo-rocha",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "br",
+      "initials": "RR",
+      "photo": "img/speakers/rodrigo-rocha.jpg",
+      "name": {
+        "en": "Rodrigo Rocha",
+        "pt": "Rodrigo Rocha"
+      },
+      "company": {
+        "en": "OSPA Capital",
+        "pt": "OSPA Capital"
+      },
+      "cargo": {
+        "en": "Partner",
+        "pt": "Sócio"
+      },
+      "logo": "img/logos/ospa-capital.png",
+      "panelLabel": {
+        "en": "Opening Remarks",
+        "pt": "Abertura"
+      }
+    },
+    {
+      "id": "pedro-martin-fernandes",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "PF",
+      "photo": "img/speakers/pedro-martin-fernandes.jpg",
+      "name": {
+        "en": "Pedro Martin Fernandes",
+        "pt": "Pedro Martin Fernandes"
+      },
+      "company": {
+        "en": "SP Urbanismo",
+        "pt": "SP Urbanismo"
+      },
+      "cargo": {
+        "en": "Presidente",
+        "pt": "Presidente"
+      },
+      "logo": "img/logos/sp-urbanismo.png",
+      "panelLabel": {
+        "en": "Panel 3 — Public–Private Development",
+        "pt": "Painel 3 — Desenvolvimento Público–Privado"
+      }
+    },
+    {
+      "id": "cristiano-viola",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "CV",
+      "photo": "img/speakers/cristiano-viola.jpg",
+      "name": {
+        "en": "Cristiano Viola",
+        "pt": "Cristiano Viola"
+      },
+      "company": {
+        "en": "Greystar Brazil",
+        "pt": "Greystar Brazil"
+      },
+      "cargo": {
+        "en": "COO",
+        "pt": "COO"
+      },
+      "logo": "img/logos/greystar.png",
+      "panelLabel": {
+        "en": "Panel 4 — Architecture & Patrimonial",
+        "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      }
+    },
+    {
+      "id": "douglas-strabelli",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "DS",
+      "photo": "img/speakers/douglas-strabelli.jpg",
+      "name": {
+        "en": "Douglas Strabelli",
+        "pt": "Douglas Strabelli"
+      },
+      "company": {
+        "en": "Sagewood Corporation",
+        "pt": "Sagewood Corporation"
+      },
+      "cargo": {
+        "en": "Founder & CEO",
+        "pt": "Fundador & CEO"
+      },
+      "logo": "img/logos/sagewood.png",
+      "panelLabel": {
+        "en": "Panel 5 — Development",
+        "pt": "Painel 5 — Desenvolvimento"
+      }
+    },
+    {
+      "id": "anthony-russo",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "AR",
+      "photo": "img/speakers/anthony-russo.jpg",
+      "name": {
+        "en": "Anthony Russo",
+        "pt": "Anthony Russo"
+      },
+      "company": {
+        "en": "CSFG",
+        "pt": "CSFG"
+      },
+      "cargo": {
+        "en": "Managing Principal",
+        "pt": "Managing Principal"
+      },
+      "logo": "img/logos/csfg.png",
+      "panelLabel": {
+        "en": "Panel 4 — Architecture & Patrimonial",
+        "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      }
+    },
+    {
+      "id": "cbre",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "CB",
+      "photo": "img/speakers/cbre.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "CBRE",
+        "pt": "CBRE"
+      },
+      "cargo": {
+        "en": "Moderator",
+        "pt": "Moderador"
+      },
+      "logo": "img/logos/cbre.png",
+      "panelLabel": {
+        "en": "Panel 6 — Moderator",
+        "pt": "Painel 6 — Moderador"
+      }
+    },
+    {
+      "id": "joao-vianna",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "JV",
+      "photo": "img/speakers/joao-vianna.jpg",
+      "name": {
+        "en": "João Vianna",
+        "pt": "João Vianna"
+      },
+      "company": {
+        "en": "Loft / Invisto",
+        "pt": "Loft / Invisto"
+      },
+      "cargo": {
+        "en": "Executive",
+        "pt": "Executivo"
+      },
+      "logo": "img/logos/invisto.png",
+      "panelLabel": {
+        "en": "Panel 2 — Data, Transparency & Risk",
+        "pt": "Painel 2 — Dados, Transparência & Risco"
+      }
+    },
+    {
+      "id": "rodrigo-machado",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "RM",
+      "photo": "img/speakers/rodrigo-machado.jpg",
+      "name": {
+        "en": "Rodrigo Machado",
+        "pt": "Rodrigo Machado"
+      },
+      "company": {
+        "en": "Galapagos Capital",
+        "pt": "Galapagos Capital"
+      },
+      "cargo": {
+        "en": "Partner",
+        "pt": "Sócio"
+      },
+      "logo": "img/logos/galapagos.png",
+      "panelLabel": {
+        "en": "Panel 6 — Capital Stack",
+        "pt": "Painel 6 — Capital Stack"
+      }
+    },
+    {
+      "id": "blackstone",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "BS",
+      "photo": "img/speakers/blackstone.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "Blackstone",
+        "pt": "Blackstone"
+      },
+      "cargo": {
+        "en": "Real Estate / BREIT",
+        "pt": "Real Estate / BREIT"
+      },
+      "logo": "img/logos/blackstone.png",
+      "panelLabel": {
+        "en": "Panel 6 — Capital Stack",
+        "pt": "Painel 6 — Capital Stack"
+      }
+    },
+    {
+      "id": "btg-pactual",
+      "active": true,
+      "badge": "tbd",
+      "flag": "br",
+      "initials": "BTG",
+      "photo": "img/speakers/btg-pactual.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "BTG Pactual",
+        "pt": "BTG Pactual"
+      },
+      "cargo": {
+        "en": "Asset Management",
+        "pt": "Gestão de Ativos"
+      },
+      "logo": "img/logos/btg.svg",
+      "panelLabel": {
+        "en": "Panel 6 — Capital Stack",
+        "pt": "Painel 6 — Capital Stack"
+      }
+    },
+    {
+      "id": "flavia-tissot",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "br",
+      "initials": "FT",
+      "photo": "img/speakers/flavia-tissot.jpg",
+      "name": {
+        "en": "Flávia Tissot",
+        "pt": "Flávia Tissot"
+      },
+      "company": {
+        "en": "OSPA Capital",
+        "pt": "OSPA Capital"
+      },
+      "cargo": {
+        "en": "Partner",
+        "pt": "Sócia"
+      },
+      "logo": "img/logos/ospa-capital.png",
+      "panelLabel": {
+        "en": "Panel 2 — Moderator",
+        "pt": "Painel 2 — Moderador"
+      }
+    },
+    {
+      "id": "christopher-gulotta",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "us",
+      "initials": "CG",
+      "photo": "img/speakers/christopher-gulotta.jpg",
+      "name": {
+        "en": "Christopher Gulotta",
+        "pt": "Christopher Gulotta"
+      },
+      "company": {
+        "en": "NYU Schack",
+        "pt": "NYU Schack"
+      },
+      "cargo": {
+        "en": "Professor",
+        "pt": "Professor"
+      },
+      "logo": "img/logos/nyu-schack.png",
+      "panelLabel": {
+        "en": "Panel 2 — Moderator",
+        "pt": "Painel 2 — Moderador"
+      }
+    },
+    {
+      "id": "the-related-group",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "RG",
+      "photo": "img/speakers/related-group.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "The Related Group",
+        "pt": "The Related Group"
+      },
+      "cargo": {
+        "en": "Jorge or Nick Pérez",
+        "pt": "Jorge ou Nick Pérez"
+      },
+      "logo": "img/logos/related.png",
+      "panelLabel": {
+        "en": "Panel 3 — Public–Private Development",
+        "pt": "Painel 3 — Desenvolvimento Público–Privado"
+      }
+    },
+    {
+      "id": "costar-group",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "CS",
+      "photo": "img/speakers/costar-group.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "CoStar Group",
+        "pt": "CoStar Group"
+      },
+      "cargo": {
+        "en": "VP Research / Economist",
+        "pt": "VP Research / Economista"
+      },
+      "logo": "img/logos/costar.png",
+      "panelLabel": {
+        "en": "Panel 2 — Data, Transparency & Risk",
+        "pt": "Painel 2 — Dados, Transparência & Risco"
+      }
+    },
+    {
+      "id": "nyc-edc",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "NY",
+      "photo": "img/speakers/nyc-edc.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "NYC EDC",
+        "pt": "NYC EDC"
+      },
+      "cargo": {
+        "en": "Senior Officer",
+        "pt": "Senior Officer"
+      },
+      "logo": "img/logos/nyc-edc.png",
+      "panelLabel": {
+        "en": "Panel 3 — Public–Private Development",
+        "pt": "Painel 3 — Desenvolvimento Público–Privado"
+      }
+    },
+    {
+      "id": "edward-glaeser-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "EG",
+      "photo": "img/speakers/edward-glaeser.jpg",
+      "name": {
+        "en": "Edward Glaeser",
+        "pt": "Edward Glaeser"
+      },
+      "company": {
+        "en": "Harvard",
+        "pt": "Harvard"
+      },
+      "cargo": {
+        "en": "Professor of Economics",
+        "pt": "Professor de Economia"
+      },
+      "logo": "img/logos/harvard.png",
+      "panelLabel": {
+        "en": "Panel 1 — The Urban Condition",
+        "pt": "Painel 1 — A Condição Urbana"
+      }
+    },
+    {
+      "id": "alain-bertaud-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "AB",
+      "photo": "img/speakers/alain-bertaud.jpg",
+      "name": {
+        "en": "Alain Bertaud",
+        "pt": "Alain Bertaud"
+      },
+      "company": {
+        "en": "Mercatus Center",
+        "pt": "Mercatus Center"
+      },
+      "cargo": {
+        "en": "Distinguished Visiting Fellow, George Mason University",
+        "pt": "Distinguished Visiting Fellow, George Mason University"
+      },
+      "logo": "img/logos/mercatus.png",
+      "panelLabel": {
+        "en": "Panel 1 — The Urban Condition",
+        "pt": "Painel 1 — A Condição Urbana"
+      }
+    },
+    {
+      "id": "marc-norman-2",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "us",
+      "initials": "MN",
+      "photo": "img/speakers/marc-norman.jpg",
+      "name": {
+        "en": "Marc Norman",
+        "pt": "Marc Norman"
+      },
+      "company": {
+        "en": "NYU Schack",
+        "pt": "NYU Schack"
+      },
+      "cargo": {
+        "en": "Dean",
+        "pt": "Dean"
+      },
+      "logo": "img/logos/nyu-schack.png",
+      "panelLabel": {
+        "en": "Opening Remarks",
+        "pt": "Abertura"
+      }
+    },
+    {
+      "id": "jhsf-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "JH",
+      "photo": "img/speakers/jhsf.jpg",
+      "name": {
+        "en": "JHSF",
+        "pt": "JHSF"
+      },
+      "company": {
+        "en": "JHSF",
+        "pt": "JHSF"
+      },
+      "cargo": {
+        "en": "Real Estate",
+        "pt": "Real Estate"
+      },
+      "logo": "img/logos/jhsf.png",
+      "panelLabel": {
+        "en": "Panel 4 — Architecture & Patrimonial",
+        "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      }
+    },
+    {
+      "id": "renato-ochman-2",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "br",
+      "initials": "RO",
+      "photo": "img/speakers/renato-ochman.jpg",
+      "name": {
+        "en": "Renato Ochman",
+        "pt": "Renato Ochman"
+      },
+      "company": {
+        "en": "Ochman Advogados",
+        "pt": "Ochman Advogados"
+      },
+      "cargo": {
+        "en": "Partner / NYU Board",
+        "pt": "Sócio / Board NYU"
+      },
+      "logo": "img/logos/ochman.png",
+      "panelLabel": {
+        "en": "Advisor / Moderator",
+        "pt": "Conselheiro / Moderador"
+      }
+    },
+    {
+      "id": "rodrigo-rocha-2",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "br",
+      "initials": "RR",
+      "photo": "img/speakers/rodrigo-rocha.jpg",
+      "name": {
+        "en": "Rodrigo Rocha",
+        "pt": "Rodrigo Rocha"
+      },
+      "company": {
+        "en": "OSPA Capital",
+        "pt": "OSPA Capital"
+      },
+      "cargo": {
+        "en": "Partner",
+        "pt": "Sócio"
+      },
+      "logo": "img/logos/ospa-capital.png",
+      "panelLabel": {
+        "en": "Opening Remarks",
+        "pt": "Abertura"
+      }
+    },
+    {
+      "id": "pedro-martin-fernandes-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "PF",
+      "photo": "img/speakers/pedro-martin-fernandes.jpg",
+      "name": {
+        "en": "Pedro Martin Fernandes",
+        "pt": "Pedro Martin Fernandes"
+      },
+      "company": {
+        "en": "SP Urbanismo",
+        "pt": "SP Urbanismo"
+      },
+      "cargo": {
+        "en": "Presidente",
+        "pt": "Presidente"
+      },
+      "logo": "img/logos/sp-urbanismo.png",
+      "panelLabel": {
+        "en": "Panel 3 — Public–Private Development",
+        "pt": "Painel 3 — Desenvolvimento Público–Privado"
+      }
+    },
+    {
+      "id": "cristiano-viola-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "CV",
+      "photo": "img/speakers/cristiano-viola.jpg",
+      "name": {
+        "en": "Cristiano Viola",
+        "pt": "Cristiano Viola"
+      },
+      "company": {
+        "en": "Greystar Brazil",
+        "pt": "Greystar Brazil"
+      },
+      "cargo": {
+        "en": "COO",
+        "pt": "COO"
+      },
+      "logo": "img/logos/greystar.png",
+      "panelLabel": {
+        "en": "Panel 4 — Architecture & Patrimonial",
+        "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      }
+    },
+    {
+      "id": "douglas-strabelli-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "DS",
+      "photo": "img/speakers/douglas-strabelli.jpg",
+      "name": {
+        "en": "Douglas Strabelli",
+        "pt": "Douglas Strabelli"
+      },
+      "company": {
+        "en": "Sagewood Corporation",
+        "pt": "Sagewood Corporation"
+      },
+      "cargo": {
+        "en": "Founder & CEO",
+        "pt": "Fundador & CEO"
+      },
+      "logo": "img/logos/sagewood.png",
+      "panelLabel": {
+        "en": "Panel 5 — Development",
+        "pt": "Painel 5 — Desenvolvimento"
+      }
+    },
+    {
+      "id": "anthony-russo-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "us",
+      "initials": "AR",
+      "photo": "img/speakers/anthony-russo.jpg",
+      "name": {
+        "en": "Anthony Russo",
+        "pt": "Anthony Russo"
+      },
+      "company": {
+        "en": "CSFG",
+        "pt": "CSFG"
+      },
+      "cargo": {
+        "en": "Managing Principal",
+        "pt": "Managing Principal"
+      },
+      "logo": "img/logos/csfg.png",
+      "panelLabel": {
+        "en": "Panel 4 — Architecture & Patrimonial",
+        "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      }
+    },
+    {
+      "id": "cbre-2",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "CB",
+      "photo": "img/speakers/cbre.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "CBRE",
+        "pt": "CBRE"
+      },
+      "cargo": {
+        "en": "Moderator",
+        "pt": "Moderador"
+      },
+      "logo": "img/logos/cbre.png",
+      "panelLabel": {
+        "en": "Panel 6 — Moderator",
+        "pt": "Painel 6 — Moderador"
+      }
+    },
+    {
+      "id": "joao-vianna-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "JV",
+      "photo": "img/speakers/joao-vianna.jpg",
+      "name": {
+        "en": "João Vianna",
+        "pt": "João Vianna"
+      },
+      "company": {
+        "en": "Loft / Invisto",
+        "pt": "Loft / Invisto"
+      },
+      "cargo": {
+        "en": "Executive",
+        "pt": "Executivo"
+      },
+      "logo": "img/logos/invisto.png",
+      "panelLabel": {
+        "en": "Panel 2 — Data, Transparency & Risk",
+        "pt": "Painel 2 — Dados, Transparência & Risco"
+      }
+    },
+    {
+      "id": "rodrigo-machado-2",
+      "active": true,
+      "badge": "proposed",
+      "flag": "br",
+      "initials": "RM",
+      "photo": "img/speakers/rodrigo-machado.jpg",
+      "name": {
+        "en": "Rodrigo Machado",
+        "pt": "Rodrigo Machado"
+      },
+      "company": {
+        "en": "Galapagos Capital",
+        "pt": "Galapagos Capital"
+      },
+      "cargo": {
+        "en": "Partner",
+        "pt": "Sócio"
+      },
+      "logo": "img/logos/galapagos.png",
+      "panelLabel": {
+        "en": "Panel 6 — Capital Stack",
+        "pt": "Painel 6 — Capital Stack"
+      }
+    },
+    {
+      "id": "blackstone-2",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "BS",
+      "photo": "img/speakers/blackstone.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "Blackstone",
+        "pt": "Blackstone"
+      },
+      "cargo": {
+        "en": "Real Estate / BREIT",
+        "pt": "Real Estate / BREIT"
+      },
+      "logo": "img/logos/blackstone.png",
+      "panelLabel": {
+        "en": "Panel 6 — Capital Stack",
+        "pt": "Painel 6 — Capital Stack"
+      }
+    },
+    {
+      "id": "btg-pactual-2",
+      "active": true,
+      "badge": "tbd",
+      "flag": "br",
+      "initials": "BTG",
+      "photo": "img/speakers/btg-pactual.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "BTG Pactual",
+        "pt": "BTG Pactual"
+      },
+      "cargo": {
+        "en": "Asset Management",
+        "pt": "Gestão de Ativos"
+      },
+      "logo": "img/logos/btg.svg",
+      "panelLabel": {
+        "en": "Panel 6 — Capital Stack",
+        "pt": "Painel 6 — Capital Stack"
+      }
+    },
+    {
+      "id": "flavia-tissot-2",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "br",
+      "initials": "FT",
+      "photo": "img/speakers/flavia-tissot.jpg",
+      "name": {
+        "en": "Flávia Tissot",
+        "pt": "Flávia Tissot"
+      },
+      "company": {
+        "en": "OSPA Capital",
+        "pt": "OSPA Capital"
+      },
+      "cargo": {
+        "en": "Partner",
+        "pt": "Sócia"
+      },
+      "logo": "img/logos/ospa-capital.png",
+      "panelLabel": {
+        "en": "Panel 2 — Moderator",
+        "pt": "Painel 2 — Moderador"
+      }
+    },
+    {
+      "id": "christopher-gulotta-2",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "us",
+      "initials": "CG",
+      "photo": "img/speakers/christopher-gulotta.jpg",
+      "name": {
+        "en": "Christopher Gulotta",
+        "pt": "Christopher Gulotta"
+      },
+      "company": {
+        "en": "NYU Schack",
+        "pt": "NYU Schack"
+      },
+      "cargo": {
+        "en": "Professor",
+        "pt": "Professor"
+      },
+      "logo": "img/logos/nyu-schack.png",
+      "panelLabel": {
+        "en": "Panel 2 — Moderator",
+        "pt": "Painel 2 — Moderador"
+      }
+    },
+    {
+      "id": "the-related-group-2",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "RG",
+      "photo": "img/speakers/related-group.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "The Related Group",
+        "pt": "The Related Group"
+      },
+      "cargo": {
+        "en": "Jorge or Nick Pérez",
+        "pt": "Jorge ou Nick Pérez"
+      },
+      "logo": "img/logos/related.png",
+      "panelLabel": {
+        "en": "Panel 3 — Public–Private Development",
+        "pt": "Painel 3 — Desenvolvimento Público–Privado"
+      }
+    },
+    {
+      "id": "costar-group-2",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "CS",
+      "photo": "img/speakers/costar-group.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "CoStar Group",
+        "pt": "CoStar Group"
+      },
+      "cargo": {
+        "en": "VP Research / Economist",
+        "pt": "VP Research / Economista"
+      },
+      "logo": "img/logos/costar.png",
+      "panelLabel": {
+        "en": "Panel 2 — Data, Transparency & Risk",
+        "pt": "Painel 2 — Dados, Transparência & Risco"
+      }
+    },
+    {
+      "id": "nyc-edc-2",
+      "active": true,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "NY",
+      "photo": "img/speakers/nyc-edc.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "NYC EDC",
+        "pt": "NYC EDC"
+      },
+      "cargo": {
+        "en": "Senior Officer",
+        "pt": "Senior Officer"
+      },
+      "logo": "img/logos/nyc-edc.png",
+      "panelLabel": {
+        "en": "Panel 3 — Public–Private Development",
+        "pt": "Painel 3 — Desenvolvimento Público–Privado"
+      }
+    },
+    {
+      "id": "caixa-economica-federal",
+      "active": false,
+      "badge": "tbd",
+      "flag": "br",
+      "initials": "CE",
+      "photo": "img/speakers/caixa.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "Caixa Econômica Federal",
+        "pt": "Caixa Econômica Federal"
+      },
+      "cargo": {
+        "en": "Public Housing Finance",
+        "pt": "Habitação · Financiamento Público"
+      },
+      "logo": "img/logos/caixa.png",
+      "panelLabel": {
+        "en": "Panel 1 — Affordable Housing",
+        "pt": "Painel 1 — Habitação Acessível"
+      }
+    },
+    {
+      "id": "new-york-city-housing-authority",
+      "active": false,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "NH",
+      "photo": "img/speakers/nycha.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "New York City Housing Authority",
+        "pt": "New York City Housing Authority"
+      },
+      "cargo": {
+        "en": "Public Housing",
+        "pt": "Habitação Pública"
+      },
+      "logo": "img/logos/nycha.png",
+      "panelLabel": {
+        "en": "Panel 1 — Affordable Housing",
+        "pt": "Painel 1 — Habitação Acessível"
+      }
+    },
+    {
+      "id": "caixa-economica-federal-2",
+      "active": false,
+      "badge": "tbd",
+      "flag": "br",
+      "initials": "CE",
+      "photo": "img/speakers/caixa.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "Caixa Econômica Federal",
+        "pt": "Caixa Econômica Federal"
+      },
+      "cargo": {
+        "en": "Public Housing Finance",
+        "pt": "Habitação · Financiamento Público"
+      },
+      "logo": "img/logos/caixa.png",
+      "panelLabel": {
+        "en": "Panel 1 — Affordable Housing",
+        "pt": "Painel 1 — Habitação Acessível"
+      }
+    },
+    {
+      "id": "new-york-city-housing-authority-2",
+      "active": false,
+      "badge": "tbd",
+      "flag": "us",
+      "initials": "NH",
+      "photo": "img/speakers/nycha.jpg",
+      "name": {
+        "en": "(TBD)",
+        "pt": "(a confirmar)"
+      },
+      "company": {
+        "en": "New York City Housing Authority",
+        "pt": "New York City Housing Authority"
+      },
+      "cargo": {
+        "en": "Public Housing",
+        "pt": "Habitação Pública"
+      },
+      "logo": "img/logos/nycha.png",
+      "panelLabel": {
+        "en": "Panel 1 — Affordable Housing",
+        "pt": "Painel 1 — Habitação Acessível"
+      }
+    }
+  ]
+}

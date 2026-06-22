@@ -4800,5 +4800,100 @@ function setLang(lang) {
 })();
 </script>
 
+<script>
+/* ============================================================
+   ADMIN HYDRATION
+   Fetches the live panel/speaker data from /api/data and replaces
+   the static carousel + schedule-panel markup with it. The static
+   markup above is the seed/fallback: if /api/data is unavailable
+   (e.g. opened as a plain file), the page keeps showing it.
+   ============================================================ */
+(function(){
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function bi(p){ p=p||{}; var en=p.en||'', pt=(p.pt!=null&&p.pt!=='')?p.pt:en; return '<span data-lang="en">'+esc(en)+'</span><span data-lang="pt">'+esc(pt)+'</span>'; }
+  function pairSpan(cls,p){ p=p||{}; var en=p.en||'', pt=(p.pt!=null&&p.pt!=='')?p.pt:en;
+    if(en===pt) return '<span class="'+cls+'">'+esc(en)+'</span>';
+    return '<span class="'+cls+'" data-lang="en">'+esc(en)+'</span><span class="'+cls+'" data-lang="pt">'+esc(pt)+'</span>'; }
+  var BADGE={confirmed:{en:'Confirmed',pt:'Confirmado'},proposed:{en:'Proposed',pt:'Em aproximação'},tbd:{en:'TBD',pt:'A confirmar'}};
+
+  function speakerCard(s){
+    var name=s.name||{}, company=s.company||{}, cargo=s.cargo||{}, panel=s.panelLabel||{};
+    var flag=(s.flag==='br')?'br':'us';
+    var badge=BADGE[s.badge]?s.badge:'tbd';
+    var photo=s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(name.en||'')+'" loading="lazy" onerror="this.remove();">':'';
+    var logo=s.logo?'<img class="speaker-logo" src="'+esc(s.logo)+'" alt="'+esc(company.en||'')+'" loading="lazy" onerror="this.style.visibility=\'hidden\';">':'';
+    return '<div class="speaker-card">'
+      +'<div class="speaker-corners">'
+        +'<span class="speaker-badge '+badge+'">'+bi(BADGE[badge])+'</span>'
+        +'<img class="speaker-flag" src="img/flag-'+flag+'.svg" alt="'+flag.toUpperCase()+'" loading="lazy" width="24" height="24">'
+      +'</div>'
+      +'<div class="speaker-photo"><span class="speaker-initials">'+esc(s.initials||'')+'</span>'+photo+'</div>'
+      +'<div class="speaker-name">'+bi(name)+'</div>'
+      +'<div class="speaker-company">'+bi(company)+'</div>'
+      +'<div class="speaker-cargo">'+bi(cargo)+'</div>'
+      +'<div class="speaker-logo-slot">'+logo+'</div>'
+      +'<div class="speaker-panel">'+bi(panel)+'</div>'
+    +'</div>';
+  }
+
+  function hydrateCarousel(speakers){
+    var track=document.querySelector('.speakers-track');
+    if(!track) return;
+    var active=speakers.filter(function(s){ return s && s.active!==false; });
+    if(!active.length) return; // never blank the carousel
+    var html=active.map(speakerCard).join('');
+    track.innerHTML=html+html; // duplicate so the translateX(-50%) loop is seamless
+  }
+
+  function scheduleRow(s){
+    s=s||{};
+    var tbd=s.tbd && !((s.name||{}).en);
+    var name=tbd?{en:'(TBD)',pt:'(a confirmar)'}:(s.name||{en:'',pt:''});
+    var avatar=s.photo
+      ?'<div class="schedule-speaker-avatar"><img src="'+esc(s.photo)+'" alt="'+esc(name.en||'')+'" loading="lazy" onerror="this.remove();"></div>'
+      :'<div class="schedule-speaker-avatar"></div>';
+    var role=(s.role&&((s.role.en||'')||(s.role.pt||'')))?pairSpan('speaker-role',s.role):'';
+    return '<div class="schedule-speaker">'+avatar+pairSpan('speaker-name',name)+role+'</div>';
+  }
+
+  function hydrateSchedule(panels){
+    panels.forEach(function(p){
+      var item=document.querySelector('.schedule-item[data-sched="'+p.slot+'"]');
+      if(!item) return;
+      var tag=item.querySelector('.schedule-tag'); if(tag && p.tag) tag.innerHTML=bi(p.tag);
+      var time=item.querySelector('.schedule-time'); if(time && p.time) time.textContent=p.time;
+      item.querySelectorAll('.schedule-label').forEach(function(l){
+        var lng=l.getAttribute('data-lang');
+        if(lng==='en' && p.title) l.textContent=p.title.en||'';
+        else if(lng==='pt' && p.title) l.textContent=p.title.pt||'';
+      });
+      if(p.desc && (p.desc.en||p.desc.pt)){
+        var desc=item.querySelector('.schedule-description');
+        if(!desc){
+          desc=document.createElement('div'); desc.className='schedule-description';
+          var firstLabel=item.querySelector('.schedule-label');
+          var titleWrap=firstLabel?firstLabel.parentElement:null;
+          if(titleWrap && titleWrap.parentElement) titleWrap.parentElement.insertBefore(desc, titleWrap.nextSibling);
+          else item.appendChild(desc);
+        }
+        desc.innerHTML=bi(p.desc);
+      }
+      var wrap=item.querySelector('.schedule-speakers');
+      if(!wrap){ wrap=document.createElement('div'); wrap.className='schedule-speakers'; item.appendChild(wrap); }
+      wrap.innerHTML=(p.speakers||[]).map(scheduleRow).join('');
+    });
+  }
+
+  fetch('/api/data',{cache:'no-store'})
+    .then(function(r){ return r && r.ok ? r.json() : null; })
+    .then(function(d){
+      if(!d) return;
+      try{ if(Array.isArray(d.speakers)) hydrateCarousel(d.speakers); }catch(e){ console.error('carousel hydrate',e); }
+      try{ if(Array.isArray(d.panels)) hydrateSchedule(d.panels); }catch(e){ console.error('schedule hydrate',e); }
+    })
+    .catch(function(){ /* offline / static preview: keep seed markup */ });
+})();
+</script>
+
 </body>
 </html>
