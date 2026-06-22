@@ -276,6 +276,7 @@ function onFieldInput(e){
   const t=e.target; const p=t.dataset.bind; if(!p) return;
   const val = t.type==='checkbox' ? t.checked : t.value;
   setPath(data, p, val);
+  if(t.dataset.bind2) setPath(data, t.dataset.bind2, val);
   markDirty();
   if (t.dataset.live==='ttl'){
     const card=t.closest('.card'); if(card){ const ttl=card.querySelector('.ttl'); if(ttl) ttl.textContent=val||'(sem nome)'; }
@@ -398,10 +399,9 @@ function renderSpeakers(){
        <table class="spk-table">
          <thead><tr>
            <th title="clique para trocar foto">Foto</th>
-           <th>Nome EN</th><th>Nome PT</th>
-           <th>Empresa EN</th><th>Empresa PT</th>
-           <th>Cargo EN</th><th>Cargo PT</th>
-           <th>Painel EN</th><th>Painel PT</th>
+           <th>Nome</th>
+           <th>Empresa</th>
+           <th>Cargo</th>
            <th>Status</th><th>País</th><th>Inic.</th>
            <th title="clique para trocar logo">Logo</th>
            <th>Ativo</th><th></th>
@@ -435,14 +435,9 @@ function speakerRow(i,s){
       <div class="spk-tthumb" data-action="upload-photo" data-si="${i}" title="clique para trocar foto">${photoContent}</div>
       <input type="file" accept="image/*" data-file="${base}.photo" style="display:none">
     </td>
-    <td><input type="text" data-bind="${base}.name.en" value="${esc((s.name&&s.name.en)||'')}" placeholder="name EN" style="min-width:100px"></td>
-    <td><input type="text" data-bind="${base}.name.pt" value="${esc((s.name&&s.name.pt)||'')}" placeholder="nome PT" style="min-width:100px"></td>
-    <td><input type="text" data-bind="${base}.company.en" value="${esc((s.company&&s.company.en)||'')}" placeholder="company EN" style="min-width:110px"></td>
-    <td><input type="text" data-bind="${base}.company.pt" value="${esc((s.company&&s.company.pt)||'')}" placeholder="empresa PT" style="min-width:110px"></td>
-    <td><input type="text" data-bind="${base}.cargo.en" value="${esc((s.cargo&&s.cargo.en)||'')}" placeholder="role EN" style="min-width:100px"></td>
-    <td><input type="text" data-bind="${base}.cargo.pt" value="${esc((s.cargo&&s.cargo.pt)||'')}" placeholder="cargo PT" style="min-width:100px"></td>
-    <td><input type="text" data-bind="${base}.panelLabel.en" value="${esc((s.panelLabel&&s.panelLabel.en)||'')}" placeholder="Panel X" style="min-width:70px"></td>
-    <td><input type="text" data-bind="${base}.panelLabel.pt" value="${esc((s.panelLabel&&s.panelLabel.pt)||'')}" placeholder="Painel X" style="min-width:70px"></td>
+    <td><input type="text" data-bind="${base}.name.en" data-bind2="${base}.name.pt" value="${esc((s.name&&s.name.en)||'')}" placeholder="Nome" style="min-width:130px"></td>
+    <td><input type="text" data-bind="${base}.company.en" data-bind2="${base}.company.pt" value="${esc((s.company&&s.company.en)||'')}" placeholder="Empresa" style="min-width:140px"></td>
+    <td><input type="text" data-bind="${base}.cargo.en" data-bind2="${base}.cargo.pt" value="${esc((s.cargo&&s.cargo.en)||'')}" placeholder="Cargo" style="min-width:130px"></td>
     <td style="min-width:90px">
       <select data-bind="${base}.badge">
         ${['confirmed','proposed','tbd'].map(b=>`<option value="${b}" ${s.badge===b?'selected':''}>${b}</option>`).join('')}
