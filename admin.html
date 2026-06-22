@@ -336,15 +336,6 @@ function renderPanels(){
   root.appendChild(body);
 }
 
-function biField(label, base){
-  return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
-    <input type="text" placeholder="EN" data-bind="${base}.en" value="${esc(getPath(data,base+'.en'))}">
-    <input type="text" placeholder="PT" data-bind="${base}.pt" value="${esc(getPath(data,base+'.pt'))}">
-  </div></div>`;
-}
-function biFieldTitled(label, base){
-  return biField(label, base);
-}
 function biTextarea(label, base){
   return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
     <textarea placeholder="EN" data-bind="${base}.en">${esc(getPath(data,base+'.en'))}</textarea>
