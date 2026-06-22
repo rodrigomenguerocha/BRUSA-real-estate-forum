@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin · BR/US Real Estate Forum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --violet:#57068C; --deep:#330662; --ultra:#8900e1;
+      --black:#161616; --panel:#1f1f1f; --panel2:#262626; --line:rgba(255,255,255,0.10);
+      --white:#fff; --tgray:#9a9a9a; --dgray:#6f6f6f;
+      --ok:#33c481; --warn:#e0a44a; --err:#e0564a;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--black);color:var(--white);font-family:'Frank Ruhl Libre',Georgia,serif;line-height:1.4;min-height:100vh}
+    .mono{font-family:'JetBrains Mono',monospace}
+    a{color:var(--ultra)}
+
+    /* ---- login ---- */
+    #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .login-card{width:100%;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:2.2rem 1.8rem}
+    .login-card h1{font-size:1.1rem;font-weight:500;margin-bottom:0.3rem}
+    .login-card p{color:var(--tgray);font-size:0.82rem;margin-bottom:1.4rem}
+    .login-card .sn{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ultra);margin-bottom:0.9rem}
+
+    /* ---- shell ---- */
+    header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+      padding:0.85rem 1.2rem;background:rgba(22,22,22,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    header .brand{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--tgray)}
+    header .brand b{color:var(--white);font-weight:500}
+    header .spacer{flex:1}
+    .tabs{display:flex;gap:0.4rem}
+    .tab{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;
+      padding:0.45rem 0.9rem;border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--tgray);cursor:pointer}
+    .tab.active{background:var(--violet);border-color:var(--violet);color:#fff}
+    .status{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--tgray);min-width:90px;text-align:right}
+    .status.ok{color:var(--ok)} .status.err{color:var(--err)} .status.dirty{color:var(--warn)}
+
+    main{max-width:1080px;margin:0 auto;padding:1.4rem 1.2rem 6rem}
+    .section-head{display:flex;align-items:center;gap:0.8rem;margin:0.6rem 0 1.2rem}
+    .section-head h2{font-size:1rem;font-weight:500}
+    .section-head .count{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--dgray)}
+
+    /* ---- buttons & inputs ---- */
+    button{font-family:'JetBrains Mono',monospace;cursor:pointer}
+    .btn{font-size:0.72rem;letter-spacing:0.06em;padding:0.5rem 1rem;border-radius:4px;border:1px solid var(--line);background:var(--panel2);color:var(--white);transition:.15s}
+    .btn:hover{border-color:var(--ultra)}
+    .btn.primary{background:var(--ultra);border-color:var(--ultra)}
+    .btn.primary:hover{background:#9a18f0}
+    .btn.primary:disabled{opacity:.45;cursor:not-allowed}
+    .btn.ghost{background:transparent}
+    .btn.sm{font-size:0.62rem;padding:0.3rem 0.55rem}
+    .btn.danger:hover{border-color:var(--err);color:var(--err)}
+
+    label.fl{display:block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dgray);margin-bottom:0.3rem}
+    input[type=text],textarea,select{width:100%;background:var(--black);color:var(--white);border:1px solid var(--line);border-radius:4px;
+      padding:0.5rem 0.6rem;font-family:'Frank Ruhl Libre',Georgia,serif;font-size:0.9rem}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ultra)}
+    textarea{resize:vertical;min-height:64px;line-height:1.5}
+    select{font-family:'JetBrains Mono',monospace;font-size:0.78rem}
+
+    .field{margin-bottom:0.85rem}
+    .bi{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+    .row{display:grid;gap:0.6rem}
+    @media(min-width:720px){.row.c3{grid-template-columns:repeat(3,1fr)}.row.c2{grid-template-columns:1fr 1fr}}
+
+    /* ---- cards ---- */
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:1.1rem 1.1rem;margin-bottom:1rem}
+    .card.inactive{opacity:0.55}
+    .card-top{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem}
+    .card-top .ttl{font-size:0.95rem;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .card-top .tag{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--ultra);text-transform:uppercase}
+    .toolbar{display:flex;gap:0.35rem;align-items:center}
+
+    .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--panel2);border:1px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--tgray);overflow:hidden}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+
+    .pillrow{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:end}
+    .upl{display:flex;align-items:center;gap:0.55rem}
+    .upl .thumb{width:46px;height:46px;border-radius:4px;border:1px solid var(--line);background:var(--panel2);object-fit:contain;background-size:contain;background-repeat:no-repeat;background-position:center}
+    .upl input[type=file]{display:none}
+
+    .spk-rows{display:flex;flex-direction:column;gap:0.7rem;margin-top:0.5rem}
+    .spk-row{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:0.75rem}
+    .spk-row .hdr{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem}
+    .spk-row .hdr .nm{flex:1;font-size:0.85rem}
+    .chk{display:inline-flex;align-items:center;gap:0.4rem;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--tgray);cursor:pointer;user-select:none}
+    .chk input{width:auto}
+    .hint{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--dgray);margin-top:0.2rem}
+    .toolbar-bottom{display:flex;justify-content:space-between;gap:0.6rem;margin-top:1.5rem;flex-wrap:wrap}
+    .hidden{display:none!important}
+    .searchbar{margin-bottom:1rem}
+    .savebar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:1rem;justify-content:flex-end;
+      padding:0.7rem 1.2rem;background:rgba(22,22,22,0.95);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+    .err-msg{color:var(--err);font-family:'JetBrains Mono',monospace;font-size:0.72rem;margin-top:0.7rem;min-height:1em}
+  </style>
+</head>
+<body>
+
+  <!-- ===== LOGIN ===== -->
+  <div id="login">
+    <form class="login-card" id="login-form">
+      <div class="sn">BR/US Real Estate Forum</div>
+      <h1>Área administrativa</h1>
+      <p>Acesso restrito. Informe a senha para editar painéis e speakers.</p>
+      <div class="field">
+        <label class="fl" for="pw">Senha</label>
+        <input type="password" id="pw" autocomplete="current-password" autofocus
+          style="width:100%;background:var(--black);color:#fff;border:1px solid var(--line);border-radius:4px;padding:0.6rem 0.7rem;font-family:'JetBrains Mono',monospace">
+      </div>
+      <button class="btn primary" type="submit" style="width:100%">Entrar</button>
+      <div class="err-msg" id="login-err"></div>
+    </form>
+  </div>
+
+  <!-- ===== APP ===== -->
+  <div id="app" class="hidden">
+    <header>
+      <div class="brand"><b>Admin</b> · Painéis &amp; Speakers</div>
+      <div class="spacer"></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="panels">Painéis</button>
+        <button class="tab" data-tab="speakers">Speakers</button>
+      </div>
+      <button class="btn ghost sm" id="logout">Sair</button>
+    </header>
+
+    <main>
+      <div id="view-panels"></div>
+      <div id="view-speakers" class="hidden"></div>
+    </main>
+
+    <div class="savebar">
+      <span class="status" id="status"></span>
+      <button class="btn" id="reload">Recarregar</button>
+      <button class="btn primary" id="save" disabled>Salvar alterações</button>
+    </div>
+  </div>
+
+<script type="module">
+/* ---------------- tiny helpers ---------------- */
+const $ = (s, r=document) => r.querySelector(s);
+const el = (html) => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
+const esc = (s) => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+async function api(path, opts={}) {
+  const res = await fetch(path, { headers:{'Content-Type':'application/json'}, ...opts });
+  let body=null; try{ body=await res.json(); }catch{}
+  if (!res.ok) throw new Error((body && (body.message||body.error)) || res.status);
+  return body;
+}
+function getPath(obj, path){ return path.split('.').reduce((o,k)=> (o==null?undefined:o[k]), obj); }
+function setPath(obj, path, val){
+  const ks=path.split('.'); let o=obj;
+  for(let i=0;i<ks.length-1;i++){ const k=ks[i]; if(o[k]==null) o[k]=/^\d+$/.test(ks[i+1])?[]:{}; o=o[k]; }
+  o[ks[ks.length-1]]=val;
+}
+
+/* ---------------- state ---------------- */
+let data = { version:1, panels:[], speakers:[] };
+let dirty = false;
+let speakerFilter = '';
+
+function markDirty(){ dirty=true; $('#save').disabled=false; setStatus('alterações não salvas','dirty'); }
+function setStatus(txt, cls=''){ const s=$('#status'); s.textContent=txt; s.className='status '+cls; }
+
+/* ---------------- auth / boot ---------------- */
+async function boot(){
+  let authed=false;
+  try{ const r=await api('/api/login'); authed=!!(r&&r.authed); }catch{}
+  if (authed) await enterApp(); else showLogin();
+}
+function showLogin(){ $('#login').classList.remove('hidden'); $('#app').classList.add('hidden'); $('#pw').focus(); }
+async function enterApp(){
+  $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
+  await loadData();
+}
+$('#login-form').addEventListener('submit', async (e)=>{
+  e.preventDefault(); $('#login-err').textContent='';
+  try{
+    const r=await api('/api/login',{method:'POST',body:JSON.stringify({password:$('#pw').value})});
+    if(r&&r.ok){ await enterApp(); } else { $('#login-err').textContent='Senha incorreta.'; }
+  }catch(err){ $('#login-err').textContent='Senha incorreta.'; }
+});
+$('#logout').addEventListener('click', async ()=>{
+  if (dirty && !confirm('Há alterações não salvas. Sair mesmo assim?')) return;
+  await api('/api/logout',{method:'POST'}).catch(()=>{});
+  location.reload();
+});
+
+async function loadData(){
+  setStatus('carregando…');
+  try{
+    data = await api('/api/data');
+    data.panels = data.panels||[]; data.speakers = data.speakers||[];
+    dirty=false; $('#save').disabled=true;
+    renderPanels(); renderSpeakers();
+    setStatus(data.updatedAt ? 'salvo '+fmtTime(data.updatedAt) : 'pronto','ok');
+  }catch(err){ setStatus('erro ao carregar','err'); alert('Não consegui carregar os dados: '+err.message); }
+}
+function fmtTime(iso){ try{ return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}); }catch{ return ''; } }
+
+$('#reload').addEventListener('click', ()=>{
+  if (dirty && !confirm('Descartar alterações não salvas e recarregar?')) return;
+  loadData();
+});
+$('#save').addEventListener('click', save);
+async function save(){
+  $('#save').disabled=true; setStatus('salvando…');
+  try{
+    const r=await api('/api/save',{method:'POST',body:JSON.stringify({version:data.version||1,panels:data.panels,speakers:data.speakers})});
+    dirty=false; setStatus('salvo '+fmtTime(r.updatedAt),'ok');
+  }catch(err){ setStatus('erro ao salvar','err'); $('#save').disabled=false; alert('Falha ao salvar: '+err.message); }
+}
+window.addEventListener('beforeunload',(e)=>{ if(dirty){ e.preventDefault(); e.returnValue=''; } });
+
+/* ---------------- tabs ---------------- */
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  const tab=t.dataset.tab;
+  $('#view-panels').classList.toggle('hidden',tab!=='panels');
+  $('#view-speakers').classList.toggle('hidden',tab!=='speakers');
+}));
+
+/* ---------------- field binding (no re-render on text edits) ---------------- */
+function onFieldInput(e){
+  const t=e.target; const p=t.dataset.bind; if(!p) return;
+  const val = t.type==='checkbox' ? t.checked : t.value;
+  setPath(data, p, val);
+  markDirty();
+  if (t.dataset.live==='ttl'){ // keep card title in sync
+    const card=t.closest('.card'); if(card){ const ttl=card.querySelector('.ttl'); if(ttl) ttl.textContent=val||'(sem nome)'; }
+  }
+}
+document.addEventListener('input', onFieldInput);
+document.addEventListener('change', (e)=>{ if(e.target.dataset.bind) onFieldInput(e); });
+
+/* ---------------- bilingual field helper ---------------- */
+function biField(label, base){
+  return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
+    <input type="text" placeholder="EN" data-bind="${base}.en" value="${esc(getPath(data,base+'.en'))}">
+    <input type="text" placeholder="PT" data-bind="${base}.pt" value="${esc(getPath(data,base+'.pt'))}">
+  </div></div>`;
+}
+
+/* ================= PANELS ================= */
+function renderPanels(){
+  const root=$('#view-panels');
+  root.innerHTML = `<div class="section-head"><h2>Painéis</h2><span class="count">${data.panels.length} painéis</span></div>`;
+  data.panels.forEach((p,pi)=>{
+    const card=el(`<div class="card" data-pi="${pi}">
+      <div class="card-top">
+        <span class="tag">${esc((p.tag&&p.tag.pt)||'Painel')}</span>
+        <span class="ttl">${esc((p.title&&p.title.pt)|| '(sem título)')}</span>
+        <span class="mono" style="color:var(--dgray);font-size:0.62rem">${esc(p.time||'')}</span>
+      </div></div>`);
+    const body=el(`<div></div>`);
+    body.innerHTML =
+      `<div class="row c2">
+         <div class="field"><label class="fl">Etiqueta (tag)</label><div class="bi">
+            <input type="text" data-bind="panels.${pi}.tag.en" value="${esc(getPath(data,'panels.'+pi+'.tag.en'))}" placeholder="EN">
+            <input type="text" data-bind="panels.${pi}.tag.pt" value="${esc(getPath(data,'panels.'+pi+'.tag.pt'))}" placeholder="PT"></div></div>
+         <div class="field"><label class="fl">Horário</label>
+            <input type="text" data-bind="panels.${pi}.time" value="${esc(p.time||'')}" placeholder="9:15 – 10:05"></div>
+       </div>`
+      + biFieldTitled('Título do painel', 'panels.'+pi+'.title', 'ttl')
+      + biTextarea('Descrição', 'panels.'+pi+'.desc');
+    // speakers of the panel
+    const spkWrap=el(`<div class="field"><label class="fl">Speakers do painel</label><div class="spk-rows"></div>
+      <div style="margin-top:0.6rem"><button class="btn sm" data-action="panel-add-spk" data-pi="${pi}">+ adicionar speaker</button></div></div>`);
+    const rowsBox=spkWrap.querySelector('.spk-rows');
+    (p.speakers||[]).forEach((s,si)=> rowsBox.appendChild(panelSpeakerRow(pi,si,s)));
+    body.appendChild(spkWrap);
+    card.appendChild(body);
+    root.appendChild(card);
+  });
+}
+function biFieldTitled(label, base, live){
+  return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
+    <input type="text" placeholder="EN" data-bind="${base}.en" value="${esc(getPath(data,base+'.en'))}">
+    <input type="text" placeholder="PT" ${live?`data-live="${live}"`:''} data-bind="${base}.pt" value="${esc(getPath(data,base+'.pt'))}">
+  </div></div>`;
+}
+function biTextarea(label, base){
+  return `<div class="field"><label class="fl">${esc(label)}</label><div class="bi">
+    <textarea placeholder="EN" data-bind="${base}.en">${esc(getPath(data,base+'.en'))}</textarea>
+    <textarea placeholder="PT" data-bind="${base}.pt">${esc(getPath(data,base+'.pt'))}</textarea>
+  </div></div>`;
+}
+function panelSpeakerRow(pi,si,s){
+  const base=`panels.${pi}.speakers.${si}`;
+  const opts = data.speakers.map(sp=>`<option value="${esc(sp.id)}">${esc((sp.name&&sp.name.en)|| sp.id)} — ${esc((sp.company&&sp.company.en)||'')}</option>`).join('');
+  const row=el(`<div class="spk-row" data-pi="${pi}" data-si="${si}">
+    <div class="hdr">
+      <div class="avatar">${s.photo?`<img src="${esc(s.photo)}" onerror="this.remove()">`:'•'}</div>
+      <span class="nm mono">#${si+1}</span>
+      <label class="chk"><input type="checkbox" data-bind="${base}.tbd" ${s.tbd?'checked':''}> A confirmar (TBD)</label>
+      <div class="toolbar">
+        <button class="btn sm" data-action="pspk-up" data-pi="${pi}" data-si="${si}">↑</button>
+        <button class="btn sm" data-action="pspk-down" data-pi="${pi}" data-si="${si}">↓</button>
+        <button class="btn sm danger" data-action="pspk-del" data-pi="${pi}" data-si="${si}">remover</button>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:0.6rem">
+      <label class="fl">Preencher a partir de um speaker do carrossel</label>
+      <select data-action="pspk-pick" data-pi="${pi}" data-si="${si}"><option value="">— escolher —</option>${opts}</select>
+    </div>
+    ${biFieldTitled('Nome', base+'.name')}
+    ${biFieldTitled('Cargo / papel (role)', base+'.role')}
+    <div class="field"><label class="fl">Foto (URL) — ou faça upload</label>
+      <div class="upl">
+        <span class="thumb" style="${s.photo?`background-image:url('${esc(s.photo)}')`:''}"></span>
+        <input type="text" data-bind="${base}.photo" value="${esc(s.photo||'')}" placeholder="img/speakers/...jpg ou URL">
+        <button class="btn sm" data-action="upload" data-target="${base}.photo">upload</button>
+        <input type="file" accept="image/*" data-file="${base}.photo">
+      </div>
+    </div>
+  </div>`);
+  return row;
+}
+
+/* ================= SPEAKERS ================= */
+function renderSpeakers(){
+  const root=$('#view-speakers');
+  const active=data.speakers.filter(s=>s.active).length;
+  root.innerHTML =
+    `<div class="section-head"><h2>Speakers do carrossel</h2>
+       <span class="count">${data.speakers.length} no total · ${active} ativos</span></div>
+     <div class="searchbar"><input type="text" id="spk-search" placeholder="filtrar por nome, empresa ou painel…" value="${esc(speakerFilter)}"></div>
+     <div id="spk-list"></div>
+     <div class="toolbar-bottom"><button class="btn" data-action="spk-add">+ novo speaker</button></div>`;
+  $('#spk-search').addEventListener('input',(e)=>{ speakerFilter=e.target.value.toLowerCase(); renderSpeakerList(); });
+  renderSpeakerList();
+}
+function speakerMatches(s){
+  if(!speakerFilter) return true;
+  const hay=[s.name&&s.name.en,s.name&&s.name.pt,s.company&&s.company.en,s.cargo&&s.cargo.en,s.panelLabel&&s.panelLabel.en,s.panelLabel&&s.panelLabel.pt].join(' ').toLowerCase();
+  return hay.includes(speakerFilter);
+}
+function renderSpeakerList(){
+  const list=$('#spk-list'); list.innerHTML='';
+  data.speakers.forEach((s,i)=>{ if(speakerMatches(s)) list.appendChild(speakerCard(i,s)); });
+}
+function speakerCard(i,s){
+  const base=`speakers.${i}`;
+  const card=el(`<div class="card ${s.active?'':'inactive'}" data-si="${i}">
+    <div class="card-top">
+      <div class="avatar">${s.photo?`<img src="${esc(s.photo)}" onerror="this.remove()">`:esc(s.initials||'•')}</div>
+      <span class="ttl">${esc((s.name&&s.name.en)|| s.id || '(sem nome)')}</span>
+      <span class="tag">${esc(s.badge||'')}</span>
+      <div class="toolbar">
+        <label class="chk"><input type="checkbox" data-bind="${base}.active" data-live="active" ${s.active?'checked':''}> Ativo</label>
+        <button class="btn sm" data-action="spk-up" data-si="${i}">↑</button>
+        <button class="btn sm" data-action="spk-down" data-si="${i}">↓</button>
+        <button class="btn sm danger" data-action="spk-del" data-si="${i}">remover</button>
+      </div>
+    </div>
+    <div class="row c3">
+      <div class="field"><label class="fl">Status (badge)</label>
+        <select data-bind="${base}.badge">
+          ${['confirmed','proposed','tbd'].map(b=>`<option value="${b}" ${s.badge===b?'selected':''}>${b}</option>`).join('')}
+        </select></div>
+      <div class="field"><label class="fl">País (flag)</label>
+        <select data-bind="${base}.flag">
+          ${['us','br'].map(f=>`<option value="${f}" ${s.flag===f?'selected':''}>${f.toUpperCase()}</option>`).join('')}
+        </select></div>
+      <div class="field"><label class="fl">Iniciais (fallback s/ foto)</label>
+        <input type="text" data-bind="${base}.initials" value="${esc(s.initials||'')}" maxlength="3"></div>
+    </div>
+    ${biFieldTitled('Nome', base+'.name', 'ttl')}
+    ${biFieldTitled('Empresa', base+'.company')}
+    ${biFieldTitled('Cargo', base+'.cargo')}
+    ${biFieldTitled('Painel (rótulo no card)', base+'.panelLabel')}
+    <div class="row c2">
+      <div class="field"><label class="fl">Foto</label>
+        <div class="upl">
+          <span class="thumb" style="${s.photo?`background-image:url('${esc(s.photo)}')`:''}"></span>
+          <input type="text" data-bind="${base}.photo" value="${esc(s.photo||'')}" placeholder="img/speakers/...jpg ou URL">
+          <button class="btn sm" data-action="upload" data-target="${base}.photo">upload</button>
+          <input type="file" accept="image/*" data-file="${base}.photo">
+        </div></div>
+      <div class="field"><label class="fl">Logo</label>
+        <div class="upl">
+          <span class="thumb" style="${s.logo?`background-image:url('${esc(s.logo)}')`:''}"></span>
+          <input type="text" data-bind="${base}.logo" value="${esc(s.logo||'')}" placeholder="img/logos/...png ou URL">
+          <button class="btn sm" data-action="upload" data-target="${base}.logo">upload</button>
+          <input type="file" accept="image/*" data-file="${base}.logo">
+        </div></div>
+    </div>
+  </div>`);
+  return card;
+}
+
+/* ================= actions ================= */
+document.addEventListener('click', async (e)=>{
+  const btn=e.target.closest('[data-action]'); if(!btn) return;
+  const a=btn.dataset.action;
+  const pi=btn.dataset.pi!=null?Number(btn.dataset.pi):null;
+  const si=btn.dataset.si!=null?Number(btn.dataset.si):null;
+
+  if(a==='upload'){ const inp=btn.parentElement.querySelector('input[type=file]'); if(inp) inp.click(); return; }
+
+  // speaker list ops
+  if(a==='spk-add'){ data.speakers.push(newSpeaker()); markDirty(); renderSpeakers(); return; }
+  if(a==='spk-del'){ if(confirm('Remover este speaker?')){ data.speakers.splice(si,1); markDirty(); renderSpeakers(); } return; }
+  if(a==='spk-up'){ if(si>0){ swap(data.speakers,si,si-1); markDirty(); renderSpeakers(); } return; }
+  if(a==='spk-down'){ if(si<data.speakers.length-1){ swap(data.speakers,si,si+1); markDirty(); renderSpeakers(); } return; }
+
+  // panel speaker ops
+  if(a==='panel-add-spk'){ data.panels[pi].speakers=data.panels[pi].speakers||[]; data.panels[pi].speakers.push(newPanelSpeaker()); markDirty(); renderPanels(); return; }
+  if(a==='pspk-del'){ data.panels[pi].speakers.splice(si,1); markDirty(); renderPanels(); return; }
+  if(a==='pspk-up'){ if(si>0){ swap(data.panels[pi].speakers,si,si-1); markDirty(); renderPanels(); } return; }
+  if(a==='pspk-down'){ const arr=data.panels[pi].speakers; if(si<arr.length-1){ swap(arr,si,si+1); markDirty(); renderPanels(); } return; }
+});
+
+// "pick from speaker" select autofills a panel-speaker row
+document.addEventListener('change', (e)=>{
+  const sel=e.target.closest('[data-action="pspk-pick"]'); if(!sel) return;
+  const pi=Number(sel.dataset.pi), si=Number(sel.dataset.si), id=sel.value; if(!id) return;
+  const sp=data.speakers.find(x=>x.id===id); if(!sp) return;
+  const row=data.panels[pi].speakers[si];
+  row.name={en:(sp.name&&sp.name.en)||'',pt:(sp.name&&sp.name.pt)||''};
+  row.role={en:(sp.company&&sp.company.en)||'',pt:(sp.company&&sp.company.pt)||''};
+  row.photo=sp.photo||''; row.tbd=false;
+  markDirty(); renderPanels();
+});
+
+// file uploads
+document.addEventListener('change', async (e)=>{
+  const inp=e.target.closest('input[type=file][data-file]'); if(!inp||!inp.files||!inp.files[0]) return;
+  const target=inp.dataset.file; const file=inp.files[0];
+  setStatus('enviando imagem…');
+  try{
+    const dataUrl=await fileToDataUrl(file);
+    const r=await api('/api/upload',{method:'POST',body:JSON.stringify({filename:file.name,dataUrl})});
+    setPath(data,target,r.url); markDirty();
+    // refresh just the relevant view
+    if(target.startsWith('panels.')) renderPanels(); else renderSpeakers();
+    setStatus('imagem enviada','ok');
+  }catch(err){ setStatus('falha no upload','err'); alert('Upload falhou: '+err.message); }
+});
+function fileToDataUrl(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); }); }
+
+/* ---------------- factories ---------------- */
+function swap(arr,i,j){ const t=arr[i]; arr[i]=arr[j]; arr[j]=t; }
+function uid(){ return 'spk-'+Math.random().toString(36).slice(2,8); }
+function newSpeaker(){ return { id:uid(), active:true, badge:'tbd', flag:'us', initials:'', photo:'', logo:'',
+  name:{en:'',pt:''}, company:{en:'',pt:''}, cargo:{en:'',pt:''}, panelLabel:{en:'',pt:''} }; }
+function newPanelSpeaker(){ return { photo:'', name:{en:'',pt:''}, role:{en:'',pt:''}, tbd:true }; }
+
+boot();
+</script>
+</body>
+</html>
