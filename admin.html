@@ -101,6 +101,31 @@
       border-bottom:2px solid transparent;margin-bottom:-2px;transition:.12s}
     .ptab:hover{color:var(--white)}
     .ptab.active{color:var(--white);border-bottom-color:var(--ultra)}
+
+    /* ---- speakers table ---- */
+    .spk-table-wrap{overflow-x:auto;margin-bottom:1rem}
+    .spk-table{width:100%;border-collapse:collapse;font-size:0.84rem}
+    .spk-table th{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;
+      color:var(--dgray);padding:0.4rem 0.5rem;text-align:left;white-space:nowrap;
+      border-bottom:2px solid var(--line);background:var(--black);position:sticky;top:57px;z-index:1}
+    .spk-table td{padding:0.25rem 0.4rem;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
+    .spk-table tr:hover td{background:rgba(255,255,255,0.025)}
+    .spk-table tr.spk-inactive td{opacity:.45}
+    .spk-table input[type=text]{width:100%;min-width:72px;background:transparent;color:var(--white);
+      border:1px solid transparent;border-radius:3px;padding:0.22rem 0.35rem;
+      font-family:'Frank Ruhl Libre',Georgia,serif;font-size:0.84rem}
+    .spk-table input[type=text]:focus{background:var(--panel2);border-color:var(--ultra);outline:none}
+    .spk-table select{background:transparent;color:var(--white);border:1px solid transparent;
+      border-radius:3px;padding:0.2rem 0.3rem;font-family:'JetBrains Mono',monospace;font-size:0.72rem;cursor:pointer;width:100%}
+    .spk-table select:focus{background:var(--panel2);border-color:var(--ultra);outline:none}
+    .spk-tthumb{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--line);
+      background:var(--panel2);cursor:pointer;display:flex;align-items:center;justify-content:center;
+      font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--tgray);overflow:hidden;flex-shrink:0}
+    .spk-tthumb img{width:100%;height:100%;object-fit:cover}
+    .spk-lthumb{width:34px;height:34px;border-radius:4px;object-fit:contain;border:1px solid var(--line);
+      background:var(--panel2);cursor:pointer;display:flex;align-items:center;justify-content:center;
+      font-size:0.6rem;color:var(--dgray);overflow:hidden;flex-shrink:0}
+    .spk-lthumb img{width:100%;height:100%;object-fit:contain}
   </style>
 </head>
 <body>
@@ -241,6 +266,9 @@ function onFieldInput(e){
   if (t.dataset.live==='ttl'){
     const card=t.closest('.card'); if(card){ const ttl=card.querySelector('.ttl'); if(ttl) ttl.textContent=val||'(sem nome)'; }
   }
+  if (t.dataset.live==='active'){
+    const row=t.closest('tr'); if(row) row.classList.toggle('spk-inactive',!val);
+  }
   if (t.dataset.live==='ptab'){
     const activeTab=document.querySelector('.ptab.active');
     if(activeTab){ const pn=data.panels[activePanelIdx]; activeTab.textContent=(pn&&pn.tag&&(pn.tag.pt||pn.tag.en))||`Painel ${activePanelIdx+1}`; }
@@ -357,11 +385,25 @@ function panelSpeakerRow(pi,si,s){
 function renderSpeakers(){
   const root=$('#view-speakers');
   const active=data.speakers.filter(s=>s.active).length;
-  root.innerHTML =
+  root.innerHTML=
     `<div class="section-head"><h2>Speakers do carrossel</h2>
        <span class="count">${data.speakers.length} no total · ${active} ativos</span></div>
      <div class="searchbar"><input type="text" id="spk-search" placeholder="filtrar por nome, empresa ou painel…" value="${esc(speakerFilter)}"></div>
-     <div id="spk-list"></div>
+     <div class="spk-table-wrap">
+       <table class="spk-table">
+         <thead><tr>
+           <th title="clique para trocar foto">Foto</th>
+           <th>Nome EN</th><th>Nome PT</th>
+           <th>Empresa EN</th><th>Empresa PT</th>
+           <th>Cargo EN</th><th>Cargo PT</th>
+           <th>Painel EN</th><th>Painel PT</th>
+           <th>Status</th><th>País</th><th>Inic.</th>
+           <th title="clique para trocar logo">Logo</th>
+           <th>Ativo</th><th></th>
+         </tr></thead>
+         <tbody id="spk-list"></tbody>
+       </table>
+     </div>
      <div class="toolbar-bottom"><button class="btn" data-action="spk-add">+ novo speaker</button></div>`;
   $('#spk-search').addEventListener('input',(e)=>{ speakerFilter=e.target.value.toLowerCase(); renderSpeakerList(); });
   renderSpeakerList();
@@ -373,56 +415,56 @@ function speakerMatches(s){
 }
 function renderSpeakerList(){
   const list=$('#spk-list'); list.innerHTML='';
-  data.speakers.forEach((s,i)=>{ if(speakerMatches(s)) list.appendChild(speakerCard(i,s)); });
+  data.speakers.forEach((s,i)=>{ if(speakerMatches(s)) list.appendChild(speakerRow(i,s)); });
 }
-function speakerCard(i,s){
+function speakerRow(i,s){
   const base=`speakers.${i}`;
-  const card=el(`<div class="card ${s.active?'':'inactive'}" data-si="${i}">
-    <div class="card-top">
-      <div class="avatar">${s.photo?`<img src="${esc(s.photo)}" onerror="this.remove()">`:esc(s.initials||'•')}</div>
-      <span class="ttl">${esc((s.name&&s.name.en)|| s.id || '(sem nome)')}</span>
-      <span class="tag">${esc(s.badge||'')}</span>
-      <div class="toolbar">
-        <label class="chk"><input type="checkbox" data-bind="${base}.active" data-live="active" ${s.active?'checked':''}> Ativo</label>
+  const photoContent=s.photo
+    ?`<img src="${esc(s.photo)}" onerror="this.style.display='none'">`
+    :`<span>${esc(s.initials||'•')}</span>`;
+  const logoContent=s.logo
+    ?`<img src="${esc(s.logo)}" onerror="this.style.display='none'">`
+    :`<span style="color:var(--dgray)">+</span>`;
+  const tr=el(`<tr class="${s.active?'':'spk-inactive'}" data-si="${i}">
+    <td>
+      <div class="spk-tthumb" data-action="upload-photo" data-si="${i}" title="clique para trocar foto">${photoContent}</div>
+      <input type="file" accept="image/*" data-file="${base}.photo" style="display:none">
+    </td>
+    <td><input type="text" data-bind="${base}.name.en" value="${esc((s.name&&s.name.en)||'')}" placeholder="name EN" style="min-width:100px"></td>
+    <td><input type="text" data-bind="${base}.name.pt" value="${esc((s.name&&s.name.pt)||'')}" placeholder="nome PT" style="min-width:100px"></td>
+    <td><input type="text" data-bind="${base}.company.en" value="${esc((s.company&&s.company.en)||'')}" placeholder="company EN" style="min-width:110px"></td>
+    <td><input type="text" data-bind="${base}.company.pt" value="${esc((s.company&&s.company.pt)||'')}" placeholder="empresa PT" style="min-width:110px"></td>
+    <td><input type="text" data-bind="${base}.cargo.en" value="${esc((s.cargo&&s.cargo.en)||'')}" placeholder="role EN" style="min-width:100px"></td>
+    <td><input type="text" data-bind="${base}.cargo.pt" value="${esc((s.cargo&&s.cargo.pt)||'')}" placeholder="cargo PT" style="min-width:100px"></td>
+    <td><input type="text" data-bind="${base}.panelLabel.en" value="${esc((s.panelLabel&&s.panelLabel.en)||'')}" placeholder="Panel X" style="min-width:70px"></td>
+    <td><input type="text" data-bind="${base}.panelLabel.pt" value="${esc((s.panelLabel&&s.panelLabel.pt)||'')}" placeholder="Painel X" style="min-width:70px"></td>
+    <td style="min-width:90px">
+      <select data-bind="${base}.badge">
+        ${['confirmed','proposed','tbd'].map(b=>`<option value="${b}" ${s.badge===b?'selected':''}>${b}</option>`).join('')}
+      </select>
+    </td>
+    <td style="min-width:56px">
+      <select data-bind="${base}.flag">
+        ${['us','br'].map(f=>`<option value="${f}" ${s.flag===f?'selected':''}>${f.toUpperCase()}</option>`).join('')}
+      </select>
+    </td>
+    <td><input type="text" data-bind="${base}.initials" value="${esc(s.initials||'')}" maxlength="3" style="width:42px;text-align:center"></td>
+    <td>
+      <div class="spk-lthumb" data-action="upload-logo" data-si="${i}" title="clique para trocar logo">${logoContent}</div>
+      <input type="file" accept="image/*" data-file="${base}.logo" style="display:none">
+    </td>
+    <td style="text-align:center">
+      <input type="checkbox" data-bind="${base}.active" data-live="active" ${s.active?'checked':''}>
+    </td>
+    <td>
+      <div class="toolbar" style="gap:0.2rem">
         <button class="btn sm" data-action="spk-up" data-si="${i}">↑</button>
         <button class="btn sm" data-action="spk-down" data-si="${i}">↓</button>
-        <button class="btn sm danger" data-action="spk-del" data-si="${i}">remover</button>
+        <button class="btn sm danger" data-action="spk-del" data-si="${i}">✕</button>
       </div>
-    </div>
-    <div class="row c3">
-      <div class="field"><label class="fl">Status (badge)</label>
-        <select data-bind="${base}.badge">
-          ${['confirmed','proposed','tbd'].map(b=>`<option value="${b}" ${s.badge===b?'selected':''}>${b}</option>`).join('')}
-        </select></div>
-      <div class="field"><label class="fl">País (flag)</label>
-        <select data-bind="${base}.flag">
-          ${['us','br'].map(f=>`<option value="${f}" ${s.flag===f?'selected':''}>${f.toUpperCase()}</option>`).join('')}
-        </select></div>
-      <div class="field"><label class="fl">Iniciais (fallback s/ foto)</label>
-        <input type="text" data-bind="${base}.initials" value="${esc(s.initials||'')}" maxlength="3"></div>
-    </div>
-    ${biFieldTitled('Nome', base+'.name', 'ttl')}
-    ${biFieldTitled('Empresa', base+'.company')}
-    ${biFieldTitled('Cargo', base+'.cargo')}
-    ${biFieldTitled('Painel (rótulo no card)', base+'.panelLabel')}
-    <div class="row c2">
-      <div class="field"><label class="fl">Foto</label>
-        <div class="upl">
-          <span class="thumb" style="${s.photo?`background-image:url('${esc(s.photo)}')`:''}"></span>
-          <input type="text" data-bind="${base}.photo" value="${esc(s.photo||'')}" placeholder="img/speakers/...jpg ou URL">
-          <button class="btn sm" data-action="upload" data-target="${base}.photo">upload</button>
-          <input type="file" accept="image/*" data-file="${base}.photo">
-        </div></div>
-      <div class="field"><label class="fl">Logo</label>
-        <div class="upl">
-          <span class="thumb" style="${s.logo?`background-image:url('${esc(s.logo)}')`:''}"></span>
-          <input type="text" data-bind="${base}.logo" value="${esc(s.logo||'')}" placeholder="img/logos/...png ou URL">
-          <button class="btn sm" data-action="upload" data-target="${base}.logo">upload</button>
-          <input type="file" accept="image/*" data-file="${base}.logo">
-        </div></div>
-    </div>
-  </div>`);
-  return card;
+    </td>
+  </tr>`);
+  return tr;
 }
 
 /* ================= actions ================= */
@@ -433,6 +475,11 @@ document.addEventListener('click', async (e)=>{
   const si=btn.dataset.si!=null?Number(btn.dataset.si):null;
 
   if(a==='upload'){ const inp=btn.parentElement.querySelector('input[type=file]'); if(inp) inp.click(); return; }
+  if(a==='upload-photo'||a==='upload-logo'){
+    const row=btn.closest('tr'); if(!row) return;
+    const suffix=a==='upload-photo'?'.photo':'.logo';
+    const inp=row.querySelector(`input[type=file][data-file$="${suffix}"]`); if(inp) inp.click(); return;
+  }
 
   // speaker list ops
   if(a==='spk-add'){ data.speakers.push(newSpeaker()); markDirty(); renderSpeakers(); return; }
