@@ -4842,6 +4842,21 @@ function setLang(lang) {
     var badge=BADGE[s.badge]?s.badge:'tbd';
     var photo=s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(name.en||'')+'" loading="lazy" onerror="this.remove();">':'';
     var logo=s.logo?'<img class="speaker-logo" src="'+esc(s.logo)+'" alt="'+esc(company.en||'')+'" loading="lazy" onerror="this.style.visibility=\'hidden\';">':'';
+    // Bio overlay (revealed on hover) — only when the speaker has bio text.
+    var bio=s.bio||{};
+    var bioHtml='';
+    if((bio.en||'').trim() || (bio.pt||'').trim()){
+      var rEn=[company.en||'', cargo.en||''].filter(function(x){return x;}).join(' · ');
+      var rPt=[company.pt||company.en||'', cargo.pt||cargo.en||''].filter(function(x){return x;}).join(' · ');
+      var roleHtml = (!rEn && !rPt) ? ''
+        : (rEn===rPt ? '<div class="speaker-bio-role">'+esc(rEn)+'</div>'
+            : '<div class="speaker-bio-role"><span data-lang="en">'+esc(rEn)+'</span><span data-lang="pt">'+esc(rPt)+'</span></div>');
+      bioHtml='<div class="speaker-bio" aria-hidden="true">'
+        +'<div class="speaker-bio-name">'+bi(name)+'</div>'
+        +roleHtml
+        +'<p class="speaker-bio-text">'+bi(bio)+'</p>'
+      +'</div>';
+    }
     return '<div class="speaker-card">'
       +'<div class="speaker-corners">'
         +'<span class="speaker-badge '+badge+'">'+bi(BADGE[badge])+'</span>'
@@ -4853,6 +4868,7 @@ function setLang(lang) {
       +'<div class="speaker-cargo">'+bi(cargo)+'</div>'
       +'<div class="speaker-logo-slot">'+logo+'</div>'
       +'<div class="speaker-panel">'+bi(panel)+'</div>'
+      +bioHtml
     +'</div>';
   }
 

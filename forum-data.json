@@ -610,7 +610,7 @@
     {
       "id": "anthony-russo",
       "active": true,
-      "badge": "proposed",
+      "badge": "confirmed",
       "flag": "us",
       "initials": "AR",
       "photo": "img/speakers/anthony-russo.jpg",
@@ -630,6 +630,10 @@
       "panelLabel": {
         "en": "Panel 4 — Architecture & Patrimonial",
         "pt": "Painel 4 — Arquitetura & Patrimonialista"
+      },
+      "bio": {
+        "en": "Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.",
+        "pt": "Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa."
       }
     },
     {

@@ -140,6 +140,17 @@
       font-size:0.6rem;color:var(--dgray);overflow:hidden;flex-shrink:0;transition:border-color .15s}
     .spk-lthumb:hover{border-color:var(--ultra)}
     .spk-lthumb img{width:100%;height:100%;object-fit:contain}
+    /* ---- bio editor sub-row ---- */
+    .spk-bio-btn{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.04em;white-space:nowrap}
+    .spk-bio-btn.on{border-color:var(--ultra);color:var(--white)}
+    .spk-bio-btn.open{background:var(--ultra);color:var(--white);border-color:var(--ultra)}
+    .spk-bio-row td{background:var(--panel2);padding:0.9rem 1rem}
+    .bio-editor{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .bio-editor label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;
+      text-transform:uppercase;color:var(--tgray);margin-bottom:0.35rem}
+    .bio-editor .bio-hint{text-transform:none;letter-spacing:0;color:var(--dgray)}
+    .bio-editor textarea{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:0.9rem;line-height:1.5;min-height:90px}
+    @media(max-width:760px){ .bio-editor{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
@@ -404,6 +415,7 @@ function renderSpeakers(){
            <th>Cargo</th>
            <th>Status</th><th>País</th><th>Inic.</th>
            <th title="clique para trocar logo">Logo</th>
+           <th title="descrição exibida ao passar o mouse no card">Bio</th>
            <th>Ativo</th><th></th>
          </tr></thead>
          <tbody id="spk-list"></tbody>
@@ -420,10 +432,28 @@ function speakerMatches(s){
 }
 function renderSpeakerList(){
   const list=$('#spk-list'); list.innerHTML='';
-  data.speakers.forEach((s,i)=>{ if(speakerMatches(s)) list.appendChild(speakerRow(i,s)); });
+  data.speakers.forEach((s,i)=>{ if(speakerMatches(s)){ list.appendChild(speakerRow(i,s)); list.appendChild(speakerBioRow(i,s)); } });
+}
+function speakerBioRow(i,s){
+  const base=`speakers.${i}`; const bio=s.bio||{};
+  return el(`<tr class="spk-bio-row hidden" data-bio-si="${i}">
+    <td colspan="11">
+      <div class="bio-editor">
+        <div class="bio-col">
+          <label>Bio — EN <span class="bio-hint">(texto exibido no hover do card)</span></label>
+          <textarea data-bind="${base}.bio.en" rows="4" placeholder="Short description shown when hovering the card.">${esc(bio.en||'')}</textarea>
+        </div>
+        <div class="bio-col">
+          <label>Bio — PT <span class="bio-hint">(tradução)</span></label>
+          <textarea data-bind="${base}.bio.pt" rows="4" placeholder="Descrição curta exibida ao passar o mouse no card.">${esc(bio.pt||'')}</textarea>
+        </div>
+      </div>
+    </td>
+  </tr>`);
 }
 function speakerRow(i,s){
   const base=`speakers.${i}`;
+  const hasBio=!!(s.bio&&((s.bio.en||'').trim()||(s.bio.pt||'').trim()));
   const photoContent=s.photo
     ?`<img src="${esc(s.photo)}" onerror="this.style.display='none'">`
     :`<span>${esc(s.initials||'•')}</span>`;
@@ -454,6 +484,9 @@ function speakerRow(i,s){
       <input type="file" accept="image/*" data-file="${base}.logo" style="display:none">
     </td>
     <td style="text-align:center">
+      <button class="btn sm spk-bio-btn${hasBio?' on':''}" data-action="spk-bio" data-si="${i}" title="editar bio (EN/PT)">✎ bio</button>
+    </td>
+    <td style="text-align:center">
       <input type="checkbox" data-bind="${base}.active" data-live="active" ${s.active?'checked':''}>
     </td>
     <td>
@@ -482,6 +515,7 @@ document.addEventListener('click', async (e)=>{
   }
 
   // speaker list ops
+  if(a==='spk-bio'){ const r=document.querySelector(`tr.spk-bio-row[data-bio-si="${si}"]`); if(r){ const open=r.classList.toggle('hidden')===false; btn.classList.toggle('open',open); if(open){ const ta=r.querySelector('textarea'); if(ta) ta.focus(); } } return; }
   if(a==='spk-add'){ data.speakers.push(newSpeaker()); markDirty(); renderSpeakers(); return; }
   if(a==='spk-del'){ if(confirm('Remover este speaker?')){ data.speakers.splice(si,1); markDirty(); renderSpeakers(); } return; }
   if(a==='spk-up'){ if(si>0){ swap(data.speakers,si,si-1); markDirty(); renderSpeakers(); } return; }
@@ -520,7 +554,7 @@ function fileToDataUrl(file){ return new Promise((res,rej)=>{ const r=new FileRe
 function swap(arr,i,j){ const t=arr[i]; arr[i]=arr[j]; arr[j]=t; }
 function uid(){ return 'spk-'+Math.random().toString(36).slice(2,8); }
 function newSpeaker(){ return { id:uid(), active:true, badge:'tbd', flag:'us', initials:'', photo:'', logo:'',
-  name:{en:'',pt:''}, company:{en:'',pt:''}, cargo:{en:'',pt:''}, panelLabel:{en:'',pt:''} }; }
+  name:{en:'',pt:''}, company:{en:'',pt:''}, cargo:{en:'',pt:''}, panelLabel:{en:'',pt:''}, bio:{en:'',pt:''} }; }
 function newPanelSpeaker(){ return { photo:'', name:{en:'',pt:''}, role:{en:'',pt:''}, tbd:true }; }
 
 /* Auto-migrate legacy panel speakers (old format had name/role/photo inline).
