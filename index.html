@@ -1488,6 +1488,12 @@
   .speaker-logo { max-height: 60px; max-width: 75%; width: auto; height: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.8; transition: opacity 0.2s; }
   .speaker-card:hover .speaker-logo { opacity: 1; }
   .speaker-panel { margin-top: 0; padding-top: 0.9rem; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ultra); text-align: center; line-height: 1.4; }
+  /* ===== Speaker bio — hover reveal ===== */
+  .speaker-bio { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; justify-content: center; padding: 1.9rem 1.4rem; border-radius: 4px; text-align: left; background: linear-gradient(165deg, #3a0a6e 0%, #1c0438 100%); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s; pointer-events: none; }
+  .speaker-card:hover .speaker-bio { opacity: 1; visibility: visible; transform: translateY(0); }
+  .speaker-bio-name { font-family: 'NYU Perstare', serif; font-size: 1rem; font-weight: 500; color: var(--white); line-height: 1.2; margin: 0 0 0.2rem; }
+  .speaker-bio-role { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ultra); margin: 0 0 0.85rem; padding-bottom: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .speaker-bio-text { font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif; font-size: 0.72rem; line-height: 1.55; color: rgba(255,255,255,0.82); margin: 0; overflow-y: auto; }
   @media (max-width: 768px) {
     .slide-speakers { padding: 3rem 0.75rem 4rem; }
     .speakers-head { margin: 0 0 2rem; padding: 0; }
@@ -1496,6 +1502,10 @@
     .speakers-head h2 { font-size: 1.4rem; margin-bottom: 0; }
     .speakers-head p { font-size: 0.72rem; max-width: none; }
     .speaker-card { flex-basis: 200px; min-height: 340px; padding: 2.5rem 0.8rem 1rem; }
+    .speaker-bio { padding: 1.5rem 1.1rem; }
+    .speaker-bio-name { font-size: 0.9rem; }
+    .speaker-bio-role { margin-bottom: 0.7rem; padding-bottom: 0.7rem; }
+    .speaker-bio-text { font-size: 0.66rem; line-height: 1.5; }
     .speaker-photo { width: 90px; height: 90px; }
     .speaker-initials { font-size: 1.8rem; }
     .speaker-flag { height: 20px; width: 20px; }
@@ -2084,7 +2094,7 @@
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
-            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
+            <span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span>
             <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
           </div>
           <div class="speaker-photo">
@@ -2096,6 +2106,11 @@
           <div class="speaker-cargo"><span data-lang="en">Managing Principal</span><span data-lang="pt">Managing Principal</span></div>
           <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/csfg.png" alt="CSFG" loading="lazy" onerror="this.style.visibility='hidden';"></div>
           <div class="speaker-panel"><span data-lang="en">Panel 4 — Architecture & Patrimonial</span><span data-lang="pt">Painel 4 — Arquitetura & Patrimonialista</span></div>
+          <div class="speaker-bio" aria-hidden="true">
+            <div class="speaker-bio-name">Anthony Russo</div>
+            <div class="speaker-bio-role">CSFG · Managing Principal</div>
+            <p class="speaker-bio-text"><span data-lang="en">Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.</span><span data-lang="pt">Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa.</span></p>
+          </div>
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
@@ -2418,7 +2433,7 @@
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
-            <span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span>
+            <span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span>
             <img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24">
           </div>
           <div class="speaker-photo">
@@ -2430,6 +2445,11 @@
           <div class="speaker-cargo"><span data-lang="en">Managing Principal</span><span data-lang="pt">Managing Principal</span></div>
           <div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/csfg.png" alt="CSFG" loading="lazy" onerror="this.style.visibility='hidden';"></div>
           <div class="speaker-panel"><span data-lang="en">Panel 4 — Architecture & Patrimonial</span><span data-lang="pt">Painel 4 — Arquitetura & Patrimonialista</span></div>
+          <div class="speaker-bio" aria-hidden="true">
+            <div class="speaker-bio-name">Anthony Russo</div>
+            <div class="speaker-bio-role">CSFG · Managing Principal</div>
+            <p class="speaker-bio-text"><span data-lang="en">Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.</span><span data-lang="pt">Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa.</span></p>
+          </div>
         </div>
         <div class="speaker-card">
           <div class="speaker-corners">
