@@ -1767,12 +1767,216 @@
     .day-card[data-day="3"] .card-section-divider,
     .day-card[data-day="3"] .card-visit-list  { display: none; }
   }
+
+  /* ============================================================
+     TEST-ONLY ADDITIONS — sections "02 The Shift" and
+     "03 The Missing Asset Class" + Apple-style scroll treatment.
+     ============================================================ */
+
+  /* Reveal (fade-up). Hidden only when JS is running (html.js). */
+  html.js .reveal {
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  html.js .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* Blur-in headlines (soft focus entrance) */
+  html.js .blur-in {
+    opacity: 0; transform: translateY(28px); filter: blur(12px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.9s ease;
+  }
+  html.js .blur-in.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Directional entrances for the US / BR comparison columns */
+  html.js .asset-col--us .reveal { transform: translate(-28px, 16px); }
+  html.js .asset-col--br .reveal { transform: translate(28px, 16px); }
+  html.js .asset-col--us .reveal.in, html.js .asset-col--br .reveal.in { transform: translate(0, 0); }
+
+  /* Wipe reveal (yield line): left-to-right clip */
+  html.js .wipe {
+    clip-path: inset(0 100% 0 0); opacity: 0;
+    transition: clip-path 1.1s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.7s ease;
+  }
+  html.js .wipe.in { clip-path: inset(0 0 0 0); opacity: 1; }
+
+  .par-layer.par-active { will-change: transform; }
+
+  /* --- 02 THE SHIFT --- */
+  .shift-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 4rem; align-items: center; }
+  @media (max-width: 1024px) { .shift-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .data-cards--pair { grid-template-columns: 1fr 1fr; max-width: 580px; }
+  @media (max-width: 768px) { .data-cards--pair { grid-template-columns: 1fr; } }
+
+
+  .bridge-cta {
+    display: inline-block; margin-top: 2.2rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; line-height: 1.8;
+    color: var(--violet); text-decoration: none;
+    border-bottom: 1px solid rgba(87,6,140,0.35); padding-bottom: 0.35rem;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  }
+  .bridge-cta:hover { color: var(--ultra); border-bottom-color: var(--ultra); }
+  .crossover-chart svg { width: 100%; height: auto; display: block; }
+  .chart-axis-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; fill: var(--tgray); }
+  .chart-end-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; }
+  .chart-gridline { stroke: rgba(26,26,26,0.08); stroke-width: 1; }
+  .chart-line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .chart-line--market { stroke: var(--violet); }
+  .chart-line--savings { stroke: #BFBFBF; }
+  .chart-endcap { opacity: 1; transition: opacity 0.4s ease; }
+  html.js .chart-endcap.dim { opacity: 0; }
+  .crossover-marker {
+    opacity: 0; transform: scale(0.6);
+    transform-box: fill-box; transform-origin: center;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .crossover-marker.in { opacity: 1; transform: scale(1); }
+  .chart-legend { display: flex; gap: 1.6rem; flex-wrap: wrap; margin-top: 0.9rem; }
+  .chart-legend-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray);
+  }
+  .chart-legend-swatch { width: 14px; height: 3px; border-radius: 2px; flex: none; }
+  .chart-support { font-size: 0.75rem; line-height: 1.6; margin-top: 1.1rem; }
+  .chart-source { font-family: 'JetBrains Mono', monospace; font-size: 0.4rem; letter-spacing: 0.08em; color: #bbb; margin-top: 0.6rem; }
+
+  /* --- 03 THE MISSING ASSET CLASS — US (solid) ↔ Brazil (hollow) contrast --- */
+  .asset-compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      "ushead axis brhead"
+      "us1    axis br1"
+      "us2    axis br2";
+    column-gap: 0; row-gap: 1.3rem;
+    margin-top: 3rem; max-width: 1060px;
+  }
+  /* display:contents lets both columns' cards share one grid, so each row
+     (US card ↔ BR card) stretches to a common height and lines up */
+  .asset-col { display: contents; }
+  .asset-col--us .asset-col-label { grid-area: ushead; }
+  .asset-col--us .asset-r1 { grid-area: us1; }
+  .asset-col--us .asset-r2 { grid-area: us2; }
+  .asset-col--br .asset-col-label { grid-area: brhead; }
+  .asset-col--br .asset-r1 { grid-area: br1; }
+  .asset-col--br .asset-r2 { grid-area: br2; }
+  @media (max-width: 768px) {
+    .asset-compare {
+      grid-template-columns: 1fr;
+      grid-template-areas: "ushead" "us1" "us2" "axis" "brhead" "br1" "br2";
+      row-gap: 1.4rem;
+    }
+  }
+
+  /* central "vs" axis — the two markets face off across it */
+  .asset-axis {
+    grid-area: axis; align-self: stretch; justify-self: center; width: 1px; margin: 0 2.6rem;
+    background: linear-gradient(180deg, transparent, rgba(87,6,140,0.28) 12%, rgba(87,6,140,0.28) 88%, transparent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .asset-axis-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--tgray);
+    background: var(--lgray); padding: 0.55rem 0.35rem; line-height: 1;
+    border: 1px solid rgba(87,6,140,0.25); border-radius: 2px;
+  }
+  @media (max-width: 768px) {
+    .asset-axis { width: auto; height: 1px; margin: 0.3rem 0;
+      background: linear-gradient(90deg, transparent, rgba(87,6,140,0.28), transparent); }
+  }
+
+  /* column heads — mirrored: US leads from the left, BR from the right */
+  .asset-col-label {
+    display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;
+    min-height: 1.4rem; padding-bottom: 0.85rem; margin-bottom: 1.4rem;
+    border-bottom: 1px solid rgba(87,6,140,0.18);
+  }
+  .asset-col--br .asset-col-label { justify-content: flex-start; text-align: left; }
+  .asset-col-name {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--violet);
+  }
+  .asset-col-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.46rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray);
+  }
+  .asset-col-flag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.5rem; font-weight: 500;
+    letter-spacing: 0.08em; padding: 0.3rem 0.45rem; border-radius: 2px; line-height: 1;
+    background: var(--violet); color: #fff;
+  }
+  .asset-col-flag--br { background: transparent; color: var(--violet); border: 1px solid var(--violet); }
+
+  /* US = solid, filled, established */
+  .asset-col--us .data-card {
+    background: var(--deep); border: none; border-left: 3px solid var(--ultra);
+    padding: 1.6rem 1.7rem;
+  }
+  .asset-col--us .data-card-num { color: #fff; font-size: 2.5rem; }
+  .asset-col--us .data-card-label { color: rgba(255,255,255,0.55); }
+  .asset-col--us .data-card-desc { color: rgba(255,255,255,0.72); }
+  .asset-col--us .data-card-source { color: rgba(255,255,255,0.4); }
+
+  /* BR = hollow, outlined, emerging — mirrored toward the axis */
+  .asset-col--br .data-card {
+    background: transparent; border: 1px dashed rgba(87,6,140,0.4);
+    padding: 1.6rem 1.7rem; text-align: left;
+  }
+  .asset-col--br .data-card-num { color: var(--violet); font-size: 2.5rem; }
+  .asset-col--br .data-card--punch { border: 1px solid var(--violet); background: rgba(87,6,140,0.05); }
+  .asset-col--br .data-card--punch .data-card-num { color: var(--ultra); }
+
+  @media (max-width: 768px) {
+    .asset-col--us .data-card-num, .asset-col--br .data-card-num { font-size: 2rem; }
+  }
+  .asset-yield {
+    max-width: 980px; margin-top: 2.2rem; padding: 1.2rem 1.5rem;
+    border-left: 2px solid var(--ultra); background: rgba(137,0,225,0.05);
+  }
+  .asset-yield p { font-size: 0.85rem; line-height: 1.65; color: var(--black); max-width: 860px; }
+  .asset-yield .data-card-source { margin-top: 0.6rem; }
+  .asset-momentum {
+    margin-top: 1.6rem; max-width: 860px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.06em; line-height: 1.8; color: var(--dgray);
+  }
+  .asset-momentum::before { content: '→ '; color: var(--violet); }
+
+  /* --- COVER: discreet 3D Manhattan drifting behind the purple --- */
+  .cover-manhattan {
+    position: absolute; inset: 0; z-index: 0;
+    opacity: 0; transition: opacity 1.5s ease;
+    pointer-events: none;
+  }
+  .cover-manhattan.ready { opacity: 1; }
+  .cover-manhattan::after {
+    /* moderate purple bath: the city stays readable but the deep leads */
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 45%, rgba(51,6,98,0.45) 0%, rgba(51,6,98,0.65) 70%, rgba(51,6,98,0.88) 100%),
+      linear-gradient(180deg, rgba(51,6,98,0.75) 0%, rgba(51,6,98,0.28) 30%,
+        rgba(51,6,98,0.28) 70%, rgba(51,6,98,0.80) 100%);
+  }
+
+  /* bridge-CTA targets get a brief highlight when reached via anchor */
+  #panel-4-item:target, #panel-6-item:target { background: rgba(137,0,225,0.22); }
+
+  /* Reduced motion: static final states, no animation */
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal, html.js .blur-in, html.js .wipe {
+      opacity: 1; transform: none; filter: none; clip-path: none; transition: none;
+    }
+    .crossover-marker { opacity: 1; transform: none; transition: none; }
+  }
 </style>
 </head>
 <body>
 
 <!-- ===== 01 COVER ===== -->
 <section class="slide slide-cover" id="slide-cover">
+  <div id="cover-manhattan" class="cover-manhattan" aria-hidden="true"></div>
   <div class="cover-dots-base"></div>
   <div class="cover-dots-glow" id="cover-dots-glow"></div>
   <div class="lang-toggle">
@@ -1879,23 +2083,170 @@
       <div class="data-card-source">JLL, MSCI 2024</div>
     </div>
     <div class="data-card">
-      <div class="data-card-num">2M+</div>
+      <div class="data-card-num">3M+</div>
       <div class="data-card-label"><span data-lang="en">Brazilian REIT Investors</span><span data-lang="pt">Cotistas de FIIs no Brasil</span></div>
-      <div class="data-card-desc" data-lang="en">Nearly 100% retail/individual investors. Zero meaningful foreign institutional presence.</div>
-      <div class="data-card-desc" data-lang="pt">Quase 100% varejo/pessoa física. Zero presença institucional estrangeira relevante.</div>
-      <div class="data-card-source">B3 / CVM 2025</div>
+      <div class="data-card-desc" data-lang="en">72.9% held by retail investors. Marginal foreign institutional presence.</div>
+      <div class="data-card-desc" data-lang="pt">72,9% nas mãos de pessoas físicas. Presença institucional estrangeira marginal.</div>
+      <div class="data-card-source">B3 · 2026</div>
     </div>
   </div>
 
 </section>
 
-<!-- ===== 03 THE OPPORTUNITY ===== -->
+<!-- ===== 03 THE SHIFT (TEST-ONLY SECTION — pinned scroll-scrub scene on desktop) ===== -->
+<section class="slide" id="slide-shift">
+  <div class="shift-sticky">
+    <div class="sn" data-lang="en">02 — The Shift</div>
+    <div class="sn" data-lang="pt">02 — A Virada</div>
+    <div class="shift-grid">
+      <div class="shift-copy">
+        <div class="par-layer" data-parallax="-56">
+          <h2 class="blur-in" data-lang="en">The plumbing is being rebuilt — right now.</h2>
+          <h2 class="blur-in" data-lang="pt">O encanamento está sendo trocado — agora.</h2>
+        </div>
+        <p class="reveal" style="transition-delay:0.15s;" data-lang="en">Brazil's real estate credit only crossed 10% of GDP in 2025. In the US, residential mortgage debt alone stands near 45%. The gap is not demand — it is funding structure. And that structure just started to change.</p>
+        <p class="reveal" style="transition-delay:0.15s;" data-lang="pt">O crédito imobiliário brasileiro só cruzou 10% do PIB em 2025. Nos EUA, apenas a dívida hipotecária residencial beira 45%. O gap não é demanda — é estrutura de funding. E essa estrutura acabou de começar a mudar.</p>
+        <div class="data-cards data-cards--pair par-layer" data-parallax="-32">
+          <div class="data-card reveal" style="transition-delay:0.3s;">
+            <div class="data-card-num countup">10%</div>
+            <div class="data-card-label"><span data-lang="en">BR real estate credit / GDP</span><span data-lang="pt">Crédito imobiliário BR / PIB</span></div>
+            <div class="data-card-desc" data-lang="en">Crossed 10% in 2025 — up from ~2% in 2007.</div>
+            <div class="data-card-desc" data-lang="pt">Cruzou 10% em 2025 — ante ~2% em 2007.</div>
+            <div class="data-card-source">Banco Central do Brasil · 2025</div>
+          </div>
+          <div class="data-card reveal" style="transition-delay:0.45s;">
+            <div class="data-card-num countup">45%</div>
+            <div class="data-card-label"><span data-lang="en">US residential mortgage / GDP</span><span data-lang="pt">Hipotecas residenciais EUA / PIB</span></div>
+            <div class="data-card-desc" data-lang="en">US$ 13.8 trillion outstanding, Q4 2025.</div>
+            <div class="data-card-desc" data-lang="pt">US$ 13,8 trilhões em estoque, T4 2025.</div>
+            <div class="data-card-source">Federal Reserve Z.1 · 2025</div>
+          </div>
+        </div>
+        <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#panel-6-item">
+          <span data-lang="en">This conversation is Panel 6 — Capital Stack: US vs. Brazil. →</span>
+          <span data-lang="pt">Essa conversa é o Painel 6 — Capital Stack: EUA vs. Brasil. →</span>
+        </a>
+      </div>
+      <div class="shift-chart par-layer" data-parallax="-20">
+        <div class="crossover-chart reveal" style="transition-delay:0.55s;" id="crossover-chart">
+          <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Funding share of Brazilian real estate credit, 2021 to 2025: capital-markets instruments overtake savings deposits in 2023.">
+            <line class="chart-gridline" x1="70" y1="243" x2="610" y2="243"/>
+            <line class="chart-gridline" x1="70" y1="169" x2="610" y2="169"/>
+            <line class="chart-gridline" x1="70" y1="94"  x2="610" y2="94"/>
+            <text class="chart-axis-label" x="60" y="247" text-anchor="end">25%</text>
+            <text class="chart-axis-label" x="60" y="173" text-anchor="end">35%</text>
+            <text class="chart-axis-label" x="60" y="98"  text-anchor="end">45%</text>
+            <text class="chart-axis-label" x="70"  y="305" text-anchor="middle">2021</text>
+            <text class="chart-axis-label" x="340" y="305" text-anchor="middle">2023</text>
+            <text class="chart-axis-label" x="475" y="305" text-anchor="middle">2024</text>
+            <text class="chart-axis-label" x="610" y="305" text-anchor="middle">2025</text>
+            <path class="chart-line chart-line--savings" d="M70,65 L340,161 L475,191 L610,213"/>
+            <path class="chart-line chart-line--market" d="M70,250 L340,146 L475,124 L610,102"/>
+            <g class="chart-endcap" id="chart-endcap">
+              <circle cx="610" cy="102" r="4" fill="#57068C"/>
+              <circle cx="610" cy="213" r="4" fill="#BFBFBF"/>
+              <text class="chart-end-label" x="622" y="106" fill="#57068C">44%</text>
+              <text class="chart-end-label" x="622" y="217" fill="#999999">29%</text>
+            </g>
+            <g class="crossover-marker" id="crossover-marker">
+              <circle cx="320" cy="154" r="6" fill="none" stroke="#8900e1" stroke-width="2"/>
+              <circle cx="320" cy="154" r="2.5" fill="#8900e1"/>
+              <text class="chart-axis-label" x="320" y="126" text-anchor="middle" fill="#8900e1" style="letter-spacing:0.15em;">CROSSOVER · 2023</text>
+            </g>
+          </svg>
+        </div>
+        <div class="chart-legend reveal" style="transition-delay:0.75s;">
+          <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--violet);"></span><span data-lang="en">Market instruments (LCI + CRI + LIG + FII)</span><span data-lang="pt">Instrumentos de mercado (LCI + CRI + LIG + FII)</span></div>
+          <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:#BFBFBF;"></span><span data-lang="en">Savings deposits (poupança)</span><span data-lang="pt">Poupança</span></div>
+        </div>
+        <div class="chart-source reveal" style="transition-delay:0.9s;">ABECIP · 2025</div>
+        <p class="chart-support reveal" style="transition-delay:2.5s;" data-lang="en">In 2023, for the first time, capital-markets instruments overtook savings deposits as the largest source of real estate funding in Brazil. By 2025 they supply ~44% of the funding structure. The October 2025 savings reform accelerates the convergence toward the US model — where 64% of mortgage debt is funded through capital markets.</p>
+        <p class="chart-support reveal" style="transition-delay:2.5s;" data-lang="pt">Em 2023, pela primeira vez, os instrumentos de mercado de capitais ultrapassaram a poupança como maior fonte de funding imobiliário no Brasil. Em 2025 já respondem por ~44% da estrutura. A reforma da poupança de outubro de 2025 acelera a convergência rumo ao modelo americano — onde 64% da dívida hipotecária é financiada via mercado de capitais.</p>
+        <div class="chart-source reveal" style="transition-delay:2.65s;">ABECIP 2025 · Urban Institute / Federal Reserve Q4 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 THE MISSING ASSET CLASS (TEST-ONLY SECTION) ===== -->
+<section class="slide slide-light" id="slide-asset">
+  <div class="sn" data-lang="en">03 — The Missing Asset Class</div>
+  <div class="sn" data-lang="pt">03 — A Classe de Ativo que Falta</div>
+  <div class="par-layer" data-parallax="-40">
+    <h2 class="blur-in" data-lang="en">The asset institutional capital knows best doesn't exist in Brazil yet.</h2>
+    <h2 class="blur-in" data-lang="pt">O ativo que o capital institucional mais domina ainda não existe no Brasil.</h2>
+  </div>
+  <p class="reveal" style="transition-delay:0.1s;" data-lang="en">Multifamily is the largest traditional property type in the US institutional universe. In Brazil, rental housing is not yet an asset class: ownership is fragmented, retail-held, and unread by institutions. The gap is the opportunity.</p>
+  <p class="reveal" style="transition-delay:0.1s;" data-lang="pt">Multifamily é a maior classe imobiliária tradicional do universo institucional americano. No Brasil, moradia para renda ainda não é uma classe de ativo: a propriedade é fragmentada, de varejo e ilegível para instituições. O gap é a oportunidade.</p>
+  <div class="asset-compare par-layer" data-parallax="-24">
+    <div class="asset-col asset-col--us">
+      <div class="asset-col-label reveal">
+        <span class="asset-col-flag">US</span>
+        <span class="asset-col-name"><span data-lang="en">United States</span><span data-lang="pt">Estados Unidos</span></span>
+        <span class="asset-col-tag"><span data-lang="en">Established asset class</span><span data-lang="pt">Classe consolidada</span></span>
+      </div>
+      <div class="data-card asset-r1 reveal" style="transition-delay:0.08s;">
+        <div class="data-card-num countup">US$ 2.6 T</div>
+        <div class="data-card-label"><span data-lang="en">Institutional apartment value</span><span data-lang="pt">Valor institucional em apartamentos</span></div>
+        <div class="data-card-desc" data-lang="en">22.5% of the US institutional RE universe — the largest traditional sector.</div>
+        <div class="data-card-desc" data-lang="pt">22,5% do universo institucional de RE dos EUA — o maior setor tradicional.</div>
+        <div class="data-card-source">Clarion / Rosen Consulting · 2025</div>
+      </div>
+      <div class="data-card asset-r2 reveal" style="transition-delay:0.16s;">
+        <div class="data-card-num countup">US$ 146 B</div>
+        <div class="data-card-label"><span data-lang="en">Apartments traded in 2024 alone</span><span data-lang="pt">Apartamentos transacionados só em 2024</span></div>
+        <div class="data-card-source">MSCI Real Assets · 2024</div>
+      </div>
+    </div>
+
+    <div class="asset-axis" aria-hidden="true"><span class="asset-axis-chip">vs</span></div>
+
+    <div class="asset-col asset-col--br">
+      <div class="asset-col-label reveal" style="transition-delay:0.2s;">
+        <span class="asset-col-flag asset-col-flag--br">BR</span>
+        <span class="asset-col-name"><span data-lang="en">Brazil</span><span data-lang="pt">Brasil</span></span>
+        <span class="asset-col-tag"><span data-lang="en">Not yet an asset class</span><span data-lang="pt">Ainda não é classe</span></span>
+      </div>
+      <div class="data-card asset-r1 reveal" style="transition-delay:0.28s;">
+        <div class="data-card-num countup">~14,000</div>
+        <div class="data-card-label"><span data-lang="en">Institutional rental units nationwide</span><span data-lang="pt">Unidades institucionais de renda no país</span></div>
+        <div class="data-card-desc" data-lang="en">Under 0.1% of Brazil's rental market.</div>
+        <div class="data-card-desc" data-lang="pt">Menos de 0,1% do mercado de aluguel brasileiro.</div>
+        <div class="data-card-source">Newmark · 2025</div>
+      </div>
+      <div class="data-card asset-r2 data-card--punch reveal" style="transition-delay:0.36s;">
+        <div class="data-card-num countup">72.9%</div>
+        <div class="data-card-label"><span data-lang="en">Retail ownership of listed RE funds (FIIs)</span><span data-lang="pt">Participação de pessoa física nos FIIs listados</span></div>
+        <div class="data-card-desc" data-lang="en">Income real estate held by individuals, not institutions — the inverse of the US model.</div>
+        <div class="data-card-desc" data-lang="pt">Renda imobiliária na mão de pessoas físicas, não de instituições — o inverso do modelo americano.</div>
+        <div class="data-card-source">B3 · Dez 2025</div>
+      </div>
+    </div>
+  </div>
+  <div class="asset-yield wipe" style="transition-delay:0.5s;">
+    <p data-lang="en">Brazilian income funds yield ~12% — but the risk-free rate is 14.25%. High yield here is a risk premium, not an opportunity. Legibility, not returns.</p>
+    <p data-lang="pt">Fundos de renda no Brasil pagam ~12% — mas a taxa livre de risco é 14,25%. Yield alto aqui é prêmio de risco, não oportunidade. Legibilidade, não retorno.</p>
+    <div class="data-card-source">B3 · Banco Central do Brasil, jun 2026</div>
+  </div>
+  <div class="asset-momentum reveal" style="transition-delay:0.62s;">
+    <span data-lang="en">The pioneers are already building: Greystar and Cyrela have announced R$ 5 billion for 10,000 units by 2029.</span>
+    <span data-lang="pt">Os pioneiros já estão construindo: Greystar e Cyrela anunciaram R$ 5 bilhões para 10 mil unidades até 2029.</span>
+  </div>
+  <div>
+    <a class="bridge-cta reveal" style="transition-delay:0.72s;" href="#panel-4-item">
+      <span data-lang="en">This conversation is Panel 4 — Residential: Patrimonial &amp; Multifamily, with Greystar Brazil in the room. →</span>
+      <span data-lang="pt">Essa conversa é o Painel 4 — Residencial: Patrimonial &amp; Multifamily, com a Greystar Brazil na sala. →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== 05 THE OPPORTUNITY ===== -->
 <section class="slide slide-globe" id="slide-opportunity">
   <div class="globe-sticky">
     <canvas id="globe-bg"></canvas>
     <div class="globe-text" id="globe-text">
-      <div class="sn" data-lang="en">02 — The Opportunity</div>
-      <div class="sn" data-lang="pt">02 — A Oportunidade</div>
+      <div class="sn" data-lang="en">04 — The Opportunity</div>
+      <div class="sn" data-lang="pt">04 — A Oportunidade</div>
       <h2 data-lang="en">Bridging Brazil to the world's<br>most mature RE market.</h2>
       <h2 data-lang="pt">Conectando o Brasil ao mercado<br>imobiliário mais maduro do mundo.</h2>
       <p data-lang="en">We are bringing 80 hand-picked leaders of Brazilian real estate — CEOs, CIOs, developers, and fund managers — to New York to learn from, and exchange with, the professionals who set the global standard in governance, capital structuring, and institutional transparency. Co-organized by Instituto Cidades Responsivas (Grupo OSPA) and NYU Schack Institute of Real Estate, the forum is where Brazil's real estate market begins to speak the language that global capital understands.</p>
@@ -1911,11 +2262,11 @@
   </div>
 </section>
 
-<!-- ===== 03 SPEAKERS ===== -->
+<!-- ===== 06 SPEAKERS ===== -->
 <section class="slide slide-speakers" id="slide-speakers">
   <div class="speakers-head">
-    <div class="sn" data-lang="en">03 — Speakers</div>
-    <div class="sn" data-lang="pt">03 — Speakers</div>
+    <div class="sn" data-lang="en">05 — Speakers</div>
+    <div class="sn" data-lang="pt">05 — Speakers</div>
     <h2 data-lang="en">The people<br>in the room.</h2>
     <h2 data-lang="pt">As pessoas<br>na sala.</h2>
     <p data-lang="en">Senior leaders from both sides of the Brazil–USA real estate bridge — operators, allocators, and policy voices. The list updates as confirmations come in.</p>
@@ -2605,12 +2956,12 @@
   </div>
 </section>
 
-<!-- ===== 04 NY WEEK ===== -->
+<!-- ===== 07 NY WEEK ===== -->
 <section class="slide slide-nyweek" id="slide-nyweek">
   <div class="nyweek-sticky">
     <div class="nyweek-text" id="nyweek-text">
-      <div class="sn" data-lang="en">04 — New York Week</div>
-      <div class="sn" data-lang="pt">04 — Semana NY</div>
+      <div class="sn" data-lang="en">06 — New York Week</div>
+      <div class="sn" data-lang="pt">06 — Semana NY</div>
       <h2 data-lang="en">Three days.<br>One ecosystem.</h2>
       <h2 data-lang="pt">Três dias.<br>Um ecossistema.</h2>
       <p data-lang="en">The Forum anchors a concentrated week of real estate programming in New York. Partners gain visibility across the entire program — not just one event.</p>
@@ -2629,9 +2980,9 @@
           <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">The Urban Condition</span><span data-lang="pt">A Condição Urbana</span></div>
           <div class="card-panel-item"><span class="card-panel-num">02 —</span><span data-lang="en">Data, Transparency &amp; Risk</span><span data-lang="pt">Dados, Transparência &amp; Risco</span></div>
           <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Public–Private Development</span><span data-lang="pt">Desenvolvimento Público–Privado</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">04 —</span><span data-lang="en">Residential: Patrimonial &amp; Multifamily</span><span data-lang="pt">Residencial: Patrimonial &amp; Multifamily</span></div>
+          <div class="card-panel-item" id="panel-4-item"><span class="card-panel-num">04 —</span><span data-lang="en">Residential: Patrimonial &amp; Multifamily</span><span data-lang="pt">Residencial: Patrimonial &amp; Multifamily</span></div>
           <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">Development &amp; the Sponsor–Developer Model</span><span data-lang="pt">Desenvolvimento &amp; o Modelo Sponsor–Developer</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">06 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
+          <div class="card-panel-item" id="panel-6-item"><span class="card-panel-num">06 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
         </div>
         <a class="card-past-btn"
            href="https://luma.com/event/evt-cZKc1exaulCHny5"
@@ -2871,13 +3222,13 @@
   </div>
 </section>
 
-<!-- ===== 05 VENUES MAP ===== -->
+<!-- ===== 08 VENUES MAP ===== -->
 <section class="slide-map" id="slide-map">
   <div class="map-sticky">
     <div id="mapbox-map" style="width:100%;height:100%;"></div>
     <div class="map-overlay">
-      <div class="sn" data-lang="en">05 — Venues</div>
-      <div class="sn" data-lang="pt">05 — Locais</div>
+      <div class="sn" data-lang="en">07 — Venues</div>
+      <div class="sn" data-lang="pt">07 — Locais</div>
       <h2 data-lang="en">Two stages.<br>One city.</h2>
       <h2 data-lang="pt">Dois palcos.<br>Uma cidade.</h2>
     </div>
@@ -3035,7 +3386,7 @@
   </div>
 </section>
 
-<!-- ===== 06 CLOSING ===== -->
+<!-- ===== 09 CLOSING ===== -->
 <section class="slide slide-closing" id="slide-closing">
   <div class="closing-content">
     <div class="cover-partners">
@@ -4935,5 +5286,233 @@ function setLang(lang) {
 })();
 </script>
 
+
+<!-- ===== TEST-ONLY: scroll-triggered animations =====
+     The Shift: entering the section STARTS the choreography once; it then
+     plays out on its own (copy -> cards + count-up -> chart draw ->
+     CROSSOVER pop -> supporting copy -> CTA). Everything else uses soft
+     trigger-once reveals. prefers-reduced-motion: static final states. -->
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.matchMedia('(max-width: 768px)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+  var doc = document.documentElement;
+  doc.classList.add('js');
+
+  /* Section 01 joins the soft-reveal language */
+  var whyEls = document.querySelectorAll('#slide-why h2, #slide-why p, #slide-why .data-card');
+  Array.prototype.forEach.call(whyEls, function (el, i) {
+    el.classList.add('reveal');
+    el.style.transitionDelay = Math.min(i * 0.06, 0.45).toFixed(2) + 's';
+  });
+
+  var shiftSection = document.getElementById('slide-shift');
+  function inShift(el) { return shiftSection && shiftSection.contains(el); }
+
+  /* --- Reveals (fade-up / blur-in / wipe; stagger via transition-delay).
+         The Shift's elements are excluded here: they fire as ONE
+         choreography from the section-level trigger below. --- */
+  var animEls = Array.prototype.slice.call(document.querySelectorAll('.reveal, .blur-in, .wipe'));
+  if (reduceMotion || !hasIO) {
+    animEls.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var revealIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); revealIO.unobserve(entry.target); }
+      });
+    }, { threshold: 0.22 });
+    animEls.filter(function (el) { return !inShift(el); }).forEach(function (el) { revealIO.observe(el); });
+  }
+
+  /* --- Count-up: parse once, always land on the exact original string --- */
+  function parseNum(text) {
+    var m = text.match(/^([^0-9]*)([0-9.,]+)(.*)$/);
+    if (!m) return null;
+    var clean = m[2].replace(/,/g, '');
+    return {
+      prefix: m[1], suffix: m[3],
+      target: parseFloat(clean),
+      decimals: clean.indexOf('.') >= 0 ? clean.split('.')[1].length : 0,
+      grouped: m[2].indexOf(',') >= 0,
+      original: text
+    };
+  }
+  function fmt(v, spec) {
+    var s = v.toFixed(spec.decimals);
+    if (spec.grouped) {
+      var parts = s.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      s = parts.join('.');
+    }
+    return spec.prefix + s + spec.suffix;
+  }
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function runCount(el) {
+    var spec = parseNum(el.textContent.trim());
+    if (!spec || !isFinite(spec.target)) return;
+    var t0 = null, DUR = 1000;
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var t = Math.min((ts - t0) / DUR, 1);
+      el.textContent = fmt(spec.target * easeOutCubic(t), spec);
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = spec.original;
+    }
+    requestAnimationFrame(step);
+  }
+  var countEls = Array.prototype.slice.call(document.querySelectorAll('.countup'));
+  if (!reduceMotion && hasIO && countEls.length) {
+    var countIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { countIO.unobserve(entry.target); runCount(entry.target); }
+      });
+    }, { threshold: 0.4 });
+    countEls.filter(function (el) { return !inShift(el); }).forEach(function (el) { countIO.observe(el); });
+  }
+
+  /* --- Crossover chart prep (lines hidden until the show starts) --- */
+  var chart = document.getElementById('crossover-chart');
+  var chartLines = chart ? Array.prototype.slice.call(chart.querySelectorAll('.chart-line')) : [];
+  var marker = document.getElementById('crossover-marker');
+  var endcap = document.getElementById('chart-endcap');
+  if (chart && !reduceMotion && hasIO) {
+    chartLines.forEach(function (path) {
+      var len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+    });
+    if (endcap) endcap.classList.add('dim');
+  } else if (marker) {
+    marker.classList.add('in');
+  }
+
+  /* --- The Shift: scroll only STARTS the show; it then runs by itself.
+         Timeline: copy lands 0-1s -> numbers count from 0.6s -> lines draw
+         0.9-2.5s -> CROSSOVER pops at ~1.9s (right after the lines cross)
+         -> supporting copy 2.5s -> bridge CTA 2.8s --- */
+  function playShift() {
+    animEls.filter(inShift).forEach(function (el) { el.classList.add('in'); });
+    setTimeout(function () { countEls.filter(inShift).forEach(runCount); }, 600);
+    chartLines.forEach(function (path) {
+      path.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(0.33, 1, 0.68, 1) 0.9s';
+      path.style.strokeDashoffset = '0';
+    });
+    setTimeout(function () { if (marker) marker.classList.add('in'); }, 1900);
+    setTimeout(function () { if (endcap) endcap.classList.remove('dim'); }, 2500);
+  }
+  if (shiftSection && !reduceMotion && hasIO) {
+    var shiftIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        shiftIO.disconnect();
+        playShift();
+      });
+    }, { threshold: 0.35 });
+    shiftIO.observe(shiftSection);
+  }
+
+  /* --- Depth parallax: hero layers drift slower than the page while their
+         section crosses the viewport (transform only, max ~56px range).
+         Skipped on mobile and under prefers-reduced-motion. --- */
+  var parItems = [];
+  if (!reduceMotion && !isMobile) {
+    parItems = Array.prototype.slice.call(document.querySelectorAll('.par-layer[data-parallax]'))
+      .map(function (el) {
+        return { el: el, strength: parseFloat(el.getAttribute('data-parallax')) || 0, section: el.closest('section') };
+      })
+      .filter(function (item) { return item.section; });
+  }
+  function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+  function applyParallax() {
+    var vh = window.innerHeight;
+    parItems.forEach(function (item) {
+      var rect = item.section.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= vh) { item.el.classList.remove('par-active'); return; }
+      item.el.classList.add('par-active');
+      var progress = clamp01((vh - rect.top) / (vh + rect.height));
+      item.el.style.transform = 'translateY(' + ((progress - 0.5) * item.strength).toFixed(1) + 'px)';
+    });
+  }
+  var ticking = false;
+  function update() { ticking = false; applyParallax(); }
+  if (parItems.length) {
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  }
+})();
+
+/* ===== TEST-ONLY: discreet 3D Manhattan behind the cover =====
+   Non-interactive, heavily washed toward the site's deep purple, with an
+   imperceptibly slow orbital drift (paused once the cover scrolls away);
+   static under prefers-reduced-motion. */
+(function () {
+  var host = document.getElementById('cover-manhattan');
+  if (!host || !window.mapboxgl) return;
+  var isNarrow = window.matchMedia('(max-width: 768px)').matches;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var m3d;
+  try {
+    m3d = new mapboxgl.Map({
+      container: 'cover-manhattan',
+      style: 'mapbox://styles/mapbox/dark-v11',
+      center: [-73.9855, 40.7484],   /* Midtown — Empire State Building block */
+      zoom: isNarrow ? 15.0 : 15.4,  /* wider framing on phones */
+      pitch: 60,
+      bearing: -28,
+      interactive: false,
+      attributionControl: false,
+      antialias: true
+    });
+  } catch (e) { console.warn('Cover Manhattan unavailable:', e); return; }
+  m3d.on('load', function () {
+    /* strip labels and repaint the whole ground into the brand purple:
+       land a touch darker than --deep, water darkest (island silhouette),
+       streets a slightly lighter violet so the grid still reads */
+    var layers = m3d.getStyle().layers;
+    for (var i = layers.length - 1; i >= 0; i--) {
+      var layer = layers[i];
+      try {
+        if (layer.type === 'symbol') { m3d.removeLayer(layer.id); continue; }
+        var isWater = layer.id.indexOf('water') >= 0;
+        if (layer.type === 'background') {
+          m3d.setPaintProperty(layer.id, 'background-color', '#2b0755');
+        } else if (layer.type === 'fill') {
+          m3d.setPaintProperty(layer.id, 'fill-color', isWater ? '#1c033e' : '#300a5c');
+        } else if (layer.type === 'line') {
+          m3d.setPaintProperty(layer.id, 'line-color', isWater ? '#1c033e' : '#3f1173');
+        }
+      } catch (e) { /* leave any stubborn layer as-is */ }
+    }
+    m3d.addLayer({
+      id: 'cover-3d-buildings',
+      source: 'composite',
+      'source-layer': 'building',
+      filter: ['==', 'extrude', 'true'],
+      type: 'fill-extrusion',
+      minzoom: 13,
+      paint: {
+        /* dark violet ramp — towers barely lighter than the wash above them */
+        'fill-extrusion-color': ['interpolate', ['linear'], ['get', 'height'],
+          0, '#45177e', 150, '#5f24a8', 350, '#8146d6'],
+        'fill-extrusion-height': ['get', 'height'],
+        'fill-extrusion-base': ['get', 'min_height'],
+        'fill-extrusion-opacity': 0.9
+      }
+    });
+    host.classList.add('ready');
+    if (!reduceMotion) requestAnimationFrame(orbit);
+  });
+  function orbit() {
+    /* ~0.5 degree/s — a drift you feel more than see; idle once scrolled past */
+    if (window.scrollY < window.innerHeight) {
+      m3d.setBearing(m3d.getBearing() + 0.008);
+    }
+    requestAnimationFrame(orbit);
+  }
+})();
+</script>
 </body>
 </html>
