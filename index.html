@@ -461,7 +461,7 @@
     font-size: 0.70rem; color: rgba(255,255,255,0.4); line-height: 1.55;
   }
 
-  /* ===== SCROLL HINT (Nov 18 card) ===== */
+  /* ===== SCROLL HINT (Forum card) ===== */
   .card-scroll-hint {
     position: absolute; bottom: 0; left: 0; right: 0;
     display: flex; flex-direction: column; align-items: center;
@@ -1688,7 +1688,7 @@
     /* Language toggle — readable label + larger tap target */
     .lang-btn { font-size: 0.62rem; padding: 0.6rem 1rem; }
 
-    /* NY Week day cards (timeline + zoomed Nov 18 card) */
+    /* NY Week day cards (timeline + zoomed Forum card) */
     .day-title { font-size: 0.86rem; }
     .day-desc  { font-size: 0.72rem; line-height: 1.5; }
     .day-date  { font-size: 0.6rem; }
@@ -1761,9 +1761,9 @@
     .card-fasano-block { margin-top: 0.6rem; padding-top: 0.6rem; }
     .card-fasano-name { font-size: 0.95rem; margin-bottom: 0.15rem; }
 
-    .day-card[data-day="1"] .card-scroll-hint { display: none; }
-    .day-card[data-day="2"] .card-section-divider,
-    .day-card[data-day="2"] .card-info-list   { display: none; }
+    .day-card[data-day="2"] .card-scroll-hint { display: none; }
+    .day-card[data-day="1"] .card-section-divider,
+    .day-card[data-day="1"] .card-info-list   { display: none; }
     .day-card[data-day="3"] .card-section-divider,
     .day-card[data-day="3"] .card-visit-list  { display: none; }
   }
@@ -2017,7 +2017,7 @@
   <div class="cover-desc">Real Estate Forum</div>
   <div class="cover-subtitle" data-lang="en">Inaugural Edition</div>
   <div class="cover-subtitle" data-lang="pt">Primeira Edição</div>
-  <div class="cover-meta">November 18–20, 2026 · New York City</div>
+  <div class="cover-meta">November 19–21, 2026 · New York City</div>
   <a
     href="https://luma.com/event/evt-cZKc1exaulCHny5"
     class="luma-checkout--button cover-cta-button"
@@ -2940,38 +2940,8 @@
       <p data-lang="pt">O Fórum ancora uma semana concentrada de programação imobiliária em Nova York. Parceiros ganham visibilidade ao longo de todo o programa — não apenas em um evento.</p>
     </div>
     <div class="timeline" id="nyweek-timeline">
-      <!-- Card 1: BR/US Real Estate Forum -->
-      <div class="day-card highlight" data-day="1" id="nov18-card">
-        <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
-        <div class="day-date">Nov 18 · <span data-lang="en">Wednesday</span><span data-lang="pt">Quarta</span></div>
-        <div class="day-title">BR/US Real Estate Forum</div>
-        <div class="day-desc" data-lang="en">Full-day program at NYU Schack.</div>
-        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack.</div>
-        <hr class="card-section-divider">
-        <div class="card-panel-list">
-          <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">The Urban Condition</span><span data-lang="pt">A Condição Urbana</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">02 —</span><span data-lang="en">Data, Transparency &amp; Risk</span><span data-lang="pt">Dados, Transparência &amp; Risco</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Public–Private Development</span><span data-lang="pt">Desenvolvimento Público–Privado</span></div>
-          <div class="card-panel-item" id="panel-4-item"><span class="card-panel-num">04 —</span><span data-lang="en">Residential: Patrimonial &amp; Multifamily</span><span data-lang="pt">Residencial: Patrimonial &amp; Multifamily</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">Development &amp; the Sponsor–Developer Model</span><span data-lang="pt">Desenvolvimento &amp; o Modelo Sponsor–Developer</span></div>
-          <div class="card-panel-item" id="panel-6-item"><span class="card-panel-num">06 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
-        </div>
-        <a class="card-past-btn"
-           href="https://luma.com/event/evt-cZKc1exaulCHny5"
-           data-luma-action="checkout"
-           data-luma-event-id="evt-cZKc1exaulCHny5">
-          <span data-lang="en">Request invitation →</span>
-          <span data-lang="pt">Solicitar convite →</span>
-        </a>
-        <div class="card-scroll-hint" id="card-scroll-hint">
-          <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
-          <div class="card-scroll-hint-label" data-lang="pt">Role para ver o programa</div>
-          <div class="card-scroll-hint-bar"><div class="card-scroll-hint-fill" id="hint-fill"></div></div>
-        </div>
-      </div>
-
-      <!-- Card 2: NYU Capital Markets Conference -->
-      <div class="day-card" data-day="2">
+      <!-- Card 1: NYU Capital Markets Conference -->
+      <div class="day-card" data-day="1">
         <div class="day-badge" style="background:rgba(255,255,255,0.12);"><span data-lang="en">Separate Event</span><span data-lang="pt">Evento Separado</span></div>
         <div class="day-date">Nov 19 · <span data-lang="en">Thursday</span><span data-lang="pt">Quinta</span></div>
         <div class="day-title">NYU Capital Markets Conference</div>
@@ -3004,9 +2974,39 @@
         </a>
       </div>
 
+      <!-- Card 2: BR/US Real Estate Forum -->
+      <div class="day-card highlight" data-day="2" id="forum-card">
+        <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
+        <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
+        <div class="day-title">BR/US Real Estate Forum</div>
+        <div class="day-desc" data-lang="en">Full-day program at NYU Schack.</div>
+        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack.</div>
+        <hr class="card-section-divider">
+        <div class="card-panel-list">
+          <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">The Urban Condition</span><span data-lang="pt">A Condição Urbana</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">02 —</span><span data-lang="en">Data, Transparency &amp; Risk</span><span data-lang="pt">Dados, Transparência &amp; Risco</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Public–Private Development</span><span data-lang="pt">Desenvolvimento Público–Privado</span></div>
+          <div class="card-panel-item" id="panel-4-item"><span class="card-panel-num">04 —</span><span data-lang="en">Residential: Patrimonial &amp; Multifamily</span><span data-lang="pt">Residencial: Patrimonial &amp; Multifamily</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">Development &amp; the Sponsor–Developer Model</span><span data-lang="pt">Desenvolvimento &amp; o Modelo Sponsor–Developer</span></div>
+          <div class="card-panel-item" id="panel-6-item"><span class="card-panel-num">06 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
+        </div>
+        <a class="card-past-btn"
+           href="https://luma.com/event/evt-cZKc1exaulCHny5"
+           data-luma-action="checkout"
+           data-luma-event-id="evt-cZKc1exaulCHny5">
+          <span data-lang="en">Request invitation →</span>
+          <span data-lang="pt">Solicitar convite →</span>
+        </a>
+        <div class="card-scroll-hint" id="card-scroll-hint">
+          <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
+          <div class="card-scroll-hint-label" data-lang="pt">Role para ver o programa</div>
+          <div class="card-scroll-hint-bar"><div class="card-scroll-hint-fill" id="hint-fill"></div></div>
+        </div>
+      </div>
+
       <!-- Card 3: Site Visits + Fasano -->
       <div class="day-card" data-day="3">
-        <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
+        <div class="day-date">Nov 21 · <span data-lang="en">Saturday</span><span data-lang="pt">Sábado</span></div>
         <div class="day-title"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
         <div class="day-desc" data-lang="en">Curated visits to marquee NYC developments.</div>
         <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos de destaque em NYC.</div>
@@ -3018,10 +3018,10 @@
         </div>
       </div>
     </div>
-    <!-- Zoom overlay: expands Nov 18 card with schedule inside -->
+    <!-- Zoom overlay: expands the Forum card with schedule inside -->
     <div class="zoom-overlay" id="zoom-overlay">
       <div class="zoom-overlay-card" id="zoom-overlay-card">
-        <!-- Card header (cloned from Nov 18 by JS) -->
+        <!-- Card header (cloned from the Forum card by JS) -->
         <div id="zoom-card-header"></div>
         <!-- First divider + venue label fixed with header -->
         <div class="schedule-divider schedule-divider-fixed" id="sched-divider-fixed" style="margin-top:0.5rem;"></div>
@@ -3181,8 +3181,8 @@
       <div class="sn" data-lang="pt">Inscreva-se</div>
       <h2 data-lang="en" style="margin-bottom:0.5rem;">Secure your seat.</h2>
       <h2 data-lang="pt" style="margin-bottom:0.5rem;">Garanta sua vaga.</h2>
-      <p data-lang="en" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">November 18–20, 2026 · NYU Schack Institute of Real Estate · Invite-only · 80 seats.</p>
-      <p data-lang="pt" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">18–20 de novembro de 2026 · NYU Schack Institute of Real Estate · Somente por convite · 80 vagas.</p>
+      <p data-lang="en" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">November 19–21, 2026 · NYU Schack Institute of Real Estate · Invite-only · 80 seats.</p>
+      <p data-lang="pt" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">19–21 de novembro de 2026 · NYU Schack Institute of Real Estate · Somente por convite · 80 vagas.</p>
       <a
         href="https://luma.com/event/evt-cZKc1exaulCHny5"
         class="luma-checkout--button"
@@ -3207,20 +3207,20 @@
     <div class="map-phase-title" id="title-day1">
       <div class="map-phase-sub" data-lang="en">Day One</div>
       <div class="map-phase-sub" data-lang="pt">Dia Um</div>
-      <div data-lang="en">Wed, November 18</div>
-      <div data-lang="pt">Qua, 18 de Novembro</div>
+      <div data-lang="en">Thu, November 19</div>
+      <div data-lang="pt">Qui, 19 de Novembro</div>
     </div>
     <div class="map-phase-title" id="title-day2">
       <div class="map-phase-sub" data-lang="en">Day Two</div>
       <div class="map-phase-sub" data-lang="pt">Dia Dois</div>
-      <div data-lang="en">Thu, November 19</div>
-      <div data-lang="pt">Qui, 19 de Novembro</div>
+      <div data-lang="en">Fri, November 20</div>
+      <div data-lang="pt">Sex, 20 de Novembro</div>
     </div>
     <div class="map-phase-title" id="title-day3">
       <div class="map-phase-sub" data-lang="en">Day Three</div>
       <div class="map-phase-sub" data-lang="pt">Dia Três</div>
-      <div data-lang="en">Fri, November 20</div>
-      <div data-lang="pt">Sex, 20 de Novembro</div>
+      <div data-lang="en">Sat, November 21</div>
+      <div data-lang="pt">Sáb, 21 de Novembro</div>
     </div>
     <div class="map-phase-title" id="title-explore">
       <div class="map-phase-sub" data-lang="en">Day Three · Site Visits</div>
@@ -3260,15 +3260,15 @@
         <div class="map-sb-labels">
           <div class="map-sb-label" id="msb-label-1">
             <div class="map-sb-eyebrow"><span data-lang="en">Day 1</span><span data-lang="pt">Dia 1</span></div>
-            <div class="map-sb-title"><span data-lang="en">Nov 18</span><span data-lang="pt">18 Nov</span></div>
+            <div class="map-sb-title"><span data-lang="en">Nov 19</span><span data-lang="pt">19 Nov</span></div>
           </div>
           <div class="map-sb-label" id="msb-label-2">
             <div class="map-sb-eyebrow"><span data-lang="en">Day 2</span><span data-lang="pt">Dia 2</span></div>
-            <div class="map-sb-title"><span data-lang="en">Nov 19</span><span data-lang="pt">19 Nov</span></div>
+            <div class="map-sb-title"><span data-lang="en">Nov 20</span><span data-lang="pt">20 Nov</span></div>
           </div>
           <div class="map-sb-label" id="msb-label-3">
             <div class="map-sb-eyebrow"><span data-lang="en">Day 3</span><span data-lang="pt">Dia 3</span></div>
-            <div class="map-sb-title"><span data-lang="en">Nov 20</span><span data-lang="pt">20 Nov</span></div>
+            <div class="map-sb-title"><span data-lang="en">Nov 21</span><span data-lang="pt">21 Nov</span></div>
           </div>
           <div class="map-sb-label" id="msb-label-4">
             <div class="map-sb-eyebrow"><span data-lang="en">Hotels</span><span data-lang="pt">Hotéis</span></div>
@@ -3277,7 +3277,7 @@
         </div>
       </div>
       <div class="map-venue-cards" id="map-venue-cards">
-        <!-- Day 1: Forum -->
+        <!-- Day 2 (Nov 20): Forum -->
         <div class="map-venue-card" id="card-union">
           <img class="map-venue-img" src="img/nyu_sps.webp" alt="NYU School of Professional Studies" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
@@ -3286,7 +3286,7 @@
             <div class="map-venue-addr">7 East 12th Street, New York</div>
           </div>
         </div>
-        <!-- Day 2: Capital Markets Conference -->
+        <!-- Day 1 (Nov 19): Capital Markets Conference -->
         <div class="map-venue-card" id="card-kimmel">
           <img class="map-venue-img" src="img/kimmel_auditorium.jpg" alt="NYU Kimmel Center" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
@@ -3295,10 +3295,10 @@
             <div class="map-venue-addr">60 Washington Square South</div>
           </div>
         </div>
-        <!-- Day 3a: Site Visits (shown alongside card-fasano via two-up) -->
+        <!-- Day 3 (Nov 21) a: Site Visits (shown alongside card-fasano via two-up) -->
         <div class="map-venue-card" id="card-visits">
           <div class="map-venue-info">
-            <div class="map-venue-tag"><span data-lang="en">Day Three · Nov 20</span><span data-lang="pt">Dia Três · 20 Nov</span></div>
+            <div class="map-venue-tag"><span data-lang="en">Day Three · Nov 21</span><span data-lang="pt">Dia Três · 21 Nov</span></div>
             <div class="map-venue-name"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
             <div class="map-venue-addr"><span data-lang="en">Around New York</span><span data-lang="pt">Pela cidade de Nova York</span></div>
           </div>
@@ -3308,7 +3308,7 @@
             <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
           </div>
         </div>
-        <!-- Day 3b: Closing Cocktail at Fasano -->
+        <!-- Day 3 (Nov 21) b: Closing Cocktail at Fasano -->
         <div class="map-venue-card" id="card-fasano">
           <img class="map-venue-img" src="img/fasano_baretto.jpg" alt="Fasano New York Baretto" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
@@ -3433,7 +3433,7 @@
       <span data-lang="en">See you in New York.</span>
       <span data-lang="pt">Te vejo em Nova York.</span>
     </div>
-    <div class="cover-meta">November 18–20, 2026 · New York City</div>
+    <div class="cover-meta">November 19–21, 2026 · New York City</div>
     <a
       href="https://luma.com/event/evt-cZKc1exaulCHny5"
       class="luma-checkout--button cover-cta-button"
@@ -3944,7 +3944,7 @@ function setLang(lang) {
 })();
 </script>
 
-<!-- NY Week: unified scroll — cards reveal, zoom Nov 18, schedule inside -->
+<!-- NY Week: unified scroll — cards reveal, zoom the Forum card, schedule inside -->
 <script>
 (function(){
   const section = document.getElementById('slide-nyweek');
@@ -3957,10 +3957,10 @@ function setLang(lang) {
   const overlayCard = document.getElementById('zoom-overlay-card');
   const zoomHeader = document.getElementById('zoom-card-header');
   const schedScroll = document.getElementById('zoom-schedule-scroll');
-  const sourceCard = document.getElementById('nov18-card');
+  const sourceCard = document.getElementById('forum-card');
   if(!sourceCard || !overlay || !overlayCard || !schedScroll) return;
 
-  // Clone Nov 18 card content into the overlay header
+  // Clone the Forum card content into the overlay header
   const headerClone = sourceCard.cloneNode(true);
   headerClone.removeAttribute('id');
   headerClone.removeAttribute('data-day');
@@ -4010,21 +4010,21 @@ function setLang(lang) {
       hintEl.style.opacity = hintOpacity.toFixed(3);
     }
 
-    // ── Phase 3 (30–45%): Text + cards 2,3,4 fade out; card 1 zooms ──
+    // ── Phase 3 (30–45%): Text + the non-Forum cards fade out; the Forum card zooms ──
     const fadeOutP = smoothstep(0.30, 0.35, p);
 
     // Fade section text
     nyweekText.style.opacity = (1 - fadeOutP).toFixed(3);
 
-    // Fade cards 2,3,4
-    cards.forEach(function(card, i){
-      if(i > 0){
+    // Fade every card except the Forum card (the one that zooms)
+    cards.forEach(function(card){
+      if(card !== sourceCard){
         card.style.opacity = card.classList.contains('day-visible')
           ? Math.max(0, 1 - fadeOutP).toFixed(3) : '0';
       }
     });
 
-    // Zoom card 1 via overlay
+    // Zoom the Forum card via overlay
     const zoomStart = 0.30;
     const zoomEnd = 0.48;
     const zoomP = easeOutCubic(smoothstep(zoomStart, zoomEnd, p));
@@ -4249,29 +4249,29 @@ function setLang(lang) {
     { t0: 0,    t1: 0.08, from: { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0, bearing: 0 },
       marker: null, card: null },
-    // 8-20%: gentle zoom into Union Square
+    // 8-20%: Day 1 (Nov 19) — gentle zoom into Kimmel
     { t0: 0.08, t1: 0.20, from: { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,          bearing: 0 },
-                           to:   { center: WAGNER,     zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 0 },
-      marker: 'union', card: 'card-union' },
-    // 20-30%: slow orbit Union Square
-    { t0: 0.20, t1: 0.30, from: { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 0 },
-                           to:   { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
-      marker: 'union', card: 'card-union' },
-    // 30-38%: gentle zoom out
-    { t0: 0.30, t1: 0.38, from: { center: WAGNER,     zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 80 },
-                           to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
-      marker: null, card: null },
-    // 38-50%: gentle zoom into Kimmel
-    { t0: 0.38, t1: 0.50, from: { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
                            to:   { center: KIMMEL,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 20 },
       marker: 'kimmel', card: 'card-kimmel' },
-    // 50-58%: slow orbit Kimmel
-    { t0: 0.50, t1: 0.58, from: { center: KIMMEL, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 20 },
+    // 20-30%: slow orbit Kimmel
+    { t0: 0.20, t1: 0.30, from: { center: KIMMEL, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 20 },
                            to:   { center: KIMMEL, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 100 },
       marker: 'kimmel', card: 'card-kimmel' },
-    // 58-66%: zoom out from Kimmel to POI overview
-    { t0: 0.58, t1: 0.66, from: { center: KIMMEL,    zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 100 },
-                           to:   { center: MANHATTAN, zoom: POI_ZOOM,   pitch: 0,           bearing: 0 },
+    // 30-38%: gentle zoom out
+    { t0: 0.30, t1: 0.38, from: { center: KIMMEL,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 100 },
+                           to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
+      marker: null, card: null },
+    // 38-50%: Day 2 (Nov 20) — gentle zoom into Union Square
+    { t0: 0.38, t1: 0.50, from: { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
+                           to:   { center: WAGNER,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 0 },
+      marker: 'union', card: 'card-union' },
+    // 50-58%: slow orbit Union Square
+    { t0: 0.50, t1: 0.58, from: { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 0 },
+                           to:   { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
+      marker: 'union', card: 'card-union' },
+    // 58-66%: zoom out from Union Square to POI overview
+    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
+                           to:   { center: MANHATTAN, zoom: POI_ZOOM,   pitch: 0,          bearing: 0 },
       marker: null, card: null },
     // 66-74%: HOLD at POI overview — Site Visits (POI dots reveal here)
     { t0: 0.66, t1: 0.74, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
@@ -4345,12 +4345,12 @@ function setLang(lang) {
       }
     });
 
-    // — Route paths (NYU SPS→Kimmel, Kimmel→Fasano) —
+    // — Route paths (Kimmel→NYU SPS, NYU SPS→Fasano) —
     var ROUTE_1 = [
-      [-73.9933,40.7339],[-73.994500,40.732200],[-73.995691,40.730703],[-73.996885,40.730543],[-73.997168,40.730633],[-73.997397,40.730539],[-73.997658,40.730583],[-73.998021,40.730356],[-73.997979,40.730304],[-73.998933,40.729214]
+      [-73.998933,40.729214],[-73.997979,40.730304],[-73.998021,40.730356],[-73.997658,40.730583],[-73.997397,40.730539],[-73.997168,40.730633],[-73.996885,40.730543],[-73.995691,40.730703],[-73.994500,40.732200],[-73.9933,40.7339]
     ];
     var ROUTE_2 = [
-      [-73.998933,40.729214],[-73.996936,40.731477],[-73.989146,40.742163],[-73.988513,40.742771],[-73.986639,40.742715],[-73.979213,40.752909],[-73.978725,40.753381],[-73.977803,40.753088],[-73.976467,40.754893],[-73.975981,40.754687],[-73.97503,40.755914],[-73.97366,40.755484],[-73.9752,40.7566]
+      [-73.9933,40.7339],[-73.989146,40.742163],[-73.988513,40.742771],[-73.986639,40.742715],[-73.979213,40.752909],[-73.978725,40.753381],[-73.977803,40.753088],[-73.976467,40.754893],[-73.975981,40.754687],[-73.97503,40.755914],[-73.97366,40.755484],[-73.9752,40.7566]
     ];
 
     map.addSource('route-1', {
@@ -4920,14 +4920,14 @@ function setLang(lang) {
         // Phase titles: show alongside their cards, explore/hotels titles for later phases
         hideAllTitles();
         if(!inHotelPhase){
-          if(currentCard === 'card-union')  showTitle('title-day1');
-          else if(currentCard === 'card-kimmel') showTitle('title-day2');
+          if(currentCard === 'card-kimmel')  showTitle('title-day1');
+          else if(currentCard === 'card-union') showTitle('title-day2');
           else if(currentCard === 'card-fasano') showTitle('title-day3');
         }
         if(inExplorePhase) showTitle('title-explore');
         if(inHotelCardsPhase) showTitle('title-hotels');
 
-        // Route 1 (NYU SPS→Kimmel): progressively draws during 0.30→0.38, fully visible after, hidden before
+        // Route 1 (Kimmel→NYU SPS): progressively draws during 0.30→0.38, fully visible after, hidden before
         if(t >= 0.38){
           drawRoute('route-1', ROUTE_1, 1);
           route1Drawn = true;
@@ -4940,7 +4940,7 @@ function setLang(lang) {
           route1Drawn = false;
         }
 
-        // Route 2 (Kimmel→Fasano): progressively draws during 0.58→0.66, fully visible after, hidden before
+        // Route 2 (NYU SPS→Fasano): progressively draws during 0.58→0.66, fully visible after, hidden before
         if(t >= 0.66){
           drawRoute('route-2', ROUTE_2, 1);
           route2Drawn = true;
