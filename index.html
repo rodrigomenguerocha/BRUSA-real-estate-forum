@@ -170,6 +170,11 @@
   .cover-mp { display: inline-flex; align-items: center; text-decoration: none; opacity: 0.55; transition: opacity 0.2s ease; }
   .cover-mp:hover { opacity: 0.95; }
   .cover-mp-logo { height: 40px; width: auto; display: block; }
+  /* Lead Partner logo — dark-artwork PNG forced to white, same treatment as .speaker-logo.
+     Kept 20% under the 41px slot height: the JHSF wordmark is dense and reads too heavy at full height. */
+  .cover-lead { display: inline-flex; align-items: center; text-decoration: none; opacity: 0.6; transition: opacity 0.2s ease; }
+  .cover-lead:hover { opacity: 1; }
+  .cover-lead-logo { height: 33px; width: auto; display: block; filter: brightness(0) invert(1); }
   .partner-slot {
     width: 108px; height: 34px; box-sizing: border-box; display: inline-block;
     border: 1px dashed rgba(255,255,255,0.5); border-radius: 4px;
@@ -1411,6 +1416,7 @@
     .partner-logos svg { max-height: 28px; width: auto; }
     .partner-slot { width: 84px; height: 30px; }
     .partner-group--lead .partner-slot { width: 132px; height: 28px; }
+    .cover-lead-logo { height: 22px; }
     .cover-mp-logo { height: 34px; }
 
     /* Typography */
@@ -2009,7 +2015,9 @@
     <div class="partner-group partner-group--lead">
       <span class="cover-label">Lead Partner</span>
       <div class="partner-logos">
-        <span class="partner-slot" aria-hidden="true"></span>
+        <a href="https://www.jhsf.com.br" target="_blank" rel="noopener noreferrer" class="cover-lead" aria-label="JHSF">
+          <img class="cover-lead-logo" src="img/logos/jhsf.png" alt="JHSF" width="996" height="292" fetchpriority="high">
+        </a>
       </div>
     </div>
   </div>
@@ -3405,7 +3413,9 @@
     <div class="partner-group partner-group--lead">
       <span class="cover-label">Lead Partner</span>
       <div class="partner-logos">
-        <span class="partner-slot" aria-hidden="true"></span>
+        <a href="https://www.jhsf.com.br" target="_blank" rel="noopener noreferrer" class="cover-lead" aria-label="JHSF">
+          <img class="cover-lead-logo" src="img/logos/jhsf.png" alt="JHSF" width="996" height="292" loading="lazy">
+        </a>
       </div>
     </div>
     <div class="partner-group partner-group--supporting">
