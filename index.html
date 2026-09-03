@@ -1580,6 +1580,9 @@
   .cover-supporter { display: inline-flex; align-items: center; text-decoration: none; opacity: 0.45; transition: opacity 0.2s ease; }
   .cover-supporter:hover { opacity: 0.9; }
   .cover-supporter-logo { height: 38px; width: auto; display: block; filter: brightness(0) invert(1); }
+  /* OSPA is a single-row wordmark; the Chamber spends its height on three stacked
+     text lines. Matched by optical weight rather than box height. */
+  .cover-supporter-logo--ospa { height: 29px; }
 
   /* Reserve the scroll indicator's band (bottom: 2.5rem + ~46px tall) at the foot of the cover,
      so the vertically-centred content can never run under it. Declared here, after the
@@ -1636,6 +1639,7 @@
     .cover-cta-button { font-size: 0.5rem !important; padding: 0.85rem 2.2rem !important; }
     .cover-supporters { margin-top: 2.6rem; }
     .cover-supporter-logo { height: 32px; }
+    .cover-supporter-logo--ospa { height: 24px; }
   }
 
 
@@ -2067,6 +2071,9 @@
     <div class="partner-logos">
       <a href="https://www.brazilcham.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Brazilian-American Chamber of Commerce">
         <img class="cover-supporter-logo" src="img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce" width="744" height="259" decoding="async">
+      </a>
+      <a href="https://ospa.com.br" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="OSPA">
+        <img class="cover-supporter-logo cover-supporter-logo--ospa" src="img/logos/ospa.svg" alt="OSPA" width="380" height="180" decoding="async">
       </a>
     </div>
   </div>
