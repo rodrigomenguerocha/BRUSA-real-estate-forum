@@ -2645,6 +2645,13 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
   });
+  // The invitation form (CMS iframe) follows the site language. Live switch:
+  // no reload, so a half-filled form keeps what was typed. Only once the frame
+  // has loaded — the first load already carries ?lang= (see the modal script).
+  var frame = document.getElementById('invite-frame');
+  if (frame && frame.getAttribute('src') && frame.contentWindow) {
+    frame.contentWindow.postMessage({ type: 'urbeme-form-lang', lang: lang }, 'https://cms.ospa.com.br');
+  }
 }
 
 </script>
@@ -4554,14 +4561,26 @@ function setLang(lang) {
   var closeBtn = document.getElementById('invite-close');
   if (!modal || !frame || !closeBtn) return;
 
+  var CMS_ORIGIN = 'https://cms.ospa.com.br';
+  function currentLang(){ return document.body.classList.contains('pt') ? 'pt' : 'en'; }
+
+  // The CMS form posts `urbeme-form-ready` once it is up; answer with the
+  // language active here, so the form matches the site even if the visitor
+  // switched language while the frame was still loading.
+  window.addEventListener('message', function(e){
+    if (e.origin !== CMS_ORIGIN || !e.data || e.data.type !== 'urbeme-form-ready') return;
+    if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'urbeme-form-lang', lang: currentLang() }, CMS_ORIGIN);
+  });
+
   var lastFocus = null;
   var FOCUSABLE = 'button, [href], input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])';
 
   function open(trigger){
     lastFocus = trigger || document.activeElement;
     // First open loads the form; later opens reuse the frame so a half-filled
-    // form survives an accidental close.
-    if (!frame.getAttribute('src')) frame.src = frame.getAttribute('data-src');
+    // form survives an accidental close. The first load already asks for the
+    // language active on the site, so the form never flashes in Portuguese.
+    if (!frame.getAttribute('src')) frame.src = frame.getAttribute('data-src') + '?lang=' + currentLang();
     modal.hidden = false;
     document.body.classList.add('invite-locked');
     // Next frame, so the transition has a state to animate from.
