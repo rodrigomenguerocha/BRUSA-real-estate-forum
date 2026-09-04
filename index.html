@@ -321,7 +321,7 @@
      shared rules below take over. */
   .cta-solid, .cover-cta-button, .sticky-cta, .card-past-btn {
     -webkit-appearance: none; appearance: none;
-    font: inherit; margin: 0; text-align: center;
+    background: transparent; font: inherit; margin: 0; text-align: center;
   }
   .cta-solid {
     display: inline-block !important;
@@ -434,6 +434,11 @@
     transition: border-color 0.2s, color 0.2s;
   }
   .card-past-btn:hover { border-color: rgba(255,255,255,0.55); color: var(--white); }
+  /* The Forum card carries the scroll hint pinned to its bottom edge; reserve
+     that band so the CTA cannot land on top of it. */
+  @media (min-width: 769px) {
+    .day-card[data-day="2"] .card-past-btn { margin-bottom: 2.8rem; }
+  }
   /* Visit list + Fasano — Card 3 */
   .card-visit-list { display: flex; flex-direction: column; gap: 0.3rem; }
   .card-visit-item {
