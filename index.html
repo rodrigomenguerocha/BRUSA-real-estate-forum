@@ -434,7 +434,7 @@
     transition: border-color 0.2s, color 0.2s;
   }
   .card-past-btn:hover { border-color: rgba(255,255,255,0.55); color: var(--white); }
-  /* Visit list + Fasano — Card 3 */
+  /* Visit list — Card 3 */
   .card-visit-list { display: flex; flex-direction: column; gap: 0.3rem; }
   .card-visit-item {
     display: flex; align-items: baseline; gap: 0.45rem;
@@ -443,22 +443,6 @@
   .card-visit-dot {
     width: 4px; height: 4px; border-radius: 50%;
     background: rgba(255,255,255,0.18); flex-shrink: 0; margin-bottom: -1px;
-  }
-  .card-fasano-block {
-    margin-top: 1rem; padding-top: 0.8rem;
-    border-top: 1px solid rgba(137,0,225,0.3);
-  }
-  .card-fasano-eyebrow {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.46rem;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ultra); margin-bottom: 0.3rem;
-  }
-  .card-fasano-name {
-    font-size: 0.95rem; font-weight: 600; color: var(--white);
-    margin-bottom: 0.25rem; line-height: 1.2;
-  }
-  .card-fasano-desc {
-    font-size: 0.70rem; color: rgba(255,255,255,0.4); line-height: 1.55;
   }
 
   /* ===== SCROLL HINT (Forum card) ===== */
@@ -806,23 +790,6 @@
   }
   /* Day-header removed from cards (was redundant with sidebar labels) */
   .map-venue-day-header { display: none; }
-  /* Two-up layout: Day 3 shows site visits + cocktail stacked vertically.
-     All cards stay position:absolute — JS sets card-fasano top dynamically.
-     The container expands via JS min-height so translateY(-50%) stays stable. */
-  .map-venue-cards.two-up {
-    width: 290px;
-    height: auto;
-  }
-  /* Only shrink the Fasano card's image in two-up mode */
-  .map-venue-cards.two-up #card-fasano .map-venue-img {
-    height: 80px;
-  }
-  .map-venue-cards.two-up #card-fasano .map-venue-info {
-    padding: 0.6rem 1rem 0.7rem;
-  }
-  /* Fasano dinner removed for now: hide the map venue card. Camera/marker/route
-     left untouched per request — revisit the map choreography separately. */
-  #card-fasano { display: none !important; }
   /* Site visits card: text-only list style */
   .map-venue-visits-list {
     padding: 0.85rem 1.1rem 1rem;
@@ -1226,8 +1193,6 @@
   @media (max-width: 768px) {
     .map-overlay { padding: 3rem 1.5rem; }
     .map-overlay h2 { font-size: 2rem; }
-    /* On mobile, two-up inherits column layout and goes full width */
-    .map-venue-cards.two-up { width: 100%; }
     .map-info-panel {
       left: 1rem;
       right: 1rem;
@@ -1584,14 +1549,12 @@
     .day-tag   { font-size: 0.56rem; }
     .day-link  { font-size: 0.62rem; padding-bottom: 2px; }
 
-    /* Card detail elements (panel list / info / fasano / scroll hint) */
+    /* Card detail elements (panel list / info / visits / scroll hint) */
     .card-panel-item        { font-size: 0.8rem; }
     .card-panel-num         { font-size: 0.58rem; }
     .card-info-label        { font-size: 0.58rem; color: rgba(255,255,255,0.42); }
     .card-info-value        { font-size: 0.78rem; }
     .card-visit-item        { font-size: 0.78rem; }
-    .card-fasano-eyebrow    { font-size: 0.6rem; }
-    .card-fasano-desc       { font-size: 0.78rem; }
     .card-scroll-hint-label { font-size: 0.6rem; }
 
     /* Agenda (zoom schedule): widen the time column for the larger time text */
@@ -1622,8 +1585,8 @@
      Phones/tablets show the three day cards in a single column (full width) and
      drop the heavier in-card detail. Kept: date, title, description, and the
      6-panel program on the Forum card. Hidden on mobile: the scroll-to-reveal
-     hint (Forum), the edition/format/access rows (NYU conf), and the visit list
-     (kept the Fasano closing-cocktail block). Desktop layout unchanged. */
+     hint (Forum), the edition/format/access rows (NYU conf), and the visit list.
+     Desktop layout unchanged. */
   @media (max-width: 768px) {
     /* ID selector (specificity beats the .timeline 2-col rules regardless of order) */
     #nyweek-timeline { grid-template-columns: 1fr; gap: 0.7rem; }
@@ -1637,8 +1600,6 @@
     .card-panel-item { font-size: 0.82rem; line-height: 1.3; }
     .card-panel-num  { font-size: 0.62rem; }
     .card-past-btn { margin-top: 0.7rem; }
-    .card-fasano-block { margin-top: 0.6rem; padding-top: 0.6rem; }
-    .card-fasano-name { font-size: 0.95rem; margin-bottom: 0.15rem; }
 
     .day-card[data-day="2"] .card-scroll-hint { display: none; }
     .day-card[data-day="1"] .card-section-divider,
@@ -2225,7 +2186,7 @@
           </div>
           <div class="card-info-item">
             <span class="card-info-label">Venue</span>
-            <span class="card-info-value">NYU Schack Institute of Real Estate, NYC</span>
+            <span class="card-info-value">The Pierre, A Taj Hotel — 2 E 61st St, NYC</span>
           </div>
         </div>
         <a class="card-past-btn" href="https://www.sps.nyu.edu/about/academic-divisions-and-departments/schack-institute-of-real-estate/capital-markets-in-real-estate.html" target="_blank">
@@ -2261,7 +2222,7 @@
         </div>
       </div>
 
-      <!-- Card 3: Site Visits + Fasano -->
+      <!-- Card 3: Site Visits -->
       <div class="day-card" data-day="3">
         <div class="day-date">Nov 21 · <span data-lang="en">Saturday</span><span data-lang="pt">Sábado</span></div>
         <div class="day-title"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
@@ -2430,12 +2391,6 @@
       <div data-lang="en">Fri, November 20</div>
       <div data-lang="pt">Sex, 20 de Novembro</div>
     </div>
-    <div class="map-phase-title" id="title-day3">
-      <div class="map-phase-sub" data-lang="en">Day Three</div>
-      <div class="map-phase-sub" data-lang="pt">Dia Três</div>
-      <div data-lang="en">Sat, November 21</div>
-      <div data-lang="pt">Sáb, 21 de Novembro</div>
-    </div>
     <div class="map-phase-title" id="title-explore">
       <div class="map-phase-sub" data-lang="en">Day Three · Site Visits</div>
       <div class="map-phase-sub" data-lang="pt">Dia Três · Site Visits</div>
@@ -2501,15 +2456,15 @@
           </div>
         </div>
         <!-- Day 1 (Nov 19): Capital Markets Conference -->
-        <div class="map-venue-card" id="card-kimmel">
-          <img class="map-venue-img" src="img/kimmel_auditorium.jpg" alt="NYU Kimmel Center" style="object-fit:cover;object-position:center;">
+        <div class="map-venue-card" id="card-pierre">
+          <img class="map-venue-img" src="img/the_pierre.webp" alt="The Pierre, A Taj Hotel" style="object-fit:cover;object-position:center;" loading="lazy">
           <div class="map-venue-info">
             <div class="map-venue-tag">NYU Capital Markets Conference</div>
-            <div class="map-venue-name">NYU Kimmel Center</div>
-            <div class="map-venue-addr">60 Washington Square South</div>
+            <div class="map-venue-name">The Pierre, A Taj Hotel</div>
+            <div class="map-venue-addr">2 East 61st Street, New York</div>
           </div>
         </div>
-        <!-- Day 3 (Nov 21) a: Site Visits (shown alongside card-fasano via two-up) -->
+        <!-- Day 3 (Nov 21): Site Visits -->
         <div class="map-venue-card" id="card-visits">
           <div class="map-venue-info">
             <div class="map-venue-tag"><span data-lang="en">Day Three · Nov 21</span><span data-lang="pt">Dia Três · 21 Nov</span></div>
@@ -2520,15 +2475,6 @@
             <div class="map-venue-visits-item"><span data-lang="en">Affordable housing development</span><span data-lang="pt">Desenvolvimento habitacional</span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Mixed-use / institutional asset</span><span data-lang="pt">Ativo misto / institucional</span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
-          </div>
-        </div>
-        <!-- Day 3 (Nov 21) b: Closing Cocktail at Fasano -->
-        <div class="map-venue-card" id="card-fasano">
-          <img class="map-venue-img" src="img/fasano_baretto.jpg" alt="Fasano New York Baretto" style="object-fit:cover;object-position:center;">
-          <div class="map-venue-info">
-            <div class="map-venue-tag"><span data-lang="en">Closing Cocktail</span><span data-lang="pt">Cocktail de Encerramento</span></div>
-            <div class="map-venue-name">Fasano New York — Baretto</div>
-            <div class="map-venue-addr">60 E 49th Street, New York</div>
           </div>
         </div>
         <!-- Hotels: Where to Stay panel -->
@@ -3434,8 +3380,7 @@ function setLang(lang) {
   // === Venues ===
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
   var WAGNER = [-73.9933, 40.7339];  // NYU School of Professional Studies, 7 E 12th St
-  var KIMMEL = [-73.9987, 40.7291];
-  var FASANO = [-73.9752, 40.7566]; // 60 E 49th St, Midtown East
+  var PIERRE = [-73.9723, 40.7650]; // The Pierre, 2 E 61st St (5th Ave)
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
 
   // === Camera keyframes — each is a scroll phase ===
@@ -3452,16 +3397,16 @@ function setLang(lang) {
     { t0: 0,    t1: 0.08, from: { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0, bearing: 0 },
       marker: null, card: null },
-    // 8-20%: Day 1 (Nov 19) — gentle zoom into Kimmel
+    // 8-20%: Day 1 (Nov 19) — gentle zoom into Pierre
     { t0: 0.08, t1: 0.20, from: { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,          bearing: 0 },
-                           to:   { center: KIMMEL,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 20 },
-      marker: 'kimmel', card: 'card-kimmel' },
-    // 20-30%: slow orbit Kimmel
-    { t0: 0.20, t1: 0.30, from: { center: KIMMEL, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 20 },
-                           to:   { center: KIMMEL, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 100 },
-      marker: 'kimmel', card: 'card-kimmel' },
+                           to:   { center: PIERRE,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 20 },
+      marker: 'pierre', card: 'card-pierre' },
+    // 20-30%: slow orbit Pierre
+    { t0: 0.20, t1: 0.30, from: { center: PIERRE, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 20 },
+                           to:   { center: PIERRE, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 100 },
+      marker: 'pierre', card: 'card-pierre' },
     // 30-38%: gentle zoom out
-    { t0: 0.30, t1: 0.38, from: { center: KIMMEL,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 100 },
+    { t0: 0.30, t1: 0.38, from: { center: PIERRE,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 100 },
                            to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
       marker: null, card: null },
     // 38-50%: Day 2 (Nov 20) — gentle zoom into Union Square
@@ -3480,17 +3425,13 @@ function setLang(lang) {
     { t0: 0.66, t1: 0.74, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
       marker: null, card: null, poiPhase: true },
-    // 74-82%: zoom INTO Fasano (closing cocktail of Day 3)
-    { t0: 0.74, t1: 0.82, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0,           bearing: 0 },
-                           to:   { center: FASANO,    zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: -20 },
-      marker: 'fasano', card: 'card-fasano' },
-    // 82-88%: slow orbit Fasano
-    { t0: 0.82, t1: 0.88, from: { center: FASANO, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: -20 },
-                           to:   { center: FASANO, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 60 },
-      marker: 'fasano', card: 'card-fasano' },
-    // 88-93%: zoom out to Midtown hotel cluster
-    { t0: 0.88, t1: 0.93, from: { center: FASANO,         zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 60 },
-                           to:   { center: MIDTOWN_HOTELS, zoom: 14.2,       pitch: 30,          bearing: 0 },
+    // 74-88%: still Day 3 — slow push in over the site-visit POIs
+    { t0: 0.74, t1: 0.88, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
+                           to:   { center: MANHATTAN, zoom: POI_ZOOM + 0.5, pitch: 0, bearing: 0 },
+      marker: null, card: null, poiPhase: true },
+    // 88-93%: travel to the Midtown hotel cluster
+    { t0: 0.88, t1: 0.93, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
+                           to:   { center: MIDTOWN_HOTELS, zoom: 14.2,         pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true },
     // 93-100%: hold at hotel cluster
     { t0: 0.93, t1: 1.0,  from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
@@ -3548,19 +3489,12 @@ function setLang(lang) {
       }
     });
 
-    // — Route paths (Kimmel→NYU SPS, NYU SPS→Fasano) —
+    // — Route path (The Pierre→NYU SPS, down Fifth Avenue) —
     var ROUTE_1 = [
-      [-73.998933,40.729214],[-73.997979,40.730304],[-73.998021,40.730356],[-73.997658,40.730583],[-73.997397,40.730539],[-73.997168,40.730633],[-73.996885,40.730543],[-73.995691,40.730703],[-73.994500,40.732200],[-73.9933,40.7339]
-    ];
-    var ROUTE_2 = [
-      [-73.9933,40.7339],[-73.989146,40.742163],[-73.988513,40.742771],[-73.986639,40.742715],[-73.979213,40.752909],[-73.978725,40.753381],[-73.977803,40.753088],[-73.976467,40.754893],[-73.975981,40.754687],[-73.97503,40.755914],[-73.97366,40.755484],[-73.9752,40.7566]
+      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9933,40.7339]
     ];
 
     map.addSource('route-1', {
-      type: 'geojson',
-      data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] } }
-    });
-    map.addSource('route-2', {
       type: 'geojson',
       data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] } }
     });
@@ -3568,17 +3502,6 @@ function setLang(lang) {
       id: 'route-1-line',
       type: 'line',
       source: 'route-1',
-      paint: {
-        'line-color': '#8900e1',
-        'line-width': 2.5,
-        'line-opacity': 0.7,
-        'line-dasharray': [2, 2]
-      }
-    });
-    map.addLayer({
-      id: 'route-2-line',
-      type: 'line',
-      source: 'route-2',
       paint: {
         'line-color': '#8900e1',
         'line-width': 2.5,
@@ -3653,7 +3576,6 @@ function setLang(lang) {
     }
 
     var route1Drawn = false;
-    var route2Drawn = false;
 
     function drawRoute(sourceId, fullCoords, progress){
       // progress 0→1: gradually reveal the line from start to end
@@ -3687,12 +3609,10 @@ function setLang(lang) {
 
     var markers = {
       union:  { el: makeMarkerEl(), revealed: false },
-      kimmel: { el: makeMarkerEl(), revealed: false },
-      fasano: { el: makeMarkerEl(), revealed: false }
+      pierre: { el: makeMarkerEl(), revealed: false }
     };
     new mapboxgl.Marker({element: markers.union.el}).setLngLat(WAGNER).addTo(map);
-    new mapboxgl.Marker({element: markers.kimmel.el}).setLngLat(KIMMEL).addTo(map);
-    new mapboxgl.Marker({element: markers.fasano.el}).setLngLat(FASANO).addTo(map);
+    new mapboxgl.Marker({element: markers.pierre.el}).setLngLat(PIERRE).addTo(map);
 
     // Once revealed, a marker stays visible forever
     function revealMarker(key){
@@ -3705,8 +3625,7 @@ function setLang(lang) {
     // — Cards —
     var cards = {
       'card-union':  document.getElementById('card-union'),
-      'card-kimmel': document.getElementById('card-kimmel'),
-      'card-fasano': document.getElementById('card-fasano'),
+      'card-pierre': document.getElementById('card-pierre'),
       'card-visits': document.getElementById('card-visits'),
       'card-hotels': document.getElementById('card-hotels')
     };
@@ -3990,7 +3909,6 @@ function setLang(lang) {
     var phaseTitles = {
       'title-day1':    document.getElementById('title-day1'),
       'title-day2':    document.getElementById('title-day2'),
-      'title-day3':    document.getElementById('title-day3'),
       'title-explore': document.getElementById('title-explore'),
       'title-hotels':  document.getElementById('title-hotels')
     };
@@ -4005,12 +3923,6 @@ function setLang(lang) {
       document.getElementById('msb-label-2'),
       document.getElementById('msb-label-3'),
       document.getElementById('msb-label-4')
-    ];
-    var sbVenueCards = [
-      document.getElementById('card-union'),
-      document.getElementById('card-kimmel'),
-      document.getElementById('card-fasano'),
-      document.getElementById('card-hotels')
     ];
     var mapVenueCardsEl = document.getElementById('map-venue-cards');
     var cardVisits  = document.getElementById('card-visits');
@@ -4067,51 +3979,15 @@ function setLang(lang) {
         // Markers: appear on first zoom-in, never hidden again
         if(currentMarker) revealMarker(currentMarker);
 
-        // Cards: show only for active venue; Day 3 = two-up (visits + fasano); hotel phase = hotels card
+        // Cards: show only for active venue; Day 3 = site visits card; hotel phase = hotels card
         var inHotelPhase      = t >= 0.88;
         var inHotelCardsPhase = t >= 0.91;  // hotels card appears slightly later — gap for Day 3 fade-out
-        var inExplorePhase = t >= 0.66 && t < 0.74;
-        var isDay3     = (t >= 0.66 && t < 0.88);  // entire Day 3 range = when POI dots appear
-        var isDay3Late = (t >= 0.77 && t < 0.88);  // second half: add Fasano card below visits
-
-        // Two-up: both Day 3 cards visible. Cards stay position:absolute — JS stacks them.
-        // card-visits renders at top:0; card-fasano top = visits height + 8px gap.
-        if(mapVenueCardsEl){
-          if(isDay3Late){
-            mapVenueCardsEl.classList.add('two-up');
-            var visitsEl  = cards['card-visits'];
-            var fasanoEl  = cards['card-fasano'];
-            if(visitsEl && fasanoEl){
-              var visitsH   = visitsEl.offsetHeight;
-              var fasanoH   = fasanoEl.offsetHeight;
-              var gap       = 8; // px between the two stacked cards
-              fasanoEl.style.top = (visitsH + gap) + 'px';
-              // expand container so translateY(-50%) on panel stays stable
-              mapVenueCardsEl.style.height = (visitsH + gap + fasanoH) + 'px';
-            }
-          } else {
-            if(mapVenueCardsEl.classList.contains('two-up')){
-              // Leaving two-up: delay style.top reset until fade-out completes
-              var _fasEl = cards['card-fasano'];
-              if(_fasEl){
-                setTimeout(function(){ _fasEl.style.top = ''; }, 520);
-              }
-              mapVenueCardsEl.classList.remove('two-up');
-              mapVenueCardsEl.style.height = '';
-            }
-          }
-        }
+        var isDay3            = (t >= 0.66 && t < 0.88);  // Day 3 = site visits; POI dots are up
 
         // Base venue cards: hide all, then selectively show
-        ['card-union','card-kimmel','card-fasano'].forEach(function(key){
-          // card-fasano shown only in second half of Day 3
-          if(key === 'card-fasano'){
-            if(isDay3Late && !inHotelPhase) showCard(key);
-            else hideCard(key);
-          } else {
-            if(key === currentCard && !inHotelPhase && !isDay3) showCard(key);
-            else hideCard(key);
-          }
+        ['card-union','card-pierre'].forEach(function(key){
+          if(key === currentCard && !inHotelPhase && !isDay3) showCard(key);
+          else hideCard(key);
         });
         // card-visits: visible for the entire Day 3 (both halves)
         if(isDay3 && !inHotelPhase && cardVisits) showCard('card-visits');
@@ -4123,14 +3999,13 @@ function setLang(lang) {
         // Phase titles: show alongside their cards, explore/hotels titles for later phases
         hideAllTitles();
         if(!inHotelPhase){
-          if(currentCard === 'card-kimmel')  showTitle('title-day1');
+          if(currentCard === 'card-pierre')  showTitle('title-day1');
           else if(currentCard === 'card-union') showTitle('title-day2');
-          else if(currentCard === 'card-fasano') showTitle('title-day3');
         }
-        if(inExplorePhase) showTitle('title-explore');
+        if(isDay3) showTitle('title-explore');
         if(inHotelCardsPhase) showTitle('title-hotels');
 
-        // Route 1 (Kimmel→NYU SPS): progressively draws during 0.30→0.38, fully visible after, hidden before
+        // Route 1 (Pierre→NYU SPS): progressively draws during 0.30→0.38, fully visible after, hidden before
         if(t >= 0.38){
           drawRoute('route-1', ROUTE_1, 1);
           route1Drawn = true;
@@ -4143,29 +4018,14 @@ function setLang(lang) {
           route1Drawn = false;
         }
 
-        // Route 2 (NYU SPS→Fasano): progressively draws during 0.58→0.66, fully visible after, hidden before
-        if(t >= 0.66){
-          drawRoute('route-2', ROUTE_2, 1);
-          route2Drawn = true;
-        } else if(t >= 0.58){
-          var rp2 = (t - 0.58) / (0.66 - 0.58);
-          drawRoute('route-2', ROUTE_2, ease(rp2));
-          route2Drawn = false;
-        } else {
-          drawRoute('route-2', ROUTE_2, 0);
-          route2Drawn = false;
-        }
-
         // Move camera
         map.jumpTo(cam);
 
-        // Show POI dots and neighborhood boundaries during explore phase (0.88-0.93)
-        var inExplore = t >= 0.66 && t < 0.74;
-        updatePOIs(inExplore);
-        updateNeighborhoods(inExplore);
-        // Hide route lines when entering explore or hotel phase
+        // Show POI dots and neighborhood boundaries for the whole Day 3 window
+        updatePOIs(isDay3);
+        updateNeighborhoods(isDay3);
+        // Hide the route line when entering the explore or hotel phase
         map.setPaintProperty('route-1-line', 'line-opacity', (t >= 0.66) ? 0 : 0.7);
-        map.setPaintProperty('route-2-line', 'line-opacity', (t >= 0.66) ? 0 : 0.7);
 
         // Show hotel markers during hotel phase
         updateHotels(inHotelPhase);
@@ -4192,8 +4052,8 @@ function setLang(lang) {
           mapVenueCardsEl.style.marginTop = cardOffsets[sbActiveIdx];
         }
 
-        // Close POI popup when scrolling back before POI phase
-        if((t < 0.66 || t >= 0.74) && poiPopup.classList.contains('visible')){
+        // Close POI popup when scrolling outside the POI phase
+        if(!isDay3 && poiPopup.classList.contains('visible')){
           poiPopup.classList.remove('visible');
         }
 
