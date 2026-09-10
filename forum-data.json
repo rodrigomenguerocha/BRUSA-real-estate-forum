@@ -267,47 +267,59 @@
       },
       "time": "14:35 – 15:25",
       "title": {
-        "en": "Development at Scale: The Sponsor–Developer Model",
-        "pt": "Desenvolvimento em Escala: O Modelo Sponsor–Developer"
+        "en": "The Missing Middle: Workforce Housing & Rent Subsidy in the US",
+        "pt": "A Faixa que Falta: Workforce Housing e Aluguel Social nos EUA"
       },
       "desc": {
-        "en": "Every large project has a structure behind it: a sponsor, a developer, and the capital that backs them. The US has turned this into a discipline; Brazil is still assembling it. How the sponsor–developer model actually works, and what Brazil can take from it.",
-        "pt": "Todo grande projeto tem uma estrutura por trás: um sponsor, um developer e o capital que os sustenta. Os EUA transformaram isso em disciplina; o Brasil ainda está montando a sua. Como o modelo sponsor–developer funciona de fato, e o que o Brasil pode aprender com ele."
+        "en": "In the US, building the unit and paying the rent are separate businesses: tax credit equity puts the building up, a voucher carries the rent, and a regulatory agreement holds the price for decades. It is the machinery Brazil never assembled, and the reason subsidized rental became an institutional asset class there. An American table on how the machine works from the inside, where it jams and what travels.",
+        "pt": "Nos EUA, quem constrói a unidade e quem paga o aluguel são partes separadas: crédito fiscal levanta o prédio, um voucher sustenta a renda, e um contrato regulatório trava o preço por décadas. É a engenharia que o Brasil nunca montou, e a razão pela qual aluguel subsidiado virou classe de ativo institucional lá. Uma mesa americana sobre como a máquina funciona por dentro, onde ela emperra e o que dela é transplantável."
       },
       "speakers": [
         {
           "photo": "",
           "name": {
-            "en": "(TBD)",
-            "pt": "(a confirmar)"
+            "en": "Marc Norman",
+            "pt": "Marc Norman"
           },
           "role": {
-            "en": "Developer · US",
-            "pt": "Developer · EUA"
-          },
-          "tbd": true
-        },
-        {
-          "photo": "img/speakers/douglas-strabelli.jpg",
-          "name": {
-            "en": "Douglas Strabelli",
-            "pt": "Douglas Strabelli"
-          },
-          "role": {
-            "en": "Sagewood Corporation · Developer (Brazil)",
-            "pt": "Sagewood Corporation · Developer (Brasil)"
+            "en": "NYU Schack · Moderator",
+            "pt": "NYU Schack · Moderador"
           },
           "tbd": false
         },
         {
-          "photo": "",
+          "photo": "img/speakers/nycha.jpg",
           "name": {
             "en": "(TBD)",
             "pt": "(a confirmar)"
           },
           "role": {
-            "en": "Sponsor / Capital Partner",
-            "pt": "Sponsor / Parceiro de Capital"
+            "en": "NYCHA · PACT",
+            "pt": "NYCHA · PACT"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/l-and-m.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "L+M Development Partners",
+            "pt": "L+M Development Partners"
+          },
+          "tbd": true
+        },
+        {
+          "photo": "img/speakers/avanath.jpg",
+          "name": {
+            "en": "(TBD)",
+            "pt": "(a confirmar)"
+          },
+          "role": {
+            "en": "Avanath Capital Management",
+            "pt": "Avanath Capital Management"
           },
           "tbd": true
         }
