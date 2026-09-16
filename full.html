@@ -1544,6 +1544,13 @@
   }
   .cover-supporters .cover-label { color: rgba(255,255,255,0.38); }
   .cover-supporters .partner-logos { min-height: 0; gap: 1.8rem; }
+  /* Two tiers side by side: institutional supporters, then supporting partners.
+     Mirrors the co-organizer wall's grouped layout, one notch quieter. */
+  .cover-supporters-groups {
+    display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap;
+    column-gap: 3.5rem; row-gap: 1.8rem;
+  }
+  .cover-supporters .partner-group { gap: 0.85rem; }
   /* Dark-artwork PNG forced to white, same treatment as the Lead Partner logo */
   .cover-supporter { display: inline-flex; align-items: center; text-decoration: none; opacity: 0.45; transition: opacity 0.2s ease; }
   .cover-supporter:hover { opacity: 0.9; }
@@ -1551,6 +1558,9 @@
   /* OSPA is a single-row wordmark; the Chamber spends its height on three stacked
      text lines. Matched by optical weight rather than box height. */
   .cover-supporter-logo--ospa { height: 29px; }
+  /* BB Americas is a four-to-one lockup whose wordmark sits above a rule and "Bank";
+     trimmed down so its wordmark reads at the Chamber's weight, not above it. */
+  .cover-supporter-logo--bb { height: 28px; }
 
   /* Reserve the scroll indicator's band (bottom: 2.5rem + ~46px tall) at the foot of the cover,
      so the vertically-centred content can never run under it. Declared here, after the
@@ -1608,6 +1618,8 @@
     .cover-supporters { margin-top: 2.6rem; }
     .cover-supporter-logo { height: 32px; }
     .cover-supporter-logo--ospa { height: 24px; }
+    .cover-supporter-logo--bb { height: 23px; }
+    .cover-supporters-groups { column-gap: 2.2rem; row-gap: 1.5rem; }
   }
 
 
@@ -2031,14 +2043,26 @@
     data-luma-event-id="evt-cZKc1exaulCHny5"
   ><span data-lang="en">Request Invitation →</span><span data-lang="pt">Solicitar Convite →</span></a>
   <div class="cover-supporters">
-    <span class="cover-label">Institutional Supporters</span>
-    <div class="partner-logos">
-      <a href="https://www.brazilcham.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Brazilian-American Chamber of Commerce">
-        <img class="cover-supporter-logo" src="img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce" width="744" height="259" decoding="async">
-      </a>
-      <a href="https://ospa.com.br" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="OSPA">
-        <img class="cover-supporter-logo cover-supporter-logo--ospa" src="img/logos/ospa.svg" alt="OSPA" width="380" height="180" decoding="async">
-      </a>
+    <div class="cover-supporters-groups">
+      <div class="partner-group">
+        <span class="cover-label">Institutional Supporters</span>
+        <div class="partner-logos">
+          <a href="https://www.brazilcham.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Brazilian-American Chamber of Commerce">
+            <img class="cover-supporter-logo" src="img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce" width="744" height="259" decoding="async">
+          </a>
+        </div>
+      </div>
+      <div class="partner-group">
+        <span class="cover-label">Supporting Partners</span>
+        <div class="partner-logos">
+          <a href="https://ospa.com.br" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="OSPA">
+            <img class="cover-supporter-logo cover-supporter-logo--ospa" src="img/logos/ospa.svg" alt="OSPA" width="380" height="180" decoding="async">
+          </a>
+          <a href="https://www.bbamericas.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="BB Americas Bank">
+            <img class="cover-supporter-logo cover-supporter-logo--bb" src="img/logos/bb-americas.png" alt="BB Americas Bank" width="900" height="225" decoding="async">
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   </div>
