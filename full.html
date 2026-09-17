@@ -1546,11 +1546,11 @@
   }
   .cover-supporters .cover-label { color: rgba(255,255,255,0.38); }
   .cover-supporters .partner-logos { min-height: 0; gap: 1.8rem; }
-  /* Two tiers side by side: institutional supporters, then supporting partners.
-     Mirrors the co-organizer wall's grouped layout, one notch quieter. */
+  /* Two tiers stacked: sponsors on top, institutional partners underneath.
+     Each keeps its own label, so the hierarchy reads top-down. */
   .cover-supporters-groups {
-    display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap;
-    column-gap: 3.5rem; row-gap: 1.8rem;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 1.6rem;
   }
   .cover-supporters .partner-group { gap: 0.85rem; }
   /* Dark-artwork PNG forced to white, same treatment as the Lead Partner logo */
@@ -1622,7 +1622,7 @@
     .cover-supporter-logo { height: 32px; }
     .cover-supporter-logo--ospa { height: 29px; }
     .cover-supporter-logo--bb { height: 28px; }
-    .cover-supporters-groups { column-gap: 2.2rem; row-gap: 1.5rem; }
+    .cover-supporters-groups { gap: 1.3rem; }
   }
 
 
@@ -2048,14 +2048,6 @@
   <div class="cover-supporters">
     <div class="cover-supporters-groups">
       <div class="partner-group">
-        <span class="cover-label">Institutional Supporters</span>
-        <div class="partner-logos">
-          <a href="https://www.brazilcham.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Brazilian-American Chamber of Commerce">
-            <img class="cover-supporter-logo" src="img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce" width="744" height="259" decoding="async">
-          </a>
-        </div>
-      </div>
-      <div class="partner-group">
         <span class="cover-label">Supporting Partners</span>
         <div class="partner-logos">
           <a href="https://ospa.com.br" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="OSPA">
@@ -2063,6 +2055,14 @@
           </a>
           <a href="https://www.bbamericas.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="BB Americas Bank">
             <img class="cover-supporter-logo cover-supporter-logo--bb" src="img/logos/bb-americas.png" alt="BB Americas Bank" width="900" height="225" decoding="async">
+          </a>
+        </div>
+      </div>
+      <div class="partner-group">
+        <span class="cover-label">Institutional Partners</span>
+        <div class="partner-logos">
+          <a href="https://www.brazilcham.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Brazilian-American Chamber of Commerce">
+            <img class="cover-supporter-logo" src="img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce" width="744" height="259" decoding="async">
           </a>
         </div>
       </div>
