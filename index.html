@@ -1791,7 +1791,7 @@
   }
 
   /* bridge-CTA targets get a brief highlight when reached via anchor */
-  #panel-4-item:target, #panel-6-item:target { background: rgba(137,0,225,0.22); }
+  #panel-income-item:target, #panel-capital-item:target { background: rgba(137,0,225,0.22); }
 
   /* Reduced motion: static final states, no animation */
   @media (prefers-reduced-motion: reduce) {
@@ -1968,9 +1968,9 @@
             <div class="data-card-source">Federal Reserve Z.1 · 2025</div>
           </div>
         </div>
-        <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#panel-6-item">
-          <span data-lang="en">This conversation is Panel 6 — Capital Stack: US vs. Brazil. →</span>
-          <span data-lang="pt">Essa conversa é o Painel 6 — Capital Stack: EUA vs. Brasil. →</span>
+        <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#panel-capital-item">
+          <span data-lang="en">This conversation is Panel 3 — Capital Stack: US vs. Brazil. →</span>
+          <span data-lang="pt">Essa conversa é o Painel 3 — Capital Stack: EUA vs. Brasil. →</span>
         </a>
       </div>
       <div class="shift-chart par-layer" data-parallax="-20">
@@ -2070,9 +2070,9 @@
     </div>
   </div>
   <div>
-    <a class="bridge-cta reveal" style="transition-delay:0.5s;" href="#panel-4-item">
-      <span data-lang="en">This conversation is Panel 4 — Residential: Patrimonial &amp; Multifamily, with Greystar Brazil in the room. →</span>
-      <span data-lang="pt">Essa conversa é o Painel 4 — Residencial: Patrimonial &amp; Multifamily, com a Greystar Brazil na sala. →</span>
+    <a class="bridge-cta reveal" style="transition-delay:0.5s;" href="#panel-income-item">
+      <span data-lang="en">This conversation is Panel 6 — From Selling Units to Owning Income, with Greystar Brazil in the room. →</span>
+      <span data-lang="pt">Essa conversa é o Painel 6 — De Vender Unidades a Deter Renda, com a Greystar Brazil na sala. →</span>
     </a>
   </div>
 </section>
@@ -2145,29 +2145,22 @@
         </a>
       </div>
 
-      <!-- Card 2: BR/US Real Estate Forum -->
+      <!-- Card 2: BR/USA Real Estate Forum -->
       <div class="day-card highlight" data-day="2" id="forum-card">
         <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
         <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
-        <div class="day-title">BR/US Real Estate Forum</div>
+        <div class="day-title">BR/USA Real Estate Forum</div>
         <div class="day-desc" data-lang="en">Full-day program at NYU Schack.</div>
         <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack.</div>
         <hr class="card-section-divider">
         <div class="card-panel-list">
-          <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">The Urban Condition</span><span data-lang="pt">A Condição Urbana</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">Reading a Market: Country, Land, Deal</span><span data-lang="pt">Ler um Mercado: País, Terra, Deal</span></div>
           <div class="card-panel-item"><span class="card-panel-num">02 —</span><span data-lang="en">Data, Transparency &amp; Risk</span><span data-lang="pt">Dados, Transparência &amp; Risco</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Public–Private Development</span><span data-lang="pt">Desenvolvimento Público–Privado</span></div>
-          <div class="card-panel-item" id="panel-4-item"><span class="card-panel-num">04 —</span><span data-lang="en">Residential: Patrimonial &amp; Multifamily</span><span data-lang="pt">Residencial: Patrimonial &amp; Multifamily</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">The Missing Middle: Workforce Housing</span><span data-lang="pt">A Faixa que Falta: Workforce Housing</span></div>
-          <div class="card-panel-item" id="panel-6-item"><span class="card-panel-num">06 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
+          <div class="card-panel-item" id="panel-capital-item"><span class="card-panel-num">03 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">04 —</span><span data-lang="en">Public/Private Development</span><span data-lang="pt">Desenvolvimento Público/Privado</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">Subsidy and Capital: Affordable Housing</span><span data-lang="pt">Subsídio e Capital: Habitação Acessível</span></div>
+          <div class="card-panel-item" id="panel-income-item"><span class="card-panel-num">06 —</span><span data-lang="en">From Selling Units to Owning Income</span><span data-lang="pt">De Vender Unidades a Deter Renda</span></div>
         </div>
-        <a class="card-past-btn"
-           href="https://luma.com/event/evt-cZKc1exaulCHny5"
-           data-luma-action="checkout"
-           data-luma-event-id="evt-cZKc1exaulCHny5">
-          <span data-lang="en">Request invitation →</span>
-          <span data-lang="pt">Solicitar convite →</span>
-        </a>
         <div class="card-scroll-hint" id="card-scroll-hint">
           <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
           <div class="card-scroll-hint-label" data-lang="pt">Role para ver o programa</div>
@@ -2204,8 +2197,8 @@
             <div class="schedule-tag tag-break"><span data-lang="en">Registration</span><span data-lang="pt">Credenciamento</span></div>
             <div class="schedule-time">8:30 – 9:00</div>
             <div>
-              <div class="schedule-label" data-lang="en">Registration</div>
-              <div class="schedule-label" data-lang="pt">Credenciamento</div>
+              <div class="schedule-label" data-lang="en">Registration &amp; Coffee</div>
+              <div class="schedule-label" data-lang="pt">Credenciamento e Café</div>
             </div>
             <div class="schedule-menu">Foyer · NYU Schack</div>
           </div>
@@ -2217,91 +2210,109 @@
               <div class="schedule-label" data-lang="pt">Abertura Institucional</div>
             </div>
           </div>
-          <div class="schedule-item" data-sched="3">
-            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 1</span><span data-lang="pt">Painel 1</span></div>
-            <div class="schedule-time">9:15 – 10:05</div>
+          <div class="schedule-item" data-sched="3" data-panel-id="keynote">
+            <div class="schedule-tag tag-keynote"><span data-lang="en">Keynote</span><span data-lang="pt">Keynote</span></div>
+            <div class="schedule-time">9:15 – 9:30</div>
             <div>
-              <div class="schedule-label" data-lang="en">The Urban Condition: Cities, Land Markets &amp; Legibility</div>
-              <div class="schedule-label" data-lang="pt">A Condição Urbana: Cidades, Mercados de Terra e Legibilidade</div>
+              <div class="schedule-label" data-lang="en">The Urban Condition</div>
+              <div class="schedule-label" data-lang="pt">A Condição Urbana</div>
             </div>
-            <div class="schedule-description"><span data-lang="en">Cities take shape from land markets, regulation, and prices long before any master plan. A dialogue on how those forces produce urban form, and why a legible land market is the precondition for everything else.</span><span data-lang="pt">As cidades se formam a partir de mercados de terra, regulação e preços muito antes de qualquer plano diretor. Um diálogo sobre como essas forças produzem a forma urbana, e por que um mercado de terras legível é a precondição para todo o resto.</span></div>
+            <div class="schedule-description"><span data-lang="en">Land rules set the cost and the risk of building long before anything is drawn. Fifteen minutes on how regulation and land prices decide what a city can become.</span><span data-lang="pt">As regras do solo definem o custo e o risco de construir muito antes de qualquer desenho. Quinze minutos sobre como regulação e preço da terra decidem o que uma cidade pode se tornar.</span></div>
           </div>
-          <div class="schedule-item sched-break" data-sched="4">
+          <div class="schedule-item" data-sched="4" data-panel-id="p01">
+            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 1</span><span data-lang="pt">Painel 1</span></div>
+            <div class="schedule-time">9:30 – 10:30</div>
+            <div>
+              <div class="schedule-label" data-lang="en">Reading a Market: Country, Land, Deal</div>
+              <div class="schedule-label" data-lang="pt">Ler um Mercado: País, Terra, Deal</div>
+            </div>
+            <div class="schedule-description"><span data-lang="en">Global capital reads a deal in three layers: the country, the land under it, and the contract itself. Brazil answers the first and goes quiet on the other two. What would an investor need to see on the page?</span><span data-lang="pt">O capital global lê um deal em três camadas: o país, a terra embaixo dele e o contrato em si. O Brasil responde a primeira e silencia nas outras duas. O que um investidor precisaria enxergar no papel?</span></div>
+          </div>
+          <div class="schedule-item sched-break" data-sched="5">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">10:05 – 10:25</div>
+            <div class="schedule-time">10:30 – 10:45</div>
             <div>
               <div class="schedule-label" data-lang="en">Coffee Break</div>
               <div class="schedule-label" data-lang="pt">Coffee Break</div>
             </div>
           </div>
-          <div class="schedule-item" data-sched="5">
+          <div class="schedule-item" data-sched="6" data-panel-id="p02">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 2</span><span data-lang="pt">Painel 2</span></div>
-            <div class="schedule-time">10:25 – 11:15</div>
+            <div class="schedule-time">10:45 – 11:45</div>
             <div>
-              <div class="schedule-label" data-lang="en">Data, Transparency &amp; Risk Assessment</div>
-              <div class="schedule-label" data-lang="pt">Dados, Transparência e Avaliação de Risco</div>
+              <div class="schedule-label" data-lang="en">Data, Transparency &amp; Risk</div>
+              <div class="schedule-label" data-lang="pt">Dados, Transparência e Risco</div>
             </div>
             <div class="schedule-description"><span data-lang="en">Capital underwrites what it can measure. Brazil still lacks a standardized data layer for real estate — no local CoStar or MSCI — so cross-border risk stays hard to price. What would make the market measurable?</span><span data-lang="pt">O capital avalia o que consegue medir. O Brasil ainda não tem uma camada de dados padronizada para o mercado imobiliário — sem um CoStar ou MSCI local — então o risco cross-border continua difícil de precificar. O que tornaria o mercado mensurável?</span></div>
           </div>
-          <div class="schedule-item" data-sched="7">
+          <div class="schedule-item" data-sched="7" data-panel-id="p03">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 3</span><span data-lang="pt">Painel 3</span></div>
-            <div class="schedule-time">11:25 – 12:15</div>
+            <div class="schedule-time">11:45 – 12:45</div>
             <div>
-              <div class="schedule-label" data-lang="en">Public–Private Development: Models, Risk &amp; Governance</div>
-              <div class="schedule-label" data-lang="pt">Desenvolvimento Público–Privado: Modelos, Risco e Governança</div>
+              <div class="schedule-label" data-lang="en">Capital Stack: US vs. Brazil</div>
+              <div class="schedule-label" data-lang="pt">Capital Stack: EUA vs. Brasil</div>
             </div>
-            <div class="schedule-description"><span data-lang="en">Public–private development moves the largest projects and the hardest to govern. How São Paulo and New York split risk between state and market, and which governance signals institutional capital actually trusts.</span><span data-lang="pt">O desenvolvimento público–privado move os maiores projetos e os mais difíceis de governar. Como São Paulo e Nova York dividem o risco entre Estado e mercado, e em quais sinais de governança o capital institucional realmente confia.</span></div>
+            <div class="schedule-description"><span data-lang="en">The capital stacks behind a US deal and a Brazilian one still look very different in cost, in tenor, and in who sits at each layer. A direct comparison of how both are built today, and what is starting to shift as global allocators look south.</span><span data-lang="pt">O capital stack por trás de um deal americano e de um brasileiro ainda é muito diferente em custo, em prazo e em quem ocupa cada camada. Uma comparação direta de como os dois se montam hoje, e o que começa a mudar à medida que alocadores globais olham para o Sul.</span></div>
           </div>
           <div class="schedule-item sched-break" data-sched="8">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">12:15 – 13:30</div>
+            <div class="schedule-time">12:45 – 14:30</div>
             <div>
               <div class="schedule-label" data-lang="en">Lunch</div>
               <div class="schedule-label" data-lang="pt">Almoço</div>
             </div>
             <div class="schedule-menu" data-lang="en">Plated lunch · NYU Schack</div><div class="schedule-menu" data-lang="pt">Almoço servido · NYU Schack</div>
           </div>
-          <div class="schedule-item" data-sched="9">
+          <div class="schedule-item" data-sched="9" data-panel-id="p04">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 4</span><span data-lang="pt">Painel 4</span></div>
-            <div class="schedule-time">13:30 – 14:20</div>
+            <div class="schedule-time">14:30 – 15:30</div>
             <div>
-              <div class="schedule-label" data-lang="en">Residential Product: Patrimonial, Multifamily &amp; Architecture</div>
-              <div class="schedule-label" data-lang="pt">Produto Residencial: Patrimonial, Multifamily e Arquitetura</div>
+              <div class="schedule-label" data-lang="en">Public/Private Development</div>
+              <div class="schedule-label" data-lang="pt">Desenvolvimento Público/Privado</div>
             </div>
-            <div class="schedule-description"><span data-lang="en">Brazil builds homes to sell and to hold. The US builds them to rent and to operate at institutional scale. Architecture and quality decide whether either kind lasts. This panel looks at what the patrimonial and multifamily models can take from each other.</span><span data-lang="pt">O Brasil constrói para vender e guardar. Os EUA constroem para alugar e operar em escala institucional. Arquitetura e qualidade definem se um e outro duram. O painel olha o que os modelos patrimonialista e multifamily têm a aprender entre si.</span></div>
+            <div class="schedule-description"><span data-lang="en">Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.</span><span data-lang="pt">Terra pública, infraestrutura pública e execução privada precisam fechar numa única transação. Como Nova York estrutura esses acordos, quem carrega cada risco e o que ainda se sustenta vinte anos depois.</span></div>
           </div>
-          <div class="schedule-item sched-break" data-sched="10">
+          <div class="schedule-item" data-sched="10" data-panel-id="p05">
+            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 5</span><span data-lang="pt">Painel 5</span></div>
+            <div class="schedule-time">15:30 – 16:30</div>
+            <div>
+              <div class="schedule-label" data-lang="en">Subsidy and Capital: Affordable Housing</div>
+              <div class="schedule-label" data-lang="pt">Subsídio e Capital: Habitação Acessível</div>
+            </div>
+            <div class="schedule-description"><span data-lang="en">In the US, building the unit and paying the rent are separate businesses. Tax credit equity puts the building up, a voucher carries the rent, and a regulatory agreement holds the price for decades. That machinery is why subsidized rental became an asset class there. What has to exist for private capital to buy affordable housing as an asset rather than an obligation?</span><span data-lang="pt">Nos EUA, quem constrói a unidade e quem paga o aluguel são partes separadas. Crédito fiscal levanta o prédio, um voucher sustenta a renda e um contrato regulatório trava o preço por décadas. É essa engenharia que fez do aluguel subsidiado uma classe de ativo lá. O que precisa existir para o capital privado comprar habitação acessível como ativo, e não como obrigação?</span></div>
+          </div>
+          <div class="schedule-item sched-break" data-sched="11">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">14:20 – 14:35</div>
+            <div class="schedule-time">16:30 – 16:45</div>
             <div>
               <div class="schedule-label" data-lang="en">Coffee Break</div>
               <div class="schedule-label" data-lang="pt">Coffee Break</div>
             </div>
           </div>
-          <div class="schedule-item" data-sched="11">
-            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 5</span><span data-lang="pt">Painel 5</span></div>
-            <div class="schedule-time">14:35 – 15:25</div>
-            <div>
-              <div class="schedule-label" data-lang="en">The Missing Middle: Workforce Housing &amp; Rent Subsidy in the US</div>
-              <div class="schedule-label" data-lang="pt">A Faixa que Falta: Workforce Housing e Aluguel Social nos EUA</div>
-            </div>
-            <div class="schedule-description"><span data-lang="en">In the US, building the unit and paying the rent are separate businesses: tax credit equity puts the building up, a voucher carries the rent, and a regulatory agreement holds the price for decades. It is the machinery Brazil never assembled, and the reason subsidized rental became an institutional asset class there. An American table on how the machine works from the inside, where it jams and what travels.</span><span data-lang="pt">Nos EUA, quem constrói a unidade e quem paga o aluguel são partes separadas: crédito fiscal levanta o prédio, um voucher sustenta a renda, e um contrato regulatório trava o preço por décadas. É a engenharia que o Brasil nunca montou, e a razão pela qual aluguel subsidiado virou classe de ativo institucional lá. Uma mesa americana sobre como a máquina funciona por dentro, onde ela emperra e o que dela é transplantável.</span></div>
-          </div>
-          <div class="schedule-item" data-sched="13">
+          <div class="schedule-item" data-sched="12" data-panel-id="p06">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 6</span><span data-lang="pt">Painel 6</span></div>
-            <div class="schedule-time">15:35 – 16:25</div>
+            <div class="schedule-time">16:45 – 17:45</div>
             <div>
-              <div class="schedule-label" data-lang="en">Capital Stack: US vs. Brazil — What Is Changing</div>
-              <div class="schedule-label" data-lang="pt">Capital Stack: EUA vs. Brasil — O que está Mudando</div>
+              <div class="schedule-label" data-lang="en">From Selling Units to Owning Income</div>
+              <div class="schedule-label" data-lang="pt">De Vender Unidades a Deter Renda</div>
             </div>
-            <div class="schedule-description"><span data-lang="en">The capital stacks behind a US deal and a Brazilian one still look very different in cost, in tenor, and in who sits at each layer. A direct comparison of how both are built today, and what is starting to shift as global allocators look south.</span><span data-lang="pt">O capital stack por trás de um deal americano e de um brasileiro ainda é muito diferente em custo, em prazo e em quem ocupa cada camada. Uma comparação direta de como os dois se montam hoje, e o que começa a mudar à medida que alocadores globais olham para o Sul.</span></div>
+            <div class="schedule-description"><span data-lang="en">Brazil builds to sell. The income model asks the same developer to keep the building, operate it and report on it for decades. That is a different company, not a different product. What the shift costs in capital, in operations and in reporting.</span><span data-lang="pt">O Brasil constrói para vender. O modelo de renda pede que o mesmo incorporador fique com o prédio, opere e preste contas por décadas. Isso é outra empresa, não outro produto. O que essa transição custa em capital, operação e reporting.</span></div>
           </div>
-          <div class="schedule-item" data-sched="14" style="border-bottom:none;">
+          <div class="schedule-item" data-sched="13" data-panel-id="closing">
             <div class="schedule-tag tag-break"><span data-lang="en">Closing</span><span data-lang="pt">Encerramento</span></div>
-            <div class="schedule-time">16:25 – 16:45</div>
+            <div class="schedule-time">17:45 – 18:00</div>
             <div>
-              <div class="schedule-label" data-lang="en">Closing Remarks</div>
-              <div class="schedule-label" data-lang="pt">Encerramento</div>
+              <div class="schedule-label" data-lang="en">The Standards List</div>
+              <div class="schedule-label" data-lang="pt">A Lista de Padrões</div>
+            </div>
+            <div class="schedule-description"><span data-lang="en">The day ends with a list: the practices the Brazilian market can adopt in the next cycle. Written in the room, sent to everyone afterward.</span><span data-lang="pt">O dia termina com uma lista: as práticas que o mercado brasileiro pode adotar no próximo ciclo. Escrita na sala, enviada a todos depois.</span></div>
+          </div>
+          <div class="schedule-item sched-break" data-sched="14" style="border-bottom:none;">
+            <div class="schedule-tag tag-break"><span data-lang="en">Cocktail</span><span data-lang="pt">Cocktail</span></div>
+            <div class="schedule-time">18:00</div>
+            <div>
+              <div class="schedule-label" data-lang="en">Cocktail</div>
+              <div class="schedule-label" data-lang="pt">Cocktail</div>
             </div>
           </div>
         </div>
@@ -2407,7 +2418,7 @@
         <div class="map-venue-card" id="card-union">
           <img class="map-venue-img" src="img/nyu_sps.webp" alt="NYU School of Professional Studies" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
-            <div class="map-venue-tag">BR/US Real Estate Forum</div>
+            <div class="map-venue-tag">BR/USA Real Estate Forum</div>
             <div class="map-venue-name">NYU School of Professional Studies</div>
             <div class="map-venue-addr">7 East 12th Street, New York</div>
           </div>
@@ -4084,7 +4095,7 @@ function setLang(lang) {
 
   function hydrateSchedule(panels){
     panels.forEach(function(p){
-      var item=document.querySelector('.schedule-item[data-sched="'+p.slot+'"]');
+      var item=p.id?document.querySelector('.schedule-item[data-panel-id="'+p.id+'"]'):null;
       if(!item) return;
       var tag=item.querySelector('.schedule-tag'); if(tag && p.tag) tag.innerHTML=bi(p.tag);
       var time=item.querySelector('.schedule-time'); if(time && p.time) time.textContent=p.time;
