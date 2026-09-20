@@ -631,7 +631,11 @@
   .schedule-speaker .speaker-role {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.5rem; letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.3); display: block;
+    color: rgba(255,255,255,0.3);
+    /* Sem display aqui de propósito: `display: block` tem especificidade
+       maior que a regra `span[data-lang] { display: none }` do seletor de
+       idioma e fazia os dois idiomas aparecerem juntos. Como .schedule-speaker
+       é grid, o span já é blocado por ser item de grade. */
   }
   /* Mobile (<900px): speakers flow under the title, spanning the content column */
   @media (max-width: 899px) {
@@ -1175,6 +1179,12 @@
     text-decoration: none;
     transition: background 0.25s ease, color 0.25s ease;
   }
+  /* O display acima empata em especificidade com `[data-lang="pt"]` e vence
+     por vir depois na folha, o que deixava "Book Now" e "Reservar" visíveis
+     ao mesmo tempo no modo EN. Estas duas regras devolvem o controle ao
+     seletor de idioma. */
+  [data-lang="pt"].hotel-info-book { display: none; }
+  body.pt [data-lang="pt"].hotel-info-book { display: inline-block; }
   .hotel-info-book:hover {
     background: var(--violet);
     color: #fff;
