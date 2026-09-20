@@ -90,7 +90,20 @@
         "en": "Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.",
         "pt": "Terra pública, infraestrutura pública e execução privada precisam fechar numa única transação. Como Nova York estrutura esses acordos, quem carrega cada risco e o que ainda se sustenta vinte anos depois."
       },
-      "speakers": []
+      "speakers": [
+        {
+          "photo": "",
+          "name": {
+            "en": "Matthew Kwatinetz",
+            "pt": "Matthew Kwatinetz"
+          },
+          "role": {
+            "en": "NYU Wagner · Moderator",
+            "pt": "NYU Wagner · Moderador"
+          },
+          "tbd": false
+        }
+      ]
     },
     {
       "id": "p05",
@@ -221,6 +234,31 @@
       "panelLabel": {
         "en": "Opening Remarks",
         "pt": "Abertura"
+      }
+    },
+    {
+      "id": "matthew-kwatinetz",
+      "active": true,
+      "badge": "confirmed",
+      "flag": "us",
+      "initials": "MK",
+      "photo": "",
+      "name": {
+        "en": "Matthew Kwatinetz",
+        "pt": "Matthew Kwatinetz"
+      },
+      "company": {
+        "en": "NYU Wagner",
+        "pt": "NYU Wagner"
+      },
+      "cargo": {
+        "en": "Professor",
+        "pt": "Professor"
+      },
+      "logo": "",
+      "panelLabel": {
+        "en": "Panel 4 — Moderator",
+        "pt": "Painel 4 — Moderador"
       }
     },
     {
