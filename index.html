@@ -4071,64 +4071,6 @@ function setLang(lang) {
   });
 })();
 </script>
-
-
-
-
-<script>
-/* ============================================================
-   ADMIN HYDRATION
-   Fetches the live panel data from /api/data and replaces the static
-   schedule-panel markup with it. The static markup above is the
-   seed/fallback: if /api/data is unavailable (e.g. opened as a plain file),
-   the page keeps showing it. This public page carries no speaker names, so
-   only the panels' tag, time, title and description are hydrated — the
-   speakers in the feed are deliberately ignored.
-   ============================================================ */
-(function(){
-  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-  function bi(p){ p=p||{}; var en=p.en||'', pt=(p.pt!=null&&p.pt!=='')?p.pt:en; return '<span data-lang="en">'+esc(en)+'</span><span data-lang="pt">'+esc(pt)+'</span>'; }
-  function pairSpan(cls,p){ p=p||{}; var en=p.en||'', pt=(p.pt!=null&&p.pt!=='')?p.pt:en;
-    if(en===pt) return '<span class="'+cls+'">'+esc(en)+'</span>';
-    return '<span class="'+cls+'" data-lang="en">'+esc(en)+'</span><span class="'+cls+'" data-lang="pt">'+esc(pt)+'</span>'; }
-  var BADGE={confirmed:{en:'Confirmed',pt:'Confirmado'},proposed:{en:'Proposed',pt:'Em aproximação'},tbd:{en:'TBD',pt:'A confirmar'}};
-
-  function hydrateSchedule(panels){
-    panels.forEach(function(p){
-      var item=p.id?document.querySelector('.schedule-item[data-panel-id="'+p.id+'"]'):null;
-      if(!item) return;
-      var tag=item.querySelector('.schedule-tag'); if(tag && p.tag) tag.innerHTML=bi(p.tag);
-      var time=item.querySelector('.schedule-time'); if(time && p.time) time.textContent=p.time;
-      item.querySelectorAll('.schedule-label').forEach(function(l){
-        var lng=l.getAttribute('data-lang');
-        if(lng==='en' && p.title) l.textContent=p.title.en||'';
-        else if(lng==='pt' && p.title) l.textContent=p.title.pt||'';
-      });
-      if(p.desc && (p.desc.en||p.desc.pt)){
-        var desc=item.querySelector('.schedule-description');
-        if(!desc){
-          desc=document.createElement('div'); desc.className='schedule-description';
-          var firstLabel=item.querySelector('.schedule-label');
-          var titleWrap=firstLabel?firstLabel.parentElement:null;
-          if(titleWrap && titleWrap.parentElement) titleWrap.parentElement.insertBefore(desc, titleWrap.nextSibling);
-          else item.appendChild(desc);
-        }
-        desc.innerHTML=bi(p.desc);
-      }
-    });
-  }
-
-  fetch('/api/data',{cache:'no-store'})
-    .then(function(r){ return r && r.ok ? r.json() : null; })
-    .then(function(d){
-      if(!d) return;
-      try{ if(Array.isArray(d.panels)) hydrateSchedule(d.panels); }catch(e){ console.error('schedule hydrate',e); }
-    })
-    .catch(function(){ /* offline / static preview: keep seed markup */ });
-})();
-</script>
-
-
 <!-- ===== TEST-ONLY: scroll-triggered animations =====
      The Shift: entering the section STARTS the choreography once; it then
      plays out on its own (copy -> cards + count-up -> chart draw ->

@@ -1,15 +1,11 @@
 // Servidor estático de desenvolvimento.
 //
-// Serve os arquivos do projeto e responde /api/data com o forum-data.json
-// local. É isso que diferencia ele de um `python -m http.server`: sem a
-// rota /api/data, a página não hidrata painéis nem speakers, e você só vê
-// o markup estático de fallback.
+// Espelha o cleanUrls da Vercel (/full resolve full.html) e desliga o
+// cache, para editar o HTML e recarregar sem ficar lutando com o
+// navegador. O site é estático: não há rota de API para servir.
 //
 //   npm run dev        → http://localhost:4321
 //   npm run dev 5000   → outra porta
-//
-// Para rodar as funções serverless de verdade (login, save, upload),
-// use `npm run dev:local`, que sobe o `vercel dev`.
 
 import http from 'node:http';
 import { readFile } from 'node:fs/promises';
@@ -40,27 +36,6 @@ const server = http.createServer(async (req, res) => {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   } catch {
     res.writeHead(400).end('bad request');
-    return;
-  }
-
-  // Stand-in para a função serverless: devolve o seed local, que é o mesmo
-  // que /api/data serve em produção quando o Blob ainda não foi gravado.
-  if (pathname === '/api/data') {
-    try {
-      const buf = await readFile(path.join(ROOT, 'forum-data.json'));
-      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
-      res.end(buf);
-    } catch (err) {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'seed_unreadable', message: String(err && err.message) }));
-    }
-    return;
-  }
-
-  // As demais rotas /api pedem estado que só o `vercel dev` tem.
-  if (pathname.startsWith('/api/')) {
-    res.writeHead(501, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'not_implemented', message: 'Use `npm run dev:local` para as funções de /api.' }));
     return;
   }
 
@@ -98,5 +73,4 @@ server.on('error', (err) => {
 server.listen(PORT, () => {
   console.log(`\n  BR/USA Real Estate Forum`);
   console.log(`  http://localhost:${PORT}`);
-  console.log(`  /api/data servindo forum-data.json\n`);
 });
