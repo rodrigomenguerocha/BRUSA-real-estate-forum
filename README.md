@@ -49,7 +49,7 @@ Sem foto, o card cai nas iniciais. Fotos vão em `img/speakers/`, logos em
 esconde o outro. Texto novo sem o par fica visível nos dois idiomas.
 
 **Prévia do link (WhatsApp, LinkedIn etc.).** Tags `og:*` no `<head>` do
-`index.html`. A imagem é `img/og-share.jpg`. Para trocar, substitua o arquivo
+`index.html`. A imagem é `img/og-share-1200x630.jpg`. Para trocar, substitua o arquivo
 mantendo JPEG abaixo de 300 KB, senão o WhatsApp não mostra. Se mudar as
 dimensões, atualize `og:image:width` e `og:image:height`. O WhatsApp guarda a
 prévia em cache, então um link já enviado pode continuar mostrando a versão antiga.
