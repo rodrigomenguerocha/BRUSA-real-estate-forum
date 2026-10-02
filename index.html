@@ -525,7 +525,7 @@
   .schedule-list { margin-top: 1.5rem; }
   .schedule-item {
     display: grid;
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 108px 1fr;
     column-gap: 1.5rem;
     row-gap: 0;
     align-items: baseline;
@@ -552,8 +552,8 @@
        Row 4: Speakers (5 cols via JS-injected .schedule-speakers wrapper)
      Time stays in col 1 spanning all 4 rows. */
   @media (min-width: 900px) {
-    .schedule-item { grid-template-columns: 100px repeat(5, 1fr); column-gap: 1rem; row-gap: 0.55rem; }
-    .schedule-item.sched-break { grid-template-columns: 100px repeat(5, 1fr); }
+    .schedule-item { grid-template-columns: 112px repeat(5, 1fr); column-gap: 1rem; row-gap: 0.55rem; }
+    .schedule-item.sched-break { grid-template-columns: 112px repeat(5, 1fr); }
     .schedule-time { grid-column: 1; grid-row: 1 / span 4; align-self: start; padding-top: 0.15rem; }
     .schedule-tag { grid-column: 2 / -1; grid-row: 1; justify-self: start; align-self: center; margin: 0; }
     .schedule-item > div:not(.schedule-tag):not(.schedule-time):not(.schedule-speaker):not(.schedule-menu):not(.schedule-description):not(.schedule-speakers) {
@@ -598,7 +598,8 @@
   .schedule-time {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem; letter-spacing: 0.08em;
-    color: var(--ultra); padding-top: 0.15rem;
+    color: var(--white); padding-top: 0.15rem;
+    white-space: nowrap;
   }
   .schedule-label {
     font-size: 1.25rem; color: var(--white); font-weight: 600; line-height: 1.3;
@@ -1671,7 +1672,7 @@
     .card-scroll-hint-label { font-size: 0.6rem; }
 
     /* Agenda (zoom schedule): widen the time column for the larger time text */
-    .schedule-item        { grid-template-columns: 82px 1fr; }
+    .schedule-item        { grid-template-columns: 96px 1fr; }
     .schedule-time        { font-size: 0.66rem; }
     .schedule-label       { font-size: 0.95rem; line-height: 1.3; }
     .schedule-sublabel    { font-size: 0.62rem; }
@@ -1702,7 +1703,7 @@
   /* ===== MOBILE — NY WEEK CARDS: stack one-up + trim secondary detail =====
      Phones/tablets show the three day cards in a single column (full width) and
      drop the heavier in-card detail. Kept: date, title, description, and the
-     6-panel program on the Forum card. Hidden on mobile: the scroll-to-reveal
+     5-panel program on the Forum card. Hidden on mobile: the scroll-to-reveal
      hint (Forum), the edition/format/access rows (NYU conf), and the visit list.
      Desktop layout unchanged. */
   @media (max-width: 768px) {
@@ -2081,8 +2082,8 @@
           </div>
         </div>
         <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#panel-capital-item">
-          <span data-lang="en">This conversation is Panel 3 — Capital Stack: US vs. Brazil. →</span>
-          <span data-lang="pt">Essa conversa é o Painel 3 — Capital Stack: EUA vs. Brasil. →</span>
+          <span data-lang="en">This conversation is Panel 2 — Capital Stack: US vs. Brazil. →</span>
+          <span data-lang="pt">Essa conversa é o Painel 2 — Capital Stack: EUA vs. Brasil. →</span>
         </a>
       </div>
       <div class="shift-chart par-layer" data-parallax="-20">
@@ -2183,8 +2184,8 @@
   </div>
   <div>
     <a class="bridge-cta reveal" style="transition-delay:0.5s;" href="#panel-income-item">
-      <span data-lang="en">This conversation is Panel 6 — From Selling Units to Owning Income, with Greystar Brazil in the room. →</span>
-      <span data-lang="pt">Essa conversa é o Painel 6 — De Vender Unidades a Deter Renda, com a Greystar Brazil na sala. →</span>
+      <span data-lang="en">This conversation is Panel 5 — From Selling Units to Owning Income, with Greystar Brazil in the room. →</span>
+      <span data-lang="pt">Essa conversa é o Painel 5 — De Vender Unidades a Deter Renda, com a Greystar Brazil na sala. →</span>
     </a>
   </div>
 </section>
@@ -2202,7 +2203,7 @@
       <p data-lang="pt">Estamos levando 80 líderes selecionados do mercado imobiliário brasileiro — CEOs, CIOs, incorporadores e gestores de fundos — a Nova York para aprender e trocar experiências com os profissionais que definem o padrão global em governança, estruturação de capital e transparência institucional. Co-organizado pelo Instituto Cidades Responsivas (OSPA) e pelo NYU Schack Institute of Real Estate, o fórum é onde o mercado imobiliário brasileiro começa a falar a linguagem que o capital global entende.</p>
       <div class="stats">
         <div><div class="stat-num">80</div><div class="stat-label"><span data-lang="en">Senior Leaders</span><span data-lang="pt">Líderes Seniores</span></div></div>
-        <div><div class="stat-num">6</div><div class="stat-label"><span data-lang="en">Panels</span><span data-lang="pt">Painéis</span></div></div>
+        <div><div class="stat-num">5</div><div class="stat-label"><span data-lang="en">Panels</span><span data-lang="pt">Painéis</span></div></div>
         <div><div class="stat-num">2</div><div class="stat-label"><span data-lang="en">Markets</span><span data-lang="pt">Mercados</span></div></div>
       </div>
       <p style="margin-top:2rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--violet);" data-lang="en">This is the inaugural edition. We plan to grow to 150+ attendees by 2027 and establish the forum as the annual reference point for cross-border real estate between Brazil and the United States.</p>
@@ -2267,11 +2268,10 @@
         <hr class="card-section-divider">
         <div class="card-panel-list">
           <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">Reading a Market: Country, Land, Deal</span><span data-lang="pt">Ler um Mercado: País, Terra, Deal</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">02 —</span><span data-lang="en">Project Cases</span><span data-lang="pt">Cases de Projeto</span></div>
-          <div class="card-panel-item" id="panel-capital-item"><span class="card-panel-num">03 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">04 —</span><span data-lang="en">Public/Private Development</span><span data-lang="pt">Desenvolvimento Público/Privado</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">05 —</span><span data-lang="en">Subsidy and Capital: Affordable Housing</span><span data-lang="pt">Subsídio e Capital: Habitação Acessível</span></div>
-          <div class="card-panel-item" id="panel-income-item"><span class="card-panel-num">06 —</span><span data-lang="en">From Selling Units to Owning Income</span><span data-lang="pt">De Vender Unidades a Deter Renda</span></div>
+          <div class="card-panel-item" id="panel-capital-item"><span class="card-panel-num">02 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Public/Private Development</span><span data-lang="pt">Desenvolvimento Público/Privado</span></div>
+          <div class="card-panel-item"><span class="card-panel-num">04 —</span><span data-lang="en">Subsidy and Capital: Affordable Housing</span><span data-lang="pt">Subsídio e Capital: Habitação Acessível</span></div>
+          <div class="card-panel-item" id="panel-income-item"><span class="card-panel-num">05 —</span><span data-lang="en">From Selling Units to Owning Income</span><span data-lang="pt">De Vender Unidades a Deter Renda</span></div>
         </div>
         <div class="card-scroll-hint" id="card-scroll-hint">
           <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
@@ -2335,7 +2335,7 @@
           </div>
           <div class="schedule-item" data-sched="4" data-panel-id="p01">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 1</span><span data-lang="pt">Painel 1</span></div>
-            <div class="schedule-time">9:30 – 10:30</div>
+            <div class="schedule-time">9:30 – 10:20</div>
             <div>
               <div class="schedule-label" data-lang="en">Reading a Market: Country, Land, Deal</div>
               <div class="schedule-label" data-lang="pt">Ler um Mercado: País, Terra, Deal</div>
@@ -2345,44 +2345,52 @@
           </div>
           <div class="schedule-item sched-break" data-sched="5">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">10:30 – 10:45</div>
+            <div class="schedule-time">10:20 – 10:40</div>
             <div>
               <div class="schedule-label" data-lang="en">Coffee Break</div>
               <div class="schedule-label" data-lang="pt">Coffee Break</div>
             </div>
           </div>
-          <div class="schedule-item" data-sched="6" data-panel-id="p02">
+          <div class="schedule-item" data-sched="6" data-panel-id="p03">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 2</span><span data-lang="pt">Painel 2</span></div>
-            <div class="schedule-time">10:45 – 11:45</div>
-            <div>
-              <div class="schedule-label" data-lang="en">Project Cases</div>
-              <div class="schedule-label" data-lang="pt">Cases de Projeto</div>
-            </div>
-            <div class="schedule-description"><span data-lang="en">Architects present New York projects that became development cases, and explain how each one got off the page: what the site and the zoning allowed, and what made the numbers work.</span><span data-lang="pt">Arquitetos apresentam projetos em Nova York que viraram cases de desenvolvimento e contam como cada um saiu do papel: o que o terreno e a regra permitiam, e o que fez a conta fechar.</span></div>
-            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/rodrigo-milani.jpg" alt="Rodrigo Milani" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Rodrigo Milani</span><span class="speaker-role" data-lang="en">OSPA architecture · Moderator</span><span class="speaker-role" data-lang="pt">OSPA architecture · Moderador</span></div></div>
-          </div>
-          <div class="schedule-item" data-sched="7" data-panel-id="p03">
-            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 3</span><span data-lang="pt">Painel 3</span></div>
-            <div class="schedule-time">11:45 – 12:45</div>
+            <div class="schedule-time">10:40 – 11:30</div>
             <div>
               <div class="schedule-label" data-lang="en">Capital Stack: US vs. Brazil</div>
               <div class="schedule-label" data-lang="pt">Capital Stack: EUA vs. Brasil</div>
             </div>
             <div class="schedule-description"><span data-lang="en">The capital stacks behind a US deal and a Brazilian one still look very different in cost, in tenor, and in who sits at each layer. A direct comparison of how both are built today, and what is starting to shift as global allocators look south.</span><span data-lang="pt">O capital stack por trás de um deal americano e de um brasileiro ainda é muito diferente em custo, em prazo e em quem ocupa cada camada. Uma comparação direta de como os dois se montam hoje, e o que começa a mudar à medida que alocadores globais olham para o Sul.</span></div>
-            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Rodrigo Machado</span><span class="speaker-role" data-lang="en">Galapagos Capital · Partner</span><span class="speaker-role" data-lang="pt">Galapagos Capital · Sócio</span></div></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Rodrigo Machado</span><span class="speaker-role" data-lang="en">Galapagos Capital · Partner</span><span class="speaker-role" data-lang="pt">Galapagos Capital · Sócio</span></div><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/brenner-cavalcante.jpg" alt="Brenner Cavalcante" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Brenner Cavalcante</span><span class="speaker-role" data-lang="en">BB Americas · Chief Lending Officer</span><span class="speaker-role" data-lang="pt">BB Americas · Chief Lending Officer</span></div></div>
           </div>
-          <div class="schedule-item sched-break" data-sched="8">
+          <div class="schedule-item" data-sched="7" data-panel-id="pres1">
+            <div class="schedule-tag tag-keynote"><span data-lang="en">Presentation</span><span data-lang="pt">Apresentação</span></div>
+            <div class="schedule-time">11:30 – 12:00</div>
+            <div>
+              <div class="schedule-label" data-lang="en">One Vanderbilt: The Tower and the Terminal</div>
+              <div class="schedule-label" data-lang="pt">One Vanderbilt: a Torre e o Terminal</div>
+            </div>
+            <div class="schedule-description"><span data-lang="en">KPF walks through One Vanderbilt, the tower next to Grand Central: how it was developed, the air rights that made it possible and the MTA partnership that traded extra floor area for transit improvements.</span><span data-lang="pt">A KPF apresenta o One Vanderbilt, a torre ao lado da Grand Central: como foi o desenvolvimento, os air rights que a tornaram possível e a parceria com a MTA, que trocou área construída extra por melhorias no transporte público.</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/georgina-lalli.jpg" alt="Georgina Lalli" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Georgina Lalli</span><span class="speaker-role" data-lang="en">KPF · Managing Director</span><span class="speaker-role" data-lang="pt">KPF · Managing Director</span></div></div>
+          </div>
+          <div class="schedule-item" data-sched="8" data-panel-id="pres2">
+            <div class="schedule-tag tag-keynote"><span data-lang="en">Presentation</span><span data-lang="pt">Apresentação</span></div>
+            <div class="schedule-time">12:00 – 12:30</div>
+            <div>
+              <div class="schedule-label" data-lang="en">Case Study: To Be Announced</div>
+              <div class="schedule-label" data-lang="pt">Estudo de Caso: a confirmar</div>
+            </div>
+          </div>
+          <div class="schedule-item sched-break" data-sched="9">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">12:45 – 14:30</div>
+            <div class="schedule-time">12:30 – 14:00</div>
             <div>
               <div class="schedule-label" data-lang="en">Lunch</div>
               <div class="schedule-label" data-lang="pt">Almoço</div>
             </div>
             <div class="schedule-menu" data-lang="en">Plated lunch · NYU Schack</div><div class="schedule-menu" data-lang="pt">Almoço servido · NYU Schack</div>
           </div>
-          <div class="schedule-item" data-sched="9" data-panel-id="p04">
-            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 4</span><span data-lang="pt">Painel 4</span></div>
-            <div class="schedule-time">14:30 – 15:30</div>
+          <div class="schedule-item" data-sched="10" data-panel-id="p04">
+            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 3</span><span data-lang="pt">Painel 3</span></div>
+            <div class="schedule-time">14:00 – 14:50</div>
             <div>
               <div class="schedule-label" data-lang="en">Public/Private Development</div>
               <div class="schedule-label" data-lang="pt">Desenvolvimento Público/Privado</div>
@@ -2390,9 +2398,9 @@
             <div class="schedule-description"><span data-lang="en">Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.</span><span data-lang="pt">Terra pública, infraestrutura pública e execução privada precisam fechar numa única transação. Como Nova York estrutura esses acordos, quem carrega cada risco e o que ainda se sustenta vinte anos depois.</span></div>
             <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Matthew Kwatinetz</span><span class="speaker-role" data-lang="en">NYU Schack · Moderator</span><span class="speaker-role" data-lang="pt">NYU Schack · Moderador</span></div></div>
           </div>
-          <div class="schedule-item" data-sched="10" data-panel-id="p05">
-            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 5</span><span data-lang="pt">Painel 5</span></div>
-            <div class="schedule-time">15:30 – 16:30</div>
+          <div class="schedule-item" data-sched="11" data-panel-id="p05">
+            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 4</span><span data-lang="pt">Painel 4</span></div>
+            <div class="schedule-time">14:50 – 15:40</div>
             <div>
               <div class="schedule-label" data-lang="en">Subsidy and Capital: Affordable Housing</div>
               <div class="schedule-label" data-lang="pt">Subsídio e Capital: Habitação Acessível</div>
@@ -2400,17 +2408,17 @@
             <div class="schedule-description"><span data-lang="en">In the US, building the unit and paying the rent are separate businesses. Tax credit equity puts the building up, a voucher carries the rent, and a regulatory agreement holds the price for decades. That machinery is why subsidized rental became an asset class there. What has to exist for private capital to buy affordable housing as an asset rather than an obligation?</span><span data-lang="pt">Nos EUA, quem constrói a unidade e quem paga o aluguel são partes separadas. Crédito fiscal levanta o prédio, um voucher sustenta a renda e um contrato regulatório trava o preço por décadas. É essa engenharia que fez do aluguel subsidiado uma classe de ativo lá. O que precisa existir para o capital privado comprar habitação acessível como ativo, e não como obrigação?</span></div>
             <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Marc Norman</span><span class="speaker-role" data-lang="en">NYU Schack · Dean</span><span class="speaker-role" data-lang="pt">NYU Schack · Dean</span></div></div>
           </div>
-          <div class="schedule-item sched-break" data-sched="11">
+          <div class="schedule-item sched-break" data-sched="12">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">16:30 – 16:45</div>
+            <div class="schedule-time">15:40 – 15:55</div>
             <div>
               <div class="schedule-label" data-lang="en">Coffee Break</div>
               <div class="schedule-label" data-lang="pt">Coffee Break</div>
             </div>
           </div>
-          <div class="schedule-item" data-sched="12" data-panel-id="p06">
-            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 6</span><span data-lang="pt">Painel 6</span></div>
-            <div class="schedule-time">16:45 – 17:45</div>
+          <div class="schedule-item" data-sched="13" data-panel-id="p06">
+            <div class="schedule-tag tag-panel"><span data-lang="en">Panel 5</span><span data-lang="pt">Painel 5</span></div>
+            <div class="schedule-time">15:55 – 16:45</div>
             <div>
               <div class="schedule-label" data-lang="en">From Selling Units to Owning Income</div>
               <div class="schedule-label" data-lang="pt">De Vender Unidades a Deter Renda</div>
@@ -2418,17 +2426,17 @@
             <div class="schedule-description"><span data-lang="en">Brazil builds to sell. The income model asks the same developer to keep the building, operate it and report on it for decades. That is a different company, not a different product. What the shift costs in capital, in operations and in reporting.</span><span data-lang="pt">O Brasil constrói para vender. O modelo de renda pede que o mesmo incorporador fique com o prédio, opere e preste contas por décadas. Isso é outra empresa, não outro produto. O que essa transição custa em capital, operação e reporting.</span></div>
             <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/anthony-russo.jpg" alt="Anthony Russo" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Anthony Russo</span><span class="speaker-role" data-lang="en">CSFG · Managing Principal</span><span class="speaker-role" data-lang="pt">CSFG · Managing Principal</span></div><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/douglas-strabelli.jpg" alt="Douglas Strabelli" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Douglas Strabelli</span><span class="speaker-role" data-lang="en">Sagewood Corporation · Founder &amp; CEO</span><span class="speaker-role" data-lang="pt">Sagewood Corporation · Fundador &amp; CEO</span></div></div>
           </div>
-          <div class="schedule-item" data-sched="13" data-panel-id="closing">
+          <div class="schedule-item" data-sched="14" data-panel-id="closing">
             <div class="schedule-tag tag-break"><span data-lang="en">Closing</span><span data-lang="pt">Encerramento</span></div>
-            <div class="schedule-time">17:45 – 18:00</div>
+            <div class="schedule-time">16:45 – 17:00</div>
             <div>
               <div class="schedule-label" data-lang="en">Closing Remarks</div>
               <div class="schedule-label" data-lang="pt">Encerramento</div>
             </div>
           </div>
-          <div class="schedule-item sched-break" data-sched="14" style="border-bottom:none;">
+          <div class="schedule-item sched-break" data-sched="15" style="border-bottom:none;">
             <div class="schedule-tag tag-break"><span data-lang="en">Cocktail</span><span data-lang="pt">Cocktail</span></div>
-            <div class="schedule-time">18:00</div>
+            <div class="schedule-time">17:00</div>
             <div>
               <div class="schedule-label" data-lang="en">Cocktail</div>
               <div class="schedule-label" data-lang="pt">Cocktail</div>
