@@ -33,7 +33,7 @@ Push na `main`. O deploy é automático.
 horário, título em EN e PT e, quando é painel, descrição. Os dois arquivos
 precisam ser editados juntos.
 
-A lista curta `01 — … 06 —` do card do Fórum fica em `.card-panel-list`, no
+A lista curta `01 — … 05 —` do card do Fórum fica em `.card-panel-list`, no
 mesmo arquivo, e precisa acompanhar.
 
 **Speakers.** Só no `full.html`. O carrossel é `.speakers-track`; os cards são
