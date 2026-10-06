@@ -53,3 +53,5 @@ esconde o outro. Texto novo sem o par fica visível nos dois idiomas.
 mantendo JPEG abaixo de 300 KB, senão o WhatsApp não mostra. Se mudar as
 dimensões, atualize `og:image:width` e `og:image:height`. O WhatsApp guarda a
 prévia em cache, então um link já enviado pode continuar mostrando a versão antiga.
+Ao trocar a imagem, suba o `?v=` no fim da URL nas três tags para forçar os
+apps a buscar a versão nova.
