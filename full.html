@@ -443,6 +443,8 @@
     display: flex; align-items: baseline; gap: 0.45rem;
     font-size: 0.70rem; color: rgba(255,255,255,0.38); line-height: 1.4;
   }
+  .card-visit-item.is-confirmed { color: rgba(255,255,255,0.85); }
+  .card-visit-item.is-confirmed .card-visit-dot { background: #8900e1; }
   .card-visit-dot {
     width: 4px; height: 4px; border-radius: 50%;
     background: rgba(255,255,255,0.18); flex-shrink: 0; margin-bottom: -1px;
@@ -884,6 +886,13 @@
     left: 0;
     color: var(--violet);
     font-size: 0.6rem;
+  }
+  .map-venue-visits-item.is-confirmed { color: #000; font-weight: 500; }
+  .map-venue-visits-loc {
+    display: block;
+    font-weight: 400;
+    font-size: 0.66rem;
+    color: rgba(0,0,0,0.5);
   }
   /* Hotels panel card */
   .map-hotel-panel {
@@ -2415,8 +2424,8 @@
         <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos de destaque em NYC.</div>
         <hr class="card-section-divider">
         <div class="card-visit-list">
+          <div class="card-visit-item is-confirmed"><span class="card-visit-dot"></span><span>One Vanderbilt — Midtown</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Affordable housing development</span><span data-lang="pt">A definir — Empreendimento habitacional</span></div>
-          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Mixed-use / institutional asset</span><span data-lang="pt">A definir — Ativo de uso misto / institucional</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Public–private development site</span><span data-lang="pt">A definir — Projeto público–privado</span></div>
         </div>
       </div>
@@ -2672,11 +2681,11 @@
       <div class="map-venue-cards" id="map-venue-cards">
         <!-- Day 2 (Nov 20): Forum -->
         <div class="map-venue-card" id="card-union">
-          <img class="map-venue-img" src="img/nyu_9wsn.jpg" alt="NYU School of Professional Studies" style="object-fit:cover;object-position:center;">
+          <img class="map-venue-img" src="img/nyu_9wsn.jpg" alt="NYU Abu Dhabi House" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
             <div class="map-venue-tag">BR/USA Real Estate Forum</div>
-            <div class="map-venue-name">NYU School of Professional Studies</div>
-            <div class="map-venue-addr">9 Washington Square North, New York</div>
+            <div class="map-venue-name">NYU Abu Dhabi House</div>
+            <div class="map-venue-addr">19 Washington Square North, New York</div>
           </div>
         </div>
         <!-- Day 1 (Nov 19): Capital Markets Conference -->
@@ -2696,8 +2705,8 @@
             <div class="map-venue-addr"><span data-lang="en">Around New York</span><span data-lang="pt">Pela cidade de Nova York</span></div>
           </div>
           <div class="map-venue-visits-list">
+            <div class="map-venue-visits-item is-confirmed">One Vanderbilt <span class="map-venue-visits-loc"><span data-lang="en">Midtown East, by Grand Central</span><span data-lang="pt">Midtown East, ao lado da Grand Central</span></span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Affordable housing development</span><span data-lang="pt">Desenvolvimento habitacional</span></div>
-            <div class="map-venue-visits-item"><span data-lang="en">Mixed-use / institutional asset</span><span data-lang="pt">Ativo misto / institucional</span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
           </div>
         </div>
