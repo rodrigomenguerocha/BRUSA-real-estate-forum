@@ -328,123 +328,15 @@
     -ms-overflow-style: none; scrollbar-width: none;
   }
   .zoom-schedule-scroll::-webkit-scrollbar { display: none; }
-
-  .schedule-divider-fixed,
-  .schedule-venue-fixed { opacity: 0; transition: opacity 0.4s ease; flex-shrink: 0; }
-  .zoom-schedule-scroll .schedule-divider,
-  .zoom-schedule-scroll .schedule-venue-label,
-  .zoom-schedule-scroll .schedule-list { opacity: 0; transition: opacity 0.4s ease; }
-  .schedule-list { margin-top: 1.5rem; }
-  .schedule-item {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    column-gap: 1.5rem;
-    row-gap: 0;
-    align-items: baseline;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    opacity: 0; transform: translateY(12px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  /* Mobile: tag in column 1 above time; title in column 2 aligned with tag */
-  .schedule-tag { grid-column: 1; grid-row: 1; margin-bottom: 0.1rem; justify-self: start; }
-  .schedule-time { grid-column: 1; grid-row: 2; }
-  .schedule-item > div:not(.schedule-tag):not(.schedule-time):not(.schedule-speaker):not(.schedule-menu) {
-    grid-column: 2; grid-row: 1 / 4; align-self: start;
-  }
   /* Desktop: 3-column grid — time | title | speakers stacked */
-  @media (min-width: 900px) {
-    .schedule-item { grid-template-columns: 100px 1fr 1fr; column-gap: 1rem; }
-    .schedule-item.sched-break { grid-template-columns: 100px 1fr 1fr; }
-    .schedule-tag { grid-column: 2; grid-row: auto; }
-    .schedule-time { grid-row: 1 / 3; align-self: start; padding-top: 0.35rem; }
-    .schedule-item > div:not(.schedule-tag):not(.schedule-time):not(.schedule-speaker):not(.schedule-menu) {
-      grid-column: 2; grid-row: 2; align-self: start;
-    }
-    .schedule-speaker { grid-column: 3; }
-  }
-  .schedule-item.sched-item-visible {
-    opacity: 1; transform: translateY(0);
-  }
-  .schedule-item.sched-break {
-    padding: 0.5rem 0;
-  }
-  .schedule-time {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.08em;
-    color: var(--ultra); padding-top: 0.15rem;
-  }
-  .schedule-label {
-    font-size: 0.85rem; color: var(--white); font-weight: 500; line-height: 1.4;
-  }
-  .schedule-sublabel {
-    font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 0.15rem;
-    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em;
-  }
-  .schedule-speaker {
-    font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.5;
-  }
-  .schedule-speaker .speaker-name {
-    color: rgba(255,255,255,0.75); font-weight: 500;
-  }
-  .schedule-speaker .speaker-role {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.3); display: block;
-  }
-  /* Mobile: speakers flow under the title, spanning the content column */
-  .schedule-speaker {
-    font-size: 0.58rem;
-    grid-column: 2 / -1;
-    padding-top: 0;
-  }
-  .schedule-speaker .speaker-role { font-size: 0.45rem; }
+  
   /* Desktop: speakers in their own columns */
-  @media (min-width: 900px) {
-    .schedule-speaker { grid-column: auto; font-size: 0.65rem; }
-    .schedule-speaker .speaker-role { font-size: 0.5rem; }
-  }
-  /* Menu descriptions for breaks */
-  .schedule-menu {
-    font-size: 0.55rem; color: rgba(255,255,255,0.4); line-height: 1.5;
-    font-style: italic;
-    grid-column: 2 / -1;
-    padding-top: 0.15rem;
-  }
-  @media (min-width: 900px) {
-    .schedule-menu { grid-column: 3; grid-row: 1 / 3; align-self: center; font-size: 0.6rem; }
-  }
-  /* Schedule type tags */
-  .schedule-tag {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.38rem; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.12rem 0.45rem; border-radius: 2px;
-    margin-bottom: 0.3rem;
-  }
-  .schedule-tag.tag-panel {
-    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7);
-  }
-  .schedule-tag.tag-keynote {
-    background: var(--ultra); color: var(--white);
-  }
-  .schedule-tag.tag-break {
-    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4);
-  }
-  .schedule-divider {
-    width: 100%; height: 1px; margin: 0.6rem 0;
-    background: linear-gradient(90deg, var(--ultra), transparent);
-    opacity: 0.3;
-  }
-  .schedule-venue-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.4rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.25); margin-top: 1.5rem; margin-bottom: 0.5rem;
-  }
+  
+  
 
   /* ===== TIER TABLE ===== */
-  .tier-grid { display: grid; grid-template-columns: 200px repeat(3, 1fr); margin-top: 2rem; border: 1px solid var(--lgray); }
-  @media (max-width: 768px) { .tier-grid { grid-template-columns: 120px repeat(3, 1fr); } }
+  .tier-grid { display: grid; grid-template-columns: 220px repeat(2, 1fr); margin-top: 2rem; border: 1px solid var(--lgray); }
+  @media (max-width: 768px) { .tier-grid { grid-template-columns: 120px repeat(2, 1fr); } }
   .tier-cell {
     padding: 0.8rem 1rem; border-bottom: 1px solid var(--lgray);
     font-size: 0.78rem; color: var(--dgray); display: flex; align-items: center;
@@ -468,7 +360,8 @@
   /* ===== DETAIL CARDS ===== */
   .detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 2rem; max-width: none; }
   .detail-grid > div:empty { display: block; }
-  @media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } .detail-grid > div:empty { display: none; } }
+  .detail-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 768px) { .detail-grid, .detail-grid.cols-2 { grid-template-columns: 1fr; } .detail-grid > div:empty { display: none; } }
   .detail-item { padding-left: 1.2rem; border-left: 2px solid var(--violet); }
   .slide-deep .detail-item { border-left-color: var(--ultra); }
   .detail-num {
@@ -484,27 +377,6 @@
   .slide-deep .detail-label { color: rgba(255,255,255,0.35); }
   .detail-desc { font-size: 0.78rem; color: var(--dgray); line-height: 1.6; }
   .slide-deep .detail-desc { color: rgba(255,255,255,0.5); }
-
-  /* ===== BUDGET ===== */
-  .budget-grid { display: grid; grid-template-columns: 1fr auto; margin-top: 2rem; max-width: 480px; }
-  .budget-item {
-    padding: 0.6rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);
-    font-size: 0.8rem; color: var(--dgray);
-  }
-  .budget-val {
-    padding: 0.6rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem; color: var(--violet); text-align: right;
-  }
-  .budget-total .budget-item, .budget-total .budget-val {
-    border-bottom: none; border-top: 2px solid var(--violet);
-    padding-top: 0.8rem; font-weight: 700; color: var(--black);
-  }
-  .budget-note {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.08em;
-    color: var(--tgray); margin-top: 1.5rem; max-width: 480px; line-height: 1.8;
-  }
 
   /* ===== CONTACT ===== */
   .contact-block {
@@ -575,7 +447,7 @@
 
     /* Tier grid: horizontal scroll on small screens */
     .tier-grid {
-      grid-template-columns: 90px repeat(3, 100px);
+      grid-template-columns: 90px repeat(2, 130px);
       overflow-x: auto; -webkit-overflow-scrolling: touch;
     }
     .tier-cell { font-size: 0.65rem; padding: 0.5rem 0.6rem; }
@@ -584,18 +456,220 @@
     /* Detail grid */
     .detail-grid { gap: 1.5rem; }
 
-    /* Schedule inside zoom */
-    .schedule-time { font-size: 0.45rem; }
-    .schedule-item { grid-template-columns: 70px 1fr; column-gap: 0.8rem; row-gap: 0; }
-    .schedule-label { font-size: 0.72rem; }
-    .schedule-sublabel { font-size: 0.55rem; }
-
     /* Footer */
     .footer { padding: 2rem 1.5rem; }
 
     /* Data cards */
     .data-card-num { font-size: 1.3rem; }
   }
+  /* ===== Programação: mesmas regras do index.html (programação atual) ===== */
+  .schedule-divider-fixed,
+  .schedule-venue-fixed { opacity: 0; transition: opacity 0.4s ease; flex-shrink: 0;
+  }
+  .zoom-schedule-scroll .schedule-divider,
+  .zoom-schedule-scroll .schedule-venue-label,
+  .zoom-schedule-scroll .schedule-list { opacity: 0; transition: opacity 0.4s ease;
+  }
+  .schedule-list { margin-top: 1.5rem;
+  }
+  .schedule-item {
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    column-gap: 1.5rem;
+    row-gap: 0;
+    align-items: baseline;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .schedule-tag { grid-column: 1; grid-row: 1; margin-bottom: 0.1rem; justify-self: start;
+  }
+  .schedule-time { grid-column: 1; grid-row: 2;
+  }
+  .schedule-item > div:not(.schedule-tag):not(.schedule-time):not(.schedule-speaker):not(.schedule-menu):not(.schedule-description):not(.schedule-speakers) {
+    grid-column: 2; grid-row: 1 / 4; align-self: start;
+  }
+  .schedule-description { grid-column: 2; grid-row: auto;
+  }
+  .schedule-speakers { grid-column: 2; grid-row: auto;
+  }
+  .schedule-description {
+    font-family: 'NYU Perstare', 'Frank Ruhl Libre', Georgia, serif;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.55);
+    max-width: 78ch;
+    margin: 0.15rem 0 0.4rem;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .schedule-item.sched-item-visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .schedule-item.sched-break {
+    padding: 0.5rem 0;
+  }
+  .schedule-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em;
+    color: var(--white); padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+  .schedule-label {
+    font-size: 1.25rem; color: var(--white); font-weight: 600; line-height: 1.3;
+    letter-spacing: -0.003em;
+  }
+  .schedule-speaker { display: grid !important; grid-template-columns: 36px 1fr; column-gap: 0.35rem; align-items: start;
+  }
+  .schedule-speaker-avatar {
+    grid-column: 1; grid-row: 1 / span 2;
+    width: 36px; height: 36px;
+    border-radius: 4px;
+    background: var(--violet);
+    overflow: hidden; flex-shrink: 0;
+    align-self: start;
+  }
+  .schedule-speaker-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .schedule-speaker .speaker-name { grid-column: 2; justify-self: start; align-self: end; text-align: left;
+  }
+  .schedule-speaker .speaker-role { grid-column: 2; justify-self: start; align-self: start; text-align: left;
+  }
+  .schedule-sublabel {
+    font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 0.15rem;
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em;
+  }
+  .schedule-speaker {
+    font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.5;
+  }
+  .schedule-speaker .speaker-name {
+    color: rgba(255,255,255,0.75); font-weight: 500;
+  }
+  .schedule-speaker .speaker-name {
+    font-family: 'NYU Perstare', serif;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin: 0 0 0.25rem;
+  }
+  .schedule-menu {
+    font-family: 'NYU Perstare', 'Frank Ruhl Libre', Georgia, serif;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.55);
+    max-width: 78ch;
+    margin: 0.15rem 0 0.4rem;
+    font-style: italic;
+    font-weight: 300;
+    grid-column: 2 / -1;
+  }
+  .schedule-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.3rem 0.7rem; border-radius: 3px;
+    margin-bottom: 0.3rem;
+    line-height: 1;
+  }
+  .schedule-tag.tag-panel {
+    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7);
+  }
+  .schedule-tag.tag-keynote {
+    background: var(--ultra); color: var(--white);
+  }
+  .schedule-tag.tag-break {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4);
+  }
+  .schedule-divider {
+    width: 100%; height: 1px; margin: 0.6rem 0;
+    background: linear-gradient(90deg, var(--ultra), transparent);
+    opacity: 0.3;
+  }
+  .schedule-venue-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.4rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.25); margin-top: 1.5rem; margin-bottom: 0.5rem;
+  }
+  @media (min-width: 900px) {
+    .schedule-item { grid-template-columns: 112px repeat(5, 1fr); column-gap: 1rem; row-gap: 0.55rem;
+    }
+    .schedule-item.sched-break { grid-template-columns: 112px repeat(5, 1fr);
+    }
+    .schedule-time { grid-column: 1; grid-row: 1 / span 4; align-self: start; padding-top: 0.15rem;
+    }
+    .schedule-tag { grid-column: 2 / -1; grid-row: 1; justify-self: start; align-self: center; margin: 0;
+    }
+    .schedule-item > div:not(.schedule-tag):not(.schedule-time):not(.schedule-speaker):not(.schedule-menu):not(.schedule-description):not(.schedule-speakers) {
+        grid-column: 2 / -1; grid-row: 2; align-self: start; padding-left: 0; margin-top: 0.2rem;
+    }
+    .schedule-description { grid-column: 2 / -1; grid-row: 3; margin-top: 0.4rem;
+    }
+    .schedule-menu { grid-column: 2 / -1; grid-row: 3; margin-top: 0.4rem;
+    }
+    .schedule-speakers {
+        grid-column: 2 / -1; grid-row: 4;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        column-gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    .schedule-speakers > .schedule-speaker { grid-column: auto; grid-row: auto;
+    }
+    .schedule-speaker { font-size: 0.65rem;
+    }
+    .schedule-speaker .speaker-role { font-size: 0.5rem;
+    }
+  }
+  @media (max-width: 899px) {
+    .schedule-speakers { grid-column: 2 / -1; display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .schedule-description { font-size: 0.78rem; line-height: 1.5;
+    }
+    .schedule-speaker-avatar { width: 30px; height: 30px;
+    }
+    .schedule-speaker { grid-template-columns: 30px 1fr;
+    }
+    .schedule-speaker {
+        font-size: 0.58rem;
+        grid-column: 2 / -1;
+        padding-top: 0;
+    }
+    .schedule-speaker .speaker-role { font-size: 0.45rem;
+    }
+    .schedule-menu { font-size: 0.78rem; line-height: 1.5;
+    }
+    .schedule-speaker { font-size: 0.66rem;
+    }
+    .schedule-speaker .speaker-role { font-size: 0.6rem; color: rgba(255,255,255,0.42);
+    }
+  }
+  @media (max-width: 480px) {
+    .schedule-time { font-size: 0.45rem;
+    }
+    .schedule-item { grid-template-columns: 70px 1fr; column-gap: 0.8rem; row-gap: 0;
+    }
+    .schedule-label { font-size: 0.72rem;
+    }
+    .schedule-sublabel { font-size: 0.55rem;
+    }
+    .schedule-item { grid-template-columns: 96px 1fr;
+    }
+    .schedule-time { font-size: 0.66rem;
+    }
+    .schedule-label { font-size: 0.95rem; line-height: 1.3;
+    }
+    .schedule-sublabel { font-size: 0.62rem;
+    }
+    .schedule-venue-label { font-size: 0.58rem; color: rgba(255,255,255,0.4);
+    }
+    .schedule-tag { font-size: 0.58rem;
+    }
+  }
+  /* Vagas de speaker ainda a confirmar */
+  .schedule-speaker--tbd .schedule-speaker-avatar { background: transparent; border: 1px dashed rgba(182,124,240,0.55); box-sizing: border-box; }
+  .schedule-speaker--tbd .speaker-name { color: rgba(255,255,255,0.45); }
 </style>
 </head>
 <body>
@@ -659,10 +733,10 @@
 <section class="slide slide-light" id="slide-why">
   <div class="sn" data-lang="en">01 — Why This Forum</div>
   <div class="sn" data-lang="pt">01 — Por Que Este Fórum</div>
-  <h2 data-lang="en">The Brazilian<br>real estate market<br>needs a new language.</h2>
-  <h2 data-lang="pt">O mercado imobiliário<br>brasileiro precisa de<br>uma nova linguagem.</h2>
-  <p data-lang="en">Brazil has one of the largest real estate markets in the world — but it remains largely invisible to global institutional capital. The problem is not returns. It is legibility: governance, risk presentation, and the discipline of speaking a language that pension funds, endowments, and sovereign wealth funds recognize and trust.</p>
-  <p data-lang="pt">O Brasil tem um dos maiores mercados imobiliários do mundo — mas permanece praticamente invisível para o capital institucional global. O problema não são os retornos. É legibilidade: governança, apresentação de risco e a disciplina de falar uma linguagem que fundos de pensão, endowments e fundos soberanos reconheçam e confiem.</p>
+  <h2 data-lang="en">One of the world's largest<br>real estate markets,<br>hard to read from abroad.</h2>
+  <h2 data-lang="pt">Um dos maiores mercados<br>imobiliários do mundo,<br>difícil de ler de fora.</h2>
+  <p data-lang="en">Foreign money keeps arriving in Brazil. Very little of it reaches real estate, and global institutions own almost none of the market.</p>
+  <p data-lang="pt">O capital estrangeiro continua chegando ao Brasil. Muito pouco dele chega ao mercado imobiliário, e as instituições globais quase não têm participação no setor.</p>
 
   <div class="data-cards">
     <div class="data-card">
@@ -687,11 +761,11 @@
       <div class="data-card-source">JLL, MSCI 2024</div>
     </div>
     <div class="data-card">
-      <div class="data-card-num">2M+</div>
+      <div class="data-card-num">3M+</div>
       <div class="data-card-label"><span data-lang="en">Brazilian REIT Investors</span><span data-lang="pt">Cotistas de FIIs no Brasil</span></div>
-      <div class="data-card-desc" data-lang="en">Nearly 100% retail/individual investors. Zero meaningful foreign institutional presence.</div>
-      <div class="data-card-desc" data-lang="pt">Quase 100% varejo/pessoa física. Zero presença institucional estrangeira relevante.</div>
-      <div class="data-card-source">B3 / CVM 2025</div>
+      <div class="data-card-desc" data-lang="en">72.9% held by retail investors. Marginal foreign institutional presence.</div>
+      <div class="data-card-desc" data-lang="pt">72,9% nas mãos de pessoas físicas. Presença institucional estrangeira marginal.</div>
+      <div class="data-card-source">B3 · 2026</div>
     </div>
   </div>
 
@@ -735,16 +809,16 @@
         <div class="day-badge" style="background:rgba(255,255,255,0.12);"><span data-lang="en">Separate Event</span><span data-lang="pt">Evento Separado</span></div>
         <div class="day-date">Nov 19 · <span data-lang="en">Thursday</span><span data-lang="pt">Quinta</span></div>
         <div class="day-title">NYU Capital Markets Conference</div>
-        <div class="day-desc" data-lang="en">NYU Schack's annual capital markets conference. Separate paid event — BR/USA Forum attendees receive a discount.</div>
-        <div class="day-desc" data-lang="pt">Conferência anual de capital markets do NYU Schack. Evento pago à parte — participantes do BR/USA Forum têm desconto.</div>
-        <div><a class="day-link" href="https://www.sps.nyu.edu/about/academic-divisions-and-departments/schack-institute-of-real-estate.html" target="_blank"><span data-lang="en">Learn more →</span><span data-lang="pt">Saiba mais →</span></a></div>
+        <div class="day-desc" data-lang="en">NYU Schack's 59th Annual Conference on Capital Markets in Real Estate, at The Pierre. Paid ticket, not included in the forum. BR/USA Forum attendees receive a discount.</div>
+        <div class="day-desc" data-lang="pt">59ª Conferência Anual de Capital Markets do NYU Schack, no The Pierre. Ingresso pago, não incluído no fórum. Participantes do BR/USA Forum têm desconto.</div>
+        <div><a class="day-link" href="https://www.sps.nyu.edu/about/events/schack-institute-of-real-estate-division-events/capital-markets-real-estate.html" target="_blank"><span data-lang="en">Get tickets →</span><span data-lang="pt">Comprar ingresso →</span></a></div>
       </div>
       <div class="day-card highlight" data-day="2" id="forum-card">
         <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
         <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
-        <div class="day-title">BR/USA Real Estate Forum + Fasano Cocktail</div>
-        <div class="day-desc" data-lang="en">Full-day program at NYU Schack. Panels, keynotes, networking. Closing cocktail at Fasano New York.</div>
-        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack. Painéis, keynotes, networking. Cocktail de encerramento no Fasano New York.</div>
+        <div class="day-title">BR/USA Real Estate Forum</div>
+        <div class="day-desc" data-lang="en">Full-day program at NYU Schack. Five panels, two presentations and a keynote.</div>
+        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack. Cinco painéis, duas apresentações e uma keynote.</div>
         <div><a class="day-link" href="https://luma.com/event/evt-cZKc1exaulCHny5" target="_blank"><span data-lang="en">Request invitation →</span><span data-lang="pt">Solicitar convite →</span></a></div>
       </div>
       <div class="day-card" data-day="3">
@@ -766,124 +840,142 @@
         <div class="zoom-schedule-scroll" id="zoom-schedule-scroll">
         <div class="schedule-list">
           <div class="schedule-item sched-break" data-sched="1">
-            <div class="schedule-tag tag-break">Networking</div>
-            <div class="schedule-time">8:30 – 9:30</div>
+            <div class="schedule-tag tag-break"><span data-lang="en">Registration</span><span data-lang="pt">Credenciamento</span></div>
+            <div class="schedule-time">8:30 – 9:00</div>
             <div>
-              <div class="schedule-label" data-lang="en">Registration & Breakfast</div>
-              <div class="schedule-label" data-lang="pt">Credenciamento & Café da Manhã</div>
+              <div class="schedule-label" data-lang="en">Registration &amp; Coffee</div>
+              <div class="schedule-label" data-lang="pt">Credenciamento e Café</div>
             </div>
-            <div class="schedule-menu">Continental breakfast buffet with smoked salmon board, pastries, fresh fruits, coffee & juices.</div>
+            <div class="schedule-menu">Foyer · NYU Schack</div>
           </div>
           <div class="schedule-item" data-sched="2">
             <div class="schedule-tag tag-break"><span data-lang="en">Opening</span><span data-lang="pt">Abertura</span></div>
-            <div class="schedule-time">9:30 – 9:50</div>
+            <div class="schedule-time">9:00 – 9:15</div>
             <div>
               <div class="schedule-label" data-lang="en">Opening Remarks</div>
-              <div class="schedule-label" data-lang="pt">Abertura</div>
+              <div class="schedule-label" data-lang="pt">Abertura Institucional</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name">Marc Norman</span><span class="speaker-role">Dean, NYU Schack</span></div>
-            <div class="schedule-speaker"><span class="speaker-name">Rodrigo Rocha</span><span class="speaker-role">Responsive Cities Institute / OSPA</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Marc Norman</span><span class="speaker-role" data-lang="en">NYU Schack · Dean</span><span class="speaker-role" data-lang="pt">NYU Schack · Dean</span></div><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/rodrigo-rocha.jpg" alt="Rodrigo Rocha" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Rodrigo Rocha</span><span class="speaker-role" data-lang="en">OSPA · Partner</span><span class="speaker-role" data-lang="pt">OSPA · Sócio</span></div></div>
           </div>
-          <div class="schedule-item" data-sched="3">
+          <div class="schedule-item" data-sched="3" data-panel-id="keynote">
+            <div class="schedule-tag tag-keynote"><span data-lang="en">Keynote</span><span data-lang="pt">Keynote</span></div>
+            <div class="schedule-time">9:15 – 9:30</div>
+            <div>
+              <div class="schedule-label" data-lang="en">The Urban Condition</div>
+              <div class="schedule-label" data-lang="pt">A Condição Urbana</div>
+            </div>
+            <div class="schedule-description"><span data-lang="en">Land rules set the cost and the risk of building long before anything is drawn. Fifteen minutes on how regulation and land prices decide what a city can become.</span><span data-lang="pt">As regras do solo definem o custo e o risco de construir muito antes de qualquer desenho. Quinze minutos sobre como regulação e preço da terra decidem o que uma cidade pode se tornar.</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Alain Bertaud</span><span class="speaker-role" data-lang="en">Mercatus Center · Keynote</span><span class="speaker-role" data-lang="pt">Mercatus Center · Keynote</span></div></div>
+          </div>
+          <div class="schedule-item" data-sched="4" data-panel-id="p01">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 1</span><span data-lang="pt">Painel 1</span></div>
-            <div class="schedule-time">10:00 – 11:00</div>
+            <div class="schedule-time">9:30 – 10:20</div>
             <div>
-              <div class="schedule-label" data-lang="en">Institutional Capital & Market Legibility</div>
-              <div class="schedule-label" data-lang="pt">Capital Institucional & Legibilidade de Mercado</div>
+              <div class="schedule-label" data-lang="en">Reading a Market: Country, Land, Deal</div>
+              <div class="schedule-label" data-lang="pt">Ler um Mercado: País, Terra, Deal</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">US Institutional Investor / Allocator</span></div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">BR Asset Manager / CIO</span></div>
+            <div class="schedule-description"><span data-lang="en">Global capital reads a deal in three layers: the country, the land under it, and the contract itself. Brazil answers the first and goes quiet on the other two. What would an investor need to see on the page?</span><span data-lang="pt">O capital global lê um deal em três camadas: o país, a terra embaixo dele e o contrato em si. O Brasil responde a primeira e silencia nas outras duas. O que um investidor precisaria enxergar no papel?</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/shawn-amsler.jpg" alt="Shawn Amsler" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Shawn Amsler</span><span class="speaker-role" data-lang="en">Amsler Advisors · Moderator</span><span class="speaker-role" data-lang="pt">Amsler Advisors · Moderador</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div></div>
           </div>
-          <div class="schedule-item" data-sched="4">
-            <div class="schedule-tag tag-keynote">Keynote</div>
-            <div class="schedule-time">11:00 – 11:30</div>
+          <div class="schedule-item sched-break" data-sched="5">
+            <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
+            <div class="schedule-time">10:20 – 10:40</div>
             <div>
-              <div class="schedule-label" data-lang="en">Founding Partner</div>
-              <div class="schedule-label" data-lang="pt">Founding Partner</div>
+              <div class="schedule-label" data-lang="en">Coffee Break</div>
+              <div class="schedule-label" data-lang="pt">Coffee Break</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">Founding Partner, US or BR GP</span></div>
-            <div class="schedule-speaker"></div>
           </div>
-          <div class="schedule-item" data-sched="5">
+          <div class="schedule-item" data-sched="6" data-panel-id="p03">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 2</span><span data-lang="pt">Painel 2</span></div>
-            <div class="schedule-time">11:30 – 12:30</div>
+            <div class="schedule-time">10:40 – 11:30</div>
             <div>
-              <div class="schedule-label" data-lang="en">Capital Structuring: Debt, Equity & the Brazilian Gap</div>
-              <div class="schedule-label" data-lang="pt">Estruturação de Capital: Dívida, Equity & o Gap Brasileiro</div>
+              <div class="schedule-label" data-lang="en">Capital Stack: US vs. Brazil</div>
+              <div class="schedule-label" data-lang="pt">Capital Stack: EUA vs. Brasil</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">US Capital Markets / Structuring</span></div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">BR Securitizadora / Gestor FII</span></div>
+            <div class="schedule-description"><span data-lang="en">The capital stacks behind a US deal and a Brazilian one still look very different in cost, in tenor, and in who sits at each layer. A direct comparison of how both are built today, and what is starting to shift as global allocators look south.</span><span data-lang="pt">O capital stack por trás de um deal americano e de um brasileiro ainda é muito diferente em custo, em prazo e em quem ocupa cada camada. Uma comparação direta de como os dois se montam hoje, e o que começa a mudar à medida que alocadores globais olham para o Sul.</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Rodrigo Machado</span><span class="speaker-role" data-lang="en">Galapagos Capital · Partner</span><span class="speaker-role" data-lang="pt">Galapagos Capital · Sócio</span></div><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/brenner-cavalcante.jpg" alt="Brenner Cavalcante" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Brenner Cavalcante</span><span class="speaker-role" data-lang="en">BB Americas · Chief Lending Officer</span><span class="speaker-role" data-lang="pt">BB Americas · Chief Lending Officer</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div></div>
           </div>
-          <div class="schedule-item sched-break" data-sched="6">
+          <div class="schedule-item" data-sched="7" data-panel-id="pres1">
+            <div class="schedule-tag tag-keynote"><span data-lang="en">Presentation</span><span data-lang="pt">Apresentação</span></div>
+            <div class="schedule-time">11:30 – 12:00</div>
+            <div>
+              <div class="schedule-label" data-lang="en">One Vanderbilt: The Tower and the Terminal</div>
+              <div class="schedule-label" data-lang="pt">One Vanderbilt: a Torre e o Terminal</div>
+            </div>
+            <div class="schedule-description"><span data-lang="en">KPF walks through One Vanderbilt, the tower next to Grand Central: how it was developed, the air rights that made it possible and the MTA partnership that traded extra floor area for transit improvements.</span><span data-lang="pt">A KPF apresenta o One Vanderbilt, a torre ao lado da Grand Central: como foi o desenvolvimento, os air rights que a tornaram possível e a parceria com a MTA, que trocou área construída extra por melhorias no transporte público.</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/georgina-lalli.jpg" alt="Georgina Lalli" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Georgina Lalli</span><span class="speaker-role" data-lang="en">KPF · Managing Director</span><span class="speaker-role" data-lang="pt">KPF · Managing Director</span></div></div>
+          </div>
+          <div class="schedule-item" data-sched="8" data-panel-id="pres2">
+            <div class="schedule-tag tag-keynote"><span data-lang="en">Presentation</span><span data-lang="pt">Apresentação</span></div>
+            <div class="schedule-time">12:00 – 12:30</div>
+            <div>
+              <div class="schedule-label" data-lang="en">Case Study: To Be Announced</div>
+              <div class="schedule-label" data-lang="pt">Estudo de Caso: a confirmar</div>
+            </div>
+          </div>
+          <div class="schedule-item sched-break" data-sched="9">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
             <div class="schedule-time">12:30 – 14:00</div>
             <div>
               <div class="schedule-label" data-lang="en">Lunch</div>
               <div class="schedule-label" data-lang="pt">Almoço</div>
             </div>
-            <div class="schedule-menu">Plated lunch — choice of basil pesto grilled chicken or roasted salmon, herb risotto, lemon-roasted asparagus, flourless chocolate cake.</div>
+            <div class="schedule-menu" data-lang="en">Plated lunch · NYU Schack</div><div class="schedule-menu" data-lang="pt">Almoço servido · NYU Schack</div>
           </div>
-          <div class="schedule-item" data-sched="7">
+          <div class="schedule-item" data-sched="10" data-panel-id="p04">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 3</span><span data-lang="pt">Painel 3</span></div>
-            <div class="schedule-time">14:00 – 15:00</div>
+            <div class="schedule-time">14:00 – 14:50</div>
             <div>
-              <div class="schedule-label" data-lang="en">Development & Execution Standards</div>
-              <div class="schedule-label" data-lang="pt">Padrões de Desenvolvimento & Execução</div>
+              <div class="schedule-label" data-lang="en">Public/Private Development</div>
+              <div class="schedule-label" data-lang="pt">Desenvolvimento Público/Privado</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">US Developer / Operator</span></div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">BR Incorporador</span></div>
+            <div class="schedule-description"><span data-lang="en">Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.</span><span data-lang="pt">Terra pública, infraestrutura pública e execução privada precisam fechar numa única transação. Como Nova York estrutura esses acordos, quem carrega cada risco e o que ainda se sustenta vinte anos depois.</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Matthew Kwatinetz</span><span class="speaker-role" data-lang="en">NYU Schack · Moderator</span><span class="speaker-role" data-lang="pt">NYU Schack · Moderador</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div></div>
           </div>
-          <div class="schedule-item" data-sched="8">
+          <div class="schedule-item" data-sched="11" data-panel-id="p05">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 4</span><span data-lang="pt">Painel 4</span></div>
-            <div class="schedule-time">15:00 – 16:00</div>
+            <div class="schedule-time">14:50 – 15:40</div>
             <div>
-              <div class="schedule-label" data-lang="en">Data, Transparency & Risk Assessment</div>
-              <div class="schedule-label" data-lang="pt">Dados, Transparência & Avaliação de Risco</div>
+              <div class="schedule-label" data-lang="en">Subsidy and Capital: Affordable Housing</div>
+              <div class="schedule-label" data-lang="pt">Subsídio e Capital: Habitação Acessível</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">US PropTech / Data Provider</span></div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">BR Consultoria / Rating</span></div>
+            <div class="schedule-description"><span data-lang="en">In the US, building the unit and paying the rent are separate businesses. Tax credit equity puts the building up, a voucher carries the rent, and a regulatory agreement holds the price for decades. That machinery is why subsidized rental became an asset class there. What has to exist for private capital to buy affordable housing as an asset rather than an obligation?</span><span data-lang="pt">Nos EUA, quem constrói a unidade e quem paga o aluguel são partes separadas. Crédito fiscal levanta o prédio, um voucher sustenta a renda e um contrato regulatório trava o preço por décadas. É essa engenharia que fez do aluguel subsidiado uma classe de ativo lá. O que precisa existir para o capital privado comprar habitação acessível como ativo, e não como obrigação?</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Marc Norman</span><span class="speaker-role" data-lang="en">NYU Schack · Dean</span><span class="speaker-role" data-lang="pt">NYU Schack · Dean</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div></div>
           </div>
-          <div class="schedule-item sched-break" data-sched="9">
+          <div class="schedule-item sched-break" data-sched="12">
             <div class="schedule-tag tag-break"><span data-lang="en">Break</span><span data-lang="pt">Intervalo</span></div>
-            <div class="schedule-time">16:00 – 16:30</div>
+            <div class="schedule-time">15:40 – 15:55</div>
             <div>
               <div class="schedule-label" data-lang="en">Coffee Break</div>
               <div class="schedule-label" data-lang="pt">Coffee Break</div>
             </div>
-            <div class="schedule-menu">Italian mozzarella & burrata table with heirloom tomatoes, prosciutto, focaccia & specialty coffee.</div>
           </div>
-          <div class="schedule-item" data-sched="10">
+          <div class="schedule-item" data-sched="13" data-panel-id="p06">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 5</span><span data-lang="pt">Painel 5</span></div>
-            <div class="schedule-time">16:30 – 17:30</div>
+            <div class="schedule-time">15:55 – 16:45</div>
             <div>
-              <div class="schedule-label" data-lang="en">Cross-Border Investment: Building the Bridge</div>
-              <div class="schedule-label" data-lang="pt">Investimento Cross-Border: Construindo a Ponte</div>
+              <div class="schedule-label" data-lang="en">From Selling Units to Owning Income</div>
+              <div class="schedule-label" data-lang="pt">De Vender Unidades a Deter Renda</div>
             </div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">US Fund with BR exposure</span></div>
-            <div class="schedule-speaker"><span class="speaker-name" data-lang="en">TBD</span><span class="speaker-name" data-lang="pt">TBD</span><span class="speaker-role">BR Fund with US exposure</span></div>
+            <div class="schedule-description"><span data-lang="en">Brazil builds to sell. The income model asks the same developer to keep the building, operate it and report on it for decades. That is a different company, not a different product. What the shift costs in capital, in operations and in reporting.</span><span data-lang="pt">O Brasil constrói para vender. O modelo de renda pede que o mesmo incorporador fique com o prédio, opere e preste contas por décadas. Isso é outra empresa, não outro produto. O que essa transição custa em capital, operação e reporting.</span></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/anthony-russo.jpg" alt="Anthony Russo" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Anthony Russo</span><span class="speaker-role" data-lang="en">CSFG · Managing Principal</span><span class="speaker-role" data-lang="pt">CSFG · Managing Principal</span></div><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/douglas-strabelli.jpg" alt="Douglas Strabelli" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Douglas Strabelli</span><span class="speaker-role" data-lang="en">Sagewood Corporation · Founder &amp; CEO</span><span class="speaker-role" data-lang="pt">Sagewood Corporation · Fundador &amp; CEO</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div><div class="schedule-speaker schedule-speaker--tbd"><div class="schedule-speaker-avatar"></div><span class="speaker-name">TBD</span><span class="speaker-role" data-lang="en">Speaker</span><span class="speaker-role" data-lang="pt">Speaker</span></div></div>
           </div>
-          <div class="schedule-item" data-sched="11" style="border-bottom:none;">
+          <div class="schedule-item" data-sched="14" data-panel-id="closing">
             <div class="schedule-tag tag-break"><span data-lang="en">Closing</span><span data-lang="pt">Encerramento</span></div>
-            <div class="schedule-time">17:30 – 17:40</div>
+            <div class="schedule-time">16:45 – 17:00</div>
             <div>
               <div class="schedule-label" data-lang="en">Closing Remarks</div>
               <div class="schedule-label" data-lang="pt">Encerramento</div>
             </div>
-            <div class="schedule-speaker"></div>
-            <div class="schedule-speaker"></div>
           </div>
-        </div>
-        <div class="schedule-divider"></div>
-        <div class="schedule-list">
-          <div class="schedule-item" data-sched="12" style="border-bottom:none;">
-            <div class="schedule-tag tag-break"><span data-lang="en">Evening</span><span data-lang="pt">Noite</span></div>
-            <div class="schedule-time">18:00+</div>
+          <div class="schedule-item sched-break" data-sched="15" style="border-bottom:none;">
+            <div class="schedule-tag tag-break"><span data-lang="en">Cocktail</span><span data-lang="pt">Cocktail</span></div>
+            <div class="schedule-time">17:00</div>
             <div>
-              <div class="schedule-label" data-lang="en">Reception Dinner</div>
-              <div class="schedule-label" data-lang="pt">Jantar de Recepção</div>
+              <div class="schedule-label" data-lang="en">Cocktail</div>
+              <div class="schedule-label" data-lang="pt">Cocktail</div>
             </div>
-            <div class="schedule-menu" data-lang="en">On your own — curated restaurant recommendations provided to all attendees.</div>
-            <div class="schedule-menu" data-lang="pt">Por conta própria — recomendações de restaurantes serão enviadas a todos os participantes.</div>
+            <div class="schedule-menu" data-lang="en">Not included · Not part of the forum program</div><div class="schedule-menu" data-lang="pt">Não incluído · Fora da programação do fórum</div>
           </div>
         </div>
         </div><!-- /zoom-schedule-scroll -->
@@ -895,8 +987,8 @@
       <div class="sn" data-lang="pt">Inscreva-se</div>
       <h2 data-lang="en" style="margin-bottom:0.5rem;">Secure your seat.</h2>
       <h2 data-lang="pt" style="margin-bottom:0.5rem;">Garanta sua vaga.</h2>
-      <p data-lang="en" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">November 19–21, 2026 · NYU Schack Institute of Real Estate + Fasano New York · Invite-only · 80 seats.</p>
-      <p data-lang="pt" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">19–21 de novembro de 2026 · NYU Schack Institute of Real Estate + Fasano New York · Somente por convite · 80 vagas.</p>
+      <p data-lang="en" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">November 19–21, 2026 · NYU Schack Institute of Real Estate · Invite-only · 80 seats.</p>
+      <p data-lang="pt" style="max-width:480px;margin:0 auto 2.5rem;color:rgba(255,255,255,0.5);">19–21 de novembro de 2026 · NYU Schack Institute of Real Estate · Somente por convite · 80 vagas.</p>
       <a
         href="https://luma.com/event/evt-cZKc1exaulCHny5"
         class="luma-checkout--button"
@@ -910,267 +1002,208 @@
 
 <!-- ===== 05 PARTNERSHIP TIERS ===== -->
 <section class="slide">
-  <div class="sn" data-lang="en">04 — Partnership Tiers</div>
-  <div class="sn" data-lang="pt">04 — Níveis de Parceria</div>
+  <div class="sn" data-lang="en">04 — Partnership</div>
+  <div class="sn" data-lang="pt">04 — Parceria</div>
   <h2 data-lang="en">Position your firm at the<br>center of the conversation.</h2>
   <h2 data-lang="pt">Posicione sua empresa no<br>centro da conversa.</h2>
+  <p data-lang="en">The forum is signed by its co-organizers, Responsive Cities Institute and NYU Schack Institute of Real Estate. Partners support it in two tiers, with first-edition pricing.</p>
+  <p data-lang="pt">O fórum é assinado pelos co-organizadores, o Instituto Cidades Responsivas e o NYU Schack Institute of Real Estate. Os parceiros apoiam em duas cotas, com valores de primeira edição.</p>
   <div class="tier-grid">
     <div class="tier-cell tier-header" style="border-bottom:1px solid rgba(255,255,255,0.1);"></div>
-    <div class="tier-cell tier-header founding">Founding Partner</div>
-    <div class="tier-cell tier-header">Strategic Partner</div>
+    <div class="tier-cell tier-header founding">Lead Partner</div>
     <div class="tier-cell tier-header">Supporting Partner</div>
 
-    <div class="tier-cell tier-label"><span data-lang="en">Investment</span><span data-lang="pt">Investimento</span></div>
-    <div class="tier-cell founding-col"><span class="tier-price" style="color:var(--violet);">$18,000</span></div>
-    <div class="tier-cell"><span class="tier-price">$7,000</span></div>
-    <div class="tier-cell"><span class="tier-price">$3,000</span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Available</span><span data-lang="pt">Vagas</span></div>
-    <div class="tier-cell founding-col"><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;color:var(--violet);">1 <span style="font-weight:400;font-size:0.55rem;color:var(--tgray);"><span data-lang="en">slot</span><span data-lang="pt">vaga</span></span></span></div>
-    <div class="tier-cell"><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;">3 <span style="font-weight:400;font-size:0.55rem;color:var(--tgray);"><span data-lang="en">slots</span><span data-lang="pt">vagas</span></span></span></div>
-    <div class="tier-cell"><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;">4 <span style="font-weight:400;font-size:0.55rem;color:var(--tgray);"><span data-lang="en">slots</span><span data-lang="pt">vagas</span></span></span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Guest Invitations</span><span data-lang="pt">Convites</span></div>
-    <div class="tier-cell founding-col"><span class="accent" style="font-weight:700;">15</span></div>
-    <div class="tier-cell"><span class="accent">7</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Regular price</span><span data-lang="pt">Valor cheio</span></div>
+    <div class="tier-cell founding-col"><span class="tier-price" style="color:var(--tgray);text-decoration:line-through;">$25,000</span></div>
+    <div class="tier-cell"><span class="tier-price" style="color:var(--tgray);text-decoration:line-through;">$10,000</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">First-edition price</span><span data-lang="pt">Valor de 1ª edição</span></div>
+    <div class="tier-cell founding-col"><span class="tier-price" style="color:var(--violet);">$20,000</span></div>
+    <div class="tier-cell"><span class="tier-price">$7,000</span>&nbsp;<span style="font-size:0.6rem;color:var(--tgray);"><span data-lang="en">each</span><span data-lang="pt">cada</span></span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Slots</span><span data-lang="pt">Vagas</span></div>
+    <div class="tier-cell founding-col"><span data-lang="en">1 · category exclusive</span><span data-lang="pt">1 · exclusividade de categoria</span></div>
+    <div class="tier-cell"><span data-lang="en">4 + 1 media partner (in-kind)</span><span data-lang="pt">4 + 1 parceiro de mídia (permuta)</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Tickets</span><span data-lang="pt">Ingressos</span></div>
+    <div class="tier-cell founding-col"><span class="accent" style="font-weight:700;">10</span></div>
     <div class="tier-cell"><span class="accent">3</span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Logo on All Materials</span><span data-lang="pt">Logo em Todos os Materiais</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Speaking slot</span><span data-lang="pt">Fala no palco</span></div>
     <div class="tier-cell founding-col"><span class="check">+</span></div>
+    <div class="tier-cell"><span class="dash">—</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Panel</span><span data-lang="pt">Painel</span></div>
+    <div class="tier-cell founding-col"><span data-lang="en">Input on curation</span><span data-lang="pt">Participa da curadoria</span></div>
+    <div class="tier-cell"><span data-lang="en">Seat on a thematic panel</span><span data-lang="pt">Assento em painel temático</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Hosted lunch + networking tables</span><span data-lang="pt">Almoço com a marca + mesas de networking</span></div>
+    <div class="tier-cell founding-col"><span class="check">+</span></div>
+    <div class="tier-cell"><span class="dash">—</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Logo on site and panels</span><span data-lang="pt">Logo no site e nos painéis</span></div>
+    <div class="tier-cell founding-col"><span data-lang="en">Top placement</span><span data-lang="pt">Posição de destaque</span></div>
     <div class="tier-cell"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="check">+</span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Panel Participation</span><span data-lang="pt">Participação em Painel</span></div>
-    <div class="tier-cell founding-col"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="dash">—</span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Attendee Directory</span><span data-lang="pt">Diretório de Participantes</span></div>
-    <div class="tier-cell founding-col"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="dash">—</span></div>
-
-    <div class="tier-cell tier-label">Keynote (30 min)</div>
+    <div class="tier-cell tier-label"><span data-lang="en">Promotional communications</span><span data-lang="pt">Comunicação promocional</span></div>
     <div class="tier-cell founding-col"><span class="check">+</span></div>
     <div class="tier-cell"><span class="dash">—</span></div>
-    <div class="tier-cell"><span class="dash">—</span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Logo with Co-Organizers</span><span data-lang="pt">Logo com Co-Organizadores</span></div>
-    <div class="tier-cell founding-col"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="dash">—</span></div>
-    <div class="tier-cell"><span class="dash">—</span></div>
-
-    <div class="tier-cell tier-label"><span data-lang="en">Cocktail Naming</span><span data-lang="pt">Naming do Cocktail</span></div>
-    <div class="tier-cell founding-col"><span class="check">+</span></div>
-    <div class="tier-cell"><span class="dash">—</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Participant list</span><span data-lang="pt">Lista de participantes</span></div>
+    <div class="tier-cell founding-col"><span data-lang="en">Early access</span><span data-lang="pt">Acesso antecipado</span></div>
+    <div class="tier-cell"><span data-lang="en">Access</span><span data-lang="pt">Acesso</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Event imagery</span><span data-lang="pt">Imagens do evento</span></div>
+    <div class="tier-cell founding-col"><span data-lang="en">Photo + video</span><span data-lang="pt">Foto + vídeo</span></div>
+    <div class="tier-cell"><span data-lang="en">Photo</span><span data-lang="pt">Foto</span></div>
+    <div class="tier-cell tier-label"><span data-lang="en">Post-event report</span><span data-lang="pt">Relatório pós-evento</span></div>
+    <div class="tier-cell founding-col"><span data-lang="en">Co-branded</span><span data-lang="pt">Co-assinado</span></div>
     <div class="tier-cell"><span class="dash">—</span></div>
   </div>
 </section>
 
-<!-- ===== 06 FOUNDING PARTNER ===== -->
+<!-- ===== 06 LEAD PARTNER ===== -->
 <section class="slide slide-deep">
-  <div class="sn">05 — Founding Partner · $18,000</div>
-  <div style="margin-bottom:0.5rem;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--ultra);color:var(--ultra);border-radius:2px;"><span data-lang="en">1 position available</span><span data-lang="pt">1 vaga disponível</span></span></div>
-  <h2 data-lang="en">Maximum presence.<br>Institutional alignment.</h2>
-  <h2 data-lang="pt">Presença máxima.<br>Alinhamento institucional.</h2>
-  <p data-lang="en">The Founding Partner is presented alongside Responsive Cities Institute and NYU Schack — not below them. Your brand appears in the co-organizer lockup across all materials, digital and physical.</p>
-  <p data-lang="pt">O Founding Partner é apresentado ao lado do Instituto Cidades Responsivas e do NYU Schack — não abaixo. Sua marca aparece no lockup de co-organizadores em todos os materiais, digitais e físicos.</p>
+  <div class="sn">05 — Lead Partner · $20,000</div>
+  <div style="margin-bottom:0.5rem;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--ultra);color:var(--ultra);border-radius:2px;"><span data-lang="en">1 slot · category exclusive</span><span data-lang="pt">1 vaga · exclusividade de categoria</span></span></div>
+  <h2 data-lang="en">One slot.<br>The highest position.</h2>
+  <h2 data-lang="pt">Uma vaga.<br>A posição mais alta.</h2>
+  <p data-lang="en">A single Lead Partner per edition, with category exclusivity and the top position on every surface. First-edition price of $20,000; the regular price is $25,000.</p>
+  <p data-lang="pt">Um único Lead Partner por edição, com exclusividade de categoria e a posição mais alta em todas as superfícies. Valor de primeira edição: US$ 20.000. O valor cheio é US$ 25.000.</p>
   <div class="detail-grid cols-3">
-    <div class="detail-item">
-      <div class="detail-num">15</div>
-      <div class="detail-label"><span data-lang="en">Guest Invitations</span><span data-lang="pt">Convites</span></div>
-      <div class="detail-desc" data-lang="en">Direct invitations for clients, prospects, or team members to the full-day program and Fasano cocktail.</div>
-      <div class="detail-desc" data-lang="pt">Convites diretos para clientes, prospects ou membros da equipe para o programa completo e cocktail no Fasano.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Panel</div>
-      <div class="detail-label"><span data-lang="en">Panel Participation</span><span data-lang="pt">Participação em Painel</span></div>
-      <div class="detail-desc" data-lang="en">Guaranteed seat on one of the forum's panels, curated in partnership with you.</div>
-      <div class="detail-desc" data-lang="pt">Lugar garantido em um dos painéis do fórum, curado em parceria com você.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num">30<span style="font-size:0.7em;"> min</span></div>
-      <div class="detail-label">Keynote</div>
-      <div class="detail-desc" data-lang="en">Exclusive speaking slot to present your firm's vision or thesis to the full audience of 80 leaders.</div>
-      <div class="detail-desc" data-lang="pt">Slot exclusivo para apresentar a visão ou tese da sua empresa para toda a audiência de 80 líderes.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">ICR + NYU + You</div>
-      <div class="detail-label"><span data-lang="en">Co-Organizer Lockup</span><span data-lang="pt">Lockup Co-Organizadores</span></div>
-      <div class="detail-desc" data-lang="en">Your logo at equal weight with both institutions across invitations, backdrop, badges, and digital assets.</div>
-      <div class="detail-desc" data-lang="pt">Seu logo com peso visual igual ao das duas instituições nos convites, backdrop, crachás e materiais digitais.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Directory</div>
-      <div class="detail-label"><span data-lang="en">Curated Attendee Directory</span><span data-lang="pt">Diretório Curado de Participantes</span></div>
-      <div class="detail-desc" data-lang="en">Full access to the curated attendee directory — name, title, firm, and LinkedIn of every confirmed participant. Delivered before and after the event.</div>
-      <div class="detail-desc" data-lang="pt">Acesso completo ao diretório curado de participantes — nome, cargo, empresa e LinkedIn de cada participante confirmado. Entregue antes e depois do evento.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Cocktail</div>
-      <div class="detail-label"><span data-lang="en">Closing Cocktail Naming</span><span data-lang="pt">Naming do Cocktail de Encerramento</span></div>
-      <div class="detail-desc" data-lang="en">The closing reception at Fasano New York carries your brand: "Cocktail by [Your Firm]" across invitations, signage, and all event communications.</div>
-      <div class="detail-desc" data-lang="pt">A recepção de encerramento no Fasano New York leva sua marca: "Cocktail by [Sua Empresa]" nos convites, sinalização e todas as comunicações do evento.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 07 STRATEGIC PARTNER ===== -->
-<section class="slide">
-  <div class="sn">06 — Strategic Partner · $7,000</div>
-  <div style="margin-bottom:0.5rem;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--violet);color:var(--violet);border-radius:2px;"><span data-lang="en">3 positions available</span><span data-lang="pt">3 vagas disponíveis</span></span></div>
-  <h2 data-lang="en">Visible. Present.<br>Part of the conversation.</h2>
-  <h2 data-lang="pt">Visível. Presente.<br>Parte da conversa.</h2>
-  <p data-lang="en">The Strategic Partner gains meaningful access to the room — both as a participant and as a recognized brand in the forum's materials.</p>
-  <p data-lang="pt">O Strategic Partner ganha acesso relevante à sala — como participante e como marca reconhecida nos materiais do fórum.</p>
-  <div class="detail-grid cols-3">
-    <div class="detail-item">
-      <div class="detail-num">7</div>
-      <div class="detail-label"><span data-lang="en">Guest Invitations</span><span data-lang="pt">Convites</span></div>
-      <div class="detail-desc" data-lang="en">Invitations for your key stakeholders to both the NYU Schack program and Fasano cocktail.</div>
-      <div class="detail-desc" data-lang="pt">Convites para seus principais stakeholders para o programa no NYU Schack e cocktail no Fasano.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Panel</div>
-      <div class="detail-label"><span data-lang="en">Panel Participation</span><span data-lang="pt">Participação em Painel</span></div>
-      <div class="detail-desc" data-lang="en">Participate as a panelist in one of the forum's sessions. Subject curated with the organizing committee.</div>
-      <div class="detail-desc" data-lang="pt">Participe como painelista em uma das sessões do fórum. Tema curado com o comitê organizador.</div>
-    </div>
-    <div></div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Logo</div>
-      <div class="detail-label"><span data-lang="en">Brand Presence</span><span data-lang="pt">Presença de Marca</span></div>
-      <div class="detail-desc" data-lang="en">Logo on all event materials: invitations, program, badges, backdrop, and digital channels.</div>
-      <div class="detail-desc" data-lang="pt">Logo em todos os materiais do evento: convites, programa, crachás, backdrop e canais digitais.</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Directory</div>
-      <div class="detail-label"><span data-lang="en">Curated Attendee Directory</span><span data-lang="pt">Diretório Curado de Participantes</span></div>
-      <div class="detail-desc" data-lang="en">Access to the curated attendee directory — name, title, firm, and LinkedIn of every confirmed participant. Delivered after the event.</div>
-      <div class="detail-desc" data-lang="pt">Acesso ao diretório curado de participantes — nome, cargo, empresa e LinkedIn de cada participante confirmado. Entregue após o evento.</div>
-    </div>
-    <div></div>
-  </div>
-</section>
-
-<!-- ===== 08 SUPPORTING PARTNER ===== -->
-<section class="slide slide-light">
-  <div class="sn">07 — Supporting Partner · $3,000</div>
-  <div style="margin-bottom:0.5rem;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--dgray);color:var(--dgray);border-radius:2px;"><span data-lang="en">4 positions available</span><span data-lang="pt">4 vagas disponíveis</span></span></div>
-  <h2 data-lang="en">In the room<br>where it happens.</h2>
-  <h2 data-lang="pt">Na sala<br>onde acontece.</h2>
-  <p data-lang="en">The Supporting Partner ensures a seat at the table — with branded visibility across the forum's communications.</p>
-  <p data-lang="pt">O Supporting Partner garante um lugar à mesa — com visibilidade de marca nas comunicações do fórum.</p>
-  <div class="detail-grid cols-3">
-    <div class="detail-item">
-      <div class="detail-num">3</div>
-      <div class="detail-label"><span data-lang="en">Guest Invitations</span><span data-lang="pt">Convites</span></div>
-      <div class="detail-desc" data-lang="en">Three direct invitations to the full-day program at NYU Schack and closing cocktail at Fasano New York.</div>
-      <div class="detail-desc" data-lang="pt">Três convites diretos para o programa completo no NYU Schack e cocktail de encerramento no Fasano New York.</div>
-    </div>
-    <div></div>
-    <div></div>
-    <div class="detail-item">
-      <div class="detail-num" style="font-size:1.2rem;">Logo</div>
-      <div class="detail-label"><span data-lang="en">Brand Presence</span><span data-lang="pt">Presença de Marca</span></div>
-      <div class="detail-desc" data-lang="en">Logo included on event materials and digital communications.</div>
-      <div class="detail-desc" data-lang="pt">Logo nos materiais do evento e comunicações digitais.</div>
-    </div>
-    <div></div>
-    <div></div>
-  </div>
-</section>
-
-<!-- ===== WHY THIS FORMAT ===== -->
-<section class="slide slide-deep">
-  <div class="sn" data-lang="en">Why This Format</div>
-  <div class="sn" data-lang="pt">Por Que Este Formato</div>
-  <h2 data-lang="en">Not another conference.<br>A curated room.</h2>
-  <h2 data-lang="pt">Não é mais uma conferência.<br>Uma sala curada.</h2>
-
-  <div class="detail-grid cols-3" style="margin-top:2rem;">
     <div class="detail-item">
       <div class="detail-num">01</div>
-      <div class="detail-label"><span data-lang="en">Intellectual Density</span><span data-lang="pt">Densidade Intelectual</span></div>
-      <div class="detail-desc" data-lang="en">80 seats. Invite-only. Every attendee is hand-selected: C-level executives, fund managers, developers, and institutional investors operating across Brazil and the United States. No filler, no spectators — only decision-makers who shape both markets.</div>
-      <div class="detail-desc" data-lang="pt">80 lugares. Apenas convidados. Cada participante é selecionado individualmente: C-levels, gestores de fundos, incorporadores e investidores institucionais que atuam entre Brasil e Estados Unidos. Sem figuração — apenas tomadores de decisão que moldam ambos os mercados.</div>
+      <div class="detail-label"><span data-lang="en">Speaking slot</span><span data-lang="pt">Fala no palco</span></div>
+      <div class="detail-desc" data-lang="en">A speaking slot and input on the curation of the panel you join: direction, not editorial control.</div>
+      <div class="detail-desc" data-lang="pt">Uma fala no palco e participação na curadoria do painel em que entrar: direção, sem controle editorial.</div>
     </div>
     <div class="detail-item">
       <div class="detail-num">02</div>
-      <div class="detail-label"><span data-lang="en">Inaugural Edition</span><span data-lang="pt">Edição Inaugural</span></div>
-      <div class="detail-desc" data-lang="en">This is the founding year of an annual platform. The Founding Partner position exists only in 2026 — it will not be offered again. Your firm's name becomes permanently linked to the origin of the forum, referenced in every future edition.</div>
-      <div class="detail-desc" data-lang="pt">Este é o ano inaugural de uma plataforma anual. A posição de Founding Partner existe apenas em 2026 — não será oferecida novamente. O nome da sua empresa fica permanentemente vinculado à origem do fórum, referenciado em todas as edições futuras.</div>
+      <div class="detail-label"><span data-lang="en">10 tickets</span><span data-lang="pt">10 ingressos</span></div>
+      <div class="detail-desc" data-lang="en">The full delegation across the forum program.</div>
+      <div class="detail-desc" data-lang="pt">A delegação completa ao longo da programação do fórum.</div>
     </div>
     <div class="detail-item">
       <div class="detail-num">03</div>
-      <div class="detail-label"><span data-lang="en">First-Mover Advantage</span><span data-lang="pt">Vantagem de Primeiro Movimento</span></div>
-      <div class="detail-desc" data-lang="en">Partnership values will increase in 2027 as the forum scales. Sponsors who join the inaugural edition lock in preferential pricing and priority renewal for future years. The cost of waiting is measurable.</div>
-      <div class="detail-desc" data-lang="pt">Os valores de parceria serão maiores em 2027 conforme o fórum escala. Patrocinadores da edição inaugural garantem preços preferenciais e prioridade de renovação para os próximos anos. O custo de esperar é mensurável.</div>
+      <div class="detail-label"><span data-lang="en">Category exclusivity</span><span data-lang="pt">Exclusividade de categoria</span></div>
+      <div class="detail-desc" data-lang="en">The only financial institution at Lead tier in this edition.</div>
+      <div class="detail-desc" data-lang="pt">A única instituição financeira na cota Lead nesta edição.</div>
     </div>
-  </div>
-
-  <div class="stats" style="margin-top:2.5rem;">
-    <div>
-      <div class="stat-num">80</div>
-      <div class="stat-label" data-lang="en">Invite-only seats</div>
-      <div class="stat-label" data-lang="pt">Lugares por convite</div>
+    <div class="detail-item">
+      <div class="detail-num">04</div>
+      <div class="detail-label"><span data-lang="en">Hosted lunch</span><span data-lang="pt">Almoço com a sua marca</span></div>
+      <div class="detail-desc" data-lang="en">The forum lunch, branded as "Lunch hosted by [Partner]".</div>
+      <div class="detail-desc" data-lang="pt">O almoço do fórum, com a marca "Lunch hosted by [Parceiro]".</div>
     </div>
-    <div>
-      <div class="stat-num">1:27</div>
-      <div class="stat-label" data-lang="en">Sponsor-to-attendee ratio</div>
-      <div class="stat-label" data-lang="pt">Proporção patrocinador-participante</div>
+    <div class="detail-item">
+      <div class="detail-num">05</div>
+      <div class="detail-label"><span data-lang="en">Networking tables</span><span data-lang="pt">Mesas de networking</span></div>
+      <div class="detail-desc" data-lang="en">Curated networking tables at lunch. Guest nominations are welcome, subject to forum curation.</div>
+      <div class="detail-desc" data-lang="pt">Mesas de networking curadas no almoço. Indicações de convidados são bem-vindas, sujeitas à curadoria do fórum.</div>
     </div>
-    <div>
-      <div class="stat-num">Y1</div>
-      <div class="stat-label" data-lang="en">Founding year — one chance</div>
-      <div class="stat-label" data-lang="pt">Ano fundador — uma chance</div>
+    <div class="detail-item">
+      <div class="detail-num">06</div>
+      <div class="detail-label"><span data-lang="en">Top logo placement</span><span data-lang="pt">Logo em destaque</span></div>
+      <div class="detail-desc" data-lang="en">The highest logo position on the site and on the panels.</div>
+      <div class="detail-desc" data-lang="pt">A posição mais alta de logo no site e nos painéis.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">07</div>
+      <div class="detail-label"><span data-lang="en">Promotion</span><span data-lang="pt">Divulgação</span></div>
+      <div class="detail-desc" data-lang="en">Named in the forum's promotional communications, including with media partners.</div>
+      <div class="detail-desc" data-lang="pt">Citação nas comunicações promocionais do fórum, inclusive com parceiros de mídia.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">08</div>
+      <div class="detail-label"><span data-lang="en">Imagery and video</span><span data-lang="pt">Fotos e vídeo</span></div>
+      <div class="detail-desc" data-lang="en">Professional photography and recording for your own communications.</div>
+      <div class="detail-desc" data-lang="pt">Fotografia e gravação profissionais para a comunicação da sua empresa.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">09</div>
+      <div class="detail-label"><span data-lang="en">Early access and report</span><span data-lang="pt">Acesso antecipado e relatório</span></div>
+      <div class="detail-desc" data-lang="en">Early access to the participant list and a co-branded post-event report.</div>
+      <div class="detail-desc" data-lang="pt">Acesso antecipado à lista de participantes e um relatório pós-evento co-assinado.</div>
     </div>
   </div>
 </section>
 
-<!-- ===== 09 BUDGET ===== -->
-<section class="slide slide-charcoal">
-  <div class="sn" data-lang="en">08 — Budget Transparency</div>
-  <div class="sn" data-lang="pt">08 — Transparência Orçamentária</div>
-  <h2 data-lang="en">Where the money goes.<br>All of it.</h2>
-  <h2 data-lang="pt">Para onde vai o dinheiro.<br>Todo ele.</h2>
-  <p data-lang="en">NYU Schack provides the venue at no cost. Responsive Cities Institute organizes production, content, and logistics. Neither institution profits from this event. Every dollar of sponsorship goes directly to making it happen.</p>
-  <p data-lang="pt">O NYU Schack cede o espaço sem custo. O Instituto Cidades Responsivas organiza produção, conteúdo e logística. Nenhuma das instituições lucra com o evento. Cada dólar de patrocínio vai diretamente para viabilizá-lo.</p>
-
-  <div class="budget-grid">
-    <div class="budget-item"><span data-lang="en">Fasano NY — Closing Cocktail</span><span data-lang="pt">Fasano NY — Cocktail de Encerramento</span></div>
-    <div class="budget-val">$33,000</div>
-    <div class="budget-item"><span data-lang="en">NYU Schack — Catering & A/V</span><span data-lang="pt">NYU Schack — Catering & Audiovisual</span></div>
-    <div class="budget-val">$11,000</div>
-    <div class="budget-item"><span data-lang="en">Production & Materials</span><span data-lang="pt">Produção & Materiais</span></div>
-    <div class="budget-val">$3,500</div>
-    <div class="budget-item"><span data-lang="en">Communications & Design</span><span data-lang="pt">Comunicação & Design</span></div>
-    <div class="budget-val">$2,500</div>
-    <div class="budget-total budget-item">Total</div>
-    <div class="budget-total budget-val">$50,000</div>
+<!-- ===== 07 SUPPORTING PARTNERS ===== -->
+<section class="slide slide-light">
+  <div class="sn">06 — Supporting Partners · $7,000</div>
+  <div style="margin-bottom:0.5rem;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--violet);color:var(--violet);border-radius:2px;"><span data-lang="en">4 slots + 1 media partner</span><span data-lang="pt">4 vagas + 1 parceiro de mídia</span></span></div>
+  <h2 data-lang="en">In the room<br>where it happens.</h2>
+  <h2 data-lang="pt">Na sala<br>onde acontece.</h2>
+  <p data-lang="en">Four Supporting Partners, all with the same treatment. A media partner joins on an in-kind basis and shares the same visual band, with a discreet sublabel. First-edition price of $7,000 each; the regular price is $10,000.</p>
+  <p data-lang="pt">Quatro Supporting Partners, todos com o mesmo tratamento. Um parceiro de mídia entra em regime de permuta e divide a mesma faixa visual, com uma identificação discreta. Valor de primeira edição: US$ 7.000 cada. O valor cheio é US$ 10.000.</p>
+  <div class="detail-grid cols-3">
+    <div class="detail-item">
+      <div class="detail-num">01</div>
+      <div class="detail-label"><span data-lang="en">Panel seat</span><span data-lang="pt">Assento em painel</span></div>
+      <div class="detail-desc" data-lang="en">A seat on a thematic panel, allocated by fit. No input on panel composition.</div>
+      <div class="detail-desc" data-lang="pt">Um lugar em um painel temático, definido por afinidade. Sem participação na composição do painel.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">02</div>
+      <div class="detail-label"><span data-lang="en">3 tickets</span><span data-lang="pt">3 ingressos</span></div>
+      <div class="detail-desc" data-lang="en">Three tickets to the forum program.</div>
+      <div class="detail-desc" data-lang="pt">Três ingressos para a programação do fórum.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">03</div>
+      <div class="detail-label"><span data-lang="en">Logo placement</span><span data-lang="pt">Logo</span></div>
+      <div class="detail-desc" data-lang="en">Logo on the site and on the panels.</div>
+      <div class="detail-desc" data-lang="pt">Logo no site e nos painéis.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">04</div>
+      <div class="detail-label"><span data-lang="en">Opening remarks</span><span data-lang="pt">Menção na abertura</span></div>
+      <div class="detail-desc" data-lang="en">Recognition in the opening remarks.</div>
+      <div class="detail-desc" data-lang="pt">Reconhecimento na fala de abertura.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">05</div>
+      <div class="detail-label"><span data-lang="en">Participant list</span><span data-lang="pt">Lista de participantes</span></div>
+      <div class="detail-desc" data-lang="en">Access to the participant list.</div>
+      <div class="detail-desc" data-lang="pt">Acesso à lista de participantes.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">06</div>
+      <div class="detail-label"><span data-lang="en">Event photography</span><span data-lang="pt">Fotos do evento</span></div>
+      <div class="detail-desc" data-lang="en">Professional event photography for your own communications.</div>
+      <div class="detail-desc" data-lang="pt">Fotografia profissional do evento para a comunicação da sua empresa.</div>
+    </div>
   </div>
+</section>
 
-  <div class="budget-note" data-lang="en">
-    NYU Schack Institute of Real Estate — venue partner (no charge)<br>
-    Responsive Cities Institute (OSPA) — organizing partner (no fee)<br>
-    Zero markup. Zero management fees. 100% allocated to the event.
-  </div>
-  <div class="budget-note" data-lang="pt">
-    NYU Schack Institute of Real Estate — parceiro de espaço (sem custo)<br>
-    Instituto Cidades Responsivas (OSPA) — parceiro organizador (sem fee)<br>
-    Zero markup. Zero taxa de gestão. 100% alocado no evento.
-  </div>
-
-  <div class="budget-note" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(87,6,140,0.15);">
-    <span data-lang="en"><strong>Note:</strong> A symbolic registration fee of $50 per attendee will be charged to ensure confirmed attendance and support event administration.</span>
-    <span data-lang="pt"><strong>Nota:</strong> Será cobrada uma taxa simbólica de US$ 50 por participante para garantir a presença confirmada e apoiar a administração do evento.</span>
+<!-- ===== WHY PARTNER ===== -->
+<section class="slide slide-deep">
+  <div class="sn" data-lang="en">Why Partner</div>
+  <div class="sn" data-lang="pt">Por Que Ser Parceiro</div>
+  <h2 data-lang="en">Four reasons to partner<br>with the inaugural edition.</h2>
+  <h2 data-lang="pt">Quatro motivos para apoiar<br>a edição inaugural.</h2>
+  <div class="detail-grid cols-2" style="margin-top:2rem;">
+    <div class="detail-item">
+      <div class="detail-num">01</div>
+      <div class="detail-label"><span data-lang="en">Institutional association</span><span data-lang="pt">Associação institucional</span></div>
+      <div class="detail-desc" data-lang="en">Your name next to NYU Schack and Responsive Cities Institute: the credibility of two institutions, not of a conference brand.</div>
+      <div class="detail-desc" data-lang="pt">O nome da sua empresa ao lado do NYU Schack e do Instituto Cidades Responsivas: a credibilidade de duas instituições, não de uma marca de conferência.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">02</div>
+      <div class="detail-label"><span data-lang="en">Curated access</span><span data-lang="pt">Acesso curado</span></div>
+      <div class="detail-desc" data-lang="en">Direct access to 80 senior decision-makers from the US and Brazil, in a room sized for relationships.</div>
+      <div class="detail-desc" data-lang="pt">Acesso direto a 80 tomadores de decisão dos EUA e do Brasil, numa sala dimensionada para relacionamento.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">03</div>
+      <div class="detail-label"><span data-lang="en">The founder's seal</span><span data-lang="pt">O selo de fundador</span></div>
+      <div class="detail-desc" data-lang="en">A place as an institutional bridge between Brazil and the US at the forum's first edition. Later editions cannot offer that position.</div>
+      <div class="detail-desc" data-lang="pt">Um lugar como ponte institucional entre Brasil e EUA na primeira edição do fórum. Edições futuras não oferecem essa posição.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-num">04</div>
+      <div class="detail-label"><span data-lang="en">Thought leadership</span><span data-lang="pt">Liderança de pensamento</span></div>
+      <div class="detail-desc" data-lang="en">Authorship and presence in the co-branded post-event report, which circulates in both markets.</div>
+      <div class="detail-desc" data-lang="pt">Autoria e presença no relatório pós-evento co-assinado, que circula nos dois mercados.</div>
+    </div>
   </div>
 </section>
 
 <!-- ===== 10 CONTACT ===== -->
 <section class="slide slide-violet">
-  <div class="sn" data-lang="en">09 — Next Steps</div>
-  <div class="sn" data-lang="pt">09 — Próximos Passos</div>
+  <div class="sn" data-lang="en">07 — Next Steps</div>
+  <div class="sn" data-lang="pt">07 — Próximos Passos</div>
   <h2 data-lang="en">Let's build<br>this together.</h2>
   <h2 data-lang="pt">Vamos construir<br>isso juntos.</h2>
   <p data-lang="en">Partnership commitments are limited and allocated on a first-confirmed basis. We welcome a conversation about which tier best aligns with your firm's objectives.</p>
@@ -1185,7 +1218,7 @@
 </section>
 
 <div class="footer">
-  <p>BR/USA Real Estate Forum · Partnership Deck · March 2026<br>Confidential · Responsive Cities Institute + NYU Schack Institute of Real Estate</p>
+  <p>BR/USA Real Estate Forum · Partnership Deck · October 2026<br>Confidential · Responsive Cities Institute + NYU Schack Institute of Real Estate</p>
 </div>
 
 <script>

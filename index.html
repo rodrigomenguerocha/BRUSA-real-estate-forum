@@ -1924,6 +1924,18 @@
     }
     .crossover-marker { opacity: 1; transform: none; transition: none; }
   }
+  /* Capa e encerramento: Request Invitation + download (brochure na capa, deck de patrocínio no fim) lado a lado */
+  .cover-ctas {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+  .cover-ctas .cover-cta-button { margin: 0 !important; }
+  .closing-content .cover-ctas { margin-top: 2.2rem; }
+  .cover-cta-button--ghost { border-color: rgba(255,255,255,0.4) !important; color: rgba(255,255,255,0.8) !important; }
+  @media (max-width: 480px) {
+    .cover-ctas { flex-direction: column; align-items: center; }
+    .cover-ctas .cover-cta-button { width: 100%; max-width: 280px; text-align: center; }
+  }
 </style>
 </head>
 <body>
@@ -1984,12 +1996,19 @@
   <div class="cover-subtitle" data-lang="en">Inaugural Edition</div>
   <div class="cover-subtitle" data-lang="pt">Primeira Edição</div>
   <div class="cover-meta">November 19–21, 2026 · New York City</div>
-  <a
-    href="https://luma.com/event/evt-cZKc1exaulCHny5"
-    class="cta-solid cover-cta-button"
-    data-luma-action="checkout"
-    data-luma-event-id="evt-cZKc1exaulCHny5"
-  ><span data-lang="en">Request Invitation →</span><span data-lang="pt">Solicitar Convite →</span></a>
+  <div class="cover-ctas">
+    <a
+      href="https://luma.com/event/evt-cZKc1exaulCHny5"
+      class="cta-solid cover-cta-button"
+      data-luma-action="checkout"
+      data-luma-event-id="evt-cZKc1exaulCHny5"
+    ><span data-lang="en">Request Invitation →</span><span data-lang="pt">Solicitar Convite →</span></a>
+    <a
+      href="pdf/BRUSA-Real-Estate-Forum-2026.pdf"
+      class="cover-cta-button cover-cta-button--ghost"
+      download
+    ><span data-lang="en">Download the Brochure ↓</span><span data-lang="pt">Baixar a Brochure ↓</span></a>
+  </div>
   <div class="cover-supporters">
     <div class="cover-supporters-groups">
       <div class="partner-group">
@@ -2031,10 +2050,10 @@
 <section class="slide slide-light" id="slide-why">
   <div class="sn" data-lang="en">01 — Why This Forum</div>
   <div class="sn" data-lang="pt">01 — Por Que Este Fórum</div>
-  <h2 data-lang="en">The Brazilian<br>real estate market<br>needs a new language.</h2>
-  <h2 data-lang="pt">O mercado imobiliário<br>brasileiro precisa de<br>uma nova linguagem.</h2>
-  <p data-lang="en">Brazil has one of the largest real estate markets in the world — but it remains largely invisible to global institutional capital. The problem is not returns. It is legibility: governance, risk presentation, and the discipline of speaking a language that pension funds, endowments, and sovereign wealth funds recognize and trust.</p>
-  <p data-lang="pt">O Brasil tem um dos maiores mercados imobiliários do mundo — mas permanece praticamente invisível para o capital institucional global. O problema não são os retornos. É legibilidade: governança, apresentação de risco e a disciplina de falar uma linguagem que fundos de pensão, endowments e fundos soberanos reconheçam e confiem.</p>
+  <h2 data-lang="en">One of the world's largest<br>real estate markets,<br>hard to read from abroad.</h2>
+  <h2 data-lang="pt">Um dos maiores mercados<br>imobiliários do mundo,<br>difícil de ler de fora.</h2>
+  <p data-lang="en">Foreign money keeps arriving in Brazil. Very little of it reaches real estate, and global institutions own almost none of the market.</p>
+  <p data-lang="pt">O capital estrangeiro continua chegando ao Brasil. Muito pouco dele chega ao mercado imobiliário, e as instituições globais quase não têm participação no setor.</p>
 
   <div class="data-cards">
     <div class="data-card">
@@ -2080,8 +2099,8 @@
           <h2 class="blur-in" data-lang="en">The plumbing is being rebuilt — right now.</h2>
           <h2 class="blur-in" data-lang="pt">O encanamento está sendo trocado — agora.</h2>
         </div>
-        <p class="reveal" style="transition-delay:0.15s;" data-lang="en">Brazil's real estate credit only crossed 10% of GDP in 2025. In the US, residential mortgage debt alone stands near 45%. The gap is not demand — it is funding structure. And that structure just started to change.</p>
-        <p class="reveal" style="transition-delay:0.15s;" data-lang="pt">O crédito imobiliário brasileiro só cruzou 10% do PIB em 2025. Nos EUA, apenas a dívida hipotecária residencial beira 45%. O gap não é demanda — é estrutura de funding. E essa estrutura acabou de começar a mudar.</p>
+        <p class="reveal" style="transition-delay:0.15s;" data-lang="en">Brazil's real estate credit only crossed 10% of GDP in 2025. In the US, mortgage debt across all property types stands near 70%. The gap is not demand — it is funding structure. And that structure just started to change.</p>
+        <p class="reveal" style="transition-delay:0.15s;" data-lang="pt">O crédito imobiliário brasileiro só cruzou 10% do PIB em 2025. Nos EUA, a dívida hipotecária de todos os tipos de imóvel beira 70%. O gap não é demanda — é estrutura de funding. E essa estrutura acabou de começar a mudar.</p>
         <div class="data-cards data-cards--pair par-layer" data-parallax="-32">
           <div class="data-card reveal" style="transition-delay:0.3s;">
             <div class="data-card-num countup">10%</div>
@@ -2091,11 +2110,11 @@
             <div class="data-card-source">Banco Central do Brasil · 2025</div>
           </div>
           <div class="data-card reveal" style="transition-delay:0.45s;">
-            <div class="data-card-num countup">45%</div>
-            <div class="data-card-label"><span data-lang="en">US residential mortgage / GDP</span><span data-lang="pt">Hipotecas residenciais EUA / PIB</span></div>
-            <div class="data-card-desc" data-lang="en">US$ 13.8 trillion outstanding, Q4 2025.</div>
-            <div class="data-card-desc" data-lang="pt">US$ 13,8 trilhões em estoque, T4 2025.</div>
-            <div class="data-card-source">Federal Reserve Z.1 · 2025</div>
+            <div class="data-card-num countup">~70%</div>
+            <div class="data-card-label"><span data-lang="en">US real estate credit / GDP</span><span data-lang="pt">Crédito imobiliário EUA / PIB</span></div>
+            <div class="data-card-desc" data-lang="en">US$ 21.6 trillion in mortgage debt outstanding, Q4 2025: residential, multifamily, commercial and farm.</div>
+            <div class="data-card-desc" data-lang="pt">US$ 21,6 trilhões em hipotecas, T4 2025: residencial, multifamily, comercial e rural.</div>
+            <div class="data-card-source">Federal Reserve Z.1 (L.217) · BEA · 2025</div>
           </div>
         </div>
         <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#panel-capital-item">
@@ -2261,17 +2280,17 @@
           </div>
           <div class="card-info-item">
             <span class="card-info-label" data-lang="en">Access</span><span class="card-info-label" data-lang="pt">Acesso</span>
-            <span class="card-info-value" data-lang="en">Paid · Forum attendees receive a discount</span>
-            <span class="card-info-value" data-lang="pt">Pago · participantes do Forum recebem desconto</span>
+            <span class="card-info-value" data-lang="en">Paid ticket, not included in the forum · Forum attendees receive a discount</span>
+            <span class="card-info-value" data-lang="pt">Ingresso pago, não incluído no fórum · participantes do Forum recebem desconto</span>
           </div>
           <div class="card-info-item">
             <span class="card-info-label">Venue</span>
             <span class="card-info-value">The Pierre, A Taj Hotel — 2 E 61st St, NYC</span>
           </div>
         </div>
-        <a class="card-past-btn" href="https://www.sps.nyu.edu/about/academic-divisions-and-departments/schack-institute-of-real-estate/capital-markets-in-real-estate.html" target="_blank">
-          <span data-lang="en">See past edition →</span>
-          <span data-lang="pt">Ver edição anterior →</span>
+        <a class="card-past-btn" href="https://www.sps.nyu.edu/about/events/schack-institute-of-real-estate-division-events/capital-markets-real-estate.html" target="_blank">
+          <span data-lang="en">Get tickets →</span>
+          <span data-lang="pt">Comprar ingresso →</span>
         </a>
       </div>
 
@@ -2458,6 +2477,7 @@
               <div class="schedule-label" data-lang="en">Cocktail</div>
               <div class="schedule-label" data-lang="pt">Cocktail</div>
             </div>
+            <div class="schedule-menu" data-lang="en">Not included · Not part of the forum program</div><div class="schedule-menu" data-lang="pt">Não incluído · Fora da programação do fórum</div>
           </div>
         </div>
         </div><!-- /zoom-schedule-scroll -->
@@ -2683,12 +2703,19 @@
       <span data-lang="pt">Te vejo em Nova York.</span>
     </div>
     <div class="cover-meta">November 19–21, 2026 · New York City</div>
-    <a
-      href="https://luma.com/event/evt-cZKc1exaulCHny5"
-      class="cta-solid cover-cta-button"
-      data-luma-action="checkout"
-      data-luma-event-id="evt-cZKc1exaulCHny5"
-    ><span data-lang="en">Request Invitation →</span><span data-lang="pt">Solicitar Convite →</span></a>
+    <div class="cover-ctas">
+      <a
+        href="https://luma.com/event/evt-cZKc1exaulCHny5"
+        class="cta-solid cover-cta-button"
+        data-luma-action="checkout"
+        data-luma-event-id="evt-cZKc1exaulCHny5"
+      ><span data-lang="en">Request Invitation →</span><span data-lang="pt">Solicitar Convite →</span></a>
+      <a
+        href="pdf/BRUSA-Partnership-Deck-2026.pdf"
+        class="cover-cta-button cover-cta-button--ghost"
+        download
+      ><span data-lang="en">Download the Sponsor Deck ↓</span><span data-lang="pt">Baixar o Deck de Patrocínio ↓</span></a>
+    </div>
     <div class="cover-supporters">
       <div class="cover-supporters-groups">
         <div class="partner-group">

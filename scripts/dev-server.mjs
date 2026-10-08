@@ -27,6 +27,7 @@ const TYPES = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
+  '.pdf': 'application/pdf',
   '.woff2': 'font/woff2',
 };
 
