@@ -3510,6 +3510,7 @@ function setLang(lang) {
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
   var WAGNER = [-73.9967, 40.7317];  // NYU School of Professional Studies, 9 Washington Square North
   var PIERRE = [-73.9723, 40.7650]; // The Pierre, 2 E 61st St (5th Ave)
+  var VANDERBILT = [-73.9787, 40.7530]; // One Vanderbilt, 42nd St & Vanderbilt Ave (Day 3 site visit)
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
 
   // === Camera keyframes — each is a scroll phase ===
@@ -3553,11 +3554,11 @@ function setLang(lang) {
     // 66-74%: HOLD at POI overview — Site Visits (POI dots reveal here)
     { t0: 0.66, t1: 0.74, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
-      marker: null, card: null, poiPhase: true },
+      marker: 'vanderbilt', card: null, poiPhase: true },
     // 74-88%: still Day 3 — slow push in over the site-visit POIs
     { t0: 0.74, t1: 0.88, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM + 0.5, pitch: 0, bearing: 0 },
-      marker: null, card: null, poiPhase: true },
+      marker: 'vanderbilt', card: null, poiPhase: true },
     // 88-93%: travel to the Midtown hotel cluster
     { t0: 0.88, t1: 0.93, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
                            to:   { center: MIDTOWN_HOTELS, zoom: 14.2,         pitch: 30, bearing: 0 },
@@ -3631,6 +3632,27 @@ function setLang(lang) {
       id: 'route-1-line',
       type: 'line',
       source: 'route-1',
+      paint: {
+        'line-color': '#8900e1',
+        'line-width': 2.5,
+        'line-opacity': 0.7,
+        'line-dasharray': [2, 2]
+      }
+    });
+
+    // — Route path (NYU SPS→One Vanderbilt, up Fifth Avenue, then east on 42nd St) —
+    var ROUTE_2 = [
+      [-73.9967,40.7317],[-73.994500,40.734300],[-73.993800,40.735700],[-73.992000,40.738000],[-73.989700,40.741100],[-73.987600,40.745200],[-73.985700,40.748400],[-73.983400,40.750500],[-73.981200,40.753500],[-73.979900,40.753100],[-73.9787,40.7530]
+    ];
+
+    map.addSource('route-2', {
+      type: 'geojson',
+      data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] } }
+    });
+    map.addLayer({
+      id: 'route-2-line',
+      type: 'line',
+      source: 'route-2',
       paint: {
         'line-color': '#8900e1',
         'line-width': 2.5,
@@ -3738,10 +3760,15 @@ function setLang(lang) {
 
     var markers = {
       union:  { el: makeMarkerEl(), revealed: false },
-      pierre: { el: makeMarkerEl(), revealed: false }
+      pierre: { el: makeMarkerEl(), revealed: false },
+      vanderbilt: { el: makeMarkerEl(), revealed: false }
     };
     new mapboxgl.Marker({element: markers.union.el}).setLngLat(WAGNER).addTo(map);
     new mapboxgl.Marker({element: markers.pierre.el}).setLngLat(PIERRE).addTo(map);
+    // One Vanderbilt sits above the grey POI dots and opens the same popup (see POI_DATA loop)
+    markers.vanderbilt.el.style.zIndex = '2';
+    markers.vanderbilt.el.style.cursor = 'pointer';
+    new mapboxgl.Marker({element: markers.vanderbilt.el}).setLngLat(VANDERBILT).addTo(map);
 
     // Once revealed, a marker stays visible forever
     function revealMarker(key){
@@ -3822,11 +3849,18 @@ function setLang(lang) {
     var poiPopupClose = document.getElementById('poi-popup-close');
 
     POI_DATA.forEach(function(poi){
-      var el = document.createElement('div');
-      el.className = 'poi-dot';
-      el.title = poi.name;
-      var m = new mapboxgl.Marker({element: el}).setLngLat(poi.coords).addTo(map);
-      poiMarkers.push({ el: el, data: poi, marker: m });
+      var el;
+      if(poi.id === 'poi-5'){
+        // One Vanderbilt is a confirmed Day 3 visit: its venue pin replaces the grey dot
+        el = markers.vanderbilt.el;
+        el.title = poi.name;
+      } else {
+        el = document.createElement('div');
+        el.className = 'poi-dot';
+        el.title = poi.name;
+        var m = new mapboxgl.Marker({element: el}).setLngLat(poi.coords).addTo(map);
+        poiMarkers.push({ el: el, data: poi, marker: m });
+      }
 
       el.addEventListener('click', function(e){
         e.stopPropagation();
@@ -4147,14 +4181,24 @@ function setLang(lang) {
           route1Drawn = false;
         }
 
+        // Route 2 (NYU SPS→One Vanderbilt): progressively draws during 0.58→0.66, fully visible after, hidden before
+        if(t >= 0.66){
+          drawRoute('route-2', ROUTE_2, 1);
+        } else if(t >= 0.58){
+          drawRoute('route-2', ROUTE_2, ease((t - 0.58) / (0.66 - 0.58)));
+        } else {
+          drawRoute('route-2', ROUTE_2, 0);
+        }
+
         // Move camera
         map.jumpTo(cam);
 
         // Show POI dots and neighborhood boundaries for the whole Day 3 window
         updatePOIs(isDay3);
         updateNeighborhoods(isDay3);
-        // Hide the route line when entering the explore or hotel phase
-        map.setPaintProperty('route-1-line', 'line-opacity', (t >= 0.66) ? 0 : 0.7);
+        // Routes stay up through Day 3 (Pierre→NYU SPS→One Vanderbilt); hidden in the hotel phase
+        map.setPaintProperty('route-1-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
+        map.setPaintProperty('route-2-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
 
         // Show hotel markers during hotel phase
         updateHotels(inHotelPhase);
