@@ -3508,7 +3508,7 @@ function setLang(lang) {
 
   // === Venues ===
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
-  var WAGNER = [-73.9967, 40.7317];  // NYU School of Professional Studies, 9 Washington Square North
+  var WAGNER = [-73.9976, 40.7320];  // NYU Abu Dhabi House, 19 Washington Square North (Day 2 venue)
   var PIERRE = [-73.9723, 40.7650]; // The Pierre, 2 E 61st St (5th Ave)
   var VANDERBILT = [-73.9786, 40.7530]; // One Vanderbilt, 42nd St & Vanderbilt Ave (Day 3 site visit)
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
@@ -3621,13 +3621,14 @@ function setLang(lang) {
     }
 
     // Landmark buildings painted in the site violet while the camera is on them.
-    // Each is a run of building:part features with consecutive OSM ids in the Mapbox tiles;
+    // Each is matched by the OSM ids of its features in the Mapbox building tiles;
     // if Mapbox ever renumbers them, the building just stays grey.
     var BUILDING_COLOR = '#eeeef2';
     var BUILDING_OPACITY = 0.55;
     var LANDMARK_COLOR = '#57068C';  // --violet
     var LANDMARKS = {
       pierre:     ['all', ['>=', ['id'], 293164590],  ['<=', ['id'], 293164603]],   // The Pierre (14 parts)
+      nyu:        ['match', ['id'], [248166238, 248166274], true, false],           // NYU Abu Dhabi House (2 parts)
       vanderbilt: ['all', ['>=', ['id'], 1470380430], ['<=', ['id'], 1470380453]]   // One Vanderbilt (24 parts)
     };
     var EXTRUDED = ['==', ['get', 'extrude'], 'true'];
@@ -3643,7 +3644,7 @@ function setLang(lang) {
       id: '3d-buildings',
       source: 'composite',
       'source-layer': 'building',
-      filter: ['all', EXTRUDED, ['!', ['any', LANDMARKS.pierre, LANDMARKS.vanderbilt]]],
+      filter: ['all', EXTRUDED, ['!', ['any', LANDMARKS.pierre, LANDMARKS.nyu, LANDMARKS.vanderbilt]]],
       type: 'fill-extrusion',
       minzoom: 14,
       paint: buildingPaint
@@ -3670,9 +3671,9 @@ function setLang(lang) {
       map.setPaintProperty('3d-landmark-' + key, 'fill-extrusion-opacity', on ? 1 : BUILDING_OPACITY);
     }
 
-    // — Route path (The Pierre→NYU SPS, down Fifth Avenue) —
+    // — Route path (The Pierre→NYU, down Fifth Avenue, then west on Washington Square North) —
     var ROUTE_1 = [
-      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9967,40.7317]
+      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9967,40.7317],[-73.99755,40.73177],[-73.9976,40.7320]
     ];
 
     map.addSource('route-1', {
@@ -3693,7 +3694,7 @@ function setLang(lang) {
 
     // — Route path (NYU SPS→One Vanderbilt: up Fifth Avenue on ROUTE_1's points, east on 42nd St, up Vanderbilt Ave) —
     var ROUTE_2 = [
-      [-73.9967,40.7317],[-73.994500,40.734300],[-73.993800,40.735700],[-73.992000,40.738000],[-73.989700,40.741100],[-73.987600,40.745200],[-73.985700,40.748400],[-73.983400,40.750500],[-73.981200,40.753200],[-73.9790,40.7523],[-73.9786,40.7530]
+      [-73.9976,40.7320],[-73.99755,40.73177],[-73.9967,40.7317],[-73.994500,40.734300],[-73.993800,40.735700],[-73.992000,40.738000],[-73.989700,40.741100],[-73.987600,40.745200],[-73.985700,40.748400],[-73.983400,40.750500],[-73.981200,40.753200],[-73.9790,40.7523],[-73.9786,40.7530]
     ];
 
     map.addSource('route-2', {
@@ -4244,6 +4245,7 @@ function setLang(lang) {
 
         // Landmarks turn violet from their zoom-in until the end of their zoom-out
         setLandmarkLit('pierre',     t >= 0.08 && t < 0.38);
+        setLandmarkLit('nyu',        t >= 0.38 && t < 0.66);
         setLandmarkLit('vanderbilt', t >= 0.66 && t < 0.94);
 
         // Move camera
