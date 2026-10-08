@@ -801,7 +801,7 @@
   /* ===== MAP SECTION ===== */
   .slide-map {
     position: relative;
-    height: 1300vh;
+    height: 1636vh; /* 100vh sticky + 1536vh scroll = TIMELINE_END (1.28) × 1200vh — see map phases */
     z-index: 0 !important;
     background: #e8e8e8;
   }
@@ -3510,7 +3510,7 @@ function setLang(lang) {
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
   var WAGNER = [-73.9967, 40.7317];  // NYU School of Professional Studies, 9 Washington Square North
   var PIERRE = [-73.9723, 40.7650]; // The Pierre, 2 E 61st St (5th Ave)
-  var VANDERBILT = [-73.9787, 40.7530]; // One Vanderbilt, 42nd St & Vanderbilt Ave (Day 3 site visit)
+  var VANDERBILT = [-73.9786, 40.7530]; // One Vanderbilt, 42nd St & Vanderbilt Ave (Day 3 site visit)
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
 
   // === Camera keyframes — each is a scroll phase ===
@@ -3521,6 +3521,11 @@ function setLang(lang) {
 
   // POI zoom level — slightly closer than overview to see all dots
   var POI_ZOOM = 12.2;
+
+  // Phase times are in timeline units: 1 unit = 1200vh of scroll (the original 0→1 timeline),
+  // so adding a phase lengthens the section instead of squeezing the others.
+  // TIMELINE_END must match .slide-map height: 100vh + TIMELINE_END × 1200vh.
+  var TIMELINE_END = 1.28;
 
   var phases = [
     // 0-8%: Manhattan 2D overview — flat, north up, hold
@@ -3547,24 +3552,36 @@ function setLang(lang) {
     { t0: 0.50, t1: 0.58, from: { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 0 },
                            to:   { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
       marker: 'union', card: 'card-union' },
-    // 58-66%: zoom out from Union Square to POI overview
-    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
-                           to:   { center: MANHATTAN, zoom: POI_ZOOM,   pitch: 0,          bearing: 0 },
+    // 0.58-0.66: gentle zoom out from Union Square (route to One Vanderbilt draws here)
+    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 80 },
+                           to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
       marker: null, card: null },
-    // 66-74%: HOLD at POI overview — Site Visits (POI dots reveal here)
-    { t0: 0.66, t1: 0.74, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
+    // 0.66-0.78: Day 3 (Nov 21) — gentle zoom into One Vanderbilt
+    { t0: 0.66, t1: 0.78, from: { center: MANHATTAN,  zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
+                           to:   { center: VANDERBILT, zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 30 },
+      marker: 'vanderbilt', card: null },
+    // 0.78-0.86: slow orbit One Vanderbilt
+    { t0: 0.78, t1: 0.86, from: { center: VANDERBILT, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 30 },
+                           to:   { center: VANDERBILT, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 110 },
+      marker: 'vanderbilt', card: null },
+    // 0.86-0.94: zoom out to POI overview
+    { t0: 0.86, t1: 0.94, from: { center: VANDERBILT, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 110 },
+                           to:   { center: MANHATTAN,  zoom: POI_ZOOM,   pitch: 0,           bearing: 0 },
+      marker: null, card: null },
+    // 0.94-1.02: HOLD at POI overview — Site Visits (POI dots reveal here)
+    { t0: 0.94, t1: 1.02, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
-      marker: 'vanderbilt', card: null, poiPhase: true },
-    // 74-88%: still Day 3 — slow push in over the site-visit POIs
-    { t0: 0.74, t1: 0.88, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
+      marker: null, card: null, poiPhase: true },
+    // 1.02-1.16: still Day 3 — slow push in over the site-visit POIs
+    { t0: 1.02, t1: 1.16, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM + 0.5, pitch: 0, bearing: 0 },
-      marker: 'vanderbilt', card: null, poiPhase: true },
-    // 88-93%: travel to the Midtown hotel cluster
-    { t0: 0.88, t1: 0.93, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
+      marker: null, card: null, poiPhase: true },
+    // 1.16-1.21: travel to the Midtown hotel cluster
+    { t0: 1.16, t1: 1.21, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
                            to:   { center: MIDTOWN_HOTELS, zoom: 14.2,         pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true },
-    // 93-100%: hold at hotel cluster
-    { t0: 0.93, t1: 1.0,  from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
+    // 1.21-1.28: hold at hotel cluster
+    { t0: 1.21, t1: TIMELINE_END, from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
                            to:   { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true }
   ];
@@ -3640,9 +3657,9 @@ function setLang(lang) {
       }
     });
 
-    // — Route path (NYU SPS→One Vanderbilt, up Fifth Avenue, then east on 42nd St) —
+    // — Route path (NYU SPS→One Vanderbilt: up Fifth Avenue on ROUTE_1's points, east on 42nd St, up Vanderbilt Ave) —
     var ROUTE_2 = [
-      [-73.9967,40.7317],[-73.994500,40.734300],[-73.993800,40.735700],[-73.992000,40.738000],[-73.989700,40.741100],[-73.987600,40.745200],[-73.985700,40.748400],[-73.983400,40.750500],[-73.981200,40.753500],[-73.979900,40.753100],[-73.9787,40.7530]
+      [-73.9967,40.7317],[-73.994500,40.734300],[-73.993800,40.735700],[-73.992000,40.738000],[-73.989700,40.741100],[-73.987600,40.745200],[-73.985700,40.748400],[-73.983400,40.750500],[-73.981200,40.753200],[-73.9790,40.7523],[-73.9786,40.7530]
     ];
 
     map.addSource('route-2', {
@@ -4115,7 +4132,7 @@ function setLang(lang) {
         var viewH = window.innerHeight;
         var scrolled = -rect.top;
         var totalScroll = sectionH - viewH;
-        var t = Math.max(0, Math.min(1, scrolled / totalScroll));
+        var t = Math.max(0, Math.min(1, scrolled / totalScroll)) * TIMELINE_END;
 
         // Find current phase
         var cam = null;
@@ -4143,9 +4160,10 @@ function setLang(lang) {
         if(currentMarker) revealMarker(currentMarker);
 
         // Cards: show only for active venue; Day 3 = site visits card; hotel phase = hotels card
-        var inHotelPhase      = t >= 0.88;
-        var inHotelCardsPhase = t >= 0.91;  // hotels card appears slightly later — gap for Day 3 fade-out
-        var isDay3            = (t >= 0.66 && t < 0.88);  // Day 3 = site visits; POI dots are up
+        var inHotelPhase      = t >= 1.16;
+        var inHotelCardsPhase = t >= 1.19;  // hotels card appears slightly later — gap for Day 3 fade-out
+        var isDay3            = (t >= 0.66 && t < 1.16);  // Day 3 = site visits (One Vanderbilt, then POIs)
+        var inPoiPhase        = (t >= 0.94 && t < 1.16);  // POI dots are up once back at the overview
 
         // Base venue cards: hide all, then selectively show
         ['card-union','card-pierre'].forEach(function(key){
@@ -4193,9 +4211,9 @@ function setLang(lang) {
         // Move camera
         map.jumpTo(cam);
 
-        // Show POI dots and neighborhood boundaries for the whole Day 3 window
-        updatePOIs(isDay3);
-        updateNeighborhoods(isDay3);
+        // Show POI dots and neighborhood boundaries once Day 3 is back at the overview
+        updatePOIs(inPoiPhase);
+        updateNeighborhoods(inPoiPhase);
         // Routes stay up through Day 3 (Pierre→NYU SPS→One Vanderbilt); hidden in the hotel phase
         map.setPaintProperty('route-1-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
         map.setPaintProperty('route-2-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
@@ -4208,11 +4226,11 @@ function setLang(lang) {
           var sbFillPct;
           if(t <= 0.30)      sbFillPct = (t / 0.30) * 25;
           else if(t <= 0.66) sbFillPct = 25 + ((t - 0.30) / 0.36) * 25;
-          else if(t <= 0.88) sbFillPct = 50 + ((t - 0.66) / 0.22) * 25;
-          else               sbFillPct = 75 + ((t - 0.88) / 0.12) * 25;
+          else if(t <= 1.16) sbFillPct = 50 + ((t - 0.66) / 0.50) * 25;
+          else               sbFillPct = 75 + ((t - 1.16) / 0.12) * 25;
           sbFill.style.height = Math.min(100, sbFillPct).toFixed(1) + '%';
         }
-        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : (t < 0.88) ? 2 : 3;
+        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : (t < 1.16) ? 2 : 3;
         sbLabels.forEach(function(l, i){
           if(!l) return;
           if(i === sbActiveIdx) l.classList.add('active');
@@ -4226,7 +4244,7 @@ function setLang(lang) {
         }
 
         // Close POI popup when scrolling outside the POI phase
-        if(!isDay3 && poiPopup.classList.contains('visible')){
+        if(!inPoiPhase && poiPopup.classList.contains('visible')){
           poiPopup.classList.remove('visible');
         }
 
