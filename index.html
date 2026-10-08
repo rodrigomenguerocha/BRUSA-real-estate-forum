@@ -4596,5 +4596,17 @@ function setLang(lang) {
      [data-luma-action="checkout"] link into an opener for it. Without the
      script the links still work — they just go to the event page instead. -->
 <script id="luma-checkout" src="https://embed.lu.ma/checkout-button.js"></script>
+<script>
+  /* Em responsivecities.com o site vive em /brusa-forum, sem barra no fim.
+     Ali um link relativo "pdf/..." resolve para /pdf/... (404), porque o
+     domínio repassa /brusa-forum/*, mas não /pdf/*. Prefixa os downloads. */
+  (function () {
+    var prefix = '/brusa-forum';
+    if (location.pathname.indexOf(prefix) !== 0) return;
+    document.querySelectorAll('a[href^="pdf/"]').forEach(function (a) {
+      a.setAttribute('href', prefix + '/' + a.getAttribute('href'));
+    });
+  })();
+</script>
 </body>
 </html>
