@@ -453,6 +453,8 @@
     width: 4px; height: 4px; border-radius: 50%;
     background: rgba(255,255,255,0.18); flex-shrink: 0; margin-bottom: -1px;
   }
+  .card-visit-item.is-confirmed { color: rgba(255,255,255,0.85); }
+  .card-visit-item.is-confirmed .card-visit-dot { background: #8900e1; }
 
   /* ===== SCROLL HINT (Forum card) ===== */
   .card-scroll-hint {
@@ -899,6 +901,13 @@
     left: 0;
     color: var(--violet);
     font-size: 0.6rem;
+  }
+  .map-venue-visits-item.is-confirmed { color: #000; font-weight: 500; }
+  .map-venue-visits-loc {
+    display: block;
+    font-weight: 400;
+    font-size: 0.66rem;
+    color: rgba(0,0,0,0.5);
   }
   /* Hotels panel card */
   .map-hotel-panel {
@@ -2296,8 +2305,8 @@
         <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos de destaque em NYC.</div>
         <hr class="card-section-divider">
         <div class="card-visit-list">
+          <div class="card-visit-item is-confirmed"><span class="card-visit-dot"></span><span>One Vanderbilt — Midtown</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Affordable housing development</span><span data-lang="pt">A definir — Empreendimento habitacional</span></div>
-          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Mixed-use / institutional asset</span><span data-lang="pt">A definir — Ativo de uso misto / institucional</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Public–private development site</span><span data-lang="pt">A definir — Projeto público–privado</span></div>
         </div>
       </div>
@@ -2575,8 +2584,8 @@
             <div class="map-venue-addr"><span data-lang="en">Around New York</span><span data-lang="pt">Pela cidade de Nova York</span></div>
           </div>
           <div class="map-venue-visits-list">
+            <div class="map-venue-visits-item is-confirmed">One Vanderbilt <span class="map-venue-visits-loc"><span data-lang="en">Midtown East, by Grand Central</span><span data-lang="pt">Midtown East, ao lado da Grand Central</span></span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Affordable housing development</span><span data-lang="pt">Desenvolvimento habitacional</span></div>
-            <div class="map-venue-visits-item"><span data-lang="en">Mixed-use / institutional asset</span><span data-lang="pt">Ativo misto / institucional</span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
           </div>
         </div>
