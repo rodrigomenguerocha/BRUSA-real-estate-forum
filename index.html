@@ -453,6 +453,8 @@
     width: 4px; height: 4px; border-radius: 50%;
     background: rgba(255,255,255,0.18); flex-shrink: 0; margin-bottom: -1px;
   }
+  .card-visit-item.is-confirmed { color: rgba(255,255,255,0.85); }
+  .card-visit-item.is-confirmed .card-visit-dot { background: #8900e1; }
 
   /* ===== SCROLL HINT (Forum card) ===== */
   .card-scroll-hint {
@@ -799,7 +801,7 @@
   /* ===== MAP SECTION ===== */
   .slide-map {
     position: relative;
-    height: 1300vh;
+    height: 1636vh; /* 100vh sticky + 1536vh scroll = TIMELINE_END (1.28) × 1200vh — see map phases */
     z-index: 0 !important;
     background: #e8e8e8;
   }
@@ -899,6 +901,13 @@
     left: 0;
     color: var(--violet);
     font-size: 0.6rem;
+  }
+  .map-venue-visits-item.is-confirmed { color: #000; font-weight: 500; }
+  .map-venue-visits-loc {
+    display: block;
+    font-weight: 400;
+    font-size: 0.66rem;
+    color: rgba(0,0,0,0.5);
   }
   /* Hotels panel card */
   .map-hotel-panel {
@@ -2296,8 +2305,8 @@
         <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos de destaque em NYC.</div>
         <hr class="card-section-divider">
         <div class="card-visit-list">
+          <div class="card-visit-item is-confirmed"><span class="card-visit-dot"></span><span>One Vanderbilt — Midtown</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Affordable housing development</span><span data-lang="pt">A definir — Empreendimento habitacional</span></div>
-          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Mixed-use / institutional asset</span><span data-lang="pt">A definir — Ativo de uso misto / institucional</span></div>
           <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Public–private development site</span><span data-lang="pt">A definir — Projeto público–privado</span></div>
         </div>
       </div>
@@ -2551,11 +2560,11 @@
       <div class="map-venue-cards" id="map-venue-cards">
         <!-- Day 2 (Nov 20): Forum -->
         <div class="map-venue-card" id="card-union">
-          <img class="map-venue-img" src="img/nyu_9wsn.jpg" alt="NYU School of Professional Studies" style="object-fit:cover;object-position:center;">
+          <img class="map-venue-img" src="img/nyu_9wsn.jpg" alt="NYU Abu Dhabi House" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
             <div class="map-venue-tag">BR/USA Real Estate Forum</div>
-            <div class="map-venue-name">NYU School of Professional Studies</div>
-            <div class="map-venue-addr">9 Washington Square North, New York</div>
+            <div class="map-venue-name">NYU Abu Dhabi House</div>
+            <div class="map-venue-addr">19 Washington Square North, New York</div>
           </div>
         </div>
         <!-- Day 1 (Nov 19): Capital Markets Conference -->
@@ -2575,8 +2584,8 @@
             <div class="map-venue-addr"><span data-lang="en">Around New York</span><span data-lang="pt">Pela cidade de Nova York</span></div>
           </div>
           <div class="map-venue-visits-list">
+            <div class="map-venue-visits-item is-confirmed">One Vanderbilt <span class="map-venue-visits-loc"><span data-lang="en">Midtown East, by Grand Central</span><span data-lang="pt">Midtown East, ao lado da Grand Central</span></span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Affordable housing development</span><span data-lang="pt">Desenvolvimento habitacional</span></div>
-            <div class="map-venue-visits-item"><span data-lang="en">Mixed-use / institutional asset</span><span data-lang="pt">Ativo misto / institucional</span></div>
             <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
           </div>
         </div>
@@ -3499,8 +3508,9 @@ function setLang(lang) {
 
   // === Venues ===
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
-  var WAGNER = [-73.9967, 40.7317];  // NYU School of Professional Studies, 9 Washington Square North
+  var WAGNER = [-73.9976, 40.7320];  // NYU Abu Dhabi House, 19 Washington Square North (Day 2 venue)
   var PIERRE = [-73.9723, 40.7650]; // The Pierre, 2 E 61st St (5th Ave)
+  var VANDERBILT = [-73.9786, 40.7530]; // One Vanderbilt, 42nd St & Vanderbilt Ave (Day 3 site visit)
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
 
   // === Camera keyframes — each is a scroll phase ===
@@ -3511,6 +3521,11 @@ function setLang(lang) {
 
   // POI zoom level — slightly closer than overview to see all dots
   var POI_ZOOM = 12.2;
+
+  // Phase times are in timeline units: 1 unit = 1200vh of scroll (the original 0→1 timeline),
+  // so adding a phase lengthens the section instead of squeezing the others.
+  // TIMELINE_END must match .slide-map height: 100vh + TIMELINE_END × 1200vh.
+  var TIMELINE_END = 1.28;
 
   var phases = [
     // 0-8%: Manhattan 2D overview — flat, north up, hold
@@ -3537,24 +3552,36 @@ function setLang(lang) {
     { t0: 0.50, t1: 0.58, from: { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 0 },
                            to:   { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
       marker: 'union', card: 'card-union' },
-    // 58-66%: zoom out from Union Square to POI overview
-    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
-                           to:   { center: MANHATTAN, zoom: POI_ZOOM,   pitch: 0,          bearing: 0 },
+    // 0.58-0.66: gentle zoom out from Union Square (route to One Vanderbilt draws here)
+    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 80 },
+                           to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
       marker: null, card: null },
-    // 66-74%: HOLD at POI overview — Site Visits (POI dots reveal here)
-    { t0: 0.66, t1: 0.74, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
+    // 0.66-0.78: Day 3 (Nov 21) — gentle zoom into One Vanderbilt
+    { t0: 0.66, t1: 0.78, from: { center: MANHATTAN,  zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
+                           to:   { center: VANDERBILT, zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 30 },
+      marker: 'vanderbilt', card: null },
+    // 0.78-0.86: slow orbit One Vanderbilt
+    { t0: 0.78, t1: 0.86, from: { center: VANDERBILT, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 30 },
+                           to:   { center: VANDERBILT, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 110 },
+      marker: 'vanderbilt', card: null },
+    // 0.86-0.94: zoom out to POI overview
+    { t0: 0.86, t1: 0.94, from: { center: VANDERBILT, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 110 },
+                           to:   { center: MANHATTAN,  zoom: POI_ZOOM,   pitch: 0,           bearing: 0 },
+      marker: null, card: null },
+    // 0.94-1.02: HOLD at POI overview — Site Visits (POI dots reveal here)
+    { t0: 0.94, t1: 1.02, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
       marker: null, card: null, poiPhase: true },
-    // 74-88%: still Day 3 — slow push in over the site-visit POIs
-    { t0: 0.74, t1: 0.88, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
+    // 1.02-1.16: still Day 3 — slow push in over the site-visit POIs
+    { t0: 1.02, t1: 1.16, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
                            to:   { center: MANHATTAN, zoom: POI_ZOOM + 0.5, pitch: 0, bearing: 0 },
       marker: null, card: null, poiPhase: true },
-    // 88-93%: travel to the Midtown hotel cluster
-    { t0: 0.88, t1: 0.93, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
+    // 1.16-1.21: travel to the Midtown hotel cluster
+    { t0: 1.16, t1: 1.21, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
                            to:   { center: MIDTOWN_HOTELS, zoom: 14.2,         pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true },
-    // 93-100%: hold at hotel cluster
-    { t0: 0.93, t1: 1.0,  from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
+    // 1.21-1.28: hold at hotel cluster
+    { t0: 1.21, t1: TIMELINE_END, from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
                            to:   { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true }
   ];
@@ -3593,25 +3620,60 @@ function setLang(lang) {
       if(layers[i].type === 'symbol') map.removeLayer(layers[i].id);
     }
 
-    // — 3D buildings — simple paint, no feature-state
+    // Landmark buildings painted in the site violet while the camera is on them.
+    // Each is matched by the OSM ids of its features in the Mapbox building tiles;
+    // if Mapbox ever renumbers them, the building just stays grey.
+    var BUILDING_COLOR = '#eeeef2';
+    var BUILDING_OPACITY = 0.55;
+    var LANDMARK_COLOR = '#57068C';  // --violet
+    var LANDMARKS = {
+      pierre:     ['all', ['>=', ['id'], 293164590],  ['<=', ['id'], 293164603]],   // The Pierre (14 parts)
+      nyu:        ['match', ['id'], [248166238, 248166274], true, false],           // NYU Abu Dhabi House (2 parts)
+      vanderbilt: ['all', ['>=', ['id'], 1470380430], ['<=', ['id'], 1470380453]]   // One Vanderbilt (24 parts)
+    };
+    var EXTRUDED = ['==', ['get', 'extrude'], 'true'];
+    var buildingPaint = {
+      'fill-extrusion-color': BUILDING_COLOR,
+      'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'height']],
+      'fill-extrusion-base': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'min_height']],
+      'fill-extrusion-opacity': BUILDING_OPACITY
+    };
+
+    // — 3D buildings — simple paint, no feature-state; landmarks get their own layers below
     map.addLayer({
       id: '3d-buildings',
       source: 'composite',
       'source-layer': 'building',
-      filter: ['==', 'extrude', 'true'],
+      filter: ['all', EXTRUDED, ['!', ['any', LANDMARKS.pierre, LANDMARKS.nyu, LANDMARKS.vanderbilt]]],
       type: 'fill-extrusion',
       minzoom: 14,
-      paint: {
-        'fill-extrusion-color': '#eeeef2',
-        'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'height']],
-        'fill-extrusion-base': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'min_height']],
-        'fill-extrusion-opacity': 0.55
-      }
+      paint: buildingPaint
+    });
+    // Separate layer per landmark: fill-extrusion-opacity is layer-wide, and the lit
+    // building has to be opaque for the violet to read as the site color
+    Object.keys(LANDMARKS).forEach(function(key){
+      map.addLayer({
+        id: '3d-landmark-' + key,
+        source: 'composite',
+        'source-layer': 'building',
+        filter: ['all', EXTRUDED, LANDMARKS[key]],
+        type: 'fill-extrusion',
+        minzoom: 14,
+        paint: buildingPaint
+      });
     });
 
-    // — Route path (The Pierre→NYU SPS, down Fifth Avenue) —
+    var landmarkLit = {};
+    function setLandmarkLit(key, on){
+      if(!!landmarkLit[key] === on) return;
+      landmarkLit[key] = on;
+      map.setPaintProperty('3d-landmark-' + key, 'fill-extrusion-color', on ? LANDMARK_COLOR : BUILDING_COLOR);
+      map.setPaintProperty('3d-landmark-' + key, 'fill-extrusion-opacity', on ? 1 : BUILDING_OPACITY);
+    }
+
+    // — Route path (The Pierre→NYU, down Fifth Avenue, then west on Washington Square North) —
     var ROUTE_1 = [
-      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9967,40.7317]
+      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9967,40.7317],[-73.99755,40.73177],[-73.9976,40.7320]
     ];
 
     map.addSource('route-1', {
@@ -3622,6 +3684,27 @@ function setLang(lang) {
       id: 'route-1-line',
       type: 'line',
       source: 'route-1',
+      paint: {
+        'line-color': '#8900e1',
+        'line-width': 2.5,
+        'line-opacity': 0.7,
+        'line-dasharray': [2, 2]
+      }
+    });
+
+    // — Route path (NYU SPS→One Vanderbilt: up Fifth Avenue on ROUTE_1's points, east on 42nd St, up Vanderbilt Ave) —
+    var ROUTE_2 = [
+      [-73.9976,40.7320],[-73.99755,40.73177],[-73.9967,40.7317],[-73.994500,40.734300],[-73.993800,40.735700],[-73.992000,40.738000],[-73.989700,40.741100],[-73.987600,40.745200],[-73.985700,40.748400],[-73.983400,40.750500],[-73.981200,40.753200],[-73.9790,40.7523],[-73.9786,40.7530]
+    ];
+
+    map.addSource('route-2', {
+      type: 'geojson',
+      data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] } }
+    });
+    map.addLayer({
+      id: 'route-2-line',
+      type: 'line',
+      source: 'route-2',
       paint: {
         'line-color': '#8900e1',
         'line-width': 2.5,
@@ -3729,10 +3812,15 @@ function setLang(lang) {
 
     var markers = {
       union:  { el: makeMarkerEl(), revealed: false },
-      pierre: { el: makeMarkerEl(), revealed: false }
+      pierre: { el: makeMarkerEl(), revealed: false },
+      vanderbilt: { el: makeMarkerEl(), revealed: false }
     };
     new mapboxgl.Marker({element: markers.union.el}).setLngLat(WAGNER).addTo(map);
     new mapboxgl.Marker({element: markers.pierre.el}).setLngLat(PIERRE).addTo(map);
+    // One Vanderbilt sits above the grey POI dots and opens the same popup (see POI_DATA loop)
+    markers.vanderbilt.el.style.zIndex = '2';
+    markers.vanderbilt.el.style.cursor = 'pointer';
+    new mapboxgl.Marker({element: markers.vanderbilt.el}).setLngLat(VANDERBILT).addTo(map);
 
     // Once revealed, a marker stays visible forever
     function revealMarker(key){
@@ -3813,11 +3901,18 @@ function setLang(lang) {
     var poiPopupClose = document.getElementById('poi-popup-close');
 
     POI_DATA.forEach(function(poi){
-      var el = document.createElement('div');
-      el.className = 'poi-dot';
-      el.title = poi.name;
-      var m = new mapboxgl.Marker({element: el}).setLngLat(poi.coords).addTo(map);
-      poiMarkers.push({ el: el, data: poi, marker: m });
+      var el;
+      if(poi.id === 'poi-5'){
+        // One Vanderbilt is a confirmed Day 3 visit: its venue pin replaces the grey dot
+        el = markers.vanderbilt.el;
+        el.title = poi.name;
+      } else {
+        el = document.createElement('div');
+        el.className = 'poi-dot';
+        el.title = poi.name;
+        var m = new mapboxgl.Marker({element: el}).setLngLat(poi.coords).addTo(map);
+        poiMarkers.push({ el: el, data: poi, marker: m });
+      }
 
       el.addEventListener('click', function(e){
         e.stopPropagation();
@@ -4072,7 +4167,7 @@ function setLang(lang) {
         var viewH = window.innerHeight;
         var scrolled = -rect.top;
         var totalScroll = sectionH - viewH;
-        var t = Math.max(0, Math.min(1, scrolled / totalScroll));
+        var t = Math.max(0, Math.min(1, scrolled / totalScroll)) * TIMELINE_END;
 
         // Find current phase
         var cam = null;
@@ -4100,9 +4195,10 @@ function setLang(lang) {
         if(currentMarker) revealMarker(currentMarker);
 
         // Cards: show only for active venue; Day 3 = site visits card; hotel phase = hotels card
-        var inHotelPhase      = t >= 0.88;
-        var inHotelCardsPhase = t >= 0.91;  // hotels card appears slightly later — gap for Day 3 fade-out
-        var isDay3            = (t >= 0.66 && t < 0.88);  // Day 3 = site visits; POI dots are up
+        var inHotelPhase      = t >= 1.16;
+        var inHotelCardsPhase = t >= 1.19;  // hotels card appears slightly later — gap for Day 3 fade-out
+        var isDay3            = (t >= 0.66 && t < 1.16);  // Day 3 = site visits (One Vanderbilt, then POIs)
+        var inPoiPhase        = (t >= 0.94 && t < 1.16);  // POI dots are up once back at the overview
 
         // Base venue cards: hide all, then selectively show
         ['card-union','card-pierre'].forEach(function(key){
@@ -4138,14 +4234,29 @@ function setLang(lang) {
           route1Drawn = false;
         }
 
+        // Route 2 (NYU SPS→One Vanderbilt): progressively draws during 0.58→0.66, fully visible after, hidden before
+        if(t >= 0.66){
+          drawRoute('route-2', ROUTE_2, 1);
+        } else if(t >= 0.58){
+          drawRoute('route-2', ROUTE_2, ease((t - 0.58) / (0.66 - 0.58)));
+        } else {
+          drawRoute('route-2', ROUTE_2, 0);
+        }
+
+        // Landmarks turn violet from their zoom-in until the end of their zoom-out
+        setLandmarkLit('pierre',     t >= 0.08 && t < 0.38);
+        setLandmarkLit('nyu',        t >= 0.38 && t < 0.66);
+        setLandmarkLit('vanderbilt', t >= 0.66 && t < 0.94);
+
         // Move camera
         map.jumpTo(cam);
 
-        // Show POI dots and neighborhood boundaries for the whole Day 3 window
-        updatePOIs(isDay3);
-        updateNeighborhoods(isDay3);
-        // Hide the route line when entering the explore or hotel phase
-        map.setPaintProperty('route-1-line', 'line-opacity', (t >= 0.66) ? 0 : 0.7);
+        // Show POI dots and neighborhood boundaries once Day 3 is back at the overview
+        updatePOIs(inPoiPhase);
+        updateNeighborhoods(inPoiPhase);
+        // Routes stay up through Day 3 (Pierre→NYU SPS→One Vanderbilt); hidden in the hotel phase
+        map.setPaintProperty('route-1-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
+        map.setPaintProperty('route-2-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
 
         // Show hotel markers during hotel phase
         updateHotels(inHotelPhase);
@@ -4155,11 +4266,11 @@ function setLang(lang) {
           var sbFillPct;
           if(t <= 0.30)      sbFillPct = (t / 0.30) * 25;
           else if(t <= 0.66) sbFillPct = 25 + ((t - 0.30) / 0.36) * 25;
-          else if(t <= 0.88) sbFillPct = 50 + ((t - 0.66) / 0.22) * 25;
-          else               sbFillPct = 75 + ((t - 0.88) / 0.12) * 25;
+          else if(t <= 1.16) sbFillPct = 50 + ((t - 0.66) / 0.50) * 25;
+          else               sbFillPct = 75 + ((t - 1.16) / 0.12) * 25;
           sbFill.style.height = Math.min(100, sbFillPct).toFixed(1) + '%';
         }
-        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : (t < 0.88) ? 2 : 3;
+        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : (t < 1.16) ? 2 : 3;
         sbLabels.forEach(function(l, i){
           if(!l) return;
           if(i === sbActiveIdx) l.classList.add('active');
@@ -4173,7 +4284,7 @@ function setLang(lang) {
         }
 
         // Close POI popup when scrolling outside the POI phase
-        if(!isDay3 && poiPopup.classList.contains('visible')){
+        if(!inPoiPhase && poiPopup.classList.contains('visible')){
           poiPopup.classList.remove('visible');
         }
 
