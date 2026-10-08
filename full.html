@@ -4689,5 +4689,17 @@ function setLang(lang) {
   }
 })();
 </script>
+<script>
+  /* Em responsivecities.com o site vive em /brusa-forum, sem barra no fim.
+     Ali um link relativo "pdf/..." resolve para /pdf/... (404), porque o
+     domínio repassa /brusa-forum/*, mas não /pdf/*. Prefixa os downloads. */
+  (function () {
+    var prefix = '/brusa-forum';
+    if (location.pathname.indexOf(prefix) !== 0) return;
+    document.querySelectorAll('a[href^="pdf/"]').forEach(function (a) {
+      a.setAttribute('href', prefix + '/' + a.getAttribute('href'));
+    });
+  })();
+</script>
 </body>
 </html>
