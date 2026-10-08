@@ -3620,6 +3620,18 @@ function setLang(lang) {
       if(layers[i].type === 'symbol') map.removeLayer(layers[i].id);
     }
 
+    // One Vanderbilt in the Mapbox building tiles: 24 building:part features with consecutive
+    // OSM ids (1470380430–1470380453). Painted purple while the camera is on it (Day 3).
+    var VANDERBILT_PARTS = ['all', ['>=', ['id'], 1470380430], ['<=', ['id'], 1470380453]];
+    var BUILDING_COLOR = '#eeeef2';
+    var vanderbiltLit = false;
+    function setVanderbiltLit(on){
+      if(on === vanderbiltLit) return;
+      vanderbiltLit = on;
+      map.setPaintProperty('3d-buildings', 'fill-extrusion-color',
+        on ? ['case', VANDERBILT_PARTS, '#8900e1', BUILDING_COLOR] : BUILDING_COLOR);
+    }
+
     // — 3D buildings — simple paint, no feature-state
     map.addLayer({
       id: '3d-buildings',
@@ -3629,7 +3641,7 @@ function setLang(lang) {
       type: 'fill-extrusion',
       minzoom: 14,
       paint: {
-        'fill-extrusion-color': '#eeeef2',
+        'fill-extrusion-color': BUILDING_COLOR,
         'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'height']],
         'fill-extrusion-base': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'min_height']],
         'fill-extrusion-opacity': 0.55
@@ -4207,6 +4219,9 @@ function setLang(lang) {
         } else {
           drawRoute('route-2', ROUTE_2, 0);
         }
+
+        // One Vanderbilt turns purple from the zoom-in until the zoom-out to the POI overview
+        setVanderbiltLit(t >= 0.66 && t < 0.94);
 
         // Move camera
         map.jumpTo(cam);
