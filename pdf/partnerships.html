@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BR/USA Real Estate Forum 2026 — Partnership Deck</title>
+<!-- Template do deck de patrocínio em PDF (16:9, inglês). Não abra direto:
+     rode `npm run pdf -- partnerships`, que injeta a fonte e os logos do
+     index.html e gera o PDF. O conteúdo acompanha o partnerships.html do site. -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* @fonts */
+
+  :root {
+    --violet: #57068C;
+    --deep: #330662;
+    --ultra: #8900e1;
+    --lilac: #B67CF0;
+    --black: #1A1A1A;
+    --white: #FFFFFF;
+    --lgray: #F0F0F0;
+    --line: #E2E2E2;
+    --tgray: #999999;
+    --dgray: #5E5E5E;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  @page { size: 13.333in 7.5in; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: 'NYU Perstare', Georgia, serif; color: var(--black); background: #777; -webkit-font-smoothing: antialiased; }
+
+  /* ===== SLIDE ===== */
+  .page {
+    position: relative; width: 13.333in; height: 7.5in;
+    padding: 15mm 20mm 18mm; overflow: hidden;
+    background: var(--white); break-after: page;
+    display: flex; flex-direction: column;
+  }
+  .page:last-child { break-after: auto; }
+  .page--light { background: var(--lgray); }
+  .page--dark { background: var(--deep); color: var(--white); }
+  .dots::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,0.10) 0.9px, transparent 1px);
+    background-size: 6mm 6mm;
+  }
+  .page > * { position: relative; }
+  .push { margin-top: auto; }
+
+  .folio {
+    position: absolute; left: 20mm; right: 20mm; bottom: 8mm;
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--tgray);
+  }
+  .page--dark .folio { color: rgba(255,255,255,0.4); }
+
+  /* ===== TYPE ===== */
+  .eyebrow { font-family: var(--mono); font-size: 7.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--violet); margin-bottom: 5mm; }
+  .page--dark .eyebrow { color: var(--lilac); }
+  h1 { font-size: 34pt; font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 6mm; }
+  .lead { font-size: 11pt; line-height: 1.55; color: var(--dgray); max-width: 175mm; }
+  .page--dark .lead { color: rgba(255,255,255,0.72); }
+  .source { font-family: var(--mono); font-size: 5.5pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14mm; align-items: end; }
+
+  .btn {
+    display: inline-block; align-self: flex-start; margin-top: auto;
+    padding: 2.2mm 3.5mm; text-decoration: none;
+    font-family: var(--mono); font-size: 6.4pt; letter-spacing: 0.14em; text-transform: uppercase;
+    background: var(--lilac); color: var(--deep);
+  }
+  .paid {
+    align-self: flex-start; padding: 0.7mm 1.8mm;
+    font-family: var(--mono); font-size: 5.8pt; letter-spacing: 0.14em; text-transform: uppercase;
+    border: 0.25mm solid currentColor; color: #F0C040;
+  }
+
+  /* ===== LETTER ===== */
+  .letter { display: grid; grid-template-columns: 128mm 1fr; column-gap: 18mm; }
+  .letter-left { display: flex; flex-direction: column; }
+  .letter h1 { font-size: 28pt; }
+  .letter-body p { font-size: 10.2pt; line-height: 1.62; color: #3a3a3a; margin-bottom: 3.4mm; }
+  .letter-body p:first-child::first-letter { float: left; font-size: 34pt; line-height: 0.82; font-weight: 600; color: var(--violet); margin: 1mm 2mm 0 0; }
+  .sign { display: flex; align-items: center; gap: 4mm; padding-top: 5mm; border-top: 0.3mm solid var(--black); }
+  .sign .av { width: 14mm; height: 14mm; }
+  .sign-name { font-size: 12pt; font-weight: 600; }
+  .sign-role { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tgray); margin-top: 1mm; line-height: 1.6; }
+
+  /* ===== CARDS ===== */
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5mm; }
+  .card { background: var(--white); border-left: 0.7mm solid var(--violet); padding: 6mm 5.5mm 5mm; display: flex; flex-direction: column; gap: 2mm; min-height: 62mm; }
+  .card-num { font-size: 26pt; font-weight: 600; color: var(--violet); line-height: 1; }
+  .card-label { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tgray); }
+  .card-desc { font-size: 9pt; line-height: 1.5; color: var(--dgray); flex: 1; }
+
+  /* ===== COVER ===== */
+  .cover { padding: 0; align-items: center; text-align: center; color: var(--white); background: var(--deep); }
+  .cover-bg { position: absolute !important; inset: 0; background: url('assets/cover-manhattan-wide.jpg') center / cover no-repeat; }
+  .cover-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(51,6,98,0.50) 0%, rgba(51,6,98,0.72) 70%, rgba(51,6,98,0.92) 100%),
+      linear-gradient(180deg, rgba(51,6,98,0.85) 0%, rgba(51,6,98,0.35) 30%, rgba(51,6,98,0.35) 65%, rgba(51,6,98,0.95) 100%);
+  }
+  .label { font-family: var(--mono); font-size: 5.8pt; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .coorg { display: flex; align-items: center; justify-content: center; gap: 7mm; margin-top: 3.5mm; }
+  .coorg svg { height: 9mm; width: auto; display: block; }
+  .coorg .rope { width: 0.25mm; height: 7mm; background: rgba(255,255,255,0.3); }
+  .cover-top { margin-top: 16mm; }
+  .cover-mid { margin: auto 0; }
+  .wm { font-size: 80pt; line-height: 1; letter-spacing: 0.01em; }
+  .wm .cc { font-weight: 700; }
+  .wm .s { font-weight: 200; opacity: 0.3; }
+  .wm-desc { font-size: 11pt; letter-spacing: 0.38em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 3mm; }
+  .wm-kind { font-family: var(--mono); font-size: 9pt; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lilac); margin-top: 8mm; }
+  .wm-meta { font-family: var(--mono); font-size: 10pt; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3.5mm; }
+  .cover-bottom { margin-bottom: 12mm; font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+  /* ===== OPPORTUNITY ===== */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; }
+  .stat-num { font-size: 44pt; font-weight: 600; line-height: 1; }
+  .stat-label { font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 2mm; }
+  .note { font-size: 9pt; line-height: 1.55; color: rgba(255,255,255,0.6); margin-top: 9mm; max-width: 200mm; }
+
+  /* ===== WEEK ===== */
+  .days { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+  .day { border: 0.3mm solid rgba(255,255,255,0.18); padding: 6mm; display: flex; flex-direction: column; gap: 2.2mm; min-height: 72mm; }
+  .day--main { background: rgba(255,255,255,0.08); border-color: var(--lilac); }
+  .day-kind { font-family: var(--mono); font-size: 5.8pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lilac); }
+  .day-date { font-family: var(--mono); font-size: 7pt; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .day-name { font-size: 14pt; font-weight: 600; line-height: 1.2; margin-top: 1mm; }
+  .day-desc { font-size: 8.8pt; line-height: 1.5; color: rgba(255,255,255,0.72); margin-bottom: 4mm; }
+
+  /* ===== PROGRAM ===== */
+  .prog-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4mm; }
+  .prog-head h1 { margin-bottom: 0; font-size: 26pt; }
+  .prog-where { text-align: right; font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tgray); line-height: 1.7; }
+  .sched { border-top: 0.3mm solid var(--black); }
+  .item { display: grid; grid-template-columns: 34mm 1fr 118mm; column-gap: 7mm; padding: 2.6mm 0; border-bottom: 0.25mm solid var(--line); align-items: start; }
+  .item-meta { display: flex; flex-direction: column; gap: 1.2mm; }
+  .tag { align-self: flex-start; font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.6mm 1.5mm; color: var(--violet); border: 0.25mm solid rgba(87,6,140,0.4); }
+  .tag--panel { background: var(--violet); color: var(--white); border-color: var(--violet); }
+  .tag--key { background: var(--ultra); color: var(--white); border-color: var(--ultra); }
+  .tag--muted { color: var(--tgray); border-color: var(--line); }
+  .time { font-family: var(--mono); font-size: 7pt; color: var(--dgray); letter-spacing: 0.04em; }
+  .item-title { font-size: 11pt; font-weight: 600; line-height: 1.2; }
+  .item-title .paid { color: var(--violet); display: inline-block; vertical-align: middle; margin-left: 2mm; }
+  .item-desc { font-size: 7.6pt; line-height: 1.45; color: var(--dgray); margin-top: 1.2mm; }
+  .item-sub { font-family: var(--mono); font-size: 6pt; color: var(--tgray); letter-spacing: 0.08em; margin-top: 0.8mm; text-transform: uppercase; }
+  .item--small { padding: 1.8mm 0; }
+  .item--small .item-title { font-size: 9.5pt; font-weight: 500; color: var(--dgray); }
+  .people { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm 4mm; }
+  .person { display: flex; align-items: center; gap: 2mm; min-width: 0; }
+  .av { width: 7.5mm; height: 7.5mm; border-radius: 50%; overflow: hidden; flex: none; background: var(--deep); }
+  .av img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1); }
+  .person-name { font-size: 7.6pt; font-weight: 600; line-height: 1.2; }
+  .person-role { font-family: var(--mono); font-size: 5pt; line-height: 1.4; letter-spacing: 0.06em; color: var(--tgray); text-transform: uppercase; }
+  .person--tbd .av { background: transparent; border: 0.3mm dashed rgba(87,6,140,0.45); }
+  .person--tbd .person-name { color: var(--tgray); font-weight: 500; }
+  .tba { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray); margin-top: 3mm; }
+
+  /* ===== TIERS ===== */
+  .tiers { display: grid; grid-template-columns: 62mm repeat(3, 1fr); margin-top: 3mm; }
+  .tiers > div { padding: 2.6mm 5mm; border-bottom: 0.25mm solid var(--line); font-size: 9.5pt; display: flex; align-items: center; }
+  .tiers .th { background: var(--deep); color: var(--white); font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.16em; text-transform: uppercase; padding: 3.5mm 5mm; border: 0; }
+  .tiers .th--founding { background: var(--violet); }
+  .tiers .th:first-child { background: var(--deep); }
+  .tiers .rl { font-family: var(--mono); font-size: 6.2pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tgray); background: var(--lgray); }
+  .tiers .f { background: rgba(87,6,140,0.05); color: var(--violet); font-weight: 600; }
+  .tiers .yes { color: var(--violet); font-weight: 700; font-size: 11pt; }
+  .tiers .no { color: #C8C8C8; }
+  .tiers small { font-family: var(--mono); font-size: 6pt; color: var(--tgray); margin-left: 1.5mm; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 400; }
+
+  /* ===== TIER DETAIL ===== */
+  .tier-head { display: flex; align-items: center; gap: 4mm; margin-bottom: 5mm; }
+  .slots { font-family: var(--mono); font-size: 6.2pt; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.8mm 2mm; border: 0.3mm solid currentColor; color: var(--violet); }
+  .page--dark .slots { color: var(--lilac); }
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm 8mm; }
+  .benefit { border-left: 0.6mm solid var(--violet); padding: 1mm 0 1mm 5mm; display: flex; flex-direction: column; gap: 1.5mm; }
+  .page--dark .benefit { border-color: var(--lilac); }
+  .b-num { font-size: 20pt; font-weight: 600; color: var(--violet); line-height: 1.05; }
+  .page--dark .b-num { color: var(--lilac); }
+  .b-label { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tgray); }
+  .page--dark .b-label { color: rgba(255,255,255,0.5); }
+  .b-desc { font-size: 9pt; line-height: 1.5; color: var(--dgray); }
+  .page--dark .b-desc { color: rgba(255,255,255,0.72); }
+
+  /* ===== TIER CARDS / BENEFIT LIST ===== */
+  .tiercards { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .tiercard { background: var(--white); padding: 7mm 8mm; display: flex; flex-direction: column; border-top: 0.8mm solid var(--violet); }
+  .tiercard--lead { background: var(--deep); color: var(--white); border-top-color: var(--lilac); }
+  .tc-kind { font-size: 16pt; font-weight: 600; }
+  .tc-slots { font-family: var(--mono); font-size: 6.4pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--violet); margin-top: 1.5mm; }
+  .tiercard--lead .tc-slots { color: var(--lilac); }
+  .tc-was { font-size: 15pt; font-weight: 500; color: var(--tgray); margin-top: 5mm; line-height: 1; }
+  .tc-was s { text-decoration-thickness: 0.4mm; }
+  .tc-was span { font-size: 9pt; }
+  .tiercard--lead .tc-was { color: rgba(255,255,255,0.5); }
+  .tc-price { font-size: 32pt; font-weight: 600; line-height: 1; margin-top: 2mm; color: var(--violet); }
+  .tiercard--lead .tc-price { color: var(--white); }
+  .tc-price span { font-size: 11pt; font-weight: 500; color: var(--tgray); }
+  .tc-regular { font-family: var(--mono); font-size: 6.2pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray); margin-top: 1.8mm; }
+  .tiercard--lead .tc-regular { color: rgba(255,255,255,0.55); }
+  .tc-list { list-style: none; margin-top: 5mm; border-top: 0.25mm solid var(--line); }
+  .tiercard--lead .tc-list { border-color: rgba(255,255,255,0.15); }
+  .tc-list li { font-size: 9.5pt; padding: 2.2mm 0; border-bottom: 0.25mm solid var(--line); color: var(--dgray); }
+  .tiercard--lead .tc-list li { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.12); }
+  .blist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm 9mm; }
+  .bl { display: grid; grid-template-columns: 8mm 1fr; gap: 2mm; padding-top: 3mm; border-top: 0.25mm solid var(--line); }
+  .page--dark .bl { border-color: rgba(255,255,255,0.15); }
+  .bl-num { font-family: var(--mono); font-size: 7pt; color: var(--violet); padding-top: 0.6mm; }
+  .page--dark .bl-num { color: var(--lilac); }
+  .bl-title { font-size: 10.5pt; font-weight: 600; }
+  .bl-desc { font-size: 8.6pt; line-height: 1.5; color: var(--dgray); margin-top: 1mm; }
+  .page--dark .bl-desc { color: rgba(255,255,255,0.72); }
+
+  /* ===== FORMAT ===== */
+  .points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9mm; }
+  .point-num { font-family: var(--mono); font-size: 8pt; color: var(--lilac); letter-spacing: 0.1em; }
+  .point-title { font-size: 13pt; font-weight: 600; margin: 2mm 0 2.5mm; }
+  .point-desc { font-size: 9pt; line-height: 1.55; color: rgba(255,255,255,0.72); }
+  .format-stats { display: flex; gap: 22mm; border-top: 0.3mm solid rgba(255,255,255,0.15); padding-top: 6mm; }
+
+  /* ===== CONTACT ===== */
+  .contact { display: grid; grid-template-columns: 1fr auto; gap: 12mm; align-items: end; }
+  .contact-card { border: 0.3mm solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.05); padding: 7mm 8mm; min-width: 110mm; }
+  .contact-name { font-size: 16pt; font-weight: 600; margin-top: 2mm; }
+  .contact-mail { font-family: var(--mono); font-size: 9pt; color: var(--lilac); margin-top: 2mm; text-decoration: none; display: block; }
+  .contact-org { font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 3mm; }
+
+  @media screen { .page { margin: 0 auto 8mm; box-shadow: 0 2mm 8mm rgba(0,0,0,0.25); } }
+</style>
+</head>
+<body>
+
+<!-- ============ 1. COVER ============ -->
+<section class="page cover dots">
+  <div class="cover-bg"></div>
+  <div class="cover-top">
+    <div class="label">Co-organized by</div>
+    <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
+  </div>
+  <div class="cover-mid">
+    <div class="wm"><span class="cc">BR</span><span class="s">/</span><span class="cc">USA</span></div>
+    <div class="wm-desc">Real Estate Forum</div>
+    <div class="wm-kind">Partnership Opportunities</div>
+    <div class="wm-meta">November 19–21, 2026 · New York City</div>
+  </div>
+  <div class="cover-bottom">Confidential</div>
+</section>
+
+<!-- ============ 2. LETTER ============ -->
+<section class="page letter">
+  <div class="letter-left">
+    <div class="eyebrow">A note from the co-organizer</div>
+    <h1>Two mature markets.<br>Two different languages.</h1>
+    <div class="sign push">
+      <div class="av"><img src="../img/speakers/rodrigo-rocha.jpg" alt=""></div>
+      <div>
+        <div class="sign-name">Rodrigo Rocha</div>
+        <div class="sign-role">Partner, OSPA · Responsive Cities Institute<br>Co-organizer, BR/USA Real Estate Forum</div>
+      </div>
+    </div>
+  </div>
+  <div class="letter-body" style="padding-top:11mm;">
+      <p>Brazil and the United States both have deep, sophisticated real estate markets. Brazilian developers build at scale and know how to deliver through high interest rates and volatile cycles. American real estate has spent decades turning buildings into an asset class that pension funds, endowments and sovereign wealth funds buy with confidence.</p>
+      <p>Both markets are advanced, and they work in very different ways. Contracts, reporting, capital structures, the role of the public sector, even the definition of a good deal: almost every layer follows its own rules. That distance has a cost. Brazilian projects that would hold up anywhere often fail to reach global institutional capital, and the reason is rarely the return. They are hard to read from the outside.</p>
+      <p>The BR/USA Real Estate Forum was created to shorten that distance. For one day in New York, people who build, finance and regulate real estate in both countries sit in the same room and compare notes openly, looking for what each side can improve.</p>
+      <p>Copying the American model is not the point. The useful question is which internal practices Brazil can update, in governance, transparency, risk presentation and capital structuring, so that global institutional investors can come in with the same ease they find in other markets.</p>
+      <p>I hope you will join us in New York.</p>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>02</span></div>
+</section>
+
+<!-- ============ 2. WHY ============ -->
+<section class="page page--light">
+  <div class="eyebrow">01 — Why this forum</div>
+  <h1>One of the world's largest real estate markets,<br>hard to read from abroad.</h1>
+  <p class="lead">Foreign money keeps arriving in Brazil. Very little of it reaches real estate, and global institutions own almost none of the market.</p>
+  <div class="cards push">
+    <div class="card">
+      <div class="card-num">~US$ 8.8 tri</div>
+      <div class="card-label">Brazilian real estate market value</div>
+      <div class="card-desc">One of the largest in the world. The scale is there, but global capital doesn't see it.</div>
+      <div class="source">Statista 2025</div>
+    </div>
+    <div class="card">
+      <div class="card-num">5º</div>
+      <div class="card-label">Largest FDI recipient globally</div>
+      <div class="card-desc">US$ 65.9 billion in 2024. The money flows in, and almost none of it goes to real estate.</div>
+      <div class="source">UNCTAD 2024</div>
+    </div>
+    <div class="card">
+      <div class="card-num">&lt;2%</div>
+      <div class="card-label">Share of global RE market</div>
+      <div class="card-desc">Out of proportion with the 8th largest economy in the world.</div>
+      <div class="source">JLL, MSCI 2024</div>
+    </div>
+    <div class="card">
+      <div class="card-num">3M+</div>
+      <div class="card-label">Brazilian REIT investors</div>
+      <div class="card-desc">72.9% held by retail investors. Foreign institutional presence is marginal.</div>
+      <div class="source">B3 · 2026</div>
+    </div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>03</span></div>
+</section>
+
+<!-- ============ 3. OPPORTUNITY ============ -->
+<section class="page page--dark dots">
+  <div class="eyebrow">02 — The opportunity</div>
+  <h1>Bridging Brazil to the world's<br>most mature real estate market.</h1>
+  <p class="lead">80 hand-picked leaders of Brazilian real estate (CEOs, CIOs, developers and fund managers) come to New York to learn from, and trade notes with, the professionals who set the global standard in governance, capital structuring and institutional transparency. Co-organized by Responsive Cities Institute (OSPA) and NYU Schack Institute of Real Estate.</p>
+  <div class="push">
+    <div class="stats">
+      <div><div class="stat-num">80</div><div class="stat-label">Senior leaders</div></div>
+      <div><div class="stat-num">5</div><div class="stat-label">Panels</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">Presentations</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">Markets</div></div>
+    </div>
+    <p class="note">This is the inaugural edition. The plan is to reach 150+ attendees in 2027 and make the forum the annual reference point for cross-border real estate between Brazil and the United States.</p>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>04</span></div>
+</section>
+
+<!-- ============ 4. NEW YORK WEEK ============ -->
+<section class="page page--dark dots">
+  <div class="eyebrow">03 — New York week</div>
+  <div class="two-col" style="align-items:start;">
+    <h1>Three days.<br>One ecosystem.</h1>
+    <p class="lead" style="padding-top:2mm;">The forum anchors a concentrated week of real estate programming in New York. Partners gain visibility across the whole program, beyond a single event.</p>
+  </div>
+  <div class="days push">
+    <div class="day">
+      <div class="day-kind">Separate event</div>
+      <div class="day-date">Thu · Nov 19</div>
+      <div class="day-name">NYU Capital Markets Conference</div>
+      <div class="paid">Paid ticket · Not included</div>
+      <div class="day-desc">NYU Schack's 59th Annual Conference on Capital Markets in Real Estate, a full day at The Pierre. Registration and ticket are separate from the forum. Forum attendees receive a discount.</div>
+      <a class="btn" href="https://www.sps.nyu.edu/about/events/schack-institute-of-real-estate-division-events/capital-markets-real-estate.html">Get tickets →</a>
+    </div>
+    <div class="day day--main">
+      <div class="day-kind">Main event</div>
+      <div class="day-date">Fri · Nov 20</div>
+      <div class="day-name">BR/USA Real Estate Forum</div>
+      <div class="day-desc">Full-day program at NYU School of Professional Studies, 9 Washington Square North. Five panels, two presentations and a keynote. Invite-only, 80 seats.</div>
+      <a class="btn" href="https://luma.com/event/evt-cZKc1exaulCHny5">Request invitation →</a>
+    </div>
+    <div class="day">
+      <div class="day-kind">Site visits</div>
+      <div class="day-date">Sat · Nov 21</div>
+      <div class="day-name">Around New York</div>
+      <div class="day-desc">Curated visits to NYC developments: an affordable housing project, a mixed-use or institutional asset and a public–private development site. Sites to be announced.</div>
+    </div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>05</span></div>
+</section>
+
+<!-- ============ 5. PROGRAM — MORNING ============ -->
+<section class="page">
+  <div class="prog-head">
+    <div>
+      <div class="eyebrow" style="margin-bottom:3mm;">Program · Friday, November 20 · Morning</div>
+      <h1>The forum day</h1>
+    </div>
+    <div class="prog-where">NYU School of Professional Studies<br>9 Washington Square North</div>
+  </div>
+  <div class="sched">
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag tag--muted">Registration</span><span class="time">8:30 – 9:00</span></div>
+      <div><div class="item-title">Registration &amp; Coffee</div></div><div></div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag">Opening</span><span class="time">9:00 – 9:15</span></div>
+      <div><div class="item-title">Opening Remarks</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/marc-norman.jpg" alt=""></div><div><div class="person-name">Marc Norman</div><div class="person-role">NYU Schack · Dean</div></div></div>
+        <div class="person"><div class="av"><img src="../img/speakers/rodrigo-rocha.jpg" alt=""></div><div><div class="person-name">Rodrigo Rocha</div><div class="person-role">OSPA · Partner</div></div></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag tag--key">Keynote</span><span class="time">9:15 – 9:30</span></div>
+      <div><div class="item-title">The Urban Condition</div><div class="item-desc">Land rules set the cost and the risk of building long before anything is drawn. Fifteen minutes on how regulation and land prices decide what a city can become.</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/alain-bertaud.jpg" alt=""></div><div><div class="person-name">Alain Bertaud</div><div class="person-role">Mercatus Center · Keynote</div></div></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag tag--panel">Panel 1</span><span class="time">9:30 – 10:20</span></div>
+      <div><div class="item-title">Reading a Market: Country, Land, Deal</div><div class="item-desc">Global capital reads a deal in three layers: the country, the land under it, and the contract itself. Brazil answers the first and goes quiet on the other two. What would an investor need to see on the page?</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/shawn-amsler.jpg" alt=""></div><div><div class="person-name">Shawn Amsler</div><div class="person-role">Amsler Advisors · Moderator</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+      </div>
+    </div>
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag tag--muted">Break</span><span class="time">10:20 – 10:40</span></div>
+      <div><div class="item-title">Coffee Break</div></div><div></div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag tag--panel">Panel 2</span><span class="time">10:40 – 11:30</span></div>
+      <div><div class="item-title">Capital Stack: US vs. Brazil</div><div class="item-desc">The capital stacks behind a US deal and a Brazilian one still look very different in cost, in tenor, and in who sits at each layer. A direct comparison of how both are built today, and what is starting to shift as global allocators look south.</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/rodrigo-machado.jpg" alt=""></div><div><div class="person-name">Rodrigo Machado</div><div class="person-role">Galapagos Capital · Partner</div></div></div>
+        <div class="person"><div class="av"><img src="../img/speakers/brenner-cavalcante.jpg" alt=""></div><div><div class="person-name">Brenner Cavalcante</div><div class="person-role">BB Americas · Chief Lending Officer</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag">Presentation</span><span class="time">11:30 – 12:00</span></div>
+      <div><div class="item-title">One Vanderbilt: The Tower and the Terminal</div><div class="item-desc">KPF walks through One Vanderbilt, the tower next to Grand Central: how it was developed, the air rights that made it possible and the MTA partnership that traded extra floor area for transit improvements.</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/georgina-lalli.jpg" alt=""></div><div><div class="person-name">Georgina Lalli</div><div class="person-role">KPF · Managing Director</div></div></div>
+      </div>
+    </div>
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag">Presentation</span><span class="time">12:00 – 12:30</span></div>
+      <div><div class="item-title">Case Study: To Be Announced</div></div><div></div>
+    </div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>06</span></div>
+</section>
+
+<!-- ============ 6. PROGRAM — AFTERNOON ============ -->
+<section class="page">
+  <div class="prog-head">
+    <div>
+      <div class="eyebrow" style="margin-bottom:3mm;">Program · Friday, November 20 · Afternoon</div>
+      <h1>The forum day</h1>
+    </div>
+    <div class="prog-where">NYU School of Professional Studies<br>9 Washington Square North</div>
+  </div>
+  <div class="sched">
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag tag--muted">Break</span><span class="time">12:30 – 14:00</span></div>
+      <div><div class="item-title">Lunch</div><div class="item-sub">Plated lunch · NYU Schack</div></div><div></div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag tag--panel">Panel 3</span><span class="time">14:00 – 14:50</span></div>
+      <div><div class="item-title">Public/Private Development</div><div class="item-desc">Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/matthew-kwatinetz.jpg" alt=""></div><div><div class="person-name">Matthew Kwatinetz</div><div class="person-role">NYU Schack · Moderator</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag tag--panel">Panel 4</span><span class="time">14:50 – 15:40</span></div>
+      <div><div class="item-title">Subsidy and Capital: Affordable Housing</div><div class="item-desc">In the US, building the unit and paying the rent are separate businesses. Tax credit equity puts the building up, a voucher carries the rent, and a regulatory agreement holds the price for decades. What has to exist for private capital to buy affordable housing as an asset rather than an obligation?</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/marc-norman.jpg" alt=""></div><div><div class="person-name">Marc Norman</div><div class="person-role">NYU Schack · Dean</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+      </div>
+    </div>
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag tag--muted">Break</span><span class="time">15:40 – 15:55</span></div>
+      <div><div class="item-title">Coffee Break</div></div><div></div>
+    </div>
+    <div class="item">
+      <div class="item-meta"><span class="tag tag--panel">Panel 5</span><span class="time">15:55 – 16:45</span></div>
+      <div><div class="item-title">From Selling Units to Owning Income</div><div class="item-desc">Brazil builds to sell. The income model asks the same developer to keep the building, operate it and report on it for decades. That is a different company, not a different product. What the shift costs in capital, in operations and in reporting.</div></div>
+      <div class="people">
+        <div class="person"><div class="av"><img src="../img/speakers/anthony-russo.jpg" alt=""></div><div><div class="person-name">Anthony Russo</div><div class="person-role">CSFG · Managing Principal</div></div></div>
+        <div class="person"><div class="av"><img src="../img/speakers/douglas-strabelli.jpg" alt=""></div><div><div class="person-name">Douglas Strabelli</div><div class="person-role">Sagewood Corporation · Founder &amp; CEO</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+        <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+      </div>
+    </div>
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag">Closing</span><span class="time">16:45 – 17:00</span></div>
+      <div><div class="item-title">Closing Remarks</div></div><div></div>
+    </div>
+    <div class="item item--small">
+      <div class="item-meta"><span class="tag tag--muted">Cocktail</span><span class="time">17:00</span></div>
+      <div><div class="item-title">Cocktail <span class="paid">Not included</span></div><div class="item-sub">Not part of the forum program</div></div><div></div>
+    </div>
+  </div>
+  <p class="tba">Panelists are being confirmed. The program may change.</p>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>07</span></div>
+</section>
+
+<!-- ============ 7. TIERS ============ -->
+<section class="page page--light">
+  <div class="eyebrow">04 — Partnership</div>
+  <h1>Position your firm at the center of the conversation.</h1>
+  <p class="lead">The forum is signed by its co-organizers, Responsive Cities Institute and NYU Schack Institute of Real Estate. Partners support it in two tiers, with first-edition pricing.</p>
+  <div class="tiercards push">
+    <div class="tiercard tiercard--lead">
+      <div class="tc-kind">Lead Partner</div>
+      <div class="tc-slots">1 slot · Category exclusive</div>
+      <div class="tc-was"><s>$25,000</s></div>
+      <div class="tc-price">$20,000</div>
+      <div class="tc-regular">First-edition price</div>
+      <ul class="tc-list">
+        <li>Speaking slot and input on panel curation</li>
+        <li>10 tickets to the forum</li>
+        <li>Lunch hosted by the Lead Partner</li>
+        <li>Top logo placement and promotion</li>
+      </ul>
+    </div>
+    <div class="tiercard">
+      <div class="tc-kind">Supporting Partners</div>
+      <div class="tc-slots">4 slots · plus 1 media partner (in-kind)</div>
+      <div class="tc-was"><s>$10,000</s> <span>each</span></div>
+      <div class="tc-price">$7,000 <span>each</span></div>
+      <div class="tc-regular">First-edition price</div>
+      <ul class="tc-list">
+        <li>A seat on a thematic panel</li>
+        <li>3 tickets to the forum</li>
+        <li>Logo on the site and panels</li>
+        <li>Recognition in the opening remarks</li>
+      </ul>
+    </div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>08</span></div>
+</section>
+
+<!-- ============ 8. LEAD PARTNER ============ -->
+<section class="page page--dark dots">
+  <div class="tier-head"><div class="eyebrow" style="margin:0;">05 — Lead Partner · $20,000</div><span class="slots">1 slot · Category exclusive</span></div>
+  <div class="two-col" style="align-items:start;">
+    <h1>One slot.<br>The highest position.</h1>
+    <p class="lead" style="padding-top:2mm;">A single Lead Partner per edition, with category exclusivity and the top position on every surface. First-edition price of $20,000; the regular price is $25,000.</p>
+  </div>
+  <div class="blist push">
+      <div class="bl"><div class="bl-num">01</div><div><div class="bl-title">Speaking slot</div><div class="bl-desc">A speaking slot and input on the curation of the panel you join: direction, not editorial control.</div></div></div>
+      <div class="bl"><div class="bl-num">02</div><div><div class="bl-title">10 tickets</div><div class="bl-desc">The full delegation across the forum program.</div></div></div>
+      <div class="bl"><div class="bl-num">03</div><div><div class="bl-title">Category exclusivity</div><div class="bl-desc">The only financial institution at Lead tier in this edition.</div></div></div>
+      <div class="bl"><div class="bl-num">04</div><div><div class="bl-title">Hosted lunch</div><div class="bl-desc">The forum lunch, branded as "Lunch hosted by [Partner]".</div></div></div>
+      <div class="bl"><div class="bl-num">05</div><div><div class="bl-title">Networking tables</div><div class="bl-desc">Curated networking tables at lunch. Guest nominations are welcome, subject to forum curation.</div></div></div>
+      <div class="bl"><div class="bl-num">06</div><div><div class="bl-title">Top logo placement</div><div class="bl-desc">The highest logo position on the site and on the panels.</div></div></div>
+      <div class="bl"><div class="bl-num">07</div><div><div class="bl-title">Promotion</div><div class="bl-desc">Named in the forum's promotional communications, including with media partners.</div></div></div>
+      <div class="bl"><div class="bl-num">08</div><div><div class="bl-title">Imagery and video</div><div class="bl-desc">Professional photography and recording for your own communications.</div></div></div>
+      <div class="bl"><div class="bl-num">09</div><div><div class="bl-title">Early access and report</div><div class="bl-desc">Early access to the participant list and a co-branded post-event report.</div></div></div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>09</span></div>
+</section>
+
+<!-- ============ 9. SUPPORTING PARTNERS ============ -->
+<section class="page">
+  <div class="tier-head"><div class="eyebrow" style="margin:0;">06 — Supporting Partners · $7,000 each</div><span class="slots">4 slots + 1 media partner</span></div>
+  <div class="two-col" style="align-items:start;">
+    <h1>In the room<br>where it happens.</h1>
+    <p class="lead" style="padding-top:2mm;">Four Supporting Partners, all with the same treatment. A media partner joins on an in-kind basis and shares the same visual band, with a discreet sublabel. First-edition price of $7,000 each; the regular price is $10,000.</p>
+  </div>
+  <div class="blist push">
+      <div class="bl"><div class="bl-num">01</div><div><div class="bl-title">Panel seat</div><div class="bl-desc">A seat on a thematic panel, allocated by fit. No input on panel composition.</div></div></div>
+      <div class="bl"><div class="bl-num">02</div><div><div class="bl-title">3 tickets</div><div class="bl-desc">Three tickets to the forum program.</div></div></div>
+      <div class="bl"><div class="bl-num">03</div><div><div class="bl-title">Logo placement</div><div class="bl-desc">Logo on the site and on the panels.</div></div></div>
+      <div class="bl"><div class="bl-num">04</div><div><div class="bl-title">Opening remarks</div><div class="bl-desc">Recognition in the opening remarks.</div></div></div>
+      <div class="bl"><div class="bl-num">05</div><div><div class="bl-title">Participant list</div><div class="bl-desc">Access to the participant list.</div></div></div>
+      <div class="bl"><div class="bl-num">06</div><div><div class="bl-title">Event photography</div><div class="bl-desc">Professional event photography for your own communications.</div></div></div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>10</span></div>
+</section>
+
+<!-- ============ 10. WHY PARTNER ============ -->
+<section class="page page--dark dots">
+  <div class="eyebrow">Why partner</div>
+  <h1>Four reasons to partner<br>with the inaugural edition.</h1>
+  <div class="points push" style="grid-template-columns: repeat(4, 1fr); gap: 8mm;">
+    <div><div class="point-num">01</div><div class="point-title">Institutional association</div><div class="point-desc">Your name next to NYU Schack and Responsive Cities Institute: the credibility of two institutions, not of a conference brand.</div></div>
+    <div><div class="point-num">02</div><div class="point-title">Curated access</div><div class="point-desc">Direct access to 80 senior decision-makers from the US and Brazil, in a room sized for relationships.</div></div>
+    <div><div class="point-num">03</div><div class="point-title">The founder's seal</div><div class="point-desc">A place as an institutional bridge between Brazil and the US at the forum's first edition. Later editions cannot offer that position.</div></div>
+    <div><div class="point-num">04</div><div class="point-title">Thought leadership</div><div class="point-desc">Authorship and presence in the co-branded post-event report, which circulates in both markets.</div></div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck</span><span>11</span></div>
+</section>
+
+<!-- ============ 12. NEXT STEPS ============ -->
+<section class="page page--dark dots">
+  <div class="eyebrow">07 — Next steps</div>
+  <h1>Let's build<br>this together.</h1>
+  <p class="lead">Partnership positions are limited and allocated in order of confirmation. Happy to talk through which tier fits your firm's goals.</p>
+  <div class="contact push">
+    <div>
+      <div class="label" style="text-align:left;">Co-organized by</div>
+      <div class="coorg" style="justify-content:flex-start;"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
+    </div>
+    <div class="contact-card">
+      <div class="label" style="text-align:left;">Contact</div>
+      <div class="contact-name">Rodrigo Rocha</div>
+      <a class="contact-mail" href="mailto:rodrigo.rocha@ospa.com.br">rodrigo.rocha@ospa.com.br</a>
+      <div class="contact-org">OSPA capital · Responsive Cities Institute</div>
+    </div>
+  </div>
+  <div class="folio"><span>BR/USA Real Estate Forum · Partnership Deck · October 2026</span><span>Confidential</span></div>
+</section>
+
+<script>
+  (async function () {
+    await document.fonts.ready;
+    var imgs = Array.from(document.images).map(function (img) {
+      return img.complete ? Promise.resolve() : new Promise(function (r) { img.onload = img.onerror = r; });
+    });
+    var bgs = ['assets/cover-manhattan-wide.jpg'].map(function (src) {
+      return new Promise(function (r) { var i = new Image(); i.onload = i.onerror = r; i.src = src; });
+    });
+    await Promise.all(imgs.concat(bgs));
+    window.__pdfReady = true;
+  })();
+</script>
+</body>
+</html>
