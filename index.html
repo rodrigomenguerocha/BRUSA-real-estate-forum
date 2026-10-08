@@ -3620,33 +3620,55 @@ function setLang(lang) {
       if(layers[i].type === 'symbol') map.removeLayer(layers[i].id);
     }
 
-    // One Vanderbilt in the Mapbox building tiles: 24 building:part features with consecutive
-    // OSM ids (1470380430–1470380453). Painted purple while the camera is on it (Day 3).
-    var VANDERBILT_PARTS = ['all', ['>=', ['id'], 1470380430], ['<=', ['id'], 1470380453]];
+    // Landmark buildings painted in the site violet while the camera is on them.
+    // Each is a run of building:part features with consecutive OSM ids in the Mapbox tiles;
+    // if Mapbox ever renumbers them, the building just stays grey.
     var BUILDING_COLOR = '#eeeef2';
-    var vanderbiltLit = false;
-    function setVanderbiltLit(on){
-      if(on === vanderbiltLit) return;
-      vanderbiltLit = on;
-      map.setPaintProperty('3d-buildings', 'fill-extrusion-color',
-        on ? ['case', VANDERBILT_PARTS, '#8900e1', BUILDING_COLOR] : BUILDING_COLOR);
-    }
+    var BUILDING_OPACITY = 0.55;
+    var LANDMARK_COLOR = '#57068C';  // --violet
+    var LANDMARKS = {
+      pierre:     ['all', ['>=', ['id'], 293164590],  ['<=', ['id'], 293164603]],   // The Pierre (14 parts)
+      vanderbilt: ['all', ['>=', ['id'], 1470380430], ['<=', ['id'], 1470380453]]   // One Vanderbilt (24 parts)
+    };
+    var EXTRUDED = ['==', ['get', 'extrude'], 'true'];
+    var buildingPaint = {
+      'fill-extrusion-color': BUILDING_COLOR,
+      'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'height']],
+      'fill-extrusion-base': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'min_height']],
+      'fill-extrusion-opacity': BUILDING_OPACITY
+    };
 
-    // — 3D buildings — simple paint, no feature-state
+    // — 3D buildings — simple paint, no feature-state; landmarks get their own layers below
     map.addLayer({
       id: '3d-buildings',
       source: 'composite',
       'source-layer': 'building',
-      filter: ['==', 'extrude', 'true'],
+      filter: ['all', EXTRUDED, ['!', ['any', LANDMARKS.pierre, LANDMARKS.vanderbilt]]],
       type: 'fill-extrusion',
       minzoom: 14,
-      paint: {
-        'fill-extrusion-color': BUILDING_COLOR,
-        'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'height']],
-        'fill-extrusion-base': ['interpolate', ['linear'], ['zoom'], 14, 0, 15.05, ['get', 'min_height']],
-        'fill-extrusion-opacity': 0.55
-      }
+      paint: buildingPaint
     });
+    // Separate layer per landmark: fill-extrusion-opacity is layer-wide, and the lit
+    // building has to be opaque for the violet to read as the site color
+    Object.keys(LANDMARKS).forEach(function(key){
+      map.addLayer({
+        id: '3d-landmark-' + key,
+        source: 'composite',
+        'source-layer': 'building',
+        filter: ['all', EXTRUDED, LANDMARKS[key]],
+        type: 'fill-extrusion',
+        minzoom: 14,
+        paint: buildingPaint
+      });
+    });
+
+    var landmarkLit = {};
+    function setLandmarkLit(key, on){
+      if(!!landmarkLit[key] === on) return;
+      landmarkLit[key] = on;
+      map.setPaintProperty('3d-landmark-' + key, 'fill-extrusion-color', on ? LANDMARK_COLOR : BUILDING_COLOR);
+      map.setPaintProperty('3d-landmark-' + key, 'fill-extrusion-opacity', on ? 1 : BUILDING_OPACITY);
+    }
 
     // — Route path (The Pierre→NYU SPS, down Fifth Avenue) —
     var ROUTE_1 = [
@@ -4220,8 +4242,9 @@ function setLang(lang) {
           drawRoute('route-2', ROUTE_2, 0);
         }
 
-        // One Vanderbilt turns purple from the zoom-in until the zoom-out to the POI overview
-        setVanderbiltLit(t >= 0.66 && t < 0.94);
+        // Landmarks turn violet from their zoom-in until the end of their zoom-out
+        setLandmarkLit('pierre',     t >= 0.08 && t < 0.38);
+        setLandmarkLit('vanderbilt', t >= 0.66 && t < 0.94);
 
         // Move camera
         map.jumpTo(cam);
