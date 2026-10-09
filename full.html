@@ -1405,6 +1405,7 @@
     .cover-supporter-logo--ospa { height: 27px; }
     .cover-supporter-logo--bb { height: 26px; }
     .cover-supporter-logo--piquet { height: 24px; }
+    .cover-supporter-logo--cix { height: 28px; }
     .cover-supporter-logo--lareal { height: 16px; }
 
     /* Typography */
@@ -1589,6 +1590,9 @@
   /* Piquet stacks a heavy wordmark over a tracked "LAW FIRM" line; kept shorter so
      the bold caps sit level with the BB wordmark instead of towering over it. */
   .cover-supporter-logo--piquet { height: 32px; }
+  /* CIX Capital stacks a thin, wide "CIX" over a small "CAPITAL"; the strokes are
+     light, so it needs more box height than the bold wordmarks to read at the same weight. */
+  .cover-supporter-logo--cix { height: 36px; }
   /* LAREAL is a wide single-line wordmark with a tall icon; held low so the
      lettering reads at the same weight as the Chamber lockup beside it. */
   .cover-supporter-logo--lareal { height: 22px; }
@@ -1651,8 +1655,18 @@
     .cover-supporter-logo--ospa { height: 29px; }
     .cover-supporter-logo--bb { height: 28px; }
     .cover-supporter-logo--piquet { height: 26px; }
+    .cover-supporter-logo--cix { height: 32px; }
     .cover-supporter-logo--lareal { height: 19px; }
     .cover-supporters-groups { gap: 1.3rem; }
+  }
+  /* Four supporting partners have to share one row at phone width; wrapped, the
+     fourth logo drops below the cover's fold. Tighter gap, slightly smaller marks. */
+  @media (max-width: 480px) {
+    .cover-supporters .partner-logos { gap: 1rem; }
+    .cover-supporter-logo--ospa { height: 25px; }
+    .cover-supporter-logo--bb { height: 24px; }
+    .cover-supporter-logo--piquet { height: 23px; }
+    .cover-supporter-logo--cix { height: 28px; }
   }
 
 
@@ -2107,6 +2121,9 @@
           </a>
           <a href="https://www.piquetlawfirm.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Piquet Law Firm">
             <img class="cover-supporter-logo cover-supporter-logo--piquet" src="img/logos/piquet-law.png" alt="Piquet Law Firm" width="768" height="301" decoding="async">
+          </a>
+          <a href="https://cix.capital" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="CIX Capital">
+            <img class="cover-supporter-logo cover-supporter-logo--cix" src="img/logos/cix-capital.png" alt="CIX Capital" width="254" height="142" decoding="async">
           </a>
         </div>
       </div>
@@ -2830,6 +2847,9 @@
             </a>
             <a href="https://www.piquetlawfirm.com" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="Piquet Law Firm">
               <img class="cover-supporter-logo cover-supporter-logo--piquet" src="img/logos/piquet-law.png" alt="Piquet Law Firm" width="768" height="301" loading="lazy" decoding="async">
+            </a>
+            <a href="https://cix.capital" target="_blank" rel="noopener noreferrer" class="cover-supporter" aria-label="CIX Capital">
+              <img class="cover-supporter-logo cover-supporter-logo--cix" src="img/logos/cix-capital.png" alt="CIX Capital" width="254" height="142" loading="lazy" decoding="async">
             </a>
           </div>
         </div>
