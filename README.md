@@ -67,3 +67,14 @@ dimensões, atualize `og:image:width` e `og:image:height`. O WhatsApp guarda a
 prévia em cache, então um link já enviado pode continuar mostrando a versão antiga.
 Ao trocar a imagem, suba o `?v=` no fim da URL nas três tags para forçar os
 apps a buscar a versão nova.
+
+**Artes de divulgação.** `npm run share` gera, a partir da capa do `index.html`,
+a prévia do link (`img/og-share-1200x630.jpg`), a capa do evento no Luma
+(`artes/luma-1080x1080.jpg` e `artes/luma-2160x2160.png`) e o backdrop do telão
+(`artes/backdrop-3840x2160.png`, 16:9). `npm run share -- luma` gera só uma
+(`og`, `luma` ou `backdrop`). Usa o Chrome da máquina, como o `npm run pdf`.
+Parceiro novo na capa entra nas artes ao rodar de novo; o tamanho de cada logo
+em cada formato fica em `scripts/build-share.mjs`, e um logo novo precisa de
+uma linha lá. O fundo de Manhattan vem de `pdf/assets/`. Depois de gerar,
+suba o `?v=` das tags da prévia e faça o upload da arte do Luma na página do
+evento, que é manual.
