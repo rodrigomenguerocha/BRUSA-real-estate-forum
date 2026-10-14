@@ -50,7 +50,10 @@ const FORMATS = {
   og: {
     viewport: { width: 1200, height: 630 },
     bg: 'pdf/assets/cover-manhattan-wide.jpg',
-    outputs: [{ file: 'img/og-share-1200x630.jpg', scale: 1, format: 'jpeg', quality: 88, maxKB: 300 }],
+    outputs: [
+      { file: 'img/og-share-1200x630.jpg', scale: 1, format: 'jpeg', quality: 88, maxKB: 300 },
+      { file: 'artes/og-2400x1260.png', scale: 2, format: 'png' },
+    ],
     css: `
       .cover-label { font-size: 10px !important; letter-spacing: .2em !important; }
       .partner-group { gap: 12px !important; }

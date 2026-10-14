@@ -48,10 +48,11 @@ Sem foto, o card cai nas iniciais. Fotos vão em `img/speakers/`, logos em
 `<span data-lang="en">` e `<span data-lang="pt">`. O botão EN/PT mostra um e
 esconde o outro. Texto novo sem o par fica visível nos dois idiomas.
 
-**PDFs (brochure e deck de patrocínio).** Os templates ficam em `pdf/`, em inglês:
-`brochure.html` (A4 retrato) e `partnerships.html` (16:9). `npm run pdf` gera os
-dois com o Chrome instalado na máquina; `npm run pdf -- brochure` ou
-`npm run pdf -- partnerships` gera só um. Com `--preview`, também salva um PNG
+**PDFs (brochure, deck de patrocínio e one-pager).** Os templates ficam em `pdf/`,
+em inglês: `brochure.html` (A4 retrato), `partnerships.html` (16:9) e
+`one-pager.html` (A4, uma página só). `npm run pdf` gera todos com o Chrome
+instalado na máquina; `npm run pdf -- brochure`, `npm run pdf -- partnerships` ou
+`npm run pdf -- one-pager` gera só um. Com `--preview`, também salva um PNG
 por página em `pdf/preview/` para conferir o layout. A fonte e os logos dos
 co-organizadores vêm do `index.html`.
 
@@ -69,7 +70,8 @@ Ao trocar a imagem, suba o `?v=` no fim da URL nas três tags para forçar os
 apps a buscar a versão nova.
 
 **Artes de divulgação.** `npm run share` gera, a partir da capa do `index.html`,
-a prévia do link (`img/og-share-1200x630.jpg`), a capa do evento no Luma
+a prévia do link (`img/og-share-1200x630.jpg`, mais a versão em alta
+`artes/og-2400x1260.png`), a capa do evento no Luma
 (`artes/luma-1080x1080.jpg` e `artes/luma-2160x2160.png`) e o backdrop do telão
 (`artes/backdrop-3840x2160.png`, 16:9). `npm run share -- luma` gera só uma
 (`og`, `luma` ou `backdrop`). Usa o Chrome da máquina, como o `npm run pdf`.

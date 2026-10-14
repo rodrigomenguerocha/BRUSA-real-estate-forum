@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BR/USA Real Estate Forum 2026 — One-pager</title>
+<!-- Template do one-pager. Não abra direto: rode `npm run pdf -- one-pager`, que injeta
+     a fonte e os logos do index.html e gera o PDF. Programação e speakers seguem a
+     brochure.html: mudou lá, mude aqui. -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* @fonts */
+
+  :root {
+    --violet: #57068C;
+    --deep: #330662;
+    --ultra: #8900e1;
+    --lilac: #B67CF0;
+    --black: #1A1A1A;
+    --white: #FFFFFF;
+    --lgray: #F0F0F0;
+    --line: #E2E2E2;
+    --tgray: #999999;
+    --dgray: #5E5E5E;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: 'NYU Perstare', Georgia, serif;
+    color: var(--black);
+    background: #777;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    position: relative;
+    width: 210mm; height: 297mm;
+    overflow: hidden;
+    background: var(--white);
+    display: flex; flex-direction: column;
+  }
+
+  .mono-label {
+    font-family: var(--mono); font-size: 6pt; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--violet);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; color: var(--white); background: var(--deep);
+    padding: 9mm 14mm 7mm;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('assets/cover-manhattan-wide.jpg') center 40% / cover no-repeat;
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(51,6,98,0.96) 0%, rgba(51,6,98,0.82) 55%, rgba(51,6,98,0.55) 100%);
+  }
+  .hero > *:not(.hero-bg) { position: relative; }
+  .label {
+    font-family: var(--mono); font-size: 5.5pt; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  .coorg { display: flex; align-items: center; gap: 5mm; margin-top: 2.5mm; margin-bottom: 6mm; }
+  .coorg svg { height: 7mm; width: auto; display: block; }
+  .coorg .rope { width: 0.25mm; height: 5.5mm; background: rgba(255,255,255,0.3); }
+  .wm { font-size: 44pt; line-height: 1; letter-spacing: 0.01em; }
+  .wm .cc { font-weight: 700; }
+  .wm .s { font-weight: 200; opacity: 0.3; }
+  .wm-desc {
+    font-size: 9.5pt; letter-spacing: 0.38em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65); margin-top: 2mm;
+  }
+  .hero-facts { text-align: right; display: flex; flex-direction: column; gap: 1.8mm; }
+  .hero-edition {
+    font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lilac);
+  }
+  .hero-date { font-size: 15pt; font-weight: 600; line-height: 1.15; }
+  .hero-place {
+    font-family: var(--mono); font-size: 7pt; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.75);
+  }
+  .hero-seats {
+    align-self: flex-end; margin-top: 1.5mm; padding: 0.8mm 2mm;
+    font-family: var(--mono); font-size: 6pt; letter-spacing: 0.16em; text-transform: uppercase;
+    border: 0.25mm solid rgba(255,255,255,0.45); color: var(--white);
+  }
+
+  /* ===== BODY ===== */
+  .body { flex: 1; padding: 8mm 14mm 0; display: flex; flex-direction: column; }
+
+  .intro { max-width: 160mm; }
+  .intro h1 { font-size: 17pt; font-weight: 600; line-height: 1.15; margin-bottom: 3mm; }
+  .intro p { font-size: 9.6pt; line-height: 1.55; color: #3a3a3a; }
+  .intro p + p { margin-top: 2mm; }
+
+  .main { display: grid; grid-template-columns: 1fr 52mm; gap: 8mm; margin-top: 7mm; }
+
+  /* program */
+  .sec-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2mm; border-bottom: 0.3mm solid var(--black); }
+  .sec-title { font-size: 12pt; font-weight: 600; }
+  .sec-where { font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray); }
+  .row {
+    display: grid; grid-template-columns: 17mm 1fr; column-gap: 3mm;
+    padding: 1.6mm 0; border-bottom: 0.2mm solid var(--line);
+  }
+  .row-time { font-family: var(--mono); font-size: 6.6pt; color: var(--dgray); padding-top: 0.5mm; }
+  .row-title { font-size: 9pt; font-weight: 600; line-height: 1.25; }
+  .row-title .tag {
+    font-family: var(--mono); font-size: 5.2pt; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--white); background: var(--violet);
+    padding: 0.3mm 1.2mm; margin-right: 1.6mm; vertical-align: 0.4mm;
+  }
+  .row-title .tag--key { background: var(--ultra); }
+  .row-title .tag--line { background: none; color: var(--violet); border: 0.2mm solid rgba(87,6,140,0.45); }
+  .row-who { font-size: 7.2pt; color: var(--dgray); margin-top: 0.6mm; line-height: 1.35; }
+  .row-who b { font-weight: 600; color: var(--black); }
+  .row--small .row-title { font-weight: 400; color: var(--dgray); font-size: 8.4pt; }
+  .tba { font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray); margin-top: 2mm; }
+
+  /* week */
+  .week { display: flex; flex-direction: column; }
+  .day { padding: 2.8mm 0; border-bottom: 0.2mm solid var(--line); }
+  .day-date { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); }
+  .day-name { font-size: 9.4pt; font-weight: 600; line-height: 1.25; margin-top: 0.8mm; }
+  .day-desc { font-size: 7.4pt; line-height: 1.45; color: var(--dgray); margin-top: 0.8mm; }
+  .day--main { background: var(--deep); color: var(--white); padding: 2.8mm 3mm; border: 0; margin: 1mm 0; }
+  .day--main .day-date { color: var(--lilac); }
+  .day--main .day-desc { color: rgba(255,255,255,0.75); }
+  .paid {
+    display: inline-block; margin-top: 1.2mm; padding: 0.4mm 1.4mm;
+    font-family: var(--mono); font-size: 5pt; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 0.2mm solid currentColor; color: var(--violet);
+  }
+
+  .btn {
+    display: inline-block; align-self: flex-start; text-decoration: none;
+    padding: 2mm 3.2mm; margin-top: 2.2mm;
+    font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em; text-transform: uppercase;
+    background: var(--violet); color: var(--white); white-space: nowrap;
+  }
+  .btn--lg { font-size: 6.4pt; letter-spacing: 0.12em; padding: 2.6mm 4mm; margin-top: 3mm; }
+  .day-foot { display: flex; align-items: center; gap: 3mm; margin-top: 1.2mm; }
+  .day-foot .paid { margin-top: 0; }
+  .more {
+    font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--violet); text-decoration: underline; text-underline-offset: 0.6mm;
+  }
+  .invite {
+    margin-top: auto; padding: 4.5mm; background: #F7F5FA; border-left: 0.6mm solid var(--violet);
+    display: flex; flex-direction: column; gap: 1.6mm;
+  }
+  .invite-title { font-size: 11pt; font-weight: 600; }
+  .invite-text { font-size: 7.4pt; line-height: 1.45; color: var(--dgray); }
+  .invite-link { font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.02em; color: var(--violet); text-decoration: none; margin-top: 0.6mm; }
+
+  /* ===== FOOTER ===== */
+  .foot {
+    margin-top: 9mm; background: var(--deep); color: var(--white);
+    padding: 6mm 14mm 7mm; display: flex; justify-content: space-between; align-items: center;
+  }
+  .partners { display: flex; flex-direction: column; gap: 2.2mm; }
+  .partner-logos { display: flex; align-items: center; gap: 5mm; }
+  .partner-logos img { display: block; width: auto; filter: brightness(0) invert(1); opacity: 0.85; }
+  .logo-ospa { height: 6mm; }
+  .logo-bb { height: 5.7mm; }
+  .logo-piquet { height: 5.4mm; }
+  .logo-jhsf { height: 4mm; }
+  .logo-bacc { height: 6.3mm; }
+  .logo-lareal { height: 3.8mm; }
+  .site { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; text-align: right; line-height: 1.8; }
+
+  @media screen {
+    .page { margin: 0 auto; box-shadow: 0 2mm 8mm rgba(0,0,0,0.25); }
+  }
+</style>
+</head>
+<body>
+
+<section class="page">
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div>
+      <div class="label">Co-organizers</div>
+      <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
+      <div class="wm"><span class="cc">BR</span><span class="s">/</span><span class="cc">USA</span></div>
+      <div class="wm-desc">Real Estate Forum</div>
+    </div>
+    <div class="hero-facts">
+      <div class="hero-edition">Inaugural Edition</div>
+      <div class="hero-date">November 20, 2026</div>
+      <div class="hero-place">New York City</div>
+      <div class="hero-seats">Invite-only · 80 seats</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <div class="intro">
+      <div>
+        <div class="mono-label" style="margin-bottom:2.5mm;">The forum</div>
+        <h1>One day in New York to compare how Brazil and the US build, finance and regulate real estate.</h1>
+        <p>80 invited leaders of Brazilian real estate (developers, CEOs, CIOs and fund managers) sit down with their American counterparts. Brazilian projects that would hold up anywhere often fail to reach global institutional capital, and the reason is rarely the return. Five panels and two presentations look at what Brazil can change in governance, reporting and capital structure so those investors can come in.</p>
+      </div>
+    </div>
+
+    <div class="main">
+
+      <div>
+        <div class="sec-head">
+          <div class="sec-title">Program · Friday, Nov 20</div>
+          <div class="sec-where">NYU Abu Dhabi House · 19 Washington Sq N</div>
+        </div>
+        <div class="row row--small"><div class="row-time">8:30</div><div><div class="row-title">Registration &amp; coffee</div></div></div>
+        <div class="row">
+          <div class="row-time">9:00</div>
+          <div><div class="row-title">Opening remarks</div><div class="row-who"><b>Marc Norman</b>, NYU Schack · <b>Rodrigo Rocha</b>, OSPA</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">9:15</div>
+          <div><div class="row-title"><span class="tag tag--key">Keynote</span>The Urban Condition</div><div class="row-who"><b>Alain Bertaud</b>, Mercatus Center</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">9:30</div>
+          <div><div class="row-title"><span class="tag">Panel 1</span>Reading a Market: Country, Land, Deal</div><div class="row-who">Moderated by <b>Shawn Amsler</b>, Amsler Advisors</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">10:40</div>
+          <div><div class="row-title"><span class="tag">Panel 2</span>Capital Stack: US vs. Brazil</div><div class="row-who">Moderated by <b>Alexandre Piquet</b>, Piquet Law Firm · <b>Rodrigo Machado</b>, Galapagos Capital · <b>Brenner Cavalcante</b>, BB Americas</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">11:30</div>
+          <div><div class="row-title"><span class="tag tag--line">Presentation</span>One Vanderbilt: The Tower and the Terminal</div><div class="row-who"><b>Georgina Lalli</b>, KPF</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">12:00</div>
+          <div><div class="row-title"><span class="tag tag--line">Presentation</span>Case study to be announced</div></div>
+        </div>
+        <div class="row row--small"><div class="row-time">12:30</div><div><div class="row-title">Lunch</div></div></div>
+        <div class="row">
+          <div class="row-time">14:00</div>
+          <div><div class="row-title"><span class="tag">Panel 3</span>Public/Private Development</div><div class="row-who">Moderated by <b>Matthew Kwatinetz</b>, NYU Schack</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">14:50</div>
+          <div><div class="row-title"><span class="tag">Panel 4</span>Subsidy and Capital: Affordable Housing</div><div class="row-who"><b>Marc Norman</b>, NYU Schack</div></div>
+        </div>
+        <div class="row">
+          <div class="row-time">15:55</div>
+          <div><div class="row-title"><span class="tag">Panel 5</span>From Selling Units to Owning Income</div><div class="row-who"><b>Anthony Russo</b>, CSFG · <b>Douglas Strabelli</b>, Sagewood · <b>Victor Arakaki</b>, JHSF</div></div>
+        </div>
+        <div class="row row--small"><div class="row-time">16:45</div><div><div class="row-title">Closing remarks</div></div></div>
+        <div class="row row--small"><div class="row-time">17:00</div><div><div class="row-title">Cocktail · optional, by sign-up</div></div></div>
+        <p class="tba">More panelists to be announced. The program may change.</p>
+      </div>
+
+      <div class="week">
+        <div class="sec-head"><div class="sec-title">The week</div></div>
+        <div class="day">
+          <div class="day-date">Thu · Nov 19</div>
+          <div class="day-name">NYU Capital Markets Conference</div>
+          <div class="day-desc">NYU Schack's 59th annual conference, at The Pierre. A separate event with its own ticket; forum guests get a discount.</div>
+          <div class="day-foot"><span class="paid">Paid · not included</span><a class="more" href="https://www.sps.nyu.edu/about/events/schack-institute-of-real-estate-division-events/capital-markets-real-estate.html">Know more →</a></div>
+        </div>
+        <div class="day day--main">
+          <div class="day-date">Fri · Nov 20</div>
+          <div class="day-name">BR/USA Real Estate Forum</div>
+          <div class="day-desc">NYU Abu Dhabi House, Washington Square. Full day, with lunch.</div>
+        </div>
+        <div class="day">
+          <div class="day-date">Sat · Nov 21</div>
+          <div class="day-name">Site visits</div>
+          <div class="day-desc">One Vanderbilt is confirmed. An affordable housing project and a public–private site will be announced.</div>
+        </div>
+
+        <div class="invite">
+          <div class="invite-title">Request an invitation</div>
+          <div class="invite-text">Attendance is by invitation and limited to 80 seats.</div>
+          <a class="btn btn--lg" href="https://luma.com/event/evt-cZKc1exaulCHny5">Request invitation →</a>
+          <a class="invite-link" href="https://luma.com/event/evt-cZKc1exaulCHny5">luma.com/event/evt-cZKc1exaulCHny5</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="foot">
+    <div style="display:flex; gap:10mm;">
+      <div class="partners">
+        <div class="label">Supporting Partners</div>
+        <div class="partner-logos">
+          <img class="logo-ospa" src="../img/logos/ospa.svg" alt="OSPA">
+          <img class="logo-bb" src="../img/logos/bb-americas.png" alt="BB Americas Bank">
+          <img class="logo-piquet" src="../img/logos/piquet-law.png" alt="Piquet Law Firm">
+          <img class="logo-jhsf" src="../img/logos/jhsf.png" alt="JHSF">
+        </div>
+      </div>
+      <div class="partners">
+        <div class="label">Institutional Partners</div>
+        <div class="partner-logos">
+          <img class="logo-bacc" src="../img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce">
+          <img class="logo-lareal" src="../img/logos/lareal.svg" alt="LAREAL">
+        </div>
+      </div>
+    </div>
+    <a class="site" href="https://www.responsivecities.com/brusa-forum">responsivecities.com/<br>brusa-forum</a>
+  </footer>
+
+</section>
+
+<script>
+  (async function () {
+    await document.fonts.ready;
+    var imgs = Array.from(document.images).map(function (img) {
+      return img.complete ? Promise.resolve() : new Promise(function (r) { img.onload = img.onerror = r; });
+    });
+    var bgs = ['assets/cover-manhattan-wide.jpg'].map(function (src) {
+      return new Promise(function (r) { var i = new Image(); i.onload = i.onerror = r; i.src = src; });
+    });
+    await Promise.all(imgs.concat(bgs));
+    window.__pdfReady = true;
+  })();
+</script>
+</body>
+</html>
