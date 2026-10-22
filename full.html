@@ -90,9 +90,14 @@
   @media (max-width: 768px) { .slide { padding: 3rem 0.75rem; } }
 
   /* (isometric animation removed) */
-  .slide-globe {
+  /* .slide.slide-globe: beats the responsive `.slide { padding }` rules, which
+     otherwise leave side gutters where the white section shows past the purple */
+  .slide.slide-globe {
     position: relative; background: #FFFFFF;
-    height: 400vh; /* tall scroll area */
+    /* Scroll budget: the globe animation, then the event cards + Forum program.
+       Both scripts read these two variables. */
+    --globe-scroll: 300vh; --week-scroll: 700vh;
+    height: calc(100vh + var(--globe-scroll) + var(--week-scroll));
     min-height: auto; padding: 0; display: block;
   }
   .slide-globe .globe-sticky {
@@ -307,12 +312,7 @@
     margin-top: 0.5rem;
   }
 
-  /* ===== NY WEEK SCROLL SECTION ===== */
-  .slide-nyweek {
-    position: relative; background: var(--deep); color: var(--white);
-    height: 800vh; min-height: auto; padding: 0; display: block;
-  }
-  .nyweek-text { transition: opacity 0.3s ease; }
+  /* ===== EVENT CARDS + FORUM PROGRAM (inside the globe section) ===== */
   .nyweek-register {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -341,23 +341,34 @@
     background: var(--violet) !important;
     opacity: 1 !important;
   }
-  .slide-nyweek .nyweek-sticky {
-    position: sticky; top: 0;
-    width: 100%; height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 5rem 6rem;
-    overflow: hidden;
+  /* Desktop: globe text on the left, the two event cards stacked on the right.
+     Up to 1024px both share the same spot; the text fades out before the cards
+     come in (see the NY Week script). */
+  .globe-layout {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+    gap: 4rem; align-items: center;
   }
-  @media (max-width: 768px) { .slide-nyweek .nyweek-sticky { padding: 3rem 0.75rem; } }
+  @media (max-width: 1024px) {
+    .globe-layout { grid-template-columns: minmax(0, 1fr); }
+    .globe-layout > * { grid-area: 1 / 1; }
+  }
+  .slide-globe .globe-sticky > .zoom-overlay { position: fixed; z-index: 999; }
+  .slide-globe .globe-sticky > .nyweek-register { position: absolute; z-index: 3; color: var(--white); }
+  .nyweek-register .sn { color: rgba(255,255,255,0.3); }
+  /* Purple backdrop: fades in as the Forum card finishes expanding and stays
+     through "Secure your seat"; then the section scrolls off to the map */
+  .slide-globe .globe-sticky > .globe-deep-bg {
+    position: absolute; inset: 0; z-index: 1;
+    background: var(--deep); opacity: 0; pointer-events: none;
+  }
 
   /* ===== TIMELINE ===== */
-  .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+  .timeline { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   @media (max-width: 768px) {
     .timeline { grid-template-columns: 1fr 1fr; }
-    .timeline .day-card:first-child { grid-column: 1 / -1; }
   }
   .day-card {
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    background: var(--deep); border: 1px solid rgba(255,255,255,0.08);
     padding: 1.5rem; position: relative;
     opacity: 0; transform: translateY(24px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -365,7 +376,8 @@
   .day-card.day-visible {
     opacity: 1; transform: translateY(0);
   }
-  .day-card.highlight { border-color: var(--ultra); background: rgba(137,0,225,0.08); }
+  .day-card:not(.day-visible) { pointer-events: none; }
+  .day-card.highlight { border-color: var(--ultra); background: linear-gradient(rgba(137,0,225,0.16), rgba(137,0,225,0.16)), var(--deep); }
   .day-date {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
@@ -402,17 +414,7 @@
     border: none; border-top: 1px solid rgba(255,255,255,0.08);
     margin: 0.8rem 0 0.6rem;
   }
-  /* Panel list — Card 1 */
-  .card-panel-list { display: flex; flex-direction: column; gap: 0.22rem; }
-  .card-panel-item {
-    display: flex; align-items: baseline; gap: 0.45rem;
-    font-size: 0.72rem; color: rgba(255,255,255,0.45); line-height: 1.4;
-  }
-  .card-panel-num {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.46rem;
-    color: var(--ultra); letter-spacing: 0.06em; flex-shrink: 0;
-  }
-  /* Info list — Card 2 */
+  /* Info list — event cards */
   .card-info-list { display: flex; flex-direction: column; gap: 0.32rem; }
   .card-info-item { display: flex; gap: 0.55rem; align-items: baseline; }
   .card-info-label {
@@ -431,24 +433,13 @@
     transition: border-color 0.2s, color 0.2s;
   }
   .card-past-btn:hover { border-color: rgba(255,255,255,0.55); color: var(--white); }
-  /* Visit list — Card 3 */
-  .card-visit-list { display: flex; flex-direction: column; gap: 0.3rem; }
-  .card-visit-item {
-    display: flex; align-items: baseline; gap: 0.45rem;
-    font-size: 0.70rem; color: rgba(255,255,255,0.38); line-height: 1.4;
-  }
-  .card-visit-item.is-confirmed { color: rgba(255,255,255,0.85); }
-  .card-visit-item.is-confirmed .card-visit-dot { background: #8900e1; }
-  .card-visit-dot {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: rgba(255,255,255,0.18); flex-shrink: 0; margin-bottom: -1px;
-  }
 
   /* ===== SCROLL HINT (Forum card) ===== */
+  .card-past-btn--primary { background: var(--ultra); border-color: var(--ultra); color: var(--white); }
+  .card-past-btn--primary:hover { background: var(--violet); border-color: var(--violet); color: var(--white); }
   .card-scroll-hint {
-    position: absolute; bottom: 0; left: 0; right: 0;
     display: flex; flex-direction: column; align-items: center;
-    padding: 0.8rem 1.5rem 1.4rem;
+    padding: 1.1rem 0 0;
     opacity: 1;
     pointer-events: none;
   }
@@ -484,7 +475,7 @@
   }
   .zoom-overlay-card {
     position: absolute;
-    background: rgba(137,0,225,0.08); border: 1px solid var(--ultra);
+    background: linear-gradient(rgba(137,0,225,0.16), rgba(137,0,225,0.16)), var(--deep); border: 1px solid var(--ultra);
     color: var(--white); overflow: hidden;
     display: flex; flex-direction: column;
   }
@@ -780,7 +771,7 @@
   /* ===== MAP SECTION ===== */
   .slide-map {
     position: relative;
-    height: 1300vh;
+    height: 1036vh; /* 100vh sticky + 936vh scroll = TIMELINE_END (0.78) × 1200vh — see map phases */
     z-index: 0 !important;
     background: #e8e8e8;
   }
@@ -839,9 +830,9 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 1rem;
-    /* Fixed height = sidebar height (1rem top padding + 22rem labels + 1rem bottom padding)
+    /* Fixed height = sidebar height (1rem top padding + 16.5rem labels + 1rem bottom padding)
        This keeps translateY(-50%) stable regardless of the cards container height */
-    height: 24rem;
+    height: 18.5rem;
     overflow: visible;
   }
   .map-sidebar {
@@ -859,35 +850,6 @@
   }
   /* Day-header removed from cards (was redundant with sidebar labels) */
   .map-venue-day-header { display: none; }
-  /* Site visits card: text-only list style */
-  .map-venue-visits-list {
-    padding: 0.85rem 1.1rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-  .map-venue-visits-item {
-    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
-    font-size: 0.72rem;
-    color: rgba(0,0,0,0.7);
-    line-height: 1.4;
-    padding-left: 0.75rem;
-    position: relative;
-  }
-  .map-venue-visits-item::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--violet);
-    font-size: 0.6rem;
-  }
-  .map-venue-visits-item.is-confirmed { color: #000; font-weight: 500; }
-  .map-venue-visits-loc {
-    display: block;
-    font-weight: 400;
-    font-size: 0.66rem;
-    color: rgba(0,0,0,0.5);
-  }
   /* Hotels panel card */
   .map-hotel-panel {
     padding: 0.85rem 1.1rem 1rem;
@@ -1051,21 +1013,7 @@
     .map-phase-title { font-size: 1.3rem; top: 1.2rem; }
   }
 
-  /* POI grey dots and popup cards */
-  .poi-dot {
-    width: 10px; height: 10px;
-    background: #999;
-    border: 1.5px solid #fff;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    transition: background 0.2s;
-  }
-  .poi-dot.visible {
-    display: block;
-  }
-  .poi-dot:hover { background: #8900e1; }
-  /* Hotel numbered markers — same structure as venue/POI dots */
+  /* Hotel numbered markers — same structure as the venue dots */
   .hotel-dot {
     width: 24px; height: 24px;
     border-radius: 50%;
@@ -1108,7 +1056,7 @@
     color: rgba(0,0,0,0.4);
     text-transform: uppercase;
   }
-  /* Hotel info card — same pattern as .poi-popup (white bg) */
+  /* Hotel info card — white floating card over the map */
   .hotel-info-card {
     position: absolute;
     bottom: 2.5rem;
@@ -1204,69 +1152,13 @@
     cursor: pointer;
     line-height: 1;
   }
-  .poi-popup {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: 12px;
-    padding: 1.2rem 1.5rem;
-    max-width: 380px;
-    width: 90%;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .poi-popup.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .poi-popup-close {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.7rem;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    color: rgba(0,0,0,0.4);
-    cursor: pointer;
-    line-height: 1;
-  }
-  .poi-popup-name {
-    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
-    font-weight: 500;
-    font-size: 0.95rem;
-    margin-bottom: 0.15rem;
-    color: var(--black);
-    padding-right: 1.5rem;
-  }
-  .poi-popup-dev {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
-    color: var(--violet);
-    margin-bottom: 0.1rem;
-  }
-  .poi-popup-loc {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    color: rgba(0,0,0,0.4);
-    margin-bottom: 0.6rem;
-  }
-  .poi-popup-desc {
-    font-family: 'PP Neue Montreal', 'Helvetica Neue', sans-serif;
-    font-size: 0.75rem;
-    line-height: 1.55;
-    color: rgba(0,0,0,0.7);
-  }
 
-  /* Map section follows NY Week which scrolls off to reveal it */
+  /* Right after the purple program screen, the map starts underneath that
+     screen's last viewport, already pinned, so "Secure your seat" slides up off
+     the map instead of the map scrolling in. The extra 100vh is the scroll spent
+     under it; the map script skips it, so its own timeline keeps its length. */
+  .slide-globe + .slide-map { margin-top: -100vh; height: 1136vh; }
+  /* Sections after the map sit above it */
   .slide-map + .slide, .slide-map ~ section:not(.slide-map) {
     position: relative;
     z-index: 1;
@@ -1312,7 +1204,7 @@
   /* ===== MAP SIDEBAR TRACK + LABELS ===== */
   .map-sb-track {
     width: 2px;
-    height: 22rem;
+    height: 16.5rem;
     flex-shrink: 0;
     position: relative;
   }
@@ -1339,7 +1231,7 @@
   .map-sb-labels {
     display: flex;
     flex-direction: column;
-    height: 22rem;
+    height: 16.5rem;
   }
   .map-sb-label {
     flex: 1;
@@ -1406,7 +1298,6 @@
 
     /* Timeline: 2 columns on phones, Day 1 spans full row */
     .timeline { grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
-    .timeline .day-card:first-child { grid-column: 1 / -1; }
     .day-card { padding: 0.8rem; }
     .day-title { font-size: 0.72rem; margin-bottom: 0.3rem; }
     .day-desc { font-size: 0.58rem; line-height: 1.4; }
@@ -1414,14 +1305,8 @@
     .day-badge { display: none; }
     .day-link { font-size: 0.38rem; }
 
-    /* NY Week section */
-    .slide-nyweek { height: 1100vh; }
-    .slide-nyweek .nyweek-sticky { padding: 2rem 0.75rem; }
-    .nyweek-text h2 { font-size: 1.4rem; }
-    .nyweek-text p { font-size: 0.72rem; margin-bottom: 0; }
-
-    /* Globe section: shorter scroll */
-    .slide-globe { height: 280vh; }
+    /* Globe section: shorter globe, longer program scroll */
+    .slide-globe { --globe-scroll: 180vh; --week-scroll: 1000vh; }
 
     /* Tier grid: horizontal scroll on small screens */
     .tier-grid {
@@ -1454,7 +1339,7 @@
   .slide-speakers .sn { color: var(--ultra); }
   .speakers-head { margin: 0 0 3rem; }
   .speakers-track-wrap { position: relative; width: calc(100% + 12rem); margin-left: -6rem; mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); }
-  .speakers-track { display: flex; gap: 1.5rem; width: max-content; animation: spk-scroll 90s linear infinite; will-change: transform; padding: 0 6rem; }
+  .speakers-track { display: flex; gap: 1.5rem; width: max-content; animation: spk-scroll 64s linear infinite; will-change: transform; padding: 0 6rem; }
   .speakers-track-wrap:hover .speakers-track { animation-play-state: paused; }
   @keyframes spk-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .speaker-card { flex: 0 0 240px; position: relative; display: flex; flex-direction: column; align-items: center; padding: 3rem 1rem 1rem; min-height: 380px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; transition: background 0.2s, border-color 0.2s; }
@@ -1485,7 +1370,7 @@
     .slide-speakers { padding: 3rem 0.75rem 4rem; }
     .speakers-head { margin: 0 0 2rem; padding: 0; }
     .speakers-track-wrap { width: calc(100% + 1.5rem); margin-left: -0.75rem; }
-    .speakers-track { padding: 0 0.75rem; animation-duration: 75s; }
+    .speakers-track { padding: 0 0.75rem; animation-duration: 54s; }
     .speakers-head h2 { font-size: 1.4rem; margin-bottom: 0; }
     .speakers-head p { font-size: 0.72rem; max-width: none; }
     .speaker-card { flex-basis: 200px; min-height: 340px; padding: 2.5rem 0.8rem 1rem; }
@@ -1612,35 +1497,7 @@
     .slide-cover .cover-supporters { margin-top: 1.5rem; }
   }
 
-  /* Sticky CTA — top-right, hidden over cover, visible after scroll */
-  .sticky-cta {
-    position: fixed !important;
-    top: 1.2rem !important;
-    right: 1.5rem !important;
-    z-index: 1000 !important;
-    display: inline-block !important;
-    font-family: 'JetBrains Mono', monospace !important;
-    font-size: 0.5rem !important;
-    letter-spacing: 0.14em !important;
-    text-transform: uppercase !important;
-    color: var(--white) !important;
-    background: var(--ultra) !important;
-    border: none !important;
-    padding: 0.7rem 1.4rem !important;
-    border-radius: 2px !important;
-    text-decoration: none !important;
-    cursor: pointer !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35) !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: translateY(-8px) !important;
-    transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease !important;
-    line-height: normal !important;
-  }
-  .sticky-cta.visible { opacity: 1 !important; pointer-events: auto !important; transform: translateY(0) !important; }
-  .sticky-cta:hover { background: var(--violet) !important; }
   @media (max-width: 768px) {
-    .sticky-cta { top: 0.7rem !important; right: 0.7rem !important; font-size: 0.42rem !important; padding: 0.55rem 1rem !important; letter-spacing: 0.1em !important; }
     .cover-cta-button { font-size: 0.5rem !important; padding: 0.85rem 2.2rem !important; }
     .cover-supporters { margin-top: 2.6rem; }
     .cover-supporter-logo { height: 32px; }
@@ -1757,12 +1614,9 @@
     .day-tag   { font-size: 0.56rem; }
     .day-link  { font-size: 0.62rem; padding-bottom: 2px; }
 
-    /* Card detail elements (panel list / info / visits / scroll hint) */
-    .card-panel-item        { font-size: 0.8rem; }
-    .card-panel-num         { font-size: 0.58rem; }
+    /* Card detail elements (info / scroll hint) */
     .card-info-label        { font-size: 0.58rem; color: rgba(255,255,255,0.42); }
     .card-info-value        { font-size: 0.78rem; }
-    .card-visit-item        { font-size: 0.78rem; }
     .card-scroll-hint-label { font-size: 0.6rem; }
 
     /* Agenda (zoom schedule): widen the time column for the larger time text */
@@ -1794,16 +1648,15 @@
   }
   /* CTAs — readable labels + larger tap targets on phones/tablets */
   @media (max-width: 768px) {
-    .sticky-cta { font-size: 0.6rem !important; padding: 0.8rem 1.4rem !important; letter-spacing: 0.1em !important; }
     .cover-cta-button { font-size: 0.6rem !important; padding: 0.95rem 2.4rem !important; }
     .card-past-btn { font-size: 0.62rem; padding: 0.7rem 1.2rem; }
   }
 
   /* ===== MOBILE — NY WEEK CARDS: stack one-up + trim secondary detail =====
-     Phones/tablets show the three day cards in a single column (full width) and
-     drop the heavier in-card detail. Kept: date, title, description, and the
-     5-panel program on the Forum card. Hidden on mobile: the scroll-to-reveal
-     hint (Forum), the edition/format/access rows (NYU conf), and the visit list.
+     Phones/tablets show the two day cards in a single column (full width) and
+     drop the heavier in-card detail. Kept: date, title, description and the
+     button. Hidden on mobile: the scroll-to-reveal hint (Forum) and the
+     edition/format/access/venue rows (both cards).
      Desktop layout unchanged. */
   @media (max-width: 768px) {
     /* ID selector (specificity beats the .timeline 2-col rules regardless of order) */
@@ -1814,16 +1667,11 @@
     .day-desc  { font-size: 0.8rem; line-height: 1.4; }
     .day-date  { font-size: 0.62rem; margin-bottom: 0.45rem; }
     .card-section-divider { margin: 0.55rem 0 0.5rem; }
-    .card-panel-list { gap: 0.16rem; }
-    .card-panel-item { font-size: 0.82rem; line-height: 1.3; }
-    .card-panel-num  { font-size: 0.62rem; }
     .card-past-btn { margin-top: 0.7rem; }
 
     .day-card[data-day="2"] .card-scroll-hint { display: none; }
-    .day-card[data-day="1"] .card-section-divider,
-    .day-card[data-day="1"] .card-info-list   { display: none; }
-    .day-card[data-day="3"] .card-section-divider,
-    .day-card[data-day="3"] .card-visit-list  { display: none; }
+    .day-card .card-section-divider,
+    .day-card .card-info-list { display: none; }
   }
 
   /* ============================================================
@@ -1999,8 +1847,6 @@
         rgba(51,6,98,0.28) 70%, rgba(51,6,98,0.80) 100%);
   }
 
-  /* bridge-CTA targets get a brief highlight when reached via anchor */
-  #panel-income-item:target, #panel-capital-item:target { background: rgba(137,0,225,0.22); }
 
   /* Reduced motion: static final states, no animation */
   @media (prefers-reduced-motion: reduce) {
@@ -2021,6 +1867,51 @@
     .cover-ctas { flex-direction: column; align-items: center; }
     .cover-ctas .cover-cta-button { width: 100%; max-width: 280px; text-align: center; }
   }
+
+  /* ===== WHY THIS FORUM — modal ("Learn why" in the Opportunity section) =====
+     The three data sections live in #why-modal instead of the page flow, so the
+     page goes straight from the cover to the globe. */
+  .why-open {
+    display: inline-block; margin-top: 1.4rem; padding: 0 0 0.35rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase; line-height: 1.8;
+    color: var(--violet); background: none; border: none; cursor: pointer;
+    border-bottom: 1px solid rgba(87,6,140,0.35);
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  }
+  .why-open:hover { color: var(--ultra); border-bottom-color: var(--ultra); }
+  .globe-text:not(.visible) .why-open { pointer-events: none; }
+  .why-modal {
+    position: fixed; inset: 0; z-index: 1100;
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    background: var(--white);
+    animation: why-modal-in 0.25s ease;
+  }
+  .why-modal[hidden] { display: none; }
+  @keyframes why-modal-in { from { opacity: 0; } to { opacity: 1; } }
+  .why-modal-bar {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1rem 6rem;
+    background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .why-modal-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--violet);
+  }
+  .why-modal-close {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.45rem 0.9rem; border: 1px solid rgba(87,6,140,0.3); border-radius: 2px;
+    background: var(--white); color: var(--violet); cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .why-modal-close:hover { background: var(--violet); color: var(--white); }
+  .why-modal .slide { min-height: auto; }
+  html.why-lock, html.why-lock body { overflow: hidden; }
+  @media (max-width: 768px) { .why-modal-bar { padding: 0.8rem 0.75rem; } }
+  @media (prefers-reduced-motion: reduce) { .why-modal { animation: none; } }
 </style>
 </head>
 <body>
@@ -2127,13 +2018,20 @@
     </div>
   </div>
   </div>
-  <div class="scroll-indicator" id="scroll-indicator" onclick="document.getElementById('slide-why').scrollIntoView({behavior:'smooth'})">
+  <div class="scroll-indicator" id="scroll-indicator" onclick="document.getElementById('slide-opportunity').scrollIntoView({behavior:'smooth'})">
     <span class="scroll-indicator-label" data-lang="en">Scroll to explore</span>
     <span class="scroll-indicator-label" data-lang="pt">Role para explorar</span>
     <span class="scroll-indicator-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
   </div>
 </section>
 
+<!-- ===== WHY THIS FORUM — modal, opened by "Learn why" in the Opportunity section =====
+     These three sections used to sit between the cover and the globe. -->
+<div class="why-modal" id="why-modal" role="dialog" aria-modal="true" aria-labelledby="why-modal-title" hidden>
+  <div class="why-modal-bar">
+    <div class="why-modal-title" id="why-modal-title"><span data-lang="en">Why this forum</span><span data-lang="pt">Por que este fórum</span></div>
+    <button type="button" class="why-modal-close" id="why-modal-close"><span data-lang="en">Close</span><span data-lang="pt">Fechar</span> <span aria-hidden="true">&times;</span></button>
+  </div>
 <!-- ===== 02 WHY THIS FORUM ===== -->
 <section class="slide slide-light" id="slide-why">
   <div class="sn" data-lang="en">01 — Why This Forum</div>
@@ -2205,7 +2103,7 @@
             <div class="data-card-source">Federal Reserve Z.1 (L.217) · BEA · 2025</div>
           </div>
         </div>
-        <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#panel-capital-item">
+        <a class="bridge-cta reveal" style="transition-delay:2.8s;" href="#forum-card">
           <span data-lang="en">This conversation is Panel 2 — Capital Stack: US vs. Brazil. →</span>
           <span data-lang="pt">Essa conversa é o Painel 2 — Capital Stack: EUA vs. Brasil. →</span>
         </a>
@@ -2307,24 +2205,30 @@
     </div>
   </div>
   <div>
-    <a class="bridge-cta reveal" style="transition-delay:0.5s;" href="#panel-income-item">
+    <a class="bridge-cta reveal" style="transition-delay:0.5s;" href="#forum-card">
       <span data-lang="en">This conversation is Panel 5 — From Selling Units to Owning Income, with Greystar Brazil in the room. →</span>
       <span data-lang="pt">Essa conversa é o Painel 5 — De Vender Unidades a Deter Renda, com a Greystar Brazil na sala. →</span>
     </a>
   </div>
 </section>
+</div>
 
-<!-- ===== 05 THE OPPORTUNITY ===== -->
+<!-- ===== 05 THE OPPORTUNITY + EVENT CARDS =====
+     Globe flies Brazil → New York, then the text and the two event cards
+     (stacked on the right on desktop); the Forum card then expands into the program. -->
 <section class="slide slide-globe" id="slide-opportunity">
   <div class="globe-sticky">
     <canvas id="globe-bg"></canvas>
+    <div class="globe-deep-bg" id="globe-deep-bg" aria-hidden="true"></div>
+    <div class="globe-layout">
     <div class="globe-text" id="globe-text">
-      <div class="sn" data-lang="en">04 — The Opportunity</div>
-      <div class="sn" data-lang="pt">04 — A Oportunidade</div>
+      <div class="sn" data-lang="en">01 — The Opportunity</div>
+      <div class="sn" data-lang="pt">01 — A Oportunidade</div>
       <h2 data-lang="en">Bridging Brazil to the world's<br>most mature RE market.</h2>
       <h2 data-lang="pt">Conectando o Brasil ao mercado<br>imobiliário mais maduro do mundo.</h2>
       <p data-lang="en">We are bringing 80 hand-picked leaders of Brazilian real estate — CEOs, CIOs, developers, and fund managers — to New York to learn from, and exchange with, the professionals who set the global standard in governance, capital structuring, and institutional transparency. Co-organized by Responsive Cities Institute (OSPA) and NYU Schack Institute of Real Estate, the forum is where Brazil's real estate market begins to speak the language that global capital understands.</p>
       <p data-lang="pt">Estamos levando 80 líderes selecionados do mercado imobiliário brasileiro — CEOs, CIOs, incorporadores e gestores de fundos — a Nova York para aprender e trocar experiências com os profissionais que definem o padrão global em governança, estruturação de capital e transparência institucional. Co-organizado pelo Instituto Cidades Responsivas (OSPA) e pelo NYU Schack Institute of Real Estate, o fórum é onde o mercado imobiliário brasileiro começa a falar a linguagem que o capital global entende.</p>
+      <button type="button" class="why-open" id="why-open" aria-haspopup="dialog" aria-controls="why-modal"><span data-lang="en">Learn why →</span><span data-lang="pt">Saiba por quê →</span></button>
       <div class="stats">
         <div><div class="stat-num">80</div><div class="stat-label"><span data-lang="en">Senior Leaders</span><span data-lang="pt">Líderes Seniores</span></div></div>
         <div><div class="stat-num">5</div><div class="stat-label"><span data-lang="en">Panels</span><span data-lang="pt">Painéis</span></div></div>
@@ -2333,104 +2237,81 @@
       <p style="margin-top:2rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--violet);" data-lang="en">This is the inaugural edition. We plan to grow to 150+ attendees by 2027 and establish the forum as the annual reference point for cross-border real estate between Brazil and the United States.</p>
       <p style="margin-top:2rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--violet);" data-lang="pt">Esta é a edição inaugural. O plano é crescer para mais de 150 participantes em 2027 e consolidar o fórum como a referência anual em real estate transfronteiriço entre Brasil e Estados Unidos.</p>
     </div>
-  </div>
-</section>
+      <div class="timeline" id="nyweek-timeline">
+        <!-- Card 1: NYU Capital Markets Conference -->
+        <div class="day-card" data-day="1">
+          <div class="day-badge" style="background:rgba(255,255,255,0.12);"><span data-lang="en">Separate Event</span><span data-lang="pt">Evento Separado</span></div>
+          <div class="day-date">Nov 19 · <span data-lang="en">Thursday</span><span data-lang="pt">Quinta</span></div>
+          <div class="day-title">NYU Capital Markets Conference</div>
+          <div class="day-desc" data-lang="en">NYU Schack's annual capital markets conference.</div>
+          <div class="day-desc" data-lang="pt">A conferência anual de mercado de capitais do NYU Schack.</div>
+          <hr class="card-section-divider">
+          <div class="card-info-list">
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Edition</span><span class="card-info-label" data-lang="pt">Edição</span>
+              <span class="card-info-value">59th Annual Conference on Capital Markets in Real Estate</span>
+            </div>
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Format</span><span class="card-info-label" data-lang="pt">Formato</span>
+              <span class="card-info-value" data-lang="en">Full-day · panels, keynotes, networking</span>
+              <span class="card-info-value" data-lang="pt">Dia inteiro · painéis, keynotes, networking</span>
+            </div>
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Access</span><span class="card-info-label" data-lang="pt">Acesso</span>
+              <span class="card-info-value" data-lang="en">Paid ticket, not included in the forum · Forum attendees receive a discount</span>
+              <span class="card-info-value" data-lang="pt">Ingresso pago, não incluído no fórum · participantes do Forum recebem desconto</span>
+            </div>
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Venue</span><span class="card-info-label" data-lang="pt">Local</span>
+              <span class="card-info-value">The Pierre, A Taj Hotel — 2 E 61st St, NYC</span>
+            </div>
+          </div>
+          <a class="card-past-btn" href="https://www.sps.nyu.edu/about/events/schack-institute-of-real-estate-division-events/capital-markets-real-estate.html" target="_blank">
+            <span data-lang="en">Get tickets →</span>
+            <span data-lang="pt">Comprar ingresso →</span>
+          </a>
+        </div>
 
-<!-- ===== 06 SPEAKERS ===== -->
-<section class="slide slide-speakers" id="slide-speakers">
-  <div class="speakers-head">
-    <div class="sn" data-lang="en">05 — Speakers</div>
-    <div class="sn" data-lang="pt">05 — Speakers</div>
-    <h2 data-lang="en">The people<br>in the room.</h2>
-    <h2 data-lang="pt">As pessoas<br>na sala.</h2>
-    <p data-lang="en">Senior leaders from both sides of the Brazil–USA real estate bridge — operators, allocators, and policy voices. The list updates as confirmations come in.</p>
-    <p data-lang="pt">Lideranças seniores dos dois lados da ponte BR–EUA — operadores, alocadores e vozes do setor público. A lista é atualizada conforme as confirmações chegam.</p>
-  </div>
-  <div class="speakers-track-wrap" aria-label="Speakers carousel">
-    <div class="speakers-track"><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">EG</span><img src="img/speakers/edward-glaeser.jpg" alt="Edward Glaeser" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Edward Glaeser</span><span data-lang="pt">Edward Glaeser</span></div><div class="speaker-company"><span data-lang="en">Harvard</span><span data-lang="pt">Harvard</span></div><div class="speaker-cargo"><span data-lang="en">Professor of Economics</span><span data-lang="pt">Professor de Economia</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/harvard.png" alt="Harvard" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Keynote — The Urban Condition</span><span data-lang="pt">Keynote — A Condição Urbana</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AB</span><img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alain Bertaud</span><span data-lang="pt">Alain Bertaud</span></div><div class="speaker-company"><span data-lang="en">Mercatus Center</span><span data-lang="pt">Mercatus Center</span></div><div class="speaker-cargo"><span data-lang="en">Distinguished Visiting Fellow, George Mason University</span><span data-lang="pt">Distinguished Visiting Fellow, George Mason University</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/mercatus.png" alt="Mercatus Center" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Keynote — The Urban Condition</span><span data-lang="pt">Keynote — A Condição Urbana</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MN</span><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Marc Norman</span><span data-lang="pt">Marc Norman</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Dean</span><span data-lang="pt">Dean</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MK</span><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Matthew Kwatinetz</span><span data-lang="pt">Matthew Kwatinetz</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Professor</span><span data-lang="pt">Professor</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Moderator</span><span data-lang="pt">Painel 3 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SA</span><img src="img/speakers/shawn-amsler.jpg" alt="Shawn Amsler" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Shawn Amsler</span><span data-lang="pt">Shawn Amsler</span></div><div class="speaker-company"><span data-lang="en">Amsler Advisors</span><span data-lang="pt">Amsler Advisors</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; Principal</span><span data-lang="pt">Fundador e Sócio</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Panel 1 — Moderator</span><span data-lang="pt">Painel 1 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">GL</span><img src="img/speakers/georgina-lalli.jpg" alt="Georgina Lalli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Georgina Lalli</span><span data-lang="pt">Georgina Lalli</span></div><div class="speaker-company"><span data-lang="en">KPF</span><span data-lang="pt">KPF</span></div><div class="speaker-cargo"><span data-lang="en">Managing Director</span><span data-lang="pt">Managing Director</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Presentation — One Vanderbilt</span><span data-lang="pt">Apresentação — One Vanderbilt</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">VA</span><img src="img/speakers/victor-arakaki.jpg" alt="Victor Arakaki" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Victor Arakaki</span><span data-lang="pt">Victor Arakaki</span></div><div class="speaker-company"><span data-lang="en">JHSF</span><span data-lang="pt">JHSF</span></div><div class="speaker-cargo"><span data-lang="en">Partner / MD</span><span data-lang="pt">Sócio / MD</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/jhsf.png" alt="JHSF" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RR</span><img src="img/speakers/rodrigo-rocha.jpg" alt="Rodrigo Rocha" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Rocha</span><span data-lang="pt">Rodrigo Rocha</span></div><div class="speaker-company"><span data-lang="en">OSPA Capital</span><span data-lang="pt">OSPA Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/ospa-capital.png" alt="OSPA Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">PF</span><img src="img/speakers/pedro-martin-fernandes.jpg" alt="Pedro Martin Fernandes" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Pedro Martin Fernandes</span><span data-lang="pt">Pedro Martin Fernandes</span></div><div class="speaker-company"><span data-lang="en">SP Urbanismo</span><span data-lang="pt">SP Urbanismo</span></div><div class="speaker-cargo"><span data-lang="en">Presidente</span><span data-lang="pt">Presidente</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sp-urbanismo.png" alt="SP Urbanismo" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">CV</span><img src="img/speakers/cristiano-viola.jpg" alt="Cristiano Viola" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Cristiano Viola</span><span data-lang="pt">Cristiano Viola</span></div><div class="speaker-company"><span data-lang="en">Greystar Brazil</span><span data-lang="pt">Greystar Brazil</span></div><div class="speaker-cargo"><span data-lang="en">COO</span><span data-lang="pt">COO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/greystar.png" alt="Greystar Brazil" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">DS</span><img src="img/speakers/douglas-strabelli.jpg" alt="Douglas Strabelli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Douglas Strabelli</span><span data-lang="pt">Douglas Strabelli</span></div><div class="speaker-company"><span data-lang="en">Sagewood Corporation</span><span data-lang="pt">Sagewood Corporation</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; CEO</span><span data-lang="pt">Fundador &amp; CEO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sagewood.png" alt="Sagewood Corporation" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AR</span><img src="img/speakers/anthony-russo.jpg" alt="Anthony Russo" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-company"><span data-lang="en">CSFG</span><span data-lang="pt">CSFG</span></div><div class="speaker-cargo"><span data-lang="en">Managing Principal</span><span data-lang="pt">Managing Principal</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/csfg.png" alt="CSFG" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-bio-role">CSFG · Managing Principal</div><p class="speaker-bio-text"><span data-lang="en">Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.</span><span data-lang="pt">Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RB</span><img src="img/speakers/ricardo-blas.jpg" alt="Ricardo Blas" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Ricardo Blas</span><span data-lang="pt">Ricardo Blas</span></div><div class="speaker-company"><span data-lang="en">Resia</span><span data-lang="pt">Resia</span></div><div class="speaker-cargo"><span data-lang="en">COO</span><span data-lang="pt">COO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/resia.png" alt="Resia" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SM</span><img src="img/speakers/sadie-mckeown.jpg" alt="Sadie McKeown" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-company"><span data-lang="en">The Community Preservation Corporation</span><span data-lang="pt">The Community Preservation Corporation</span></div><div class="speaker-cargo"><span data-lang="en">President</span><span data-lang="pt">President</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/cpc.png" alt="CPC" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-bio-role">CPC · President</div><p class="speaker-bio-text"><span data-lang="en">Sadie McKeown is President of The Community Preservation Corporation (CPC), a nonprofit multifamily housing finance company founded in 1974. She joined CPC as a mortgage originator in 1992 and now oversees its construction lending, field offices, and equity and impact investing platforms, and leads its sustainability work. She serves on the boards of the New York State Housing Finance Agency, NYSERDA and the New York City Energy Efficiency Corporation.</span><span data-lang="pt">Sadie McKeown é President da The Community Preservation Corporation (CPC), instituição sem fins lucrativos de financiamento habitacional multifamily fundada em 1974. Entrou na CPC em 1992 como mortgage originator e hoje lidera as áreas de construction lending, os escritórios regionais e as plataformas de equity e impact investing, além da agenda de sustentabilidade. É conselheira da New York State Housing Finance Agency, da NYSERDA e da New York City Energy Efficiency Corporation.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AP</span><img src="img/speakers/alexandre-piquet.jpg" alt="Alexandre Piquet" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alexandre Piquet</span><span data-lang="pt">Alexandre Piquet</span></div><div class="speaker-company"><span data-lang="en">Piquet Law Firm</span><span data-lang="pt">Piquet Law Firm</span></div><div class="speaker-cargo"><span data-lang="en">Moderator</span><span data-lang="pt">Moderador</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/piquet-law.png" alt="Piquet Law Firm" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Moderator</span><span data-lang="pt">Painel 2 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RM</span><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Machado</span><span data-lang="pt">Rodrigo Machado</span></div><div class="speaker-company"><span data-lang="en">Galapagos Capital</span><span data-lang="pt">Galapagos Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/galapagos.png" alt="Galapagos Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BC</span><img src="img/speakers/brenner-cavalcante.jpg" alt="Brenner Cavalcante" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Brenner Cavalcante</span><span data-lang="pt">Brenner Cavalcante</span></div><div class="speaker-company"><span data-lang="en">BB Americas</span><span data-lang="pt">BB Americas</span></div><div class="speaker-cargo"><span data-lang="en">EVP, Chief Lending Officer</span><span data-lang="pt">EVP, Chief Lending Officer</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/bb-americas.png" alt="BB Americas" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BS</span><img src="img/speakers/blackstone.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">Blackstone</span><span data-lang="pt">Blackstone</span></div><div class="speaker-cargo"><span data-lang="en">Real Estate / BREIT</span><span data-lang="pt">Real Estate / BREIT</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/blackstone.png" alt="Blackstone" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BTG</span><img src="img/speakers/btg-pactual.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">BTG Pactual</span><span data-lang="pt">BTG Pactual</span></div><div class="speaker-cargo"><span data-lang="en">Asset Management</span><span data-lang="pt">Gestão de Ativos</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/btg.svg" alt="BTG Pactual" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RG</span><img src="img/speakers/related-group.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">The Related Group</span><span data-lang="pt">The Related Group</span></div><div class="speaker-cargo"><span data-lang="en">Jorge or Nick Pérez</span><span data-lang="pt">Jorge ou Nick Pérez</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/related.png" alt="The Related Group" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">NY</span><img src="img/speakers/nyc-edc.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">NYC EDC</span><span data-lang="pt">NYC EDC</span></div><div class="speaker-cargo"><span data-lang="en">Senior Officer</span><span data-lang="pt">Senior Officer</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyc-edc.png" alt="NYC EDC" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">EG</span><img src="img/speakers/edward-glaeser.jpg" alt="Edward Glaeser" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Edward Glaeser</span><span data-lang="pt">Edward Glaeser</span></div><div class="speaker-company"><span data-lang="en">Harvard</span><span data-lang="pt">Harvard</span></div><div class="speaker-cargo"><span data-lang="en">Professor of Economics</span><span data-lang="pt">Professor de Economia</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/harvard.png" alt="Harvard" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Keynote — The Urban Condition</span><span data-lang="pt">Keynote — A Condição Urbana</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AB</span><img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alain Bertaud</span><span data-lang="pt">Alain Bertaud</span></div><div class="speaker-company"><span data-lang="en">Mercatus Center</span><span data-lang="pt">Mercatus Center</span></div><div class="speaker-cargo"><span data-lang="en">Distinguished Visiting Fellow, George Mason University</span><span data-lang="pt">Distinguished Visiting Fellow, George Mason University</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/mercatus.png" alt="Mercatus Center" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Keynote — The Urban Condition</span><span data-lang="pt">Keynote — A Condição Urbana</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MN</span><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Marc Norman</span><span data-lang="pt">Marc Norman</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Dean</span><span data-lang="pt">Dean</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MK</span><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Matthew Kwatinetz</span><span data-lang="pt">Matthew Kwatinetz</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Professor</span><span data-lang="pt">Professor</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Moderator</span><span data-lang="pt">Painel 3 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SA</span><img src="img/speakers/shawn-amsler.jpg" alt="Shawn Amsler" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Shawn Amsler</span><span data-lang="pt">Shawn Amsler</span></div><div class="speaker-company"><span data-lang="en">Amsler Advisors</span><span data-lang="pt">Amsler Advisors</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; Principal</span><span data-lang="pt">Fundador e Sócio</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Panel 1 — Moderator</span><span data-lang="pt">Painel 1 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">GL</span><img src="img/speakers/georgina-lalli.jpg" alt="Georgina Lalli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Georgina Lalli</span><span data-lang="pt">Georgina Lalli</span></div><div class="speaker-company"><span data-lang="en">KPF</span><span data-lang="pt">KPF</span></div><div class="speaker-cargo"><span data-lang="en">Managing Director</span><span data-lang="pt">Managing Director</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Presentation — One Vanderbilt</span><span data-lang="pt">Apresentação — One Vanderbilt</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">VA</span><img src="img/speakers/victor-arakaki.jpg" alt="Victor Arakaki" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Victor Arakaki</span><span data-lang="pt">Victor Arakaki</span></div><div class="speaker-company"><span data-lang="en">JHSF</span><span data-lang="pt">JHSF</span></div><div class="speaker-cargo"><span data-lang="en">Partner / MD</span><span data-lang="pt">Sócio / MD</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/jhsf.png" alt="JHSF" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RR</span><img src="img/speakers/rodrigo-rocha.jpg" alt="Rodrigo Rocha" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Rocha</span><span data-lang="pt">Rodrigo Rocha</span></div><div class="speaker-company"><span data-lang="en">OSPA Capital</span><span data-lang="pt">OSPA Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/ospa-capital.png" alt="OSPA Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">PF</span><img src="img/speakers/pedro-martin-fernandes.jpg" alt="Pedro Martin Fernandes" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Pedro Martin Fernandes</span><span data-lang="pt">Pedro Martin Fernandes</span></div><div class="speaker-company"><span data-lang="en">SP Urbanismo</span><span data-lang="pt">SP Urbanismo</span></div><div class="speaker-cargo"><span data-lang="en">Presidente</span><span data-lang="pt">Presidente</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sp-urbanismo.png" alt="SP Urbanismo" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge proposed"><span data-lang="en">Proposed</span><span data-lang="pt">Em aproximação</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">CV</span><img src="img/speakers/cristiano-viola.jpg" alt="Cristiano Viola" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Cristiano Viola</span><span data-lang="pt">Cristiano Viola</span></div><div class="speaker-company"><span data-lang="en">Greystar Brazil</span><span data-lang="pt">Greystar Brazil</span></div><div class="speaker-cargo"><span data-lang="en">COO</span><span data-lang="pt">COO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/greystar.png" alt="Greystar Brazil" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">DS</span><img src="img/speakers/douglas-strabelli.jpg" alt="Douglas Strabelli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Douglas Strabelli</span><span data-lang="pt">Douglas Strabelli</span></div><div class="speaker-company"><span data-lang="en">Sagewood Corporation</span><span data-lang="pt">Sagewood Corporation</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; CEO</span><span data-lang="pt">Fundador &amp; CEO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sagewood.png" alt="Sagewood Corporation" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AR</span><img src="img/speakers/anthony-russo.jpg" alt="Anthony Russo" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-company"><span data-lang="en">CSFG</span><span data-lang="pt">CSFG</span></div><div class="speaker-cargo"><span data-lang="en">Managing Principal</span><span data-lang="pt">Managing Principal</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/csfg.png" alt="CSFG" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-bio-role">CSFG · Managing Principal</div><p class="speaker-bio-text"><span data-lang="en">Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.</span><span data-lang="pt">Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RB</span><img src="img/speakers/ricardo-blas.jpg" alt="Ricardo Blas" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Ricardo Blas</span><span data-lang="pt">Ricardo Blas</span></div><div class="speaker-company"><span data-lang="en">Resia</span><span data-lang="pt">Resia</span></div><div class="speaker-cargo"><span data-lang="en">COO</span><span data-lang="pt">COO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/resia.png" alt="Resia" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SM</span><img src="img/speakers/sadie-mckeown.jpg" alt="Sadie McKeown" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-company"><span data-lang="en">The Community Preservation Corporation</span><span data-lang="pt">The Community Preservation Corporation</span></div><div class="speaker-cargo"><span data-lang="en">President</span><span data-lang="pt">President</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/cpc.png" alt="CPC" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-bio-role">CPC · President</div><p class="speaker-bio-text"><span data-lang="en">Sadie McKeown is President of The Community Preservation Corporation (CPC), a nonprofit multifamily housing finance company founded in 1974. She joined CPC as a mortgage originator in 1992 and now oversees its construction lending, field offices, and equity and impact investing platforms, and leads its sustainability work. She serves on the boards of the New York State Housing Finance Agency, NYSERDA and the New York City Energy Efficiency Corporation.</span><span data-lang="pt">Sadie McKeown é President da The Community Preservation Corporation (CPC), instituição sem fins lucrativos de financiamento habitacional multifamily fundada em 1974. Entrou na CPC em 1992 como mortgage originator e hoje lidera as áreas de construction lending, os escritórios regionais e as plataformas de equity e impact investing, além da agenda de sustentabilidade. É conselheira da New York State Housing Finance Agency, da NYSERDA e da New York City Energy Efficiency Corporation.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AP</span><img src="img/speakers/alexandre-piquet.jpg" alt="Alexandre Piquet" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alexandre Piquet</span><span data-lang="pt">Alexandre Piquet</span></div><div class="speaker-company"><span data-lang="en">Piquet Law Firm</span><span data-lang="pt">Piquet Law Firm</span></div><div class="speaker-cargo"><span data-lang="en">Moderator</span><span data-lang="pt">Moderador</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/piquet-law.png" alt="Piquet Law Firm" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Moderator</span><span data-lang="pt">Painel 2 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RM</span><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Machado</span><span data-lang="pt">Rodrigo Machado</span></div><div class="speaker-company"><span data-lang="en">Galapagos Capital</span><span data-lang="pt">Galapagos Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/galapagos.png" alt="Galapagos Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BC</span><img src="img/speakers/brenner-cavalcante.jpg" alt="Brenner Cavalcante" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Brenner Cavalcante</span><span data-lang="pt">Brenner Cavalcante</span></div><div class="speaker-company"><span data-lang="en">BB Americas</span><span data-lang="pt">BB Americas</span></div><div class="speaker-cargo"><span data-lang="en">EVP, Chief Lending Officer</span><span data-lang="pt">EVP, Chief Lending Officer</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/bb-americas.png" alt="BB Americas" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BS</span><img src="img/speakers/blackstone.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">Blackstone</span><span data-lang="pt">Blackstone</span></div><div class="speaker-cargo"><span data-lang="en">Real Estate / BREIT</span><span data-lang="pt">Real Estate / BREIT</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/blackstone.png" alt="Blackstone" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BTG</span><img src="img/speakers/btg-pactual.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">BTG Pactual</span><span data-lang="pt">BTG Pactual</span></div><div class="speaker-cargo"><span data-lang="en">Asset Management</span><span data-lang="pt">Gestão de Ativos</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/btg.svg" alt="BTG Pactual" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RG</span><img src="img/speakers/related-group.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">The Related Group</span><span data-lang="pt">The Related Group</span></div><div class="speaker-cargo"><span data-lang="en">Jorge or Nick Pérez</span><span data-lang="pt">Jorge ou Nick Pérez</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/related.png" alt="The Related Group" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge tbd"><span data-lang="en">TBD</span><span data-lang="pt">A confirmar</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">NY</span><img src="img/speakers/nyc-edc.jpg" alt="(TBD)" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">(TBD)</span><span data-lang="pt">(a confirmar)</span></div><div class="speaker-company"><span data-lang="en">NYC EDC</span><span data-lang="pt">NYC EDC</span></div><div class="speaker-cargo"><span data-lang="en">Senior Officer</span><span data-lang="pt">Senior Officer</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyc-edc.png" alt="NYC EDC" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div></div>
-  </div>
-</section>
-
-<!-- ===== 07 NY WEEK ===== -->
-<section class="slide slide-nyweek" id="slide-nyweek">
-  <div class="nyweek-sticky">
-    <div class="nyweek-text" id="nyweek-text">
-      <div class="sn" data-lang="en">06 — New York Week</div>
-      <div class="sn" data-lang="pt">06 — Semana NY</div>
-      <h2 data-lang="en">Three days.<br>One ecosystem.</h2>
-      <h2 data-lang="pt">Três dias.<br>Um ecossistema.</h2>
-      <p data-lang="en">The Forum anchors a concentrated week of real estate programming in New York. Partners gain visibility across the entire program — not just one event.</p>
-      <p data-lang="pt">O Fórum ancora uma semana concentrada de programação imobiliária em Nova York. Parceiros ganham visibilidade ao longo de todo o programa — não apenas em um evento.</p>
-    </div>
-    <div class="timeline" id="nyweek-timeline">
-      <!-- Card 1: NYU Capital Markets Conference -->
-      <div class="day-card" data-day="1">
-        <div class="day-badge" style="background:rgba(255,255,255,0.12);"><span data-lang="en">Separate Event</span><span data-lang="pt">Evento Separado</span></div>
-        <div class="day-date">Nov 19 · <span data-lang="en">Thursday</span><span data-lang="pt">Quinta</span></div>
-        <div class="day-title">NYU Capital Markets Conference</div>
-        <div class="day-desc" data-lang="en">NYU Schack's annual capital markets conference.</div>
-        <div class="day-desc" data-lang="pt">A conferência anual de mercado de capitais do NYU Schack.</div>
-        <hr class="card-section-divider">
-        <div class="card-info-list">
-          <div class="card-info-item">
-            <span class="card-info-label" data-lang="en">Edition</span><span class="card-info-label" data-lang="pt">Edição</span>
-            <span class="card-info-value">59th Annual Conference on Capital Markets in Real Estate</span>
+        <!-- Card 2: BR/USA Real Estate Forum -->
+        <div class="day-card highlight" data-day="2" id="forum-card">
+          <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
+          <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
+          <div class="day-title">BR/USA Real Estate Forum</div>
+          <div class="day-desc" data-lang="en">Full-day program at NYU Schack.</div>
+          <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack.</div>
+          <hr class="card-section-divider">
+          <div class="card-info-list">
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Edition</span><span class="card-info-label" data-lang="pt">Edição</span>
+              <span class="card-info-value" data-lang="en">Inaugural edition</span>
+              <span class="card-info-value" data-lang="pt">Edição inaugural</span>
+            </div>
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Format</span><span class="card-info-label" data-lang="pt">Formato</span>
+              <span class="card-info-value" data-lang="en">Full-day · 5 panels, 2 presentations, keynote</span>
+              <span class="card-info-value" data-lang="pt">Dia inteiro · 5 painéis, 2 apresentações, keynote</span>
+            </div>
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Access</span><span class="card-info-label" data-lang="pt">Acesso</span>
+              <span class="card-info-value" data-lang="en">Invite-only · 80 seats</span>
+              <span class="card-info-value" data-lang="pt">Somente por convite · 80 vagas</span>
+            </div>
+            <div class="card-info-item">
+              <span class="card-info-label" data-lang="en">Venue</span><span class="card-info-label" data-lang="pt">Local</span>
+              <span class="card-info-value">NYU Abu Dhabi House — 19 Washington Square North, NYC</span>
+            </div>
           </div>
-          <div class="card-info-item">
-            <span class="card-info-label" data-lang="en">Format</span><span class="card-info-label" data-lang="pt">Formato</span>
-            <span class="card-info-value" data-lang="en">Full-day · panels, keynotes, networking</span>
-            <span class="card-info-value" data-lang="pt">Dia inteiro · painéis, keynotes, networking</span>
-          </div>
-          <div class="card-info-item">
-            <span class="card-info-label" data-lang="en">Access</span><span class="card-info-label" data-lang="pt">Acesso</span>
-            <span class="card-info-value" data-lang="en">Paid ticket, not included in the forum · Forum attendees receive a discount</span>
-            <span class="card-info-value" data-lang="pt">Ingresso pago, não incluído no fórum · participantes do Forum recebem desconto</span>
-          </div>
-          <div class="card-info-item">
-            <span class="card-info-label">Venue</span>
-            <span class="card-info-value">The Pierre, A Taj Hotel — 2 E 61st St, NYC</span>
+          <a class="card-past-btn card-past-btn--primary" href="https://luma.com/event/evt-cZKc1exaulCHny5" data-luma-action="checkout" data-luma-event-id="evt-cZKc1exaulCHny5">
+            <span data-lang="en">Request invitation →</span>
+            <span data-lang="pt">Solicitar convite →</span>
+          </a>
+          <div class="card-scroll-hint" id="card-scroll-hint">
+            <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
+            <div class="card-scroll-hint-label" data-lang="pt">Role para ver o programa</div>
+            <div class="card-scroll-hint-bar"><div class="card-scroll-hint-fill" id="hint-fill"></div></div>
           </div>
         </div>
-        <a class="card-past-btn" href="https://www.sps.nyu.edu/about/events/schack-institute-of-real-estate-division-events/capital-markets-real-estate.html" target="_blank">
-          <span data-lang="en">Get tickets →</span>
-          <span data-lang="pt">Comprar ingresso →</span>
-        </a>
-      </div>
 
-      <!-- Card 2: BR/USA Real Estate Forum -->
-      <div class="day-card highlight" data-day="2" id="forum-card">
-        <div class="day-badge"><span data-lang="en">Main Event</span><span data-lang="pt">Evento Principal</span></div>
-        <div class="day-date">Nov 20 · <span data-lang="en">Friday</span><span data-lang="pt">Sexta</span></div>
-        <div class="day-title">BR/USA Real Estate Forum</div>
-        <div class="day-desc" data-lang="en">Full-day program at NYU Schack.</div>
-        <div class="day-desc" data-lang="pt">Programa de dia inteiro no NYU Schack.</div>
-        <hr class="card-section-divider">
-        <div class="card-panel-list">
-          <div class="card-panel-item"><span class="card-panel-num">01 —</span><span data-lang="en">Reading a Market: Country, Land, Deal</span><span data-lang="pt">Ler um Mercado: País, Terra, Deal</span></div>
-          <div class="card-panel-item" id="panel-capital-item"><span class="card-panel-num">02 —</span><span data-lang="en">Capital Stack: US vs. Brazil</span><span data-lang="pt">Capital Stack: EUA vs. Brasil</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">03 —</span><span data-lang="en">Public/Private Development</span><span data-lang="pt">Desenvolvimento Público/Privado</span></div>
-          <div class="card-panel-item"><span class="card-panel-num">04 —</span><span data-lang="en">Affordability: Subsidy, Cost and Capital</span><span data-lang="pt">Affordability: Subsídio, Custo e Capital</span></div>
-          <div class="card-panel-item" id="panel-income-item"><span class="card-panel-num">05 —</span><span data-lang="en">From Selling Units to Owning Income</span><span data-lang="pt">De Vender Unidades a Deter Renda</span></div>
-        </div>
-        <div class="card-scroll-hint" id="card-scroll-hint">
-          <div class="card-scroll-hint-label" data-lang="en">Scroll to reveal the program</div>
-          <div class="card-scroll-hint-label" data-lang="pt">Role para ver o programa</div>
-          <div class="card-scroll-hint-bar"><div class="card-scroll-hint-fill" id="hint-fill"></div></div>
-        </div>
-      </div>
-
-      <!-- Card 3: Site Visits -->
-      <div class="day-card" data-day="3">
-        <div class="day-date">Nov 21 · <span data-lang="en">Saturday</span><span data-lang="pt">Sábado</span></div>
-        <div class="day-title"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
-        <div class="day-desc" data-lang="en">Curated visits to marquee NYC developments.</div>
-        <div class="day-desc" data-lang="pt">Visitas curadas a empreendimentos de destaque em NYC.</div>
-        <hr class="card-section-divider">
-        <div class="card-visit-list">
-          <div class="card-visit-item is-confirmed"><span class="card-visit-dot"></span><span>One Vanderbilt — Midtown</span></div>
-          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Affordable housing development</span><span data-lang="pt">A definir — Empreendimento habitacional</span></div>
-          <div class="card-visit-item"><span class="card-visit-dot"></span><span data-lang="en">TBD — Public–private development site</span><span data-lang="pt">A definir — Projeto público–privado</span></div>
-        </div>
       </div>
     </div>
     <!-- Zoom overlay: expands the Forum card with schedule inside -->
@@ -2535,7 +2416,7 @@
               <div class="schedule-label" data-lang="pt">Desenvolvimento Público/Privado</div>
             </div>
             <div class="schedule-description"><span data-lang="en">Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.</span><span data-lang="pt">Terra pública, infraestrutura pública e execução privada precisam fechar numa única transação. Como Nova York estrutura esses acordos, quem carrega cada risco e o que ainda se sustenta vinte anos depois.</span></div>
-            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Matthew Kwatinetz</span><span class="speaker-role" data-lang="en">NYU Schack · Moderator</span><span class="speaker-role" data-lang="pt">NYU Schack · Moderador</span></div></div>
+            <div class="schedule-speakers"><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Matthew Kwatinetz</span><span class="speaker-role" data-lang="en">NYU Schack · Moderator</span><span class="speaker-role" data-lang="pt">NYU Schack · Moderador</span></div><div class="schedule-speaker"><div class="schedule-speaker-avatar"><img src="img/speakers/pedro-martin-fernandes.jpg" alt="Pedro Martin Fernandes" loading="lazy" onerror="this.remove();"></div><span class="speaker-name">Pedro Martin Fernandes</span><span class="speaker-role" data-lang="en">SP Urbanismo · President</span><span class="speaker-role" data-lang="pt">SP Urbanismo · Presidente</span></div></div>
           </div>
           <div class="schedule-item" data-sched="11" data-panel-id="p05">
             <div class="schedule-tag tag-panel"><span data-lang="en">Panel 4</span><span data-lang="pt">Painel 4</span></div>
@@ -2605,13 +2486,28 @@
   </div>
 </section>
 
+<!-- ===== 06 SPEAKERS ===== -->
+<section class="slide slide-speakers" id="slide-speakers">
+  <div class="speakers-head">
+    <div class="sn" data-lang="en">02 — Speakers</div>
+    <div class="sn" data-lang="pt">02 — Speakers</div>
+    <h2 data-lang="en">The people<br>in the room.</h2>
+    <h2 data-lang="pt">As pessoas<br>na sala.</h2>
+    <p data-lang="en">Senior leaders from both sides of the Brazil–USA real estate bridge — operators, allocators, and policy voices. The list updates as confirmations come in.</p>
+    <p data-lang="pt">Lideranças seniores dos dois lados da ponte BR–EUA — operadores, alocadores e vozes do setor público. A lista é atualizada conforme as confirmações chegam.</p>
+  </div>
+  <div class="speakers-track-wrap" aria-label="Speakers carousel">
+    <div class="speakers-track"><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AB</span><img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alain Bertaud</span><span data-lang="pt">Alain Bertaud</span></div><div class="speaker-company"><span data-lang="en">Mercatus Center</span><span data-lang="pt">Mercatus Center</span></div><div class="speaker-cargo"><span data-lang="en">Distinguished Visiting Fellow, George Mason University</span><span data-lang="pt">Distinguished Visiting Fellow, George Mason University</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/mercatus.png" alt="Mercatus Center" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Keynote — The Urban Condition</span><span data-lang="pt">Keynote — A Condição Urbana</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MN</span><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Marc Norman</span><span data-lang="pt">Marc Norman</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Dean</span><span data-lang="pt">Dean</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MK</span><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Matthew Kwatinetz</span><span data-lang="pt">Matthew Kwatinetz</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Professor</span><span data-lang="pt">Professor</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Moderator</span><span data-lang="pt">Painel 3 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SA</span><img src="img/speakers/shawn-amsler.jpg" alt="Shawn Amsler" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Shawn Amsler</span><span data-lang="pt">Shawn Amsler</span></div><div class="speaker-company"><span data-lang="en">Amsler Advisors</span><span data-lang="pt">Amsler Advisors</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; Principal</span><span data-lang="pt">Fundador e Sócio</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Panel 1 — Moderator</span><span data-lang="pt">Painel 1 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">GL</span><img src="img/speakers/georgina-lalli.jpg" alt="Georgina Lalli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Georgina Lalli</span><span data-lang="pt">Georgina Lalli</span></div><div class="speaker-company"><span data-lang="en">KPF</span><span data-lang="pt">KPF</span></div><div class="speaker-cargo"><span data-lang="en">Managing Director</span><span data-lang="pt">Managing Director</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Presentation — One Vanderbilt</span><span data-lang="pt">Apresentação — One Vanderbilt</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">VA</span><img src="img/speakers/victor-arakaki.jpg" alt="Victor Arakaki" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Victor Arakaki</span><span data-lang="pt">Victor Arakaki</span></div><div class="speaker-company"><span data-lang="en">JHSF</span><span data-lang="pt">JHSF</span></div><div class="speaker-cargo"><span data-lang="en">Partner / MD</span><span data-lang="pt">Sócio / MD</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/jhsf.png" alt="JHSF" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RR</span><img src="img/speakers/rodrigo-rocha.jpg" alt="Rodrigo Rocha" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Rocha</span><span data-lang="pt">Rodrigo Rocha</span></div><div class="speaker-company"><span data-lang="en">OSPA Capital</span><span data-lang="pt">OSPA Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/ospa-capital.png" alt="OSPA Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">PF</span><img src="img/speakers/pedro-martin-fernandes.jpg" alt="Pedro Martin Fernandes" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Pedro Martin Fernandes</span><span data-lang="pt">Pedro Martin Fernandes</span></div><div class="speaker-company"><span data-lang="en">SP Urbanismo</span><span data-lang="pt">SP Urbanismo</span></div><div class="speaker-cargo"><span data-lang="en">President</span><span data-lang="pt">Presidente</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sp-urbanismo.png" alt="SP Urbanismo" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">DS</span><img src="img/speakers/douglas-strabelli.jpg" alt="Douglas Strabelli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Douglas Strabelli</span><span data-lang="pt">Douglas Strabelli</span></div><div class="speaker-company"><span data-lang="en">Sagewood Corporation</span><span data-lang="pt">Sagewood Corporation</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; CEO</span><span data-lang="pt">Fundador &amp; CEO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sagewood.png" alt="Sagewood Corporation" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AR</span><img src="img/speakers/anthony-russo.jpg" alt="Anthony Russo" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-company"><span data-lang="en">CSFG</span><span data-lang="pt">CSFG</span></div><div class="speaker-cargo"><span data-lang="en">Managing Principal</span><span data-lang="pt">Managing Principal</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/csfg.png" alt="CSFG" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-bio-role">CSFG · Managing Principal</div><p class="speaker-bio-text"><span data-lang="en">Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.</span><span data-lang="pt">Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RB</span><img src="img/speakers/ricardo-blas.jpg" alt="Ricardo Blas" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Ricardo Blas</span><span data-lang="pt">Ricardo Blas</span></div><div class="speaker-company"><span data-lang="en">Resia</span><span data-lang="pt">Resia</span></div><div class="speaker-cargo"><span data-lang="en">COO</span><span data-lang="pt">COO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/resia.png" alt="Resia" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SM</span><img src="img/speakers/sadie-mckeown.jpg" alt="Sadie McKeown" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-company"><span data-lang="en">The Community Preservation Corporation</span><span data-lang="pt">The Community Preservation Corporation</span></div><div class="speaker-cargo"><span data-lang="en">President</span><span data-lang="pt">President</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/cpc.png" alt="CPC" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-bio-role">CPC · President</div><p class="speaker-bio-text"><span data-lang="en">Sadie McKeown is President of The Community Preservation Corporation (CPC), a nonprofit multifamily housing finance company founded in 1974. She joined CPC as a mortgage originator in 1992 and now oversees its construction lending, field offices, and equity and impact investing platforms, and leads its sustainability work. She serves on the boards of the New York State Housing Finance Agency, NYSERDA and the New York City Energy Efficiency Corporation.</span><span data-lang="pt">Sadie McKeown é President da The Community Preservation Corporation (CPC), instituição sem fins lucrativos de financiamento habitacional multifamily fundada em 1974. Entrou na CPC em 1992 como mortgage originator e hoje lidera as áreas de construction lending, os escritórios regionais e as plataformas de equity e impact investing, além da agenda de sustentabilidade. É conselheira da New York State Housing Finance Agency, da NYSERDA e da New York City Energy Efficiency Corporation.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AP</span><img src="img/speakers/alexandre-piquet.jpg" alt="Alexandre Piquet" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alexandre Piquet</span><span data-lang="pt">Alexandre Piquet</span></div><div class="speaker-company"><span data-lang="en">Piquet Law Firm</span><span data-lang="pt">Piquet Law Firm</span></div><div class="speaker-cargo"><span data-lang="en">Moderator</span><span data-lang="pt">Moderador</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/piquet-law.png" alt="Piquet Law Firm" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Moderator</span><span data-lang="pt">Painel 2 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RM</span><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Machado</span><span data-lang="pt">Rodrigo Machado</span></div><div class="speaker-company"><span data-lang="en">Galapagos Capital</span><span data-lang="pt">Galapagos Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/galapagos.png" alt="Galapagos Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BC</span><img src="img/speakers/brenner-cavalcante.jpg" alt="Brenner Cavalcante" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Brenner Cavalcante</span><span data-lang="pt">Brenner Cavalcante</span></div><div class="speaker-company"><span data-lang="en">BB Americas</span><span data-lang="pt">BB Americas</span></div><div class="speaker-cargo"><span data-lang="en">EVP, Chief Lending Officer</span><span data-lang="pt">EVP, Chief Lending Officer</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/bb-americas.png" alt="BB Americas" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AB</span><img src="img/speakers/alain-bertaud.jpg" alt="Alain Bertaud" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alain Bertaud</span><span data-lang="pt">Alain Bertaud</span></div><div class="speaker-company"><span data-lang="en">Mercatus Center</span><span data-lang="pt">Mercatus Center</span></div><div class="speaker-cargo"><span data-lang="en">Distinguished Visiting Fellow, George Mason University</span><span data-lang="pt">Distinguished Visiting Fellow, George Mason University</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/mercatus.png" alt="Mercatus Center" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Keynote — The Urban Condition</span><span data-lang="pt">Keynote — A Condição Urbana</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MN</span><img src="img/speakers/marc-norman.jpg" alt="Marc Norman" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Marc Norman</span><span data-lang="pt">Marc Norman</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Dean</span><span data-lang="pt">Dean</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">MK</span><img src="img/speakers/matthew-kwatinetz.jpg" alt="Matthew Kwatinetz" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Matthew Kwatinetz</span><span data-lang="pt">Matthew Kwatinetz</span></div><div class="speaker-company"><span data-lang="en">NYU Schack</span><span data-lang="pt">NYU Schack</span></div><div class="speaker-cargo"><span data-lang="en">Professor</span><span data-lang="pt">Professor</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/nyu-schack.png" alt="NYU Schack" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Moderator</span><span data-lang="pt">Painel 3 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SA</span><img src="img/speakers/shawn-amsler.jpg" alt="Shawn Amsler" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Shawn Amsler</span><span data-lang="pt">Shawn Amsler</span></div><div class="speaker-company"><span data-lang="en">Amsler Advisors</span><span data-lang="pt">Amsler Advisors</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; Principal</span><span data-lang="pt">Fundador e Sócio</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Panel 1 — Moderator</span><span data-lang="pt">Painel 1 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">GL</span><img src="img/speakers/georgina-lalli.jpg" alt="Georgina Lalli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Georgina Lalli</span><span data-lang="pt">Georgina Lalli</span></div><div class="speaker-company"><span data-lang="en">KPF</span><span data-lang="pt">KPF</span></div><div class="speaker-cargo"><span data-lang="en">Managing Director</span><span data-lang="pt">Managing Director</span></div><div class="speaker-logo-slot"></div><div class="speaker-panel"><span data-lang="en">Presentation — One Vanderbilt</span><span data-lang="pt">Apresentação — One Vanderbilt</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">VA</span><img src="img/speakers/victor-arakaki.jpg" alt="Victor Arakaki" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Victor Arakaki</span><span data-lang="pt">Victor Arakaki</span></div><div class="speaker-company"><span data-lang="en">JHSF</span><span data-lang="pt">JHSF</span></div><div class="speaker-cargo"><span data-lang="en">Partner / MD</span><span data-lang="pt">Sócio / MD</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/jhsf.png" alt="JHSF" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RR</span><img src="img/speakers/rodrigo-rocha.jpg" alt="Rodrigo Rocha" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Rocha</span><span data-lang="pt">Rodrigo Rocha</span></div><div class="speaker-company"><span data-lang="en">OSPA Capital</span><span data-lang="pt">OSPA Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/ospa-capital.png" alt="OSPA Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Opening Remarks</span><span data-lang="pt">Abertura</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">PF</span><img src="img/speakers/pedro-martin-fernandes.jpg" alt="Pedro Martin Fernandes" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Pedro Martin Fernandes</span><span data-lang="pt">Pedro Martin Fernandes</span></div><div class="speaker-company"><span data-lang="en">SP Urbanismo</span><span data-lang="pt">SP Urbanismo</span></div><div class="speaker-cargo"><span data-lang="en">President</span><span data-lang="pt">Presidente</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sp-urbanismo.png" alt="SP Urbanismo" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 3 — Public/Private Development</span><span data-lang="pt">Painel 3 — Desenvolvimento Público/Privado</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">DS</span><img src="img/speakers/douglas-strabelli.jpg" alt="Douglas Strabelli" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Douglas Strabelli</span><span data-lang="pt">Douglas Strabelli</span></div><div class="speaker-company"><span data-lang="en">Sagewood Corporation</span><span data-lang="pt">Sagewood Corporation</span></div><div class="speaker-cargo"><span data-lang="en">Founder &amp; CEO</span><span data-lang="pt">Fundador &amp; CEO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/sagewood.png" alt="Sagewood Corporation" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AR</span><img src="img/speakers/anthony-russo.jpg" alt="Anthony Russo" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-company"><span data-lang="en">CSFG</span><span data-lang="pt">CSFG</span></div><div class="speaker-cargo"><span data-lang="en">Managing Principal</span><span data-lang="pt">Managing Principal</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/csfg.png" alt="CSFG" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 5 — From Selling Units to Owning Income</span><span data-lang="pt">Painel 5 — De Vender Unidades a Deter Renda</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Anthony Russo</span><span data-lang="pt">Anthony Russo</span></div><div class="speaker-bio-role">CSFG · Managing Principal</div><p class="speaker-bio-text"><span data-lang="en">Anthony Russo sits in New York City as CSFG's Managing Principal. He oversees the firm's investment activities, operations, and strategic direction. He holds a bachelor's degree from Duke University and a Master's in Real Estate Finance and Investment from NYU. Anthony previously worked at Sterling Project Development, where he managed over $12 billion worth of projects across the US and Europe.</span><span data-lang="pt">Anthony Russo atua em Nova York como Managing Principal da CSFG. Ele supervisiona as atividades de investimento, as operações e a direção estratégica da empresa. É bacharel pela Duke University e mestre em Real Estate Finance and Investment pela NYU. Anthony trabalhou anteriormente na Sterling Project Development, onde gerenciou mais de US$ 12 bilhões em projetos nos Estados Unidos e na Europa.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RB</span><img src="img/speakers/ricardo-blas.jpg" alt="Ricardo Blas" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Ricardo Blas</span><span data-lang="pt">Ricardo Blas</span></div><div class="speaker-company"><span data-lang="en">Resia</span><span data-lang="pt">Resia</span></div><div class="speaker-cargo"><span data-lang="en">COO</span><span data-lang="pt">COO</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/resia.png" alt="Resia" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">SM</span><img src="img/speakers/sadie-mckeown.jpg" alt="Sadie McKeown" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-company"><span data-lang="en">The Community Preservation Corporation</span><span data-lang="pt">The Community Preservation Corporation</span></div><div class="speaker-cargo"><span data-lang="en">President</span><span data-lang="pt">President</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/cpc.png" alt="CPC" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 4 — Affordability</span><span data-lang="pt">Painel 4 — Affordability</span></div><div class="speaker-bio" aria-hidden="true"><div class="speaker-bio-name"><span data-lang="en">Sadie McKeown</span><span data-lang="pt">Sadie McKeown</span></div><div class="speaker-bio-role">CPC · President</div><p class="speaker-bio-text"><span data-lang="en">Sadie McKeown is President of The Community Preservation Corporation (CPC), a nonprofit multifamily housing finance company founded in 1974. She joined CPC as a mortgage originator in 1992 and now oversees its construction lending, field offices, and equity and impact investing platforms, and leads its sustainability work. She serves on the boards of the New York State Housing Finance Agency, NYSERDA and the New York City Energy Efficiency Corporation.</span><span data-lang="pt">Sadie McKeown é President da The Community Preservation Corporation (CPC), instituição sem fins lucrativos de financiamento habitacional multifamily fundada em 1974. Entrou na CPC em 1992 como mortgage originator e hoje lidera as áreas de construction lending, os escritórios regionais e as plataformas de equity e impact investing, além da agenda de sustentabilidade. É conselheira da New York State Housing Finance Agency, da NYSERDA e da New York City Energy Efficiency Corporation.</span></p></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">AP</span><img src="img/speakers/alexandre-piquet.jpg" alt="Alexandre Piquet" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Alexandre Piquet</span><span data-lang="pt">Alexandre Piquet</span></div><div class="speaker-company"><span data-lang="en">Piquet Law Firm</span><span data-lang="pt">Piquet Law Firm</span></div><div class="speaker-cargo"><span data-lang="en">Moderator</span><span data-lang="pt">Moderador</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/piquet-law.png" alt="Piquet Law Firm" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Moderator</span><span data-lang="pt">Painel 2 — Moderador</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-br.svg" alt="BR" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">RM</span><img src="img/speakers/rodrigo-machado.jpg" alt="Rodrigo Machado" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Rodrigo Machado</span><span data-lang="pt">Rodrigo Machado</span></div><div class="speaker-company"><span data-lang="en">Galapagos Capital</span><span data-lang="pt">Galapagos Capital</span></div><div class="speaker-cargo"><span data-lang="en">Partner</span><span data-lang="pt">Sócio</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/galapagos.png" alt="Galapagos Capital" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div><div class="speaker-card"><div class="speaker-corners"><span class="speaker-badge confirmed"><span data-lang="en">Confirmed</span><span data-lang="pt">Confirmado</span></span><img class="speaker-flag" src="img/flag-us.svg" alt="US" loading="lazy" width="24" height="24"></div><div class="speaker-photo"><span class="speaker-initials">BC</span><img src="img/speakers/brenner-cavalcante.jpg" alt="Brenner Cavalcante" loading="lazy" onerror="this.remove();"></div><div class="speaker-name"><span data-lang="en">Brenner Cavalcante</span><span data-lang="pt">Brenner Cavalcante</span></div><div class="speaker-company"><span data-lang="en">BB Americas</span><span data-lang="pt">BB Americas</span></div><div class="speaker-cargo"><span data-lang="en">EVP, Chief Lending Officer</span><span data-lang="pt">EVP, Chief Lending Officer</span></div><div class="speaker-logo-slot"><img class="speaker-logo" src="img/logos/bb-americas.png" alt="BB Americas" loading="lazy" onerror="this.style.visibility='hidden';"></div><div class="speaker-panel"><span data-lang="en">Panel 2 — Capital Stack</span><span data-lang="pt">Painel 2 — Capital Stack</span></div></div></div>
+  </div>
+</section>
+
 <!-- ===== 08 VENUES MAP ===== -->
 <section class="slide-map" id="slide-map">
   <div class="map-sticky">
     <div id="mapbox-map" style="width:100%;height:100%;"></div>
     <div class="map-overlay">
-      <div class="sn" data-lang="en">07 — Venues</div>
-      <div class="sn" data-lang="pt">07 — Locais</div>
+      <div class="sn" data-lang="en">03 — Venues</div>
+      <div class="sn" data-lang="pt">03 — Locais</div>
       <h2 data-lang="en">Two stages.<br>One city.</h2>
       <h2 data-lang="pt">Dois palcos.<br>Uma cidade.</h2>
     </div>
@@ -2626,12 +2522,6 @@
       <div class="map-phase-sub" data-lang="pt">Dia Dois</div>
       <div data-lang="en">Fri, November 20</div>
       <div data-lang="pt">Sex, 20 de Novembro</div>
-    </div>
-    <div class="map-phase-title" id="title-explore">
-      <div class="map-phase-sub" data-lang="en">Day Three · Site Visits</div>
-      <div class="map-phase-sub" data-lang="pt">Dia Três · Site Visits</div>
-      <div data-lang="en">Curated tour of NYC</div>
-      <div data-lang="pt">Tour curado por NYC</div>
     </div>
     <div class="map-phase-title" id="title-hotels">
       <div class="map-phase-sub" data-lang="en">Accommodation</div>
@@ -2658,9 +2548,8 @@
         <div class="map-sb-track">
           <div class="map-sb-track-bg"></div>
           <div class="map-sb-track-fill" id="map-sb-fill"></div>
-          <div class="map-sb-tick" style="top:25%"></div>
-          <div class="map-sb-tick" style="top:50%"></div>
-          <div class="map-sb-tick" style="top:75%"></div>
+          <div class="map-sb-tick" style="top:33.333%"></div>
+          <div class="map-sb-tick" style="top:66.667%"></div>
         </div>
         <div class="map-sb-labels">
           <div class="map-sb-label" id="msb-label-1">
@@ -2672,10 +2561,6 @@
             <div class="map-sb-title"><span data-lang="en">Nov 20</span><span data-lang="pt">20 Nov</span></div>
           </div>
           <div class="map-sb-label" id="msb-label-3">
-            <div class="map-sb-eyebrow"><span data-lang="en">Day 3</span><span data-lang="pt">Dia 3</span></div>
-            <div class="map-sb-title"><span data-lang="en">Nov 21</span><span data-lang="pt">21 Nov</span></div>
-          </div>
-          <div class="map-sb-label" id="msb-label-4">
             <div class="map-sb-eyebrow"><span data-lang="en">Hotels</span><span data-lang="pt">Hotéis</span></div>
             <div class="map-sb-title"><span data-lang="en">Where to Stay</span><span data-lang="pt">Onde Ficar</span></div>
           </div>
@@ -2698,19 +2583,6 @@
             <div class="map-venue-tag">NYU Capital Markets Conference</div>
             <div class="map-venue-name">The Pierre, A Taj Hotel</div>
             <div class="map-venue-addr">2 East 61st Street, New York</div>
-          </div>
-        </div>
-        <!-- Day 3 (Nov 21): Site Visits -->
-        <div class="map-venue-card" id="card-visits">
-          <div class="map-venue-info">
-            <div class="map-venue-tag"><span data-lang="en">Day Three · Nov 21</span><span data-lang="pt">Dia Três · 21 Nov</span></div>
-            <div class="map-venue-name"><span data-lang="en">Site Visits</span><span data-lang="pt">Visitas Técnicas</span></div>
-            <div class="map-venue-addr"><span data-lang="en">Around New York</span><span data-lang="pt">Pela cidade de Nova York</span></div>
-          </div>
-          <div class="map-venue-visits-list">
-            <div class="map-venue-visits-item is-confirmed">One Vanderbilt <span class="map-venue-visits-loc"><span data-lang="en">Midtown East, by Grand Central</span><span data-lang="pt">Midtown East, ao lado da Grand Central</span></span></div>
-            <div class="map-venue-visits-item"><span data-lang="en">Affordable housing development</span><span data-lang="pt">Desenvolvimento habitacional</span></div>
-            <div class="map-venue-visits-item"><span data-lang="en">Public-private development site</span><span data-lang="pt">Projeto público-privado</span></div>
           </div>
         </div>
         <!-- Hotels: Where to Stay panel -->
@@ -2742,14 +2614,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- POI popup card -->
-    <div class="poi-popup" id="poi-popup">
-      <button class="poi-popup-close" id="poi-popup-close">&times;</button>
-      <div class="poi-popup-name" id="poi-popup-name"></div>
-      <div class="poi-popup-dev" id="poi-popup-dev"></div>
-      <div class="poi-popup-loc" id="poi-popup-loc"></div>
-      <div class="poi-popup-desc" id="poi-popup-desc"></div>
     </div>
   </div>
 </section>
@@ -3280,10 +3144,10 @@ function setLang(lang) {
   // Scroll-driven progress: track how far user has scrolled within the section
   function updateScrollProgress(){
     const rect = section.getBoundingClientRect();
-    const sectionHeight = section.offsetHeight;
     const viewportH = window.innerHeight;
-    // scrollable distance = section height minus one viewport (sticky area)
-    const scrollable = sectionHeight - viewportH;
+    // The globe owns the first --globe-scroll of the section; the event cards
+    // and the Forum program (NY Week script) use the rest
+    const scrollable = parseFloat(getComputedStyle(section).getPropertyValue('--globe-scroll')) / 100 * viewportH;
     if(scrollable <= 0){ scrollProgress = 0; return; }
     // How far the top of the section has scrolled past the top of the viewport
     const scrolled = -rect.top;
@@ -3359,17 +3223,18 @@ function setLang(lang) {
 <!-- NY Week: unified scroll — cards reveal, zoom the Forum card, schedule inside -->
 <script>
 (function(){
-  const section = document.getElementById('slide-nyweek');
+  const section = document.getElementById('slide-opportunity');
   if(!section) return;
 
   const cards = section.querySelectorAll('.day-card[data-day]');
   const totalCards = cards.length;
-  const nyweekText = document.getElementById('nyweek-text');
+  const nyweekText = document.getElementById('globe-text');
   const overlay = document.getElementById('zoom-overlay');
   const overlayCard = document.getElementById('zoom-overlay-card');
   const zoomHeader = document.getElementById('zoom-card-header');
   const schedScroll = document.getElementById('zoom-schedule-scroll');
   const sourceCard = document.getElementById('forum-card');
+  const deepBg = document.getElementById('globe-deep-bg');
   if(!sourceCard || !overlay || !overlayCard || !schedScroll) return;
 
   // Clone the Forum card content into the overlay header
@@ -3389,12 +3254,14 @@ function setLang(lang) {
 
   function update(){
     const rect = section.getBoundingClientRect();
-    const sectionHeight = section.offsetHeight;
     const viewportH = window.innerHeight;
     const viewportW = window.innerWidth;
-    const scrollable = sectionHeight - viewportH;
-    if(scrollable <= 0) return;
-    const scrolled = -rect.top;
+    // Starts once the globe is done (--globe-scroll) and runs for --week-scroll
+    const cs = getComputedStyle(section);
+    const globeScroll = parseFloat(cs.getPropertyValue('--globe-scroll')) / 100 * viewportH;
+    const scrollable = parseFloat(cs.getPropertyValue('--week-scroll')) / 100 * viewportH;
+    if(!(scrollable > 0)) return;
+    const scrolled = -rect.top - globeScroll;
     const p = Math.max(0, Math.min(1, scrolled / scrollable));
 
     // ── Phase 1 (0–8%): Text visible, no cards ──
@@ -3425,8 +3292,17 @@ function setLang(lang) {
     // ── Phase 3 (30–45%): Text + the non-Forum cards fade out; the Forum card zooms ──
     const fadeOutP = smoothstep(0.30, 0.35, p);
 
-    // Fade section text
-    nyweekText.style.opacity = (1 - fadeOutP).toFixed(3);
+    // Globe text: left to the globe script while the globe runs; then it fades
+    // with the zoom on desktop, and before the cards up to 1024px, where text
+    // and cards share the same spot
+    if(scrolled <= 0){
+      nyweekText.style.opacity = '';
+      nyweekText.style.pointerEvents = '';
+    } else {
+      const textFade = viewportW <= 1024 ? smoothstep(0.02, 0.07, p) : fadeOutP;
+      nyweekText.style.opacity = (1 - textFade).toFixed(3);
+      nyweekText.style.pointerEvents = textFade > 0.5 ? 'none' : '';
+    }
 
     // Fade every card except the Forum card (the one that zooms)
     cards.forEach(function(card){
@@ -3435,6 +3311,10 @@ function setLang(lang) {
           ? Math.max(0, 1 - fadeOutP).toFixed(3) : '0';
       }
     });
+
+    // Purple backdrop behind the expanded card, through the register CTA.
+    // Slow fade: starts with the zoom and ends as the program starts scrolling
+    if(deepBg) deepBg.style.opacity = smoothstep(0.30, 0.52, p).toFixed(3);
 
     // Zoom the Forum card via overlay
     const zoomStart = 0.30;
@@ -3479,7 +3359,7 @@ function setLang(lang) {
       // They disappear quickly (0.30→0.42) then collapse to reclaim space for the schedule
       const detailFade = Math.max(0, 1 - smoothstep(0.30, 0.42, p));
       const detailGone = p > 0.43;
-      const detailEls = zoomHeader.querySelectorAll('.day-desc, .card-panel-list, .card-section-divider, .card-past-btn');
+      const detailEls = zoomHeader.querySelectorAll('.day-desc, .card-info-list, .card-section-divider, .card-past-btn');
       detailEls.forEach(function(el){
         el.style.opacity = detailFade.toFixed(3);
         if(detailGone){
@@ -3652,8 +3532,10 @@ function setLang(lang) {
   var CLOSE_ZOOM = 15.2;       // above 15.05 threshold for real building heights
   var CLOSE_PITCH = 45;        // moderate tilt
 
-  // POI zoom level — slightly closer than overview to see all dots
-  var POI_ZOOM = 12.2;
+  // Phase times are in timeline units: 1 unit = 1200vh of scroll (the original 0→1 timeline),
+  // so adding a phase lengthens the section instead of squeezing the others.
+  // TIMELINE_END must match .slide-map height: 100vh + TIMELINE_END × 1200vh.
+  var TIMELINE_END = 0.78;
 
   var phases = [
     // 0-8%: Manhattan 2D overview — flat, north up, hold
@@ -3680,24 +3562,16 @@ function setLang(lang) {
     { t0: 0.50, t1: 0.58, from: { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 0 },
                            to:   { center: WAGNER, zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
       marker: 'union', card: 'card-union' },
-    // 58-66%: zoom out from Union Square to POI overview
-    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM, pitch: CLOSE_PITCH, bearing: 80 },
-                           to:   { center: MANHATTAN, zoom: POI_ZOOM,   pitch: 0,          bearing: 0 },
+    // 0.58-0.66: gentle zoom out from Union Square
+    { t0: 0.58, t1: 0.66, from: { center: WAGNER,    zoom: CLOSE_ZOOM,    pitch: CLOSE_PITCH, bearing: 80 },
+                           to:   { center: MANHATTAN, zoom: OVERVIEW_ZOOM, pitch: 0,           bearing: 0 },
       marker: null, card: null },
-    // 66-74%: HOLD at POI overview — Site Visits (POI dots reveal here)
-    { t0: 0.66, t1: 0.74, from: { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
-                           to:   { center: MANHATTAN, zoom: POI_ZOOM, pitch: 0, bearing: 0 },
-      marker: null, card: null, poiPhase: true },
-    // 74-88%: still Day 3 — slow push in over the site-visit POIs
-    { t0: 0.74, t1: 0.88, from: { center: MANHATTAN, zoom: POI_ZOOM,       pitch: 0, bearing: 0 },
-                           to:   { center: MANHATTAN, zoom: POI_ZOOM + 0.5, pitch: 0, bearing: 0 },
-      marker: null, card: null, poiPhase: true },
-    // 88-93%: travel to the Midtown hotel cluster
-    { t0: 0.88, t1: 0.93, from: { center: MANHATTAN,     zoom: POI_ZOOM + 0.5, pitch: 0,  bearing: 0 },
-                           to:   { center: MIDTOWN_HOTELS, zoom: 14.2,         pitch: 30, bearing: 0 },
+    // 0.66-0.71: travel to the Midtown hotel cluster
+    { t0: 0.66, t1: 0.71, from: { center: MANHATTAN,      zoom: OVERVIEW_ZOOM, pitch: 0,  bearing: 0 },
+                           to:   { center: MIDTOWN_HOTELS, zoom: 14.2,          pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true },
-    // 93-100%: hold at hotel cluster
-    { t0: 0.93, t1: 1.0,  from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
+    // 0.71-0.78: hold at hotel cluster
+    { t0: 0.71, t1: TIMELINE_END, from: { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
                            to:   { center: MIDTOWN_HOTELS, zoom: 14.2, pitch: 30, bearing: 0 },
       marker: null, card: null, hotelPhase: true }
   ];
@@ -3773,71 +3647,6 @@ function setLang(lang) {
       }
     });
 
-    // — Neighborhood boundaries (official NYC NTA data, fetched at runtime) —
-    var nhLoaded = false;
-    var nhVisible = false;
-
-    // Empty sources — will be populated once data loads
-    map.addSource('nh-fills', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-    map.addSource('nh-labels', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-
-    map.addLayer({
-      id: 'nh-fills-layer',
-      type: 'fill',
-      source: 'nh-fills',
-      paint: { 'fill-color': 'rgba(0,0,0,0)', 'fill-outline-color': '#c0c0c0', 'fill-opacity': 0 }
-    });
-    map.addLayer({
-      id: 'nh-labels-layer',
-      type: 'symbol',
-      source: 'nh-labels',
-      layout: {
-        'text-field': ['get', 'name'],
-        'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'],
-        'text-size': 10,
-        'text-transform': 'uppercase',
-        'text-letter-spacing': 0.12
-      },
-      paint: { 'text-color': '#aaa', 'text-opacity': 0, 'text-halo-color': '#fff', 'text-halo-width': 1.5 }
-    });
-
-    // Fetch official NYC Neighborhood Tabulation Areas (Manhattan only)
-    function loadNeighborhoods(){
-      if(nhLoaded) return;
-      nhLoaded = true;
-      var url = 'https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/NYC_Neighborhood_Tabulation_Areas_2020/FeatureServer/0/query?where=BoroCode%3D1&outFields=NTAName&f=geojson&outSR=4326';
-      fetch(url).then(function(r){ return r.json(); }).then(function(data){
-        var skip = ['Central Park','Highbridge Park','Inwood Hill Park','Randall\'s Island',
-                    'The Battery-Governors Island-Ellis Island-Liberty Island','United Nations',
-                    'Stuyvesant Town-Peter Cooper Village'];
-        var feats = data.features.filter(function(f){ return skip.indexOf(f.properties.NTAName) === -1; });
-
-        // Keep original polygon geometry (avoids double-line on shared edges)
-        var polyFeats = [];
-        var labelFeats = [];
-        feats.forEach(function(f){
-          polyFeats.push({type:'Feature',geometry:f.geometry,properties:{}});
-          // Centroid for label
-          var all = f.geometry.type==='MultiPolygon' ? f.geometry.coordinates.flat(2) : f.geometry.coordinates.flat(1);
-          var cx = all.reduce(function(s,c){return s+c[0];},0)/all.length;
-          var cy = all.reduce(function(s,c){return s+c[1];},0)/all.length;
-          var nm = f.properties.NTAName.split('-')[0].trim();
-          labelFeats.push({type:'Feature',geometry:{type:'Point',coordinates:[cx,cy]},properties:{name:nm}});
-        });
-
-        map.getSource('nh-fills').setData({type:'FeatureCollection',features:polyFeats});
-        map.getSource('nh-labels').setData({type:'FeatureCollection',features:labelFeats});
-      }).catch(function(e){ console.warn('Neighborhood data unavailable:', e); });
-    }
-
-    function updateNeighborhoods(show){
-      if(show && !nhLoaded) loadNeighborhoods();
-      if(show === nhVisible) return;
-      nhVisible = show;
-      map.setPaintProperty('nh-fills-layer', 'fill-opacity', show ? 1 : 0);
-      map.setPaintProperty('nh-labels-layer', 'text-opacity', show ? 0.65 : 0);
-    }
-
     var route1Drawn = false;
 
     function drawRoute(sourceId, fullCoords, progress){
@@ -3889,7 +3698,6 @@ function setLang(lang) {
     var cards = {
       'card-union':  document.getElementById('card-union'),
       'card-pierre': document.getElementById('card-pierre'),
-      'card-visits': document.getElementById('card-visits'),
       'card-hotels': document.getElementById('card-hotels')
     };
     var _cardAnims = {};
@@ -3914,76 +3722,6 @@ function setLang(lang) {
       el.classList.remove('visible');
       var _el = el;
       setTimeout(function(){ if(!_el.classList.contains('visible')) _el.style.transform = ''; }, 520);
-    }
-
-    // — POI (Points of Interest) — grey dots with click-to-open cards
-    var POI_DATA = [
-      { id: 'poi-1',  name: 'Hudson Yards', dev: 'Related Companies + Oxford Properties', loc: 'Far West Side, 34th St', coords: [-74.0005, 40.7536], desc: 'O maior desenvolvimento privado da história dos EUA — 28 acres construídos sobre trilhos ativos do LIRR. ~$32B de investimento, 11,9M SF entregues na Fase 1. Financiado via TIF bonds e EB-5. Analogia direta com CEPACs e Operações Urbanas.' },
-      { id: 'poi-2',  name: 'The Shed', dev: 'Diller Scofidio + Renfro', loc: 'Hudson Yards, 30th St', coords: [-74.0017, 40.7533], desc: 'Centro cultural de $475M com estrutura telescópica móvel sobre rodas — dobra sua área em 5 minutos. PPP onde o espaço público foi condição do zoneamento privado. Mesmo escritório projetou o MIS do Rio.' },
-      { id: 'poi-3',  name: 'The High Line', dev: 'Friends of the High Line / Cidade de NY', loc: 'Gansevoort St a 34th St', coords: [-74.0049, 40.7480], desc: 'Ferrovia elevada abandonada transformada em parque linear de 2,3 km. Investimento público de ~$130M gerou $1,4B em receita incremental de impostos. Modelo de gestão por conservancy privada — sem custo ao orçamento público.' },
-      { id: 'poi-4',  name: 'Little Island', dev: 'Fundação Diller-von Furstenberg / Heatherwick Studio', loc: 'Pier 55, Hudson River, 13th St', coords: [-74.0107, 40.7421], desc: 'Parque flutuante de 2,4 acres sobre 132 pilares únicos de concreto. $260M inteiramente privados. Modelo de filantropia urbana com manutenção custeada pelo doador por 20 anos.' },
-      { id: 'poi-5',  name: 'One Vanderbilt', dev: 'SL Green Realty (60%) + Mori Building (11%)', loc: 'Midtown East, adj. Grand Central', coords: [-73.9787, 40.7530], desc: 'Supertall de 1.401 pés e 1,7M SF, 100% locado a ~$322/SF. Developer investiu $220M em melhorias de infraestrutura de trânsito para obter bônus de densidade — modelo direto de Outorga Onerosa. Avaliado em $4,7B em 2024.' },
-      { id: 'poi-6',  name: '550 Madison Avenue', dev: 'The Olayan Group', loc: 'Midtown East, 55th–56th St', coords: [-73.9731, 40.7617], desc: 'Retrofit de $300M do ex-edifício AT&T de Philip Johnson. Único edifício do Plaza District com LEED Platinum + WELL Gold. Jardim público de meio acre aberto à rua. Modelo de reposicionamento de torres corporativas dos anos 80.' },
-      { id: 'poi-7',  name: 'Manhattan West', dev: 'Brookfield Properties + Qatar Investment Authority (44%)', loc: 'Penn Station area, 9th Ave', coords: [-73.9943, 40.7530], desc: '7M SF construídos sobre trilhos ativos — plataforma de $680M. Parceria com fundo soberano do Qatar. Conectado à High Line e à Moynihan Train Hall pelo High Line Connector, entregue em 2025.' },
-      { id: 'poi-8',  name: 'Moynihan Train Hall', dev: 'Empire State Development + Related + Vornado', loc: 'Penn Station area, 8th Ave e 33rd St', coords: [-73.9933, 40.7505], desc: 'Conversão de $1,6B da histórica Farley Post Office (1913) em terminal ferroviário moderno com claraboia de 92 pés. Entregue no prazo durante a pandemia. Referência para requalificação de estações ferroviárias históricas no Brasil.' },
-      { id: 'poi-9',  name: '270 Park Avenue — JPMorgan HQ', dev: 'JPMorgan Chase / Foster + Partners', loc: 'Midtown East, Park Ave 47th–48th', coords: [-73.9756, 40.7560], desc: 'Inaugurado em outubro de 2025. 60 andares, 2,5M SF, $4B de investimento. Maior edifício 100% elétrico de NYC, net-zero operacional. Demoliu o edifício anterior voluntariamente — o mais alto já demolido na história dos EUA.' },
-      { id: 'poi-10', name: 'Essex Crossing', dev: 'L+M + BFC Partners + Taconic + Goldman Sachs', loc: 'Lower East Side, Delancey St', coords: [-73.9875, 40.7184], desc: '6 acres, 9 quarteirões, $1,5B. 51% das 1.079 unidades permanentemente acessíveis. Terreno público ocioso por 50 anos após remoção forçada em 1967. Financiamento via LIHTC + NMTC empilhados. Prêmio ULI Global de Excelência 2022.' },
-      { id: 'poi-11', name: 'Brookfield Place + Battery Park City', dev: 'Brookfield Properties / BPCA', loc: 'Downtown, West Street', coords: [-74.0155, 40.7128], desc: '92 acres em ground leases perpétuos sob autoridade pública estadual (BPCA). Receitas de aluguel de solo cruzam-subsidiam habitação acessível em toda a cidade. Extensão de lease de 2025 vai gerar $1,5B para housing.' },
-      { id: 'poi-12', name: 'World Trade Center', dev: 'Port Authority + Silverstein + Brookfield', loc: 'Downtown, Liberty St', coords: [-74.0133, 40.7116], desc: '16 acres, $20B+ de investimento combinado. Regeneração urbana pós-catástrofe ao longo de 20+ anos. One WTC (SOM), Oculus (Calatrava, $3,9B), Perelman PAC (REX). O 2 WTC começa construção em 2026.' },
-      { id: 'poi-13', name: 'Domino Park / The Refinery', dev: 'Two Trees Management', loc: 'Williamsburg, Brooklyn', coords: [-73.9683, 40.7137], desc: '$2,5B de reconversão de refinaria de açúcar histórica em 11 acres. 2.800 apartamentos (25% acessíveis), 600K SF de escritórios. Parque inaugurado antes dos edifícios — tática deliberada de construção de capital político.' },
-      { id: 'poi-14', name: 'Sugar Hill', dev: 'Broadway Housing Communities / David Adjaye', loc: 'Washington Heights, 155th St', coords: [-73.9402, 40.8332], desc: '191K SF, 124 apartamentos 100% acessíveis + museu infantil. Arquitetura de alto padrão para habitação popular — painéis de concreto pré-moldado grafite em relevo. Questionamento direto ao padrão construtivo do MCMV.' },
-      { id: 'poi-15', name: 'Industry City', dev: 'Belvedere Capital + Jamestown + Angelo Gordon', loc: 'Sunset Park, Brooklyn', coords: [-74.0054, 40.6563], desc: '6M SF em 16 galpões industriais dos anos 1890, sem subsídio público. $450M+ investidos. 650+ empresas, 8.500 trabalhadores. Rezoneamento rejeitado em 2020 por pressão comunitária — caso de estudo em risco político de requalificação.' },
-      { id: 'poi-16', name: 'VIA 57 West', dev: 'Durst Organization / BIG – Bjarke Ingels Group', loc: 'West 57th St, Hell\'s Kitchen', coords: [-73.9944, 40.7688], desc: 'O "courtscraper" — híbrido entre torre europeia e pátio de Copenhagen. 709 unidades, 32 andares em forma piramidal que abre um pátio interno de 22.000 SF voltado ao rio. Primeiro projeto de Bjarke Ingels em NYC, 2016. Modelo de como densidade e qualidade de vida não são opostos.' },
-      { id: 'poi-17', name: 'Columbus Circle — The Shops & Time Warner Center', dev: 'Related Companies + Apollo Global (The Shops) / ADIA', loc: 'Columbus Circle, 59th St & Broadway', coords: [-73.9819, 40.7681], desc: 'Duas torres de 750 pés sobre um mall de luxo subterrâneo, inauguradas em 2003. $1,7B de investimento original. A primeira PPP que transformou um rotatória viária em destination urbana. Time Warner Center vendido por $3,3B em 2014 ao fundo soberano de Abu Dhabi — um dos maiores negócios imobiliários de NYC.' },
-      { id: 'poi-18', name: '432 Park Avenue', dev: 'CIM Group + Macklowe Properties / Rafael Viñoly', loc: 'Midtown East, 56th St & Park Ave', coords: [-73.9714, 40.7615], desc: 'Supertall residencial de 1.396 pés — o mais alto do hemisfério ocidental quando inaugurado em 2015. 104 unidades, penthouse vendida por $87,7M. Estrutura minimalista de concreto com janelas de 10×10 pés. Construído no terreno do antigo Drake Hotel. Símbolo do boom de supertalls de Billionaires\' Row.' },
-      { id: 'poi-19', name: '2 World Trade Center', dev: 'Silverstein Properties / BIG – Bjarke Ingels Group', loc: 'Downtown, Greenwich St', coords: [-74.0131, 40.7109], desc: 'Última torre do WTC complex — 1.340 pés, 2,8M SF. Construção começa em 2026. Passou por 3 arquitetos em 20 anos (Foster, Rogers, BIG) — reflexo direto de como ciclos de mercado e mudanças de anchor tenants afetam mega-projetos. Design final: 7 volumes empilhados em cascata.' },
-      { id: 'poi-20', name: 'PENN 2 + Penn Station Redevelopment', dev: 'Vornado Realty Trust', loc: 'Penn Station area, 7th Ave & 31st St', coords: [-73.9916, 40.7499], desc: '$3,5B de renovação da área mais degradada de Midtown. PENN 2: demolição da fachada e reconstrução como torre de vidro de 1.795 pés. Mega PPP com Estado de NY envolvendo direitos aéreos, subsídio de $1,2B via PILOT e transferência de FAR. O projeto mais controverso de NYC — aprovação condicionada a reforma da Penn Station.' },
-      { id: 'poi-21', name: 'The Spiral (66 Hudson Blvd)', dev: 'Tishman Speyer / BIG – Bjarke Ingels Group', loc: 'Hudson Yards, 10th Ave & 34th St', coords: [-74.0003, 40.7545], desc: 'Torre de escritórios de 1.041 pés com terraços em cascata em espiral — cada andar recua e gira, criando 70.000 SF de área verde ao ar livre distribuída na fachada. Inaugurada 2023. Sede da Pfizer. $3,7B. Modelo de amenidade vertical como diferencial de locação.' },
-      { id: 'poi-22', name: 'One Manhattan Square', dev: 'Extell Development / Adamson Associates', loc: 'Lower East Side, Cherry St', coords: [-73.9871, 40.7108], desc: 'Torre residencial de luxo de 815 pés e 815 unidades no Lower East Side — bairro historicamente operário. Piscina, spa, quadra de basquete, boliche, simulador de golfe. 25% das unidades acessíveis via Mandatory Inclusionary Housing. Caso de estudo em gentrificação vertical e tensão entre mercado de luxo e zoneamento inclusionary.' },
-      { id: 'poi-23', name: 'Steinway Tower (111 W 57th St)', dev: 'JDS Development + Property Markets Group / SHoP Architects', loc: 'Billionaires\' Row, 57th St', coords: [-73.9778, 40.7645], desc: 'O edifício mais fino do mundo — ratio largura:altura de 1:24. 1.428 pés, 84 andares, apenas 60 unidades. Fachada em terracota e bronze integrada ao histórico Steinway Hall (1925). Penthouse listada a $66M. Engenharia estrutural extrema: amortecedor de massa de 800 toneladas no topo para controle de oscilação.' },
-      { id: 'poi-24', name: 'Brooklyn Navy Yard', dev: 'Brooklyn Navy Yard Development Corporation (BNYDC)', loc: 'Brooklyn, Flushing Ave', coords: [-73.9712, 40.7023], desc: '300 acres de campus industrial/tech reconvertido de estaleiro militar. Sem residential — 100% produtivo. WeWork, Steiner Studios, novo manufacturing hub, Building 77 (1M SF de food manufacturing). 11.000 empregos. Modelo de economic development que rejeita a fórmula residential-led de reconversão.' },
-      { id: 'poi-25', name: 'Sunnyside Yard', dev: 'City of New York / Amtrak (proprietário)', loc: 'Sunnyside, Queens', coords: [-73.9202, 40.7428], desc: '180 acres sobre trilhos ativos do Amtrak — o maior terreno não desenvolvido de NYC. Master plan em andamento: potencial para 24.000 unidades + 19M SF de escritórios. Estimativa de $29B+ de investimento. Plataforma sobre trilhos como Hudson Yards mas 7x maior. O próximo mega-projeto de NYC — e o mais complexo.' }
-    ];
-
-    // Create POI markers (all hidden initially via CSS opacity)
-    var poiMarkers = [];
-    var poisVisible = false;
-    var poiPopup = document.getElementById('poi-popup');
-    var poiPopupName = document.getElementById('poi-popup-name');
-    var poiPopupDev = document.getElementById('poi-popup-dev');
-    var poiPopupLoc = document.getElementById('poi-popup-loc');
-    var poiPopupDesc = document.getElementById('poi-popup-desc');
-    var poiPopupClose = document.getElementById('poi-popup-close');
-
-    POI_DATA.forEach(function(poi){
-      var el = document.createElement('div');
-      el.className = 'poi-dot';
-      el.title = poi.name;
-      var m = new mapboxgl.Marker({element: el}).setLngLat(poi.coords).addTo(map);
-      poiMarkers.push({ el: el, data: poi, marker: m });
-
-      el.addEventListener('click', function(e){
-        e.stopPropagation();
-        poiPopupName.textContent = poi.name;
-        poiPopupDev.textContent = poi.dev;
-        poiPopupLoc.textContent = poi.loc;
-        poiPopupDesc.textContent = poi.desc;
-        poiPopup.classList.add('visible');
-      });
-    });
-
-    poiPopupClose.addEventListener('click', function(){
-      poiPopup.classList.remove('visible');
-    });
-
-    // Show all POI dots at once (fade via CSS transition)
-    function updatePOIs(show){
-      if(show === poisVisible) return;
-      poisVisible = show;
-      poiMarkers.forEach(function(p){
-        if(show) p.el.classList.add('visible');
-        else p.el.classList.remove('visible');
-      });
     }
 
     // — Hotel markers (numbered) —
@@ -4172,7 +3910,6 @@ function setLang(lang) {
     var phaseTitles = {
       'title-day1':    document.getElementById('title-day1'),
       'title-day2':    document.getElementById('title-day2'),
-      'title-explore': document.getElementById('title-explore'),
       'title-hotels':  document.getElementById('title-hotels')
     };
     function showTitle(id){ var el = phaseTitles[id]; if(el && !el.classList.contains('visible')) el.classList.add('visible'); }
@@ -4184,11 +3921,9 @@ function setLang(lang) {
     var sbLabels = [
       document.getElementById('msb-label-1'),
       document.getElementById('msb-label-2'),
-      document.getElementById('msb-label-3'),
-      document.getElementById('msb-label-4')
+      document.getElementById('msb-label-3')
     ];
     var mapVenueCardsEl = document.getElementById('map-venue-cards');
-    var cardVisits  = document.getElementById('card-visits');
     var cardHotels  = document.getElementById('card-hotels');
     var hotelPanelEmpty    = document.getElementById('hotel-panel-empty');
     var hotelPanelSelected = document.getElementById('hotel-panel-selected');
@@ -4213,9 +3948,11 @@ function setLang(lang) {
         var rect = section.getBoundingClientRect();
         var sectionH = rect.height;
         var viewH = window.innerHeight;
-        var scrolled = -rect.top;
-        var totalScroll = sectionH - viewH;
-        var t = Math.max(0, Math.min(1, scrolled / totalScroll));
+        // A negative top margin is scroll spent under the previous section (.slide-globe + .slide-map)
+        var overlap = Math.max(0, -parseFloat(getComputedStyle(section).marginTop) || 0);
+        var scrolled = -rect.top - overlap;
+        var totalScroll = sectionH - viewH - overlap;
+        var t = Math.max(0, Math.min(1, scrolled / totalScroll)) * TIMELINE_END;
 
         // Find current phase
         var cam = null;
@@ -4242,30 +3979,25 @@ function setLang(lang) {
         // Markers: appear on first zoom-in, never hidden again
         if(currentMarker) revealMarker(currentMarker);
 
-        // Cards: show only for active venue; Day 3 = site visits card; hotel phase = hotels card
-        var inHotelPhase      = t >= 0.88;
-        var inHotelCardsPhase = t >= 0.91;  // hotels card appears slightly later — gap for Day 3 fade-out
-        var isDay3            = (t >= 0.66 && t < 0.88);  // Day 3 = site visits; POI dots are up
+        // Cards: show only for active venue; hotel phase = hotels card
+        var inHotelPhase      = t >= 0.66;
+        var inHotelCardsPhase = t >= 0.69;  // hotels card appears slightly later — gap for the Day 2 fade-out
 
         // Base venue cards: hide all, then selectively show
         ['card-union','card-pierre'].forEach(function(key){
-          if(key === currentCard && !inHotelPhase && !isDay3) showCard(key);
+          if(key === currentCard && !inHotelPhase) showCard(key);
           else hideCard(key);
         });
-        // card-visits: visible for the entire Day 3 (both halves)
-        if(isDay3 && !inHotelPhase && cardVisits) showCard('card-visits');
-        else if(cardVisits) hideCard('card-visits');
-        // Hotels phase: show hotels card after Day 3 has had time to fade out
+        // Hotels phase: show hotels card after Day 2 has had time to fade out
         if(inHotelCardsPhase && cardHotels) showCard('card-hotels');
         else if(cardHotels) hideCard('card-hotels');
 
-        // Phase titles: show alongside their cards, explore/hotels titles for later phases
+        // Phase titles: show alongside their cards, hotels title for the last phase
         hideAllTitles();
         if(!inHotelPhase){
           if(currentCard === 'card-pierre')  showTitle('title-day1');
           else if(currentCard === 'card-union') showTitle('title-day2');
         }
-        if(isDay3) showTitle('title-explore');
         if(inHotelCardsPhase) showTitle('title-hotels');
 
         // Route 1 (Pierre→NYU SPS): progressively draws during 0.30→0.38, fully visible after, hidden before
@@ -4284,11 +4016,8 @@ function setLang(lang) {
         // Move camera
         map.jumpTo(cam);
 
-        // Show POI dots and neighborhood boundaries for the whole Day 3 window
-        updatePOIs(isDay3);
-        updateNeighborhoods(isDay3);
-        // Hide the route line when entering the explore or hotel phase
-        map.setPaintProperty('route-1-line', 'line-opacity', (t >= 0.66) ? 0 : 0.7);
+        // Hide the route line when entering the hotel phase
+        map.setPaintProperty('route-1-line', 'line-opacity', inHotelPhase ? 0 : 0.7);
 
         // Show hotel markers during hotel phase
         updateHotels(inHotelPhase);
@@ -4296,28 +4025,22 @@ function setLang(lang) {
         // — Sidebar progress bar —
         if(sbFill){
           var sbFillPct;
-          if(t <= 0.30)      sbFillPct = (t / 0.30) * 25;
-          else if(t <= 0.66) sbFillPct = 25 + ((t - 0.30) / 0.36) * 25;
-          else if(t <= 0.88) sbFillPct = 50 + ((t - 0.66) / 0.22) * 25;
-          else               sbFillPct = 75 + ((t - 0.88) / 0.12) * 25;
+          if(t <= 0.30)      sbFillPct = (t / 0.30) * 100 / 3;
+          else if(t <= 0.66) sbFillPct = 100 / 3 + ((t - 0.30) / 0.36) * 100 / 3;
+          else               sbFillPct = 200 / 3 + ((t - 0.66) / 0.12) * 100 / 3;
           sbFill.style.height = Math.min(100, sbFillPct).toFixed(1) + '%';
         }
-        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : (t < 0.88) ? 2 : 3;
+        var sbActiveIdx = (t < 0.30) ? 0 : (t < 0.66) ? 1 : 2;
         sbLabels.forEach(function(l, i){
           if(!l) return;
           if(i === sbActiveIdx) l.classList.add('active');
           else l.classList.remove('active');
         });
         // Align cards top with the active day label in the sidebar
-        // Sidebar top padding = 1rem; each of 4 label slots = 5.5rem (22rem / 4)
-        var cardOffsets = ['1rem', '6.5rem', '12rem', '17.5rem'];
+        // Sidebar top padding = 1rem; each of 3 label slots = 5.5rem (16.5rem / 3)
+        var cardOffsets = ['1rem', '6.5rem', '12rem'];
         if(mapVenueCardsEl){
           mapVenueCardsEl.style.marginTop = cardOffsets[sbActiveIdx];
-        }
-
-        // Close POI popup when scrolling outside the POI phase
-        if(!isDay3 && poiPopup.classList.contains('visible')){
-          poiPopup.classList.remove('visible');
         }
 
         ticking = false;
@@ -4327,31 +4050,6 @@ function setLang(lang) {
     window.addEventListener('scroll', onScroll, {passive: true});
     onScroll();
   });
-})();
-</script>
-
-<!-- Sticky CTA: appears after scrolling past the cover -->
-<a
-  href="https://luma.com/event/evt-cZKc1exaulCHny5"
-  class="luma-checkout--button sticky-cta"
-  id="sticky-cta"
-  data-luma-action="checkout"
-  data-luma-event-id="evt-cZKc1exaulCHny5"
-><span data-lang="en">Request Invitation</span><span data-lang="pt">Solicitar Convite</span></a>
-<script>
-(function(){
-  var sticky = document.getElementById('sticky-cta');
-  if(!sticky) return;
-  // Show the sticky CTA once the user has scrolled past ~60% of the viewport height
-  // (i.e. past the cover where the EN/PT toggle fades away).
-  var threshold = function(){ return window.innerHeight * 0.6; };
-  function update(){
-    if(window.scrollY > threshold()) sticky.classList.add('visible');
-    else sticky.classList.remove('visible');
-  }
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
-  update();
 })();
 </script>
 
@@ -4602,7 +4300,7 @@ function setLang(lang) {
       .map(function (el) {
         return { el: el, strength: parseFloat(el.getAttribute('data-parallax')) || 0, section: el.closest('section') };
       })
-      .filter(function (item) { return item.section; });
+      .filter(function (item) { return item.section && !item.el.closest('#why-modal'); });
   }
   function clamp01(v) { return Math.max(0, Math.min(1, v)); }
   function applyParallax() {
@@ -4624,7 +4322,71 @@ function setLang(lang) {
     update();
   }
 })();
+</script>
 
+<script>
+/* "Learn why" modal: opens the three data sections over the page.
+   Esc or Close shuts it; the bridge CTAs inside close it and jump to the event cards. */
+(function () {
+  var modal = document.getElementById('why-modal');
+  var openBtn = document.getElementById('why-open');
+  var closeBtn = document.getElementById('why-modal-close');
+  if (!modal || !openBtn || !closeBtn) return;
+  var root = document.documentElement;
+  var lastFocus = null;
+
+  function focusables() {
+    return Array.prototype.filter.call(
+      modal.querySelectorAll('a[href], button:not([disabled])'),
+      function (el) { return el.offsetParent !== null; }
+    );
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    // Keep keyboard focus inside the dialog
+    var items = focusables();
+    if (!items.length) return;
+    var first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+  function open() {
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    modal.scrollTop = 0;
+    root.classList.add('why-lock');
+    closeBtn.focus({ preventScroll: true });
+    document.addEventListener('keydown', onKey);
+  }
+  function close() {
+    if (modal.hidden) return;
+    modal.hidden = true;
+    root.classList.remove('why-lock');
+    document.removeEventListener('keydown', onKey);
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  Array.prototype.forEach.call(modal.querySelectorAll('a[href^="#"]'), function (a) {
+    a.addEventListener('click', function (e) {
+      close();
+      // #forum-card sits in a scroll-driven section: jump to the point where
+      // both event cards are on screen, just before the Forum card expands
+      var sec = document.getElementById('slide-opportunity');
+      if (a.getAttribute('href') !== '#forum-card' || !sec) return;
+      e.preventDefault();
+      var cs = getComputedStyle(sec), vh = window.innerHeight;
+      var globe = parseFloat(cs.getPropertyValue('--globe-scroll')) / 100 * vh;
+      var week = parseFloat(cs.getPropertyValue('--week-scroll')) / 100 * vh;
+      window.scrollTo(0, sec.offsetTop + globe + week * 0.27);
+    });
+  });
+})();
+</script>
+
+<script>
 /* ===== TEST-ONLY: discreet 3D Manhattan behind the cover =====
    Non-interactive, heavily washed toward the site's deep purple, with an
    imperceptibly slow orbital drift (paused once the cover scrolls away);
