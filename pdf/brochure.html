@@ -227,7 +227,7 @@
     text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 2mm;
   }
   .week-title { font-size: 15pt; font-weight: 600; margin-top: 16mm; margin-bottom: 5mm; }
-  .days { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .days { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4mm; }
   .day {
     border: 0.3mm solid rgba(255,255,255,0.18); padding: 5mm;
     display: flex; flex-direction: column; gap: 2mm;
@@ -320,12 +320,6 @@
   .venue-kind { font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--violet); }
   .venue-name { font-size: 12pt; font-weight: 600; line-height: 1.2; }
   .venue-addr { font-size: 8.5pt; color: var(--dgray); line-height: 1.4; }
-  .visits {
-    margin-top: 10mm; padding: 4.5mm 5mm; background: var(--lgray);
-    display: grid; grid-template-columns: 42mm 1fr; gap: 5mm; align-items: center;
-  }
-  .visits .venue-name { font-size: 11pt; }
-  .visits ul { list-style: none; font-size: 8.5pt; color: var(--dgray); line-height: 1.6; }
   /* ===== BACK ===== */
   .back { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 30mm; }
   .back > * { position: relative; }
@@ -551,7 +545,7 @@
     <div><div class="stat-num">2</div><div class="stat-label">Markets</div></div>
   </div>
 
-  <div class="week-title">Three days in New York</div>
+  <div class="week-title">Two days in New York</div>
   <div class="days">
     <div class="day">
       <div class="day-kind">Separate event</div>
@@ -573,12 +567,6 @@
         <li><b>05</b>From Selling Units to Owning Income</li>
       </ul>
       <a class="btn" href="https://luma.com/event/evt-cZKc1exaulCHny5">Request invitation →</a>
-    </div>
-    <div class="day">
-      <div class="day-kind">Site visits</div>
-      <div class="day-date">Sat · Nov 21</div>
-      <div class="day-name">Around New York</div>
-      <div class="day-desc">Curated visits to NYC developments. One Vanderbilt is confirmed; an affordable housing project and a public–private development site will be announced.</div>
     </div>
   </div>
   <p class="note">This is the inaugural edition. The plan is to reach 150+ attendees in 2027 and make the forum the annual reference point for cross-border real estate between Brazil and the United States.</p>
@@ -688,7 +676,7 @@
         <div class="item-desc">Public land, public infrastructure and private execution have to close inside a single transaction. How New York structures those deals, who carries which risk, and what still holds twenty years in.</div>
         <div class="people">
           <div class="person"><div class="av"><img src="../img/speakers/matthew-kwatinetz.jpg" alt=""></div><div><div class="person-name">Matthew Kwatinetz</div><div class="person-role">NYU Schack · Moderator</div></div></div>
-          <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
+          <div class="person"><div class="av"><img src="../img/speakers/pedro-martin-fernandes.jpg" alt=""></div><div><div class="person-name">Pedro Martin Fernandes</div><div class="person-role">SP Urbanismo · President</div></div></div>
           <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
           <div class="person person--tbd"><div class="av"></div><div><div class="person-name">TBD</div><div class="person-role">Speaker</div></div></div>
         </div>
@@ -762,17 +750,6 @@
         <a class="btn" style="margin-top:3mm" href="https://luma.com/event/evt-cZKc1exaulCHny5">Request invitation →</a>
       </div>
     </div>
-  </div>
-  <div class="visits">
-    <div>
-      <div class="venue-kind">Day three · Sat, Nov 21</div>
-      <div class="venue-name">Site visits around New York</div>
-    </div>
-    <ul>
-      <li><strong>One Vanderbilt</strong> · Midtown East, by Grand Central</li>
-      <li>Affordable housing development · to be announced</li>
-      <li>Public–private development site · to be announced</li>
-    </ul>
   </div>
 
   <div class="folio"><span>BR/USA Real Estate Forum · Nov 20, 2026 · New York</span><span>09</span></div>
