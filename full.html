@@ -2298,7 +2298,7 @@
             </div>
             <div class="card-info-item">
               <span class="card-info-label" data-lang="en">Venue</span><span class="card-info-label" data-lang="pt">Local</span>
-              <span class="card-info-value">NYU Abu Dhabi House — 19 Washington Square North, NYC</span>
+              <span class="card-info-value">NYU King Juan Carlos I of Spain Center — 53 Washington Square South, NYC</span>
             </div>
           </div>
           <a class="card-past-btn card-past-btn--primary" href="https://luma.com/event/evt-cZKc1exaulCHny5" data-luma-action="checkout" data-luma-event-id="evt-cZKc1exaulCHny5">
@@ -2569,11 +2569,11 @@
       <div class="map-venue-cards" id="map-venue-cards">
         <!-- Day 2 (Nov 20): Forum -->
         <div class="map-venue-card" id="card-union">
-          <img class="map-venue-img" src="img/nyu_9wsn.jpg" alt="NYU Abu Dhabi House" style="object-fit:cover;object-position:center;">
+          <img class="map-venue-img" src="img/nyu_kjcc.jpg" alt="NYU King Juan Carlos I of Spain Center" title="Foto: Epicgenius, Wikimedia Commons, CC BY-SA 4.0" style="object-fit:cover;object-position:center;">
           <div class="map-venue-info">
             <div class="map-venue-tag">BR/USA Real Estate Forum</div>
-            <div class="map-venue-name">NYU Abu Dhabi House</div>
-            <div class="map-venue-addr">19 Washington Square North, New York</div>
+            <div class="map-venue-name">NYU King Juan Carlos I of Spain Center</div>
+            <div class="map-venue-addr">53 Washington Square South, New York</div>
           </div>
         </div>
         <!-- Day 1 (Nov 19): Capital Markets Conference -->
@@ -3522,7 +3522,7 @@ function setLang(lang) {
 
   // === Venues ===
   var MANHATTAN = [-73.9900, 40.7300];  // South Manhattan — tip visible, just top edge of Central Park
-  var WAGNER = [-73.9967, 40.7317];  // NYU School of Professional Studies, 9 Washington Square North
+  var WAGNER = [-73.99862, 40.73040];  // NYU King Juan Carlos I of Spain Center, 53 Washington Square South
   var PIERRE = [-73.9723, 40.7650]; // The Pierre, 2 E 61st St (5th Ave)
   var MIDTOWN_HOTELS = [-73.9740, 40.7615]; // Center of hotel cluster
 
@@ -3626,9 +3626,9 @@ function setLang(lang) {
       }
     });
 
-    // — Route path (The Pierre→NYU SPS, down Fifth Avenue) —
+    // — Route path (The Pierre→NYU, down Fifth Avenue, around Washington Square North and West, then east on Washington Square South) —
     var ROUTE_1 = [
-      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9967,40.7317]
+      [-73.9723,40.7650],[-73.973500,40.763800],[-73.974800,40.762700],[-73.976300,40.761500],[-73.977600,40.758700],[-73.979200,40.756400],[-73.981200,40.753200],[-73.983400,40.750500],[-73.985700,40.748400],[-73.987600,40.745200],[-73.989700,40.741100],[-73.992000,40.738000],[-73.993800,40.735700],[-73.994500,40.734300],[-73.9967,40.7317],[-73.99698,40.73142],[-73.99762,40.73173],[-73.99862,40.73222],[-73.99911,40.73163],[-73.9996,40.73104],[-73.99891,40.7307],[-73.99862,40.73055]
     ];
 
     map.addSource('route-1', {
