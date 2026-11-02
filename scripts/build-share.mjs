@@ -36,7 +36,6 @@ const COMMON = `
   .cover-co-logo-link { opacity: .95 !important; height: auto !important; }
   .partner-logos .rope { background: rgba(255,255,255,.35) !important; }
   .cover-supporter { opacity: .8 !important; }
-  .cover-lead { opacity: .95 !important; }
   .cover-label, .cover-supporters .cover-label { color: rgba(255,255,255,.6) !important; }
   .cover-desc { color: rgba(255,255,255,.6) !important; }
   .cover-meta { color: rgba(255,255,255,.85) !important; }
@@ -73,8 +72,8 @@ const FORMATS = {
       .cover-supporter-logo--ospa { height: 34px !important; }
       .cover-supporter-logo--bb { height: 33px !important; }
       .cover-supporter-logo--piquet { height: 31px !important; }
+      .cover-supporter-logo--jhsf { height: 21px !important; }
       .cover-supporter-logo--zorzi { height: 39px !important; }
-      .cover-lead-logo { height: 28px !important; }
       .cover-supporter-logo[src*="chamber"] { height: 38px !important; }
       .cover-supporter-logo--lareal { height: 21px !important; }
     `,
@@ -104,8 +103,8 @@ const FORMATS = {
       .cover-supporter-logo--ospa { height: 54px !important; }
       .cover-supporter-logo--bb { height: 52px !important; }
       .cover-supporter-logo--piquet { height: 49px !important; }
+      .cover-supporter-logo--jhsf { height: 33px !important; }
       .cover-supporter-logo--zorzi { height: 62px !important; }
-      .cover-lead-logo { height: 38px !important; }
       .cover-supporter-logo[src*="chamber"] { height: 60px !important; }
       .cover-supporter-logo--lareal { height: 33px !important; }
     `,
@@ -132,8 +131,8 @@ const FORMATS = {
       .cover-supporter-logo--ospa { height: 58px !important; }
       .cover-supporter-logo--bb { height: 56px !important; }
       .cover-supporter-logo--piquet { height: 53px !important; }
+      .cover-supporter-logo--jhsf { height: 35px !important; }
       .cover-supporter-logo--zorzi { height: 66px !important; }
-      .cover-lead-logo { height: 47px !important; }
       .cover-supporter-logo[src*="chamber"] { height: 64px !important; }
       .cover-supporter-logo--lareal { height: 35px !important; }
     `,

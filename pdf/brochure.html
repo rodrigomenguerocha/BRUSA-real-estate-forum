@@ -151,10 +151,6 @@
   .coorg { display: flex; align-items: center; justify-content: center; gap: 7mm; margin-top: 4mm; }
   .coorg svg { height: 9mm; width: auto; display: block; }
   .coorg .rope { width: 0.25mm; height: 7mm; background: rgba(255,255,255,0.3); }
-  /* Co-organizers and the Lead Partner share the top band, one labelled group each. */
-  .top-partners { display: flex; justify-content: center; align-items: flex-start; gap: 14mm; }
-  .top-partners > div { display: flex; flex-direction: column; align-items: center; }
-  .coorg .logo-lead { height: 6.5mm; width: auto; display: block; filter: brightness(0) invert(1); }
   .cover-mid { margin-top: auto; margin-bottom: auto; }
   .wm { font-size: 76pt; line-height: 1; letter-spacing: 0.01em; }
   .wm .cc { font-weight: 700; }
@@ -175,16 +171,17 @@
     margin-top: 3.5mm; color: rgba(255,255,255,0.6);
     font-family: var(--mono); font-size: 7pt; letter-spacing: 0.18em; text-transform: uppercase;
   }
-  .cover-bottom { margin-bottom: 18mm; display: flex; gap: 14mm; }
+  .cover-bottom { margin-bottom: 18mm; display: flex; gap: 11mm; }
   .partners { display: flex; flex-direction: column; align-items: center; gap: 4mm; }
-  .partner-logos { display: flex; align-items: center; gap: 6mm; }
+  .partner-logos { display: flex; align-items: center; gap: 4.5mm; }
   .partner-logos img { display: block; width: auto; filter: brightness(0) invert(1); opacity: 0.8; }
-  .logo-ospa { height: 8mm; }
-  .logo-bb { height: 7.6mm; }
-  .logo-piquet { height: 7.2mm; }
-  .logo-zorzi { height: 9mm; }
-  .logo-bacc { height: 8.4mm; }
-  .logo-lareal { height: 5mm; }
+  .logo-ospa { height: 7.4mm; }
+  .logo-bb { height: 7mm; }
+  .logo-piquet { height: 6.6mm; }
+  .logo-jhsf { height: 5mm; }
+  .logo-zorzi { height: 7.8mm; }
+  .logo-bacc { height: 7.8mm; }
+  .logo-lareal { height: 4.6mm; }
 
   /* ===== CHART ===== */
   .shift-cards { grid-template-columns: 1fr 1fr; margin-top: 9mm; margin-bottom: 0; }
@@ -341,7 +338,7 @@
   .invite-text { font-size: 9pt; line-height: 1.55; color: rgba(255,255,255,0.7); margin-top: 2mm; max-width: 88mm; }
   .invite-link { font-family: var(--mono); font-size: 7pt; letter-spacing: 0.06em; color: var(--lilac); margin-top: 3mm; text-decoration: none; display: block; }
   .back-bottom { margin-bottom: 10mm; display: flex; flex-direction: column; align-items: center; gap: 9mm; }
-  .back-partners { display: flex; gap: 14mm; }
+  .back-partners { display: flex; gap: 11mm; }
   .site { font-family: var(--mono); font-size: 7pt; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); text-decoration: none; }
 
   @media screen {
@@ -354,15 +351,9 @@
 <!-- ============ 1. COVER ============ -->
 <section class="page cover dots">
   <div class="cover-bg"></div>
-  <div class="cover-top top-partners">
-    <div>
-      <div class="label">Co-organizers</div>
-      <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
-    </div>
-    <div>
-      <div class="label">Lead Partner</div>
-      <div class="coorg"><img class="logo-lead" src="../img/logos/jhsf.png" alt="JHSF"></div>
-    </div>
+  <div class="cover-top">
+    <div class="label">Co-organizers</div>
+    <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
   </div>
   <div class="cover-mid">
     <div class="wm"><span class="cc">BR</span><span class="s">/</span><span class="cc">USA</span></div>
@@ -379,6 +370,7 @@
         <img class="logo-ospa" src="../img/logos/ospa.svg" alt="OSPA">
         <img class="logo-bb" src="../img/logos/bb-americas.png" alt="BB Americas Bank">
         <img class="logo-piquet" src="../img/logos/piquet-law.png" alt="Piquet Law Firm">
+        <img class="logo-jhsf" src="../img/logos/jhsf.png" alt="JHSF">
         <img class="logo-zorzi" src="../img/logos/zorzi.png" alt="Zorzi Engenharia">
       </div>
     </div>
@@ -767,16 +759,8 @@
 
 <!-- ============ 10. BACK COVER ============ -->
 <section class="page page--dark dots back">
-  <div class="top-partners">
-    <div>
-      <div class="label">Co-organizers</div>
-      <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
-    </div>
-    <div>
-      <div class="label">Lead Partner</div>
-      <div class="coorg"><img class="logo-lead" src="../img/logos/jhsf.png" alt="JHSF"></div>
-    </div>
-  </div>
+  <div class="label">Co-organizers</div>
+  <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
   <div class="back-mid">
   <h1>See you in New York.</h1>
   <div class="wm-meta">November 20, 2026 · New York City</div>
@@ -800,6 +784,7 @@
           <img class="logo-ospa" src="../img/logos/ospa.svg" alt="OSPA">
           <img class="logo-bb" src="../img/logos/bb-americas.png" alt="BB Americas Bank">
           <img class="logo-piquet" src="../img/logos/piquet-law.png" alt="Piquet Law Firm">
+          <img class="logo-jhsf" src="../img/logos/jhsf.png" alt="JHSF">
           <img class="logo-zorzi" src="../img/logos/zorzi.png" alt="Zorzi Engenharia">
         </div>
       </div>
