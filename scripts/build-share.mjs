@@ -73,6 +73,7 @@ const FORMATS = {
       .cover-supporter-logo--bb { height: 33px !important; }
       .cover-supporter-logo--piquet { height: 31px !important; }
       .cover-supporter-logo--jhsf { height: 21px !important; }
+      .cover-supporter-logo--zorzi { height: 39px !important; }
       .cover-supporter-logo[src*="chamber"] { height: 38px !important; }
       .cover-supporter-logo--lareal { height: 21px !important; }
     `,
@@ -103,6 +104,7 @@ const FORMATS = {
       .cover-supporter-logo--bb { height: 52px !important; }
       .cover-supporter-logo--piquet { height: 49px !important; }
       .cover-supporter-logo--jhsf { height: 33px !important; }
+      .cover-supporter-logo--zorzi { height: 62px !important; }
       .cover-supporter-logo[src*="chamber"] { height: 60px !important; }
       .cover-supporter-logo--lareal { height: 33px !important; }
     `,
@@ -130,6 +132,7 @@ const FORMATS = {
       .cover-supporter-logo--bb { height: 56px !important; }
       .cover-supporter-logo--piquet { height: 53px !important; }
       .cover-supporter-logo--jhsf { height: 35px !important; }
+      .cover-supporter-logo--zorzi { height: 66px !important; }
       .cover-supporter-logo[src*="chamber"] { height: 64px !important; }
       .cover-supporter-logo--lareal { height: 35px !important; }
     `,
