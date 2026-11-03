@@ -52,7 +52,14 @@ esconde o outro. Texto novo sem o par fica visível nos dois idiomas.
 em inglês: `brochure.html` (A4 retrato), `partnerships.html` (16:9) e
 `one-pager.html` (A4, uma página só). `npm run pdf` gera todos com o Chrome
 instalado na máquina; `npm run pdf -- brochure`, `npm run pdf -- partnerships` ou
-`npm run pdf -- one-pager` gera só um. Com `--preview`, também salva um PNG
+`npm run pdf -- one-pager` gera só um.
+
+**Briefing dos palestrantes.** `pdf/speaker-briefs.html` (A4, uma página por
+painel) sai em `pdf/BRUSA-Speaker-Briefs-2026.pdf` com `npm run pdf --
+speaker-briefs`. É material interno para os palestrantes e não tem link no site. O PDF não
+vai para o git (está no `.gitignore`); gere localmente antes de enviar.
+Os trechos ainda a confirmar ficam em `<mark class="tbc">`, com fundo amarelo;
+resolva todos antes de enviar. Com `--preview`, também salva um PNG
 por página em `pdf/preview/` para conferir o layout. A fonte e os logos dos
 co-organizadores vêm do `index.html`.
 
