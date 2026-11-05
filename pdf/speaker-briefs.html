@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BR/USA Real Estate Forum 2026 — Speaker Briefs</title>
+<!-- Briefing dos palestrantes, uma página por painel. Não abra direto: rode
+     `npm run pdf -- speaker-briefs`, que injeta a fonte e os logos do index.html
+     e gera o PDF. Trechos em <mark class="tbc"> ainda precisam de confirmação. -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* @fonts */
+  :root {
+    --violet: #57068C;
+    --deep: #330662;
+    --ultra: #8900e1;
+    --lilac: #B67CF0;
+    --black: #1A1A1A;
+    --white: #FFFFFF;
+    --lgray: #F0F0F0;
+    --tint: #F7F5FA;
+    --line: #E2E2E2;
+    --tgray: #999999;
+    --dgray: #5E5E5E;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: 'NYU Perstare', Georgia, serif;
+    color: var(--black);
+    background: #777;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== PAGE ===== */
+  .page {
+    position: relative;
+    width: 210mm; height: 297mm;
+    padding: 18mm 18mm 22mm;
+    overflow: hidden;
+    background: var(--white);
+    break-after: page;
+    display: flex; flex-direction: column;
+  }
+  .page:last-child { break-after: auto; }
+  .page--dark { background: var(--deep); color: var(--white); }
+  .dots::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,0.10) 0.9px, transparent 1px);
+    background-size: 6mm 6mm;
+  }
+  .folio {
+    position: absolute; left: 18mm; right: 18mm; bottom: 10mm;
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 6pt; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--tgray);
+    border-top: 0.25mm solid var(--line); padding-top: 3mm;
+  }
+  .tbc { background: #FFE98A; color: inherit; padding: 0 0.6mm; }
+
+  /* ===== TYPE ===== */
+  .eyebrow {
+    font-family: var(--mono); font-size: 7pt; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--violet); margin-bottom: 4mm;
+  }
+  .page--dark .eyebrow { color: var(--lilac); }
+  h1 { font-size: 27pt; font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; }
+  h2 {
+    font-family: var(--mono); font-size: 6.5pt; font-weight: 500; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--violet);
+    padding-bottom: 2.5mm; margin-bottom: 4mm; border-bottom: 0.3mm solid var(--black);
+  }
+  .body p { font-size: 8.9pt; line-height: 1.52; color: #3a3a3a; margin-bottom: 2.8mm; }
+  .body p:last-child { margin-bottom: 0; }
+
+  /* ===== COVER ===== */
+  .cover {
+    padding: 0; align-items: center; text-align: center;
+    color: var(--white); background: var(--deep);
+  }
+  .cover-bg {
+    position: absolute; inset: 0;
+    background: url('assets/cover-manhattan.jpg') center / cover no-repeat;
+  }
+  .cover-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 45%, rgba(51,6,98,0.50) 0%, rgba(51,6,98,0.70) 70%, rgba(51,6,98,0.90) 100%),
+      linear-gradient(180deg, rgba(51,6,98,0.85) 0%, rgba(51,6,98,0.35) 30%, rgba(51,6,98,0.35) 62%, rgba(51,6,98,0.95) 100%);
+  }
+  .cover > *:not(.cover-bg) { position: relative; }
+  .cover-top { margin-top: 26mm; }
+  .label {
+    font-family: var(--mono); font-size: 5.5pt; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  .coorg { display: flex; align-items: center; justify-content: center; gap: 7mm; margin-top: 4mm; }
+  .coorg svg { height: 9mm; width: auto; display: block; }
+  .coorg .rope { width: 0.25mm; height: 7mm; background: rgba(255,255,255,0.3); }
+  .cover-mid { margin-top: auto; margin-bottom: auto; }
+  .wm { font-size: 76pt; line-height: 1; letter-spacing: 0.01em; }
+  .wm .cc { font-weight: 700; }
+  .wm .s { font-weight: 200; opacity: 0.3; }
+  .wm-desc {
+    font-size: 11pt; letter-spacing: 0.38em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); margin-top: 3mm;
+  }
+  .cover-title { font-size: 30pt; font-weight: 600; margin-top: 16mm; }
+  .cover-sub {
+    font-family: var(--mono); font-size: 7.5pt; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lilac); margin-top: 4mm;
+  }
+  .wm-meta {
+    font-family: var(--mono); font-size: 9pt; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-top: 12mm; line-height: 1.8;
+  }
+  .wm-meta span { display: block; color: rgba(255,255,255,0.6); font-size: 7pt; }
+  .cover-bottom {
+    margin-bottom: 16mm; max-width: 170mm;
+    font-size: 9pt; line-height: 1.6; color: rgba(255,255,255,0.7);
+  }
+  .cover-bottom p { max-width: 130mm; margin: 0 auto; }
+  .supporters { display: flex; justify-content: center; gap: 11mm; margin-top: 9mm; }
+  .partners { display: flex; flex-direction: column; align-items: center; gap: 4mm; }
+  .partner-logos { display: flex; align-items: center; gap: 4.5mm; }
+  .partner-logos img { display: block; width: auto; filter: brightness(0) invert(1); opacity: 0.8; }
+  .logo-ospa { height: 7.4mm; }
+  .logo-bb { height: 7mm; }
+  .logo-piquet { height: 6.6mm; }
+  .logo-jhsf { height: 5.8mm; }
+  .logo-zorzi { height: 7.8mm; }
+  .logo-bacc { height: 7.8mm; }
+  .logo-lareal { height: 4.6mm; }
+
+  /* ===== INTRO ===== */
+  .intro-head { margin-bottom: 8mm; }
+  .intro-head h1 { margin-bottom: 5mm; }
+  .intro-where {
+    font-family: var(--mono); font-size: 7pt; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dgray); line-height: 1.7;
+  }
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 9mm; }
+  .notes { list-style: none; }
+  .notes li {
+    display: grid; grid-template-columns: 18mm 1fr; column-gap: 3mm;
+    padding: 2mm 0; border-bottom: 0.25mm solid var(--line);
+    font-size: 8.3pt; line-height: 1.48; color: #3a3a3a;
+  }
+  .notes li b {
+    font-family: var(--mono); font-weight: 500; font-size: 5.8pt; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--violet); padding-top: 0.9mm;
+  }
+  .toc { margin-top: 8mm; }
+  .toc-list { list-style: none; }
+  .toc-list li {
+    display: grid; grid-template-columns: 14mm 1fr 8mm; align-items: baseline; column-gap: 2mm;
+    padding: 2.2mm 0; border-bottom: 0.25mm solid var(--line);
+  }
+  .toc-n, .toc-t, .toc-p { font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.1em; color: var(--tgray); text-transform: uppercase; }
+  .toc-n { color: var(--violet); }
+  .toc-p { text-align: right; }
+  .toc-title { font-size: 9.6pt; font-weight: 600; line-height: 1.25; }
+  .toc-title small { display: block; margin-top: 0.8mm; font-family: var(--mono); font-size: 5.8pt; font-weight: 400; letter-spacing: 0.1em; color: var(--tgray); }
+
+  /* ===== PANEL ===== */
+  .p-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm; }
+  .p-head h1 { max-width: 128mm; }
+  .p-time {
+    font-family: var(--mono); font-size: 7.5pt; letter-spacing: 0.1em; color: var(--dgray);
+    text-align: right; white-space: nowrap; line-height: 1.7; text-transform: uppercase;
+  }
+  .p-time b { display: block; font-size: 13pt; font-weight: 400; color: var(--black); letter-spacing: 0.02em; }
+
+  .stage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 6mm; }
+  .sp {
+    background: var(--tint); padding: 4mm 4mm 3.6mm;
+    display: flex; align-items: flex-start; gap: 3.5mm; min-width: 0;
+  }
+  .sp-photo {
+    width: 15mm; height: 15mm; border-radius: 50%; overflow: hidden; flex: none;
+    background: var(--deep); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12pt; font-weight: 600;
+  }
+  .sp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1); }
+  .sp-info { display: flex; flex-direction: column; min-width: 0; align-self: stretch; }
+  .sp-tag {
+    align-self: flex-start; margin-bottom: 1.6mm;
+    font-family: var(--mono); font-size: 5.2pt; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.5mm 1.4mm; color: var(--white); background: var(--violet);
+  }
+  .sp-tag--talk { background: var(--ultra); }
+  .sp-name { font-size: 10.5pt; font-weight: 600; line-height: 1.15; }
+  .sp-org {
+    font-family: var(--mono); font-size: 5.6pt; line-height: 1.5; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--dgray); margin-top: 1mm;
+  }
+  .li {
+    align-self: flex-start; margin-top: auto; padding-top: 2mm;
+    display: inline-flex; align-items: center; gap: 1.4mm; text-decoration: none;
+    font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--violet);
+  }
+  .li i {
+    font-style: normal; font-family: Arial, Helvetica, sans-serif; font-weight: 700; text-transform: none;
+    font-size: 6.4pt; letter-spacing: 0; line-height: 1;
+    width: 3.6mm; height: 3.6mm; border-radius: 0.6mm;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--violet); color: var(--white);
+  }
+  .sp--tbd { background: transparent; border: 0.3mm dashed rgba(87,6,140,0.45); }
+  .sp--tbd .sp-photo { background: transparent; border: 0.3mm dashed rgba(87,6,140,0.45); color: var(--violet); font-family: var(--mono); font-size: 5.5pt; font-weight: 500; letter-spacing: 0.1em; }
+  .sp--tbd .sp-name { color: var(--tgray); font-weight: 500; }
+
+  /* Formato: barra dos 50 minutos, proporcional ao tempo de cada bloco. */
+  .format { margin-top: 4.5mm; }
+  .format-bar { display: flex; height: 6.5mm; gap: 0.6mm; }
+  .seg {
+    display: flex; align-items: center; padding: 0 2mm; overflow: hidden; white-space: nowrap;
+    font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--lgray); color: var(--dgray);
+  }
+  .seg b { font-weight: 500; margin-right: 1.4mm; }
+  .seg--talk { background: var(--ultra); color: var(--white); }
+  .seg--conv { background: var(--violet); color: var(--white); }
+  .seg--qa { background: var(--lilac); color: var(--deep); }
+  .format-note { font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tgray); margin-top: 1.8mm; }
+
+  .p-body { display: grid; grid-template-columns: 76mm 1fr; column-gap: 8mm; margin-top: 6.5mm; flex: 1; min-height: 0; }
+  .bridge {
+    margin-top: 4.5mm; padding: 3mm 3.8mm;
+    border-left: 0.6mm solid var(--violet); background: rgba(87,6,140,0.05);
+    font-size: 8.2pt; line-height: 1.48; color: var(--violet);
+  }
+  .qs { list-style: none; counter-reset: q; }
+  .qs li {
+    counter-increment: q; position: relative;
+    padding: 0 0 2mm 8mm; margin-bottom: 2mm; border-bottom: 0.25mm solid var(--line);
+    font-size: 8.6pt; line-height: 1.45; color: #2a2a2a;
+  }
+  .qs li:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+  .qs li::before {
+    content: counter(q, decimal-leading-zero); position: absolute; left: 0; top: 0.5mm;
+    font-family: var(--mono); font-size: 6.5pt; letter-spacing: 0.06em; color: var(--violet);
+  }
+  .qs li em { font-style: normal; font-weight: 600; color: var(--violet); }
+
+  @media screen {
+    .page { margin: 0 auto 8mm; box-shadow: 0 2mm 8mm rgba(0,0,0,0.25); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CAPA ============ -->
+<section class="page cover dots">
+  <div class="cover-bg"></div>
+  <div class="cover-top">
+    <div class="label">Co-organizers</div>
+    <div class="coorg"><!-- @logo-rci --><span class="rope"></span><!-- @logo-nyu --></div>
+  </div>
+  <div class="cover-mid">
+    <div class="wm"><span class="cc">BR</span><span class="s">/</span><span class="cc">USA</span></div>
+    <div class="wm-desc">Real Estate Forum</div>
+    <div class="cover-title">Speaker Briefs</div>
+    <div class="cover-sub">Five panels · One page each</div>
+    <div class="wm-meta">Friday, November 20, 2026<span>NYU King Juan Carlos I of Spain Center · New York</span></div>
+  </div>
+  <div class="cover-bottom">
+    <p>Who is on stage with you, what each panel is for, and a set of guiding questions for the moderator. The questions are a starting point, not a script.</p>
+    <div class="supporters">
+      <div class="partners">
+        <div class="label">Supporting Partners</div>
+        <div class="partner-logos">
+          <img class="logo-ospa" src="../img/logos/ospa.svg" alt="OSPA">
+          <img class="logo-bb" src="../img/logos/bb-americas.png" alt="BB Americas Bank">
+          <img class="logo-piquet" src="../img/logos/piquet-law.png" alt="Piquet Law Firm">
+          <img class="logo-jhsf" src="../img/logos/jhsf.png" alt="JHSF">
+          <img class="logo-zorzi" src="../img/logos/zorzi.png" alt="Zorzi Engenharia">
+        </div>
+      </div>
+      <div class="partners">
+        <div class="label">Institutional Partners</div>
+        <div class="partner-logos">
+          <img class="logo-bacc" src="../img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce">
+          <img class="logo-lareal" src="../img/logos/lareal.svg" alt="LAREAL">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANTES DE LER ============ -->
+<section class="page">
+  <div class="intro-head">
+    <div class="eyebrow">Before you read</div>
+    <h1>Why this room,<br>and why now.</h1>
+    <div class="intro-where">Friday, November 20, 2026 · 53 Washington Square South, New York<br>Co-organized by Responsive Cities Institute (OSPA) and NYU Schack Institute of Real Estate</div>
+  </div>
+
+  <div class="intro-grid">
+    <div class="body">
+      <h2>The audience</h2>
+      <p>90 people in the room, by invitation. About 70% are Brazilians working in real estate back home: developers, CEOs, CIOs and fund managers. The rest are American guests and NYU graduate students in real estate. The Brazilians know their own market well. What they want from the day is to see how the American side reads a deal, and what Brazil would have to change to be read the same way.</p>
+      <p>That is the thread through all five panels. Brazilian projects that would hold up anywhere often fail to reach global institutional capital, and the reason is rarely the return. They are hard to read from outside.</p>
+      <p>Each panel takes one layer of that problem: the market, the capital stack, the public partner, affordability, and the move from selling units to owning income.</p>
+      <div class="toc">
+    <h2>The five panels</h2>
+    <ul class="toc-list">
+      <li><span class="toc-n">Panel 01</span><span class="toc-title">Reading a Market: Country, Land, Deal<small>9:30 – 10:20</small></span><span class="toc-p">p. 3</span></li>
+      <li><span class="toc-n">Panel 02</span><span class="toc-title">Capital Stack: US vs. Brazil<small>10:40 – 11:30</small></span><span class="toc-p">p. 4</span></li>
+      <li><span class="toc-n">Panel 03</span><span class="toc-title">Public/Private Development<small>13:30 – 14:20</small></span><span class="toc-p">p. 5</span></li>
+      <li><span class="toc-n">Panel 04</span><span class="toc-title">Affordability: Subsidy, Cost and Capital<small>14:20 – 15:10</small></span><span class="toc-p">p. 6</span></li>
+      <li><span class="toc-n">Panel 05</span><span class="toc-title">From Selling Units to Owning Income<small>15:25 – 16:15</small></span><span class="toc-p">p. 7</span></li>
+    </ul>
+  </div>
+    </div>
+    <div>
+      <h2>Notes for every panel</h2>
+      <ul class="notes">
+        <li><b>Length</b><span>50 minutes. Suggested split: 5 minutes of introductions, 35 of conversation, 10 of questions from the floor. Panels 3 and 4 open with a 15-minute presentation, so their conversation is shorter.</span></li>
+        <li><b>Intros</b><span>One or two sentences per person, focused on what each one does today. Full bios are in the program.</span></li>
+        <li><b>Slides</b><span>Only for the two presentations inside Panels 3 and 4. If you are presenting, please send your slides to rodrigo@ospa.com.br by November 11 so they can be loaded in advance.</span></li>
+        <li><b>Language</b><span>All panels are in English.</span></li>
+        <li><b>Approach</b><span>Comparisons work better than descriptions. The room learns most when a US practice and a Brazilian one sit side by side and someone explains why they differ. Concrete deals, numbers and mistakes are welcome.</span></li>
+        <li><b>Arrival</b><span>Please be at the venue at least 30 minutes before your panel. You are also welcome to join the whole conference.</span></li>
+        <li><b>Contact</b><span>Rodrigo Rocha · rodrigo@ospa.com.br<br>+1 (917) 697-2670 · +55 (54) 98423-1215</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="folio"><span>BR/USA Real Estate Forum · Speaker Briefs</span><span>02</span></div>
+</section>
+
+<!-- ============ PAINEL 1 ============ -->
+<section class="page">
+  <div class="eyebrow">Panel 01</div>
+  <div class="p-head">
+    <h1>Reading a Market: Country, Land, Deal</h1>
+    <div class="p-time"><b>9:30 – 10:20</b>50 minutes</div>
+  </div>
+
+  <div class="stage">
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/shawn-amsler.jpg" alt=""></div>
+      <div class="sp-info">
+        <span class="sp-tag">Moderator</span>
+        <div class="sp-name">Shawn Amsler</div>
+        <div class="sp-org">Amsler Advisors</div>
+        <a class="li" href="https://www.linkedin.com/in/shawn-amsler-1903888/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/joao-araujo.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">João Araújo</div>
+        <div class="sp-org">CIX Capital · Head of Portfolio Management &amp; New Business</div>
+        <a class="li" href="https://www.linkedin.com/in/jo%C3%A3o-pedro-araujo-cfa-b2043aba/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/guilherme-loiacono.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Guilherme Loiacono</div>
+        <div class="sp-org">Leste Group · Director of Capital Formation</div>
+        <a class="li" href="https://www.linkedin.com/in/guiloiacono/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="format-bar">
+      <span class="seg" style="flex:5"><b>5′</b>Intros</span>
+      <span class="seg seg--conv" style="flex:35"><b>35′</b>Conversation</span>
+      <span class="seg seg--qa" style="flex:10"><b>10′</b>Q&amp;A</span>
+    </div>
+  </div>
+
+  <div class="p-body">
+    <div class="body">
+      <h2>What this panel is for</h2>
+      <p>Both João and Guilherme came to the US from Brazil, and both are now building here. The panel starts from that experience: what it was like to enter the market, what surprised them, and how reading a deal in Miami or New York differs from reading one in São Paulo.</p>
+      <p>João works on development in Brazil and in the US, so he can compare the two side by side. Guilherme's group, Leste, has invested in US developers and operations, and is a partner in Lore, a developer. Through Lore it takes part in a high-rise in downtown Brickell, which gives the panel a view from inside a US development deal.</p>
+      <p>The focus is development. Which differences matter most in the deal itself, which structures could be brought to Brazil, and which theses can be pursued in the US that do not exist in Brazil yet. Shawn can also ask how Brazilian investors approach US deals and how much cross-border appetite they see.</p>
+      <p>The three layers (country, land and deal) are a useful frame, with most of the time spent on the deal.</p>
+      <div class="bridge">This panel follows Alain Bertaud's keynote on how land rules set cost and risk. It is a good place to pick up that thread.</div>
+    </div>
+    <div>
+      <h2>Guiding questions for the moderator</h2>
+      <ol class="qs">
+        <li>João and Guilherme, how did your first US deal come about? What did you expect, and what turned out to be different?</li>
+        <li><em>João,</em> you develop in Brazil and in the US. Take one project type and compare the two: land, approvals, timeline, partners, financing.</li>
+        <li><em>Guilherme,</em> Leste is a partner in Lore. What does a local developer partner give you that a direct investment would not? What is it like to take part in a high-rise in Brickell?</li>
+        <li>When a US counterpart reads your deal, what do they ask for that a Brazilian counterpart would not?</li>
+        <li>Brazilian investors in the US: who are they, what do they buy, and how strong is the cross-border appetite today?</li>
+        <li>Which development theses can you pursue in the US that do not exist in Brazil yet? What is missing there for them to exist?</li>
+        <li>What in the way a US development deal is put together would you bring to Brazil first?</li>
+        <li>Closing round: one thing in the US process you wish Brazil had, and one thing Brazil does better.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="folio"><span>BR/USA Real Estate Forum · Speaker Briefs</span><span>03</span></div>
+</section>
+
+<!-- ============ PAINEL 2 ============ -->
+<section class="page">
+  <div class="eyebrow">Panel 02</div>
+  <div class="p-head">
+    <h1>Capital Stack: US vs. Brazil</h1>
+    <div class="p-time"><b>10:40 – 11:30</b>50 minutes</div>
+  </div>
+
+  <div class="stage">
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/alexandre-piquet.jpg" alt=""></div>
+      <div class="sp-info">
+        <span class="sp-tag">Moderator</span>
+        <div class="sp-name">Alexandre Piquet</div>
+        <div class="sp-org">Piquet Law Firm</div>
+        <a class="li" href="https://www.linkedin.com/in/alexandrepiquet/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/rodrigo-machado.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Rodrigo Machado</div>
+        <div class="sp-org">Galapagos Capital · Partner</div>
+        <a class="li" href="https://www.linkedin.com/in/rodrigo-machado-7b658a49/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/brenner-cavalcante.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Brenner Cavalcante</div>
+        <div class="sp-org">BB Americas · Chief Lending Officer</div>
+        <a class="li" href="https://www.linkedin.com/in/brenner-cavalcante-9438251/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="format-bar">
+      <span class="seg" style="flex:5"><b>5′</b>Intros</span>
+      <span class="seg seg--conv" style="flex:35"><b>35′</b>Conversation</span>
+      <span class="seg seg--qa" style="flex:10"><b>10′</b>Q&amp;A</span>
+    </div>
+  </div>
+
+  <div class="p-body">
+    <div class="body">
+      <h2>What this panel is for</h2>
+      <p>In the US, each layer of the capital stack is its own market, with its own investors, pricing and documents. Senior debt, mezzanine, preferred equity and common equity all have deep liquidity, and a deal can be sliced precisely so that each investor takes the exact risk and return they want. The panel should show how specific and how deep each layer is.</p>
+      <p>Brazil spent many years on traditional bank construction loans funded by savings deposits. That source has been shrinking, and capital markets have been creative in filling the space. In 2023, instruments like LCI, CRI, LIG and FII overtook savings deposits for the first time as the largest source of real estate funding, and the October 2025 savings reform pushes further in that direction. Real estate credit is above 10% of GDP in Brazil, against roughly 70% in the US.</p>
+      <p>Rodrigo and Brenner sit at different layers. Alexandre should start by asking each of them where in the stack they invest or lend, and how they got there. The rest of the conversation builds on that.</p>
+    </div>
+    <div>
+      <h2>Guiding questions for the moderator</h2>
+      <ol class="qs">
+        <li><em>Rodrigo and Brenner,</em> which layers of the stack do you invest in or lend to today? A short history of how each of you got there.</li>
+        <li>Take a mid-size project in the US. Layer by layer, who funds it, at what cost and for how long?</li>
+        <li>How liquid is each layer? If an investor or lender wants out of a position, what happens?</li>
+        <li>How specific can a layer get? What does that precision need in documents, structure and legal enforcement?</li>
+        <li>In Brazil, construction was financed for years by banks using savings money. What changes for a developer now that this source is shrinking?</li>
+        <li>CRIs and FIIs are filling part of the gap. Can they deepen on their own, or do they need institutional and foreign capital?</li>
+        <li>Where does currency risk sit in the structure when US money goes into Brazil, and who ends up carrying it?</li>
+        <li>Closing round: in five years, which layer of the Brazilian stack will look most like the US one?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="folio"><span>BR/USA Real Estate Forum · Speaker Briefs</span><span>04</span></div>
+</section>
+
+<!-- ============ PAINEL 3 ============ -->
+<section class="page">
+  <div class="eyebrow">Panel 03</div>
+  <div class="p-head">
+    <h1>Public/Private Development</h1>
+    <div class="p-time"><b>13:30 – 14:20</b>50 minutes</div>
+  </div>
+
+  <div class="stage">
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/matthew-kwatinetz.jpg" alt=""></div>
+      <div class="sp-info">
+        <span class="sp-tag">Moderator · Presents</span>
+        <div class="sp-name">Matthew Kwatinetz</div>
+        <div class="sp-org">NYU Schack</div>
+        <a class="li" href="https://www.linkedin.com/in/matthewkwatinetz/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/pedro-martin-fernandes.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Pedro Martin Fernandes</div>
+        <div class="sp-org">SP Urbanismo · President</div>
+        <a class="li" href="https://www.linkedin.com/in/pedro-fernandes-534347189/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp sp--tbd">
+      <div class="sp-photo">TBC</div>
+      <div class="sp-info">
+        <div class="sp-name"><mark class="tbc">Name TBC</mark></div>
+        <div class="sp-org">NYC Economic Development Corporation (NYCEDC)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="format-bar">
+      <span class="seg" style="flex:3"><b>3′</b></span>
+      <span class="seg seg--talk" style="flex:15"><b>15′</b>Presentation · Matthew</span>
+      <span class="seg seg--conv" style="flex:22"><b>22′</b>Conversation</span>
+      <span class="seg seg--qa" style="flex:10"><b>10′</b>Q&amp;A</span>
+    </div>
+    <div class="format-note">3′ introductions · 15′ presentation on how New York structures public/private deals</div>
+  </div>
+
+  <div class="p-body">
+    <div class="body">
+      <h2>What this panel is for</h2>
+      <p>Large urban projects often depend on public land, public infrastructure and private execution closing inside a single transaction. New York has decades of practice with this: development agreements, land disposition, air rights, value capture, and partnerships with agencies like the MTA. São Paulo has its own toolkit, with urban operations, CEPACs and concessions.</p>
+      <p>NYCEDC has taken part in development for many years, as ground lessor, as investor and as a source of demand for large projects. SP Urbanismo is now looking at how to monetize its land bank and take a more active part in development. The panel should show how these deals are structured, who carries which risk at each stage, and what makes an agreement still hold twenty years later, across political cycles.</p>
+      <p>Matthew opens with a 15-minute presentation on the New York side, then moderates the conversation, which puts the two agencies side by side.</p>
+      <div class="bridge">This panel comes after KPF's presentation on One Vanderbilt, where extra floor area was traded for transit improvements. It is a useful concrete reference for the conversation.</div>
+    </div>
+    <div>
+      <h2>Guiding questions for the moderator</h2>
+      <ol class="qs">
+        <li><em>Pedro,</em> after hearing how New York does it: what looks familiar from São Paulo, and what would not work there?</li>
+        <li><em>For NYCEDC:</em> the city plays several roles: ground lessor, investor, source of demand. How does it decide which role fits a given project, and what does it expect back?</li>
+        <li><em>Pedro,</em> SP Urbanismo is looking at how to monetize its land bank and take a more active part in development. What role do you want to play, and what has to be in place for it to work?</li>
+        <li>How does New York decide what a public benefit is worth in floor area or in money? How does São Paulo do it with CEPACs and urban operations?</li>
+        <li>Who carries which risk? Construction, demand, political and regulatory risk: where does each one end up in a well-built deal?</li>
+        <li>Long contracts outlive administrations. What keeps a public/private agreement standing after the people who signed it are gone?</li>
+        <li>What makes a private investor, especially a foreign one, comfortable entering a deal with a Brazilian municipality as a partner?</li>
+        <li>Closing round: one public/private project you would want to see in São Paulo in the next ten years.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="folio"><span>BR/USA Real Estate Forum · Speaker Briefs</span><span>05</span></div>
+</section>
+
+<!-- ============ PAINEL 4 ============ -->
+<section class="page">
+  <div class="eyebrow">Panel 04</div>
+  <div class="p-head">
+    <h1>Affordability: Subsidy, Cost and Capital</h1>
+    <div class="p-time"><b>14:20 – 15:10</b>50 minutes</div>
+  </div>
+
+  <div class="stage">
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/marc-norman.jpg" alt=""></div>
+      <div class="sp-info">
+        <span class="sp-tag">Moderator</span>
+        <div class="sp-name">Marc Norman</div>
+        <div class="sp-org">NYU Schack · Dean</div>
+        <a class="li" href="https://www.linkedin.com/in/marc-norman-ideasactions/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/sadie-mckeown.jpg" alt=""></div>
+      <div class="sp-info">
+        <span class="sp-tag sp-tag--talk">Presents</span>
+        <div class="sp-name">Sadie McKeown</div>
+        <div class="sp-org">CPC · President</div>
+        <a class="li" href="https://www.linkedin.com/in/sadie-mckeown-1024a1a/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/ricardo-blas.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Ricardo Blas</div>
+        <div class="sp-org">Resia · COO</div>
+        <a class="li" href="https://www.linkedin.com/in/ricardo-blas-54001992/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="format-bar">
+      <span class="seg" style="flex:3"><b>3′</b></span>
+      <span class="seg seg--talk" style="flex:15"><b>15′</b>Presentation · Sadie</span>
+      <span class="seg seg--conv" style="flex:22"><b>22′</b>Conversation</span>
+      <span class="seg seg--qa" style="flex:10"><b>10′</b>Q&amp;A</span>
+    </div>
+    <div class="format-note">3′ introductions · 15′ presentation on how the US closes the affordability gap</div>
+  </div>
+
+  <div class="p-body">
+    <div class="body">
+      <h2>What this panel is for</h2>
+      <p>The US and Brazil approach affordability from opposite sides. Brazil has been widening subsidized credit for the buyer, which supports demand. The US focuses on supply: it helps the developer build units that rent at a price people can pay.</p>
+      <p>On the supply side the tools include added density, tax abatements and subsidized financing for developers, tied to rent-controlled units or Section 8 rents. Tax credits (LIHTC) and vouchers sit at the bottom of the market. Workforce housing sits above that with no direct subsidy, and has to close the gap through construction cost, unit design and project finance.</p>
+      <p>Ricardo's company, Resia, focuses on that workforce tranche. Sadie's CPC lends across the market, including mortgages in neighborhoods that traditionally had little access to credit. The panel should explain how each model works and what Brazil can realistically take from it.</p>
+      <div class="bridge">Sadie brings the lender's view across the market, including subsidized housing. Ricardo does not build subsidized housing: Resia develops workforce housing, where projects have to close without public money. Most of the conversation should sit in that middle, the segment closest to what Brazil lacks.</div>
+    </div>
+    <div>
+      <h2>Guiding questions for the moderator</h2>
+      <ol class="qs">
+        <li><em>Ricardo,</em> who is the workforce renter? Too much income to qualify for subsidy, too little for new Class A. What rent band are you building for?</li>
+        <li>The US helps the supply side, Brazil helps the buyer. What does each approach do to cost, to rents and to the developer's role?</li>
+        <li>Without tax credits or vouchers, where does the money come from to close the gap? Cost, design, density, cheaper capital?</li>
+        <li><em>Ricardo,</em> which design and construction choices have made the biggest difference in cost per unit? What did you give up to get there?</li>
+        <li><em>Sadie,</em> as a lender: how do tax credits and vouchers change the financing of a project? And what makes a workforce project financeable with no subsidy behind it?</li>
+        <li><em>Sadie,</em> CPC has financed mortgages in neighborhoods that had little access to credit. What changed once that capital arrived?</li>
+        <li>Should the middle get public support, like tax abatements or density bonuses, or does it work better on its own?</li>
+        <li>Closing round: one thing Brazil should copy, and one thing it should avoid.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="folio"><span>BR/USA Real Estate Forum · Speaker Briefs</span><span>06</span></div>
+</section>
+
+<!-- ============ PAINEL 5 ============ -->
+<section class="page">
+  <div class="eyebrow">Panel 05</div>
+  <div class="p-head">
+    <h1>From Selling Units to Owning Income</h1>
+    <div class="p-time"><b>15:25 – 16:15</b>50 minutes</div>
+  </div>
+
+  <div class="stage">
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/flavio-de-zorzi.jpg" alt=""></div>
+      <div class="sp-info">
+        <span class="sp-tag">Moderator</span>
+        <div class="sp-name">Flavio Arnizant de Zorzi</div>
+        <div class="sp-org">Zorzi Engenharia</div>
+        <a class="li" href="https://www.linkedin.com/in/dezorzi/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/douglas-strabelli.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Douglas Strabelli</div>
+        <div class="sp-org">Sagewood Corporation · Founder &amp; CEO</div>
+        <a class="li" href="https://www.linkedin.com/in/douglas-a-ferrarini-strabelli-69266921/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+    <div class="sp">
+      <div class="sp-photo"><img src="../img/speakers/victor-arakaki.jpg" alt=""></div>
+      <div class="sp-info">
+        <div class="sp-name">Victor Arakaki</div>
+        <div class="sp-org">JHSF · Partner / MD</div>
+        <a class="li" href="https://www.linkedin.com/in/victor-arakaki-795665b/"><i>in</i>LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="format-bar">
+      <span class="seg" style="flex:5"><b>5′</b>Intros</span>
+      <span class="seg seg--conv" style="flex:35"><b>35′</b>Conversation</span>
+      <span class="seg seg--qa" style="flex:10"><b>10′</b>Q&amp;A</span>
+    </div>
+  </div>
+
+  <div class="p-body">
+    <div class="body">
+      <h2>What this panel is for</h2>
+      <p>In Brazil, development is closely tied to using the buyer's money to build. Units are sold during construction and the sales fund the work, a model shaped largely by the high interest rates Brazilian developers are used to. In the US, and especially in New York, that is generally not possible. And an income asset earns nothing during construction, so the developer carries 100% of the cost. After delivery it produces recurring income.</p>
+      <p>The gap is visible in the numbers. In the US, institutional multifamily is worth about US$2.6 trillion, the largest traditional sector of institutional real estate. In Brazil there are around 14,000 institutional rental units nationwide, and 72.9% of listed real estate funds (FIIs) are held by retail investors.</p>
+      <p>Douglas has been expanding Sagewood in Miami and the surrounding region, with multifamily and condo development, so he can compare the two models. The central question is whether multifamily will grow in Brazil despite interest rates.</p>
+      <div class="bridge">JHSF is a concrete case of that shift. For most of its history it built to sell. In recent projects it keeps about half of the units for income and sells the other half, and it sits close to JHSF Capital: developer, investor and asset manager in the same group.</div>
+    </div>
+    <div>
+      <h2>Guiding questions for the moderator</h2>
+      <ol class="qs">
+        <li><em>Douglas,</em> Sagewood builds multifamily and condos in the Miami region. How does the capital need differ between the two, and how do you decide which one a project becomes?</li>
+        <li>In Brazil buyers' money funds construction. In the US that is mostly off the table. What does it do to the developer's capital when there is no revenue during construction and 100% of the cost is exposed?</li>
+        <li><em>Victor,</em> JHSF spent decades building to sell. In recent projects it keeps about half of the units and sells the rest. How did that decision come about, and how does the split work in the numbers?</li>
+        <li><em>Victor,</em> what changes when developer, investor and asset manager (JHSF Capital) are in the same group? Where does it help, and where can interests conflict?</li>
+        <li>Operations and reporting: what does a developer have to build or buy to run an asset for twenty years, and what does an outside investor expect to receive every quarter?</li>
+        <li>Why has multifamily rental not become an asset class in Brazil yet? Regulation, tax, rates, culture, or lack of product?</li>
+        <li>Will multifamily grow in Brazil despite interest rates? What would have to be true for it to happen?</li>
+        <li>Closing round: what is the first income product in Brazil you would expect to reach institutional scale?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="folio"><span>BR/USA Real Estate Forum · Speaker Briefs</span><span>07</span></div>
+</section>
+
+<script>
+  (async function () {
+    await document.fonts.ready;
+    var imgs = Array.from(document.images).map(function (img) {
+      return img.complete ? Promise.resolve() : new Promise(function (r) { img.onload = img.onerror = r; });
+    });
+    var bgs = ['assets/cover-manhattan.jpg'].map(function (src) {
+      return new Promise(function (r) { var i = new Image(); i.onload = i.onerror = r; i.src = src; });
+    });
+    await Promise.all(imgs.concat(bgs));
+    window.__pdfReady = true;
+  })();
+</script>
+</body>
+</html>
