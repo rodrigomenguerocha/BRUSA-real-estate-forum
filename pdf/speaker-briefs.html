@@ -117,9 +117,21 @@
   }
   .wm-meta span { display: block; color: rgba(255,255,255,0.6); font-size: 7pt; }
   .cover-bottom {
-    margin-bottom: 18mm; max-width: 130mm;
+    margin-bottom: 16mm; max-width: 170mm;
     font-size: 9pt; line-height: 1.6; color: rgba(255,255,255,0.7);
   }
+  .cover-bottom p { max-width: 130mm; margin: 0 auto; }
+  .supporters { display: flex; justify-content: center; gap: 11mm; margin-top: 9mm; }
+  .partners { display: flex; flex-direction: column; align-items: center; gap: 4mm; }
+  .partner-logos { display: flex; align-items: center; gap: 4.5mm; }
+  .partner-logos img { display: block; width: auto; filter: brightness(0) invert(1); opacity: 0.8; }
+  .logo-ospa { height: 7.4mm; }
+  .logo-bb { height: 7mm; }
+  .logo-piquet { height: 6.6mm; }
+  .logo-jhsf { height: 5.8mm; }
+  .logo-zorzi { height: 7.8mm; }
+  .logo-bacc { height: 7.8mm; }
+  .logo-lareal { height: 4.6mm; }
 
   /* ===== INTRO ===== */
   .intro-head { margin-bottom: 8mm; }
@@ -256,7 +268,26 @@
     <div class="wm-meta">Friday, November 20, 2026<span>NYU King Juan Carlos I of Spain Center · New York</span></div>
   </div>
   <div class="cover-bottom">
-    Who is on stage with you, what each panel is for, and a set of guiding questions for the moderator. The questions are a starting point, not a script.
+    <p>Who is on stage with you, what each panel is for, and a set of guiding questions for the moderator. The questions are a starting point, not a script.</p>
+    <div class="supporters">
+      <div class="partners">
+        <div class="label">Supporting Partners</div>
+        <div class="partner-logos">
+          <img class="logo-ospa" src="../img/logos/ospa.svg" alt="OSPA">
+          <img class="logo-bb" src="../img/logos/bb-americas.png" alt="BB Americas Bank">
+          <img class="logo-piquet" src="../img/logos/piquet-law.png" alt="Piquet Law Firm">
+          <img class="logo-jhsf" src="../img/logos/jhsf.png" alt="JHSF">
+          <img class="logo-zorzi" src="../img/logos/zorzi.png" alt="Zorzi Engenharia">
+        </div>
+      </div>
+      <div class="partners">
+        <div class="label">Institutional Partners</div>
+        <div class="partner-logos">
+          <img class="logo-bacc" src="../img/logos/brazilian-american-chamber.png" alt="Brazilian-American Chamber of Commerce">
+          <img class="logo-lareal" src="../img/logos/lareal.svg" alt="LAREAL">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
