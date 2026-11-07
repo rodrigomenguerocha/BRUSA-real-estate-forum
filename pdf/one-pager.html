@@ -100,7 +100,7 @@
   .intro p { font-size: 9.6pt; line-height: 1.55; color: #3a3a3a; }
   .intro p + p { margin-top: 2mm; }
 
-  .main { display: grid; grid-template-columns: 1fr 52mm; gap: 8mm; margin-top: 7mm; }
+  .main { display: grid; grid-template-columns: 1fr 52mm; gap: 8mm; margin-top: 5mm; }
 
   /* program */
   .sec-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 2mm; border-bottom: 0.3mm solid var(--black); }
@@ -156,13 +156,16 @@
     margin-top: auto; padding: 4.5mm; background: #F7F5FA; border-left: 0.6mm solid var(--violet);
     display: flex; flex-direction: column; gap: 1.6mm;
   }
+  .students { margin-top: 3mm; padding: 3mm; border: 0.2mm solid rgba(87,6,140,0.45); }
+  .students .day-name { margin-top: 0.8mm; }
+  .students .more { display: inline-block; margin-top: 1.6mm; }
   .invite-title { font-size: 11pt; font-weight: 600; }
   .invite-text { font-size: 7.4pt; line-height: 1.45; color: var(--dgray); }
   .invite-link { font-family: var(--mono); font-size: 5.6pt; letter-spacing: 0.02em; color: var(--violet); text-decoration: none; margin-top: 0.6mm; }
 
   /* ===== FOOTER ===== */
   .foot {
-    margin-top: 9mm; background: var(--deep); color: var(--white);
+    margin-top: 5mm; background: var(--deep); color: var(--white);
     padding: 6mm 14mm 7mm; display: flex; justify-content: space-between; align-items: center;
   }
   .partners { display: flex; flex-direction: column; gap: 2.2mm; }
@@ -208,7 +211,7 @@
       <div>
         <div class="mono-label" style="margin-bottom:2.5mm;">The forum</div>
         <h1>One day in New York to compare how Brazil and the US build, finance and regulate real estate.</h1>
-        <p>80 invited leaders of Brazilian real estate (developers, CEOs, CIOs and fund managers) sit down with their American counterparts. Brazilian projects that would hold up anywhere often fail to reach global institutional capital, and the reason is rarely the return. Five panels and two presentations look at what Brazil can change in governance, reporting and capital structure so those investors can come in.</p>
+        <p>90 invited guests: about 70% lead Brazilian real estate firms, the rest are American guests and NYU real estate graduate students. Brazilian projects that would hold up anywhere often fail to reach global institutional capital, and the reason is rarely the return. Five panels and two presentations look at what Brazil can change in governance, reporting and capital structure so those investors can come in.</p>
       </div>
     </div>
 
@@ -247,15 +250,15 @@
         <div class="row row--small"><div class="row-time">12:30</div><div><div class="row-title">Lunch</div></div></div>
         <div class="row">
           <div class="row-time">13:30</div>
-          <div><div class="row-title"><span class="tag">Panel 3</span>Public/Private Development</div><div class="row-who">Moderated by <b>Matthew Kwatinetz</b>, NYU Schack · <b>Pedro Martin Fernandes</b>, SP Urbanismo</div></div>
+          <div><div class="row-title"><span class="tag">Panel 3</span>Public/Private Development</div><div class="row-who">Presented and moderated by <b>Matthew Kwatinetz</b>, NYU Schack · <b>Pedro Martin Fernandes</b>, SP Urbanismo · NYCEDC</div></div>
         </div>
         <div class="row">
           <div class="row-time">14:20</div>
-          <div><div class="row-title"><span class="tag">Panel 4</span>Affordability: Subsidy, Cost and Capital</div><div class="row-who">Moderated by <b>Marc Norman</b>, NYU Schack · <b>Ricardo Blas</b>, Resia · <b>Sadie McKeown</b>, CPC</div></div>
+          <div><div class="row-title"><span class="tag">Panel 4</span>Affordability: Subsidy, Cost and Capital</div><div class="row-who">Moderated by <b>Marc Norman</b>, NYU Schack · <b>Ricardo Blas</b>, Resia · <b>Sadie McKeown</b>, CPC (presents)</div></div>
         </div>
         <div class="row">
           <div class="row-time">15:25</div>
-          <div><div class="row-title"><span class="tag">Panel 5</span>From Selling Units to Owning Income</div><div class="row-who">Moderated by <b>Flavio Arnizant de Zorzi</b>, Columbia University · <b>Douglas Strabelli</b>, Sagewood · <b>Victor Arakaki</b>, JHSF</div></div>
+          <div><div class="row-title"><span class="tag">Panel 5</span>From Selling Units to Owning Income</div><div class="row-who">Moderated by <b>Flavio Arnizant de Zorzi</b>, Zorzi Engenharia · <b>Douglas Strabelli</b>, Sagewood · <b>Victor Arakaki</b>, JHSF</div></div>
         </div>
         <div class="row row--small"><div class="row-time">16:15</div><div><div class="row-title">Closing remarks</div></div></div>
         <div class="row row--small"><div class="row-time">17:00</div><div><div class="row-title">Cocktail · optional, by sign-up</div></div></div>
@@ -274,6 +277,12 @@
           <div class="day-date">Fri · Nov 20</div>
           <div class="day-name">BR/USA Real Estate Forum</div>
           <div class="day-desc">NYU's King Juan Carlos I of Spain Center, Washington Square. Full day, with lunch.</div>
+        </div>
+        <div class="students">
+          <div class="day-date">NYU students</div>
+          <div class="day-name">Seats reserved for students</div>
+          <div class="day-desc">A number of seats are set aside for NYU graduate students in real estate. Sign up on Luma.</div>
+          <a class="more" href="https://luma.com/event/evt-cZKc1exaulCHny5">Save your seat →</a>
         </div>
 
         <div class="invite">
@@ -307,7 +316,6 @@
         </div>
       </div>
     </div>
-    <a class="site" href="https://www.responsivecities.com/brusa-forum">responsivecities.com/<br>brusa-forum</a>
   </footer>
 
 </section>

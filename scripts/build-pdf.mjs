@@ -8,6 +8,7 @@
 //   npm run pdf -- brochure              → só a brochure
 //   npm run pdf -- partnerships          → só o deck de patrocínio
 //   npm run pdf -- one-pager             → só o one-pager
+//   npm run pdf -- speaker-briefs        → só o briefing dos palestrantes
 //   npm run pdf -- brochure --preview    → também salva um PNG por página em pdf/preview/<nome>/
 
 import { spawn } from 'node:child_process';
@@ -36,6 +37,11 @@ const TARGETS = {
     src: 'one-pager.html',
     out: 'BRUSA-One-Pager-2026.pdf',
     viewport: { width: 794, height: 1123 },        // A4 retrato, uma página
+  },
+  'speaker-briefs': {
+    src: 'speaker-briefs.html',
+    out: 'BRUSA-Speaker-Briefs-2026.pdf',
+    viewport: { width: 794, height: 1123 },        // A4 retrato, uma página por painel
   },
 };
 
